@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "267749218027",
+    "project_id": "toki-bebras-proto",
+    "storage_bucket": "toki-bebras-proto.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:267749218027:android:9bf11e8b6e6bd820e950ae",
+        "android_client_info": {
+          "package_name": "com.toki.bebras"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "267749218027-bv1a6apeup45q7dsvomjtrva0orlan0t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.toki.bebras",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "267749218027-bocdp8qcnuifouqt633uhg184kp7b9o6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDPT3Wv3QH6u_YUmTJeVb9K3tFA0ljkCQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "267749218027-bocdp8qcnuifouqt633uhg184kp7b9o6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "267749218027-hjfmlba995o1ft0inpd231skvdvehcdl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.toki.bebras"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
