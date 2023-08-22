@@ -1,8 +1,8 @@
 # 🐿️ Bebras Pandai
 
-[![Flutter Version](https://img.shields.io/badge/Flutter-v3.10.5-blue.svg)](https://flutter.dev/docs)
-[![Dart Version](https://img.shields.io/badge/Dart-v3.0.5-blue.svg)](https://flutter.dev/)
-[![Generic badge](https://img.shields.io/badge/Platform-Android-purple)](https://dart.dev/guides)
+[![Flutter Version](https://img.shields.io/badge/Flutter-v3.13.0-blue.svg)](https://flutter.dev/docs)
+[![Dart Version](https://img.shields.io/badge/Dart-v3.1.0-blue.svg)](https://flutter.dev/)
+[![Generic badge](https://img.shields.io/badge/Platform-Android%20and%20iOS-purple)](https://dart.dev/guides)
 [![Generic badge](https://img.shields.io/badge/style-very_good_analysis-B22C89.svg)](https://pub.dev/packages/very_good_analysis)
 
 ## 📍 Implemented
