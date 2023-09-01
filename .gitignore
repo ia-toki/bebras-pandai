@@ -3,6 +3,9 @@
 *.log
 *.pyc
 *.swp
+google-services.json
+GoogleService-Info.plist
+firebase_app_id_file.json
 .DS_Store
 .atom/
 .buildlog/
@@ -31,6 +34,8 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+.fvm/
+.vscode/
 
 # Symbolication related
 app.*.symbols
