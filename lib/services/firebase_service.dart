@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import '../firebase_options.dart';
@@ -10,5 +11,9 @@ class FirebaseService {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     AppLogger.d('Initialized app $app');
+  }
+
+  static FirebaseAuth auth() {
+    return FirebaseAuth.instanceFor(app: app);
   }
 }

@@ -21,5 +21,9 @@ class BaseColors {
 
   static const Color black = Color.fromARGB(255, 18, 18, 20);
   static const Color white = Colors.white;
+  static const Color red = Color(0xFFea526f);
+  static const Color blue = Color(0xFF01b4fb);
+  static const Color yellow = Color(0xFFfeb451);
+  static const Color asparagus = Color(0xFF6da34d);
   static const Color grey = Colors.grey;
 }
