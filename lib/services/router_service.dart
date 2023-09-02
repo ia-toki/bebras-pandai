@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 
 import '../features/authentication/signin/presentation/pages/_pages.dart';
+import '../features/main/presentation/pages/_pages.dart';
 import '../features/onboarding/presentation/pages/_pages.dart';
 
 GoRouter router = GoRouter(
@@ -15,7 +16,7 @@ GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/main',
-      builder: (context, state) => const SplashScreen(),
+      builder: (context, state) => const MainPage(),
     ),
   ],
 );

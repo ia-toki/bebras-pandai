@@ -67,7 +67,9 @@ class _LoginPageState extends State<LoginPage> {
                     BlocConsumer<SignInBloc, SignInState>(
                       bloc: _signInBloc,
                       listener: (context, state) {
-                        AppLogger.d(state);
+                        if (state is SignInSuccessState) {
+                          context.go('/main');
+                        }
                       },
                       builder: (context, state) {
                         return SizedBox(

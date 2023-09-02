@@ -6,3 +6,4 @@ import '../../../../core/constants/assets.dart';
 import '../bloc/user_initialization_bloc.dart';
 
 part 'splash_screen.dart';
+part 'onboarding_page.dart';
