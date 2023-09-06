@@ -23,7 +23,7 @@ class App extends StatelessWidget {
             ..add(
               OnboardingAuthEvent(),
             ),
-        )
+        ),
       ],
       child: MaterialApp.router(
         theme: ThemeData(

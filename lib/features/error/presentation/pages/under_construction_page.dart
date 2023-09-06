@@ -40,7 +40,7 @@ class _UnderConstructionPageState extends State<UnderConstructionPage> {
                   context.pop();
                 },
               ),
-            )
+            ),
           ],
         ),
       ),
