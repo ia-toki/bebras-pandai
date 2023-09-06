@@ -36,6 +36,7 @@ class _MainPageState extends State<MainPage> {
                       children: <TextSpan>[
                         TextSpan(
                           text:
+                              // ignore: lines_longer_than_80_chars
                               '${FirebaseService.auth().currentUser?.displayName},',
                           style: FontTheme.blackTitleBold(),
                           // recognizer: TapGestureRecognizer()
@@ -91,7 +92,8 @@ class _MainPageState extends State<MainPage> {
                   InkWell(
                     onTap: () async {
                       final url = Uri.parse(
-                          'https://bebras.or.id/v3/bebras-indonesia-challenge-2022/');
+                        'https://bebras.or.id/v3/bebras-indonesia-challenge-2022/',
+                      );
                       if (!await launchUrl(url)) {
                         throw Exception('Could not launch $url');
                       }
