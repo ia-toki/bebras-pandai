@@ -4,9 +4,40 @@ import 'base_colors.dart';
 
 class FontTheme {
   // Black
-  static TextStyle blackBold20() {
+  static TextStyle blackTitle() {
+    return const TextStyle(
+        color: Colors.black, fontSize: 30, fontWeight: FontWeight.w500);
+  }
+
+  static TextStyle blackTitleBold() {
+    return const TextStyle(
+        color: Colors.black, fontSize: 30, fontWeight: FontWeight.w800);
+  }
+
+  static TextStyle blackSubtitleBold() {
     return const TextStyle(
         color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold);
+  }
+
+  static TextStyle blackTextBold() {
+    return const TextStyle(
+        color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold);
+  }
+
+  static TextStyle blackBold36() {
+    return const TextStyle(
+        color: Colors.black, fontSize: 36, fontWeight: FontWeight.bold);
+  }
+
+  // Gray
+  static TextStyle greyTitle() {
+    return const TextStyle(
+        color: Colors.black, fontSize: 30, fontWeight: FontWeight.w500);
+  }
+
+  static TextStyle grayBold36() {
+    return const TextStyle(
+        color: Colors.grey, fontSize: 36, fontWeight: FontWeight.bold);
   }
 
   // White

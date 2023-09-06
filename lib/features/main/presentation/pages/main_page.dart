@@ -12,43 +12,98 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    // final size = MediaQuery.of(context).size;
 
     return BebrasScaffold(
       body: SingleChildScrollView(
         child: Stack(
           children: [
-            Container(
-              height: size.height * 0.35,
-              color: BaseColors.blue,
-            ),
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(32),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Image.asset(
+                    Assets.bebrasPandaiText,
+                  ),
+                  const SizedBox(
+                    height: 100,
+                  ),
                   RichText(
                     text: TextSpan(
-                      text: 'Halo! ',
-                      style: FontTheme.whiteBold36(),
+                      text: 'Selamat Datang\n',
+                      style: FontTheme.blackTitle(),
                       children: <TextSpan>[
                         TextSpan(
                           text:
-                              ' ${FirebaseService.auth().currentUser?.displayName}',
-                          style: FontTheme.redBold36(),
+                              '${FirebaseService.auth().currentUser?.displayName},',
+                          style: FontTheme.blackTitleBold(),
                           // recognizer: TapGestureRecognizer()
                           //   ..onTap = () => context.go('/signup'),
                         ),
                       ],
                     ),
                   ),
+                  const SizedBox(
+                    height: 30,
+                  ),
                   Button(
+                    buttonType: ButtonType.primary,
+                    onTap: () async {
+                      await context.push('/construction');
+                    },
+                    text: 'Lihat Materi',
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Button(
+                    buttonType: ButtonType.primary,
+                    onTap: () async {
+                      await context.push('/construction');
+                    },
+                    text: 'Cetak Materi',
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Button(
+                    buttonType: ButtonType.primary,
+                    onTap: () async {
+                      await context.push('/construction');
+                    },
+                    text: 'Ikut Quiz',
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Button(
+                    buttonType: ButtonType.primary,
                     onTap: () async {
                       await GoogleSignIn().signOut();
                       context.go('/onboarding');
                     },
                     text: 'Log out',
-                  )
+                  ),
+                  const SizedBox(
+                    height: 60,
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      final url = Uri.parse(
+                          'https://bebras.or.id/v3/bebras-indonesia-challenge-2022/');
+                      if (!await launchUrl(url)) {
+                        throw Exception('Could not launch $url');
+                      }
+                    },
+                    child: Center(
+                      child: Text(
+                        'Tentang Bebras Indonesia',
+                        textAlign: TextAlign.center,
+                        style: FontTheme.blackTextBold(),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
