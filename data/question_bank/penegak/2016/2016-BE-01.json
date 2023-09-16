@@ -1,0 +1,59 @@
+{
+    "_version_": "1.0.0",
+    "id": "2016-BE-01",
+    "title": "Maze",
+    "country": "BE",
+    "source": "Bebras Challenge 2016",
+    "type": "MULTIPLE_CHOICE",
+    "description": 
+    {
+        "content": "<p>Sebuah mobil robot bekerja dengan aturan yang sederhana untuk melalui suatu maze: “belok kanan setiap memungkinkan untuk belok kanan”. Gambar di kanan menunjukkan suatu contoh bagaimana mobil robot akan berjalan melalui suatu maze. <img>/p>"
+    },
+    "question":
+    {
+        "options":
+        [
+            {
+                "id": "2016-BE-01-choice-1",
+                "content": "0"
+            },
+            {
+                "id": "2016-BE-01-choice-2",
+                "content": "1"
+            },
+            {
+                "id": "2016-BE-01-choice-3",
+                "content": "2"
+            },
+            {
+                "id": "2016-BE-01-choice-4",
+                "content": "3"
+            },
+            {
+                "id": "2016-BE-01-choice-5",
+                "content": "4"
+            }
+        ],
+        "content": "<p>Dengan cara kerja demikian, berapa banyakkah dari <strong>empat maze</strong> berikut ini mobil robot dapat akhirnya mencapai titik merah? <img> <strong>Pilih salah satu:</strong></p>"
+    },
+    "answer":
+    {
+        "correct_answer": ["2016-BE-01-choice-4"],
+        "explanation":
+        {
+            "content": "<p>Pada gambar di bawah ini, garis hijau menunjukkan jalur yang dapat dilalui oleh mobil. Pada Gambar C semua bagian tengah labirin tidak dapat dilalui dan titik merah tidak dapat dicapai. Pada kasus labirin yang lain titik merah dapat dicapai. <img></p>"
+        },
+        "aspect":
+        {
+            "label": "INFORMATIKA",
+            "content": "<p>Metode yang digunakan oleh mobil robot disebut dengan wall follower. Metode ini merupakan teknik yang lebih sederhana (algoritma) untuk menyelesaikan masalah labirin (maze) yang tidak diketahui tata letaknya. Dengan menggunakan teknik ini tidak akan tersesat dan selalu dapat kembali ke titik asal. Akan tetapi tidak menjamin kita dapat melalui semua labirin seperti dapat dilihat pada solusi yang dijelaskan.</p>"
+        }
+    },
+    "keywords":
+    [
+        {
+            "words": ["algoritma labirin (maze)", "wall follower"],
+            "website":["https://en.wikipedia.org/wiki/Maze_solving_algorithm"]
+        }
+    ]
+}

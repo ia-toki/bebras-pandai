@@ -1,0 +1,36 @@
+{
+    "_version_": "1.0.0",
+    "id": "2016-CH-03",
+    "title": "Rumah Sakit Berang- Berang",
+    "country": "CH",
+    "source": "Bebras Challenge 2016",
+    "type": "SHORT_ANSWER",
+    "description": 
+    {
+        "content": "<p>Dokter berang-berang ingin mendirikan tiga rumah sakit untuk merawat pasien berang-berang. <img> Dokter mempunyai syarat bahwa rumah sakit tersebut harus berada di tempat yang sedemikian sehingga berang-berang cukup berenang melalui maksimal satu saluran air (kanal) saja untuk dapat menjangkau rumah sakit dari tempat di manapun dia berada. <img></p>"
+    },
+    "question":
+    {
+        "content": "<p>Tentukan tiga lokasi yang cocok untuk dipilih sebagai tempat didirikannya rumah sakit sesuai dengan persyaratan di atas. Jawaban ditulis secara terurut abjad dengan karakter huruf besar (urut dari A sampai Z) tanpa dipisahkan spasi. Misalnya jawaban yang benar adalah ADE, maka tidak boleh dituliskan sebagai DAE atau AED. Jawaban manapun yang benar akan diperbolehkan.</p>"
+    },
+    "answer":
+    {
+        "correct_answer": ["EHK", "AEH", "CGI", "CHI", "CIK", "DFK"],
+        "explanation":
+        {
+            "content": "<p>Solusi dapat diketemukan dengan menempatkan sebuah lokasi secara random, menandai semua lokasi yang dapat dicapai dalam satu langkah.<br />Kemudian Anda melakukan untuk lokasi berikutnya. Setelah 3 lokasi diipilih, ada dua kemungkinan: apakah itu sebuah solusi, atau ada satu atau lebih lokasi yang tak ditandai. Jika bukan solusi, kita dapat menghapus lokasi terakhir dan menggantinya dengan sebuah lokasi lain, kemudian memeriksa ulang. Jika kita masih tak dapat menemukan solusi dengan 3 lokasi, kita dapat kembali dan menempatkan lokasi terakhir ke tempat lain. Dengan melakukan hal ini secara sistematis, kita dapat menemukan semua solusi.</p>"
+        },
+        "aspect":
+        {
+            "label": "INFORMATIKA",
+            "content": "<p>Dalam informatika, sistem kanal ini digeneralisasi menjadi konsep graf yang terdiri dari simpul, dan jalur (kanal air). Persoalan ini adalah menemukan cakupan simpul dalam graf: sebagian (<i>subset</i>) simpul dikatakan merupakan cakupan simpul sebuah graf, jika dengan menambahkan semua simpul tetangga ke <i>subset</i> ini akan menghasilkan sebuah graf. Biasanya, simpul minimal akan memberikan harga yang efisien. Untuk graf yang besar dan kompleks, sulit menemukan tanpa menuliskan sebuah algoritma. Metoda untuk menempatkan lokasi yang sudah dijelaskan disebut sebagai <i>backtracking</i>. Kita mencoba sebuah solusi dan jika tidak benar, kita kembali ke langkah sebelumnya. Setelah itu coba solusinya sampai mendapat solusi yang benar. Metoda ini tak selalu efisien, tapi untuk soal ini handal untuk dipakai.</p>"
+        }
+    },
+    "keywords":
+    [
+        {
+            "words": ["algoritma graf", "cakupan simpul", "temu balik"],
+            "website": ["https://en.wikipedia.org/wiki/Vertex_cover", "https://en.wikipedia.org/wiki/Backtracking"]
+        }
+    ]
+}
