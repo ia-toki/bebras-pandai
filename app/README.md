@@ -1,4 +1,4 @@
-# 🦫 Bebras Pandai
+# 🦫 Bebras Pandai App
 
 [![Flutter Version](https://img.shields.io/badge/Flutter-v3.13.0-blue.svg)](https://flutter.dev/docs)
 [![Dart Version](https://img.shields.io/badge/Dart-v3.1.0-blue.svg)](https://flutter.dev/)
