@@ -10,12 +10,6 @@ on:
       - development
 
 jobs:
-  create_env:
-    name: 'Create env file'
-    runs-on: ubuntu-latest
-    steps:
-      - run: |
-          echo "${{ secrets.ENV_FILE }}" > .env
   flutter_analyze:
     name: Run flutter analyze
     runs-on: ubuntu-latest
@@ -29,6 +23,7 @@ jobs:
           channel: "stable"
           flutter-version: '3.13.0'
       - run: |
+          echo "${{ secrets.ENV_FILE }}" > .env
           flutter doctor
           flutter pub get
           flutter pub run build_runner build
