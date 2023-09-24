@@ -12,8 +12,10 @@ on:
 jobs:
   create_env:
     name: 'Create env file'
-    run: |
-      echo "${{ secrets.ENV_FILE }}" > .env
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+        echo "${{ secrets.ENV_FILE }}" > .env
   flutter_analyze:
     name: Run flutter analyze
     runs-on: ubuntu-latest
