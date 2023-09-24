@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-        echo "${{ secrets.ENV_FILE }}" > .env
+          echo "${{ secrets.ENV_FILE }}" > .env
   flutter_analyze:
     name: Run flutter analyze
     runs-on: ubuntu-latest
