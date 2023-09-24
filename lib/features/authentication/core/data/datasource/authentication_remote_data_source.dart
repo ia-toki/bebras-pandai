@@ -5,7 +5,8 @@ abstract class AuthenticationRemoteDataSource {
 }
 
 @Injectable(as: AuthenticationRemoteDataSource)
-class AudiometerRemoteDataSourceImpl implements AuthenticationRemoteDataSource {
+class AuthenticationRemoteDataSourceImpl
+    implements AuthenticationRemoteDataSource {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instanceFor(
     app: FirebaseService.app,
