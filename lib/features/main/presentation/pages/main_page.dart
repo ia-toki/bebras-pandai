@@ -100,7 +100,7 @@ class _MainPageState extends State<MainPage> {
                     },
                     child: Center(
                       child: Text(
-                        'Tentang Bebras Indonesia',
+                        'Tentang Bebras Challange',
                         textAlign: TextAlign.center,
                         style: FontTheme.blackTextBold(),
                       ),

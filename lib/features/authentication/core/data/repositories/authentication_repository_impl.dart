@@ -8,10 +8,10 @@ import '../../domain/repositories/authentication_repositories.dart';
 import '../datasource/_datasource.dart';
 
 @Injectable(as: AuthenticationRepository)
-class AudiometerRepositoryImpl implements AuthenticationRepository {
+class AuthenticationRepositoryImpl implements AuthenticationRepository {
   final AuthenticationRemoteDataSource _remoteDataSource;
 
-  AudiometerRepositoryImpl(this._remoteDataSource);
+  AuthenticationRepositoryImpl(this._remoteDataSource);
 
   @override
   Future<Either<Failure, User>> signIn() {
