@@ -23,6 +23,7 @@ jobs:
           channel: "stable"
           flutter-version: '3.13.0'
       - run: |
+          cd app
           echo "${{ secrets.ENV_FILE }}" > .env
           flutter doctor
           flutter pub get
