@@ -3,6 +3,10 @@
 *.log
 *.pyc
 *.swp
+google-services.json
+GoogleService-Info.plist
+firebase_app_id_file.json
+*.env
 .DS_Store
 .atom/
 .buildlog/
@@ -31,6 +35,8 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+.fvm/
+.vscode/
 
 # Symbolication related
 app.*.symbols
@@ -42,3 +48,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Generated files by build runner
+*.g.dart
+*.gen.dart
+*.freezed.dart
+*.config.dart

@@ -1,4 +1,4 @@
-package com.example.bebras_pandai
+package com.toki.bebras_pandai
 
 import io.flutter.embedding.android.FlutterActivity
 

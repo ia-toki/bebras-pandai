@@ -13,6 +13,13 @@
 - [X] Formatter.    
 
 ## ⚡️ Getting Started
+### Setting up project
+- Make sure the flutter and dart version correct.
+- Place ```google-services.json``` to ```android/app``` folder.
+- Place ```GoogleService-Info.plist``` to ```ios/Runner``` and ```macos/Runner``` folders.
+- Place ```firebase_app_id_file.json``` to ```ios/``` and ```macos/``` folders.
+- Place ```.env``` to root folder.
+
 ### 🌲 Project Tree
 Soon
 
