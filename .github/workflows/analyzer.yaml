@@ -4,11 +4,15 @@ on:
     branches:
       - main
       - development
+    paths:
+      - app/**
   push:
     branches:
       - main
       - development
-
+    paths:
+      - app/**
+  
 jobs:
   flutter_analyze:
     name: Run flutter analyze
