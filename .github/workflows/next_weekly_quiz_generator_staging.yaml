@@ -1,0 +1,24 @@
+name: next weekly quiz generator staging
+on:
+  schedule:
+    - cron: "0 0 * * MON"
+
+jobs:
+  next_weekly_quiz_generator:
+    name: Generate weekly quiz for next week
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Generate next quiz problem set
+        run: |
+          pip install -r utils/scripts/requirements.txt
+          python utils/scripts/next_weekly_quiz_generator.py
+        env:
+          FIREBASE_SECRET_KEY_JSON: ${{ secrets.STG_FIREBASE_ADMINSDK_SECRET_KEY_JSON }}
