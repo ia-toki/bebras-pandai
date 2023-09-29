@@ -33,6 +33,7 @@ result = {
     "end_at": str(monday + timedelta(days=14)),
     "problems": {},
     "max_attempts": {},
+    "duration_minute": {},
     "sponsors": {}
 }
 
@@ -47,11 +48,14 @@ for cg_group, cg_val in challengegroup_map.items():
 
     result["problems"][cg_group] = problem_id_list[:cg_val["weeklyquiz_problem_number"]]
     result["max_attempts"][cg_group] = cg_val["weeklyquiz_max_attempts"]
+    result["duration_minute"][cg_group] = cg_val["duration_minute"]
+
+    # ToDo: make a logic to fill the sposor later
     result["sponsors"][cg_group] = None
 
-# for history data, generate random id & put it in the `result` for latest data
+# for history data
 _, doc_ref = weeklyquizlist_coll_ref.add(result)
-result["id"] = doc_ref.id
+result["id"] = doc_ref.id  # generate random id & put it in the `result` for latest data
 
 # for latest data
 to_running = configuration_coll_ref.document("next_weekly_quiz").get().to_dict()
