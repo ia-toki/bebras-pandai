@@ -1,0 +1,55 @@
+{
+    "_version_": "1.0.0",
+    "id": "2016-LT-02",
+    "title": "Plat Rakit",
+    "country": "LT",
+    "source": "Bebras Challenge 2016",
+    "type": "MULTIPLE_CHOICE",
+    "description": 
+    {
+        "content": "<p>Rio si berang-berang sedang membangun rakit. Untuk kontrol lalu lintas sungai, semua rakit harus didaftar. Ini berarti bahwa setiap rakit harus memiliki tanda berupa plat dengan teks yang unik. Teks yang terdiri dari huruf dan angka hanya bisa dibangkitkan sesuai dengan diagram di bawah ini, yaitu dimulai dengan huruf B, diikuti huruf/angka berikutnya sesuai arah panah, dan diakhiri dengan angka digit 0 atau 1.</p>"
+    },
+    "question":
+    {
+        "options":
+        [
+            {
+                "id": "2016-LT-02-choice-1",
+                "content": "BBB011 dan BE0S01"
+            },
+            {
+                "id": "2016-LT-02-choice-2",
+                "content": "BB0100 dan BSA001"
+            },
+            {
+                "id": "2016-LT-02-choice-3",
+                "content": "BB0001 dan BSA001"
+            },
+            {
+                "id": "2016-LT-02-choice-4",
+                "content": "BBB100 dan BR00A0"
+            }
+        ],
+        "content": "<p>Manakah <strong>2 (dua)</strong> plat berikut yang <strong>tidak dapat</strong> didaftarkan?<br />Pilih salah satu:</p>"
+    },
+    "answer":
+    {
+        "correct_answer": ["2016-LT-02-choice-4"],
+        "explanation":
+        {
+            "content": "<p>Anda harus menelusuri diagram dan memeriksa jawaban: BBB100 salah, sebab digit dimulai dengan angka 1.<br />BR00A0 salah, sebab dari 0 tak dapat ke A, karena panah hanya satu arah dari A ke 0.</p>"
+        },
+        "aspect":
+        {
+            "label": "INFORMATIKA",
+            "content": "<p>Finite automata adalah salah satu bagian penting dari teori ilmu komputer. Komputer dapat membaca sederetan karakter (huruf) dalam sebuah dokumen atau dalam program komputer berkat bantuan finite automata. Finite automata menjelaskan urutan dari instruksi dan menentukan apakah sebarisan karakter menyatakan kombinasi yang dapat mewakili sebuah kata atau tidak.</p>"
+        }
+    },
+    "keywords":
+    [
+        {
+            "words": ["finite automata", "penelusuran kata"],
+            "website": ["https://en.wikipedia.org/wiki/Finite-state_machine"]
+        }
+    ]
+}

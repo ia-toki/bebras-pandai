@@ -4,11 +4,15 @@ on:
     branches:
       - main
       - development
+    paths:
+      - app/**
   push:
     branches:
       - main
       - development
-
+    paths:
+      - app/**
+  
 jobs:
   flutter_analyze:
     name: Run flutter analyze
@@ -23,6 +27,7 @@ jobs:
           channel: "stable"
           flutter-version: '3.13.0'
       - run: |
+          cd app
           echo "${{ secrets.ENV_FILE }}" > .env
           flutter doctor
           flutter pub get

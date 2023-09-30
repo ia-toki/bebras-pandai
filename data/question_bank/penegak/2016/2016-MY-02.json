@@ -1,0 +1,55 @@
+{
+    "_version_": "1.0.0",
+    "id": "2016-MY-02",
+    "title": "Kode Pemindai",
+    "country": "MY",
+    "source": "Bebras Challenge 2016",
+    "type": "MULTIPLE_CHOICE",
+    "description": 
+    {
+        "content": "<p>Dua mesin pemindai (scanner) mengkodekan citra digital (gambar digital) melalui pengubahan harga-harga piksel citra (baris per baris dari kiri ke kanan), ke kode-kode tertentu. Pengkodeannya adalah dengan menuliskannya sebagai bilangan-bilangan yang masing-masing menyatakan banyaknya piksel dalam suatu deretan yang berwarna sama. Hanya ada dua harga: putih dan hitam. Bilangan bilangan pengkodean menyatakan deretan-deretan piksel yang dimulai dari deretan pertama di pojok kiri atas ke arah kanannya, kemudian bilangan berikutnya untuk deretan dari warna lainnya, secara bergantian.hingga pojok kanan bawah.<br /><ul>Kedua mesin menggunakan cara berbeda untuk menangani ujung baris:<li>Scanner-A memproses piksel baris-demi baris hingga ujung baris, dan memulai lagi untuk setiap baris berikutnya sebagai deretan yang berbeda (walaupun warna sama).</li><li>Scanner-B memproses piksel demi piksel dan, saat di ujung baris, meneruskan ke baris berikutnya sebagai satu deretan (tanpa memulai lagi) ketika warna berlanjut sama.</li></ul> <ul>Misalnya, citra di sebelah kanan akan dikodekan sebagai berikut: <img><li>Scanner A: 3,1,1,1,2,4 (3 putih, 1 hitam, 1 hitam, 1 putih, 2 hitam, 4 hitam)</li><li>Scanner B: 3,2,1,6. (3 putih, 2 hitam, 1 putih, 6 hitam)</li></ul></p>"
+    },
+    "question":
+    {
+        "options":
+        [
+            {
+                "id": "2016-MY-02-choice-1",
+                "content": "<img>"
+            },
+            {
+                "id": "2016-MY-02-choice-2",
+                "content": "<img>"
+            },
+            {
+                "id": "2016-MY-02-choice-3",
+                "content": "<img>"
+            },
+            {
+                "id": "2016-MY-02-choice-4",
+                "content": "<img>"
+            }
+        ],
+        "content": "<p>Citra manakah dari berikut ini yang akan menghasilkan pengkodean yang persis sama oleh kedua mesin pemindai tersebut?<br />Pilih salah satu:</p>"
+    },
+    "answer":
+    {
+        "correct_answer": ["2016-MY-02-choice-4"],
+        "explanation":
+        {
+            "content": "<p>Perbedaan kedua metoda adalah apakah piksel terakhir dari sebuah baris dan piksel pertama dari baris berikutnya adalah kombinasi atau bukan. Pemindai A tidak mengkombinasikan, sedangkan B mengkombinasikan hanya jika piksel berwarna sama.<br />Jika piksel itu tak sama warnanya, kode dari kedua pemindai akan sama. Maka, kita harus menemukan sebuah citra di mana piksel terakhir dari sebuah baris berbeda dengan piksel pertama dari baris berikutnya , untuk seluruh baris:<img>Kita hanya perlu membandingkan 4 baris terakhir yang membentuk piksel dan 4 baris pertama piksel untuk tahu dengan pasti bahwa piksel-piksel tersebut warnanya berlawanan.<img></p>"
+        },
+        "aspect":
+        {
+            "label": "INFORMATIKA",
+            "content": "<p>Sebuah scanner (pemindai) adalah sebuah piranti yang membaca secara optikal (memindai) citra dan mengkonversinya menjadi citra dijital. <br />Saat memindai, warna dan kecerahan dari setiap area sangat kecil yang disebut piksel ditangkap oleh sebuah sensor dan diukur kemudian direkam sebagai nilai numerik. Proses ini disebut sebagai digitasi citra, Sebuah Piksel adalah sebuah kata dalam komputer yang dibentuk dari PICture ELement, sebab sebuah piksel adalah elemen terkecil dari sebuah citra digital. Setiap piksel adalah contoh dari citra asli, makin banyak contoh akan menghasilkan suatu representasi yang lebih akurat dari gambar aslinya. <br />Pemindai A menggunakan akhir baris untuk memulai mengkode beberapa baris, sedangkan Pemindai B membaca piksel sebagai gambar yang kontinu. Masing-masing mempunyai keuntungan. Misalnya untuk citra yang panjang, kita dapat menggunakan angka lebih sedikir dengan B, selain itu perlu menghitung dimensi gambar. Tidak praktis untuk citra yang kecil. Untung/rugi ini penting untuk diperhitungkan dalam ilmu komputer.</p>"
+        }
+    },
+    "keywords":
+    [
+        {
+            "words": ["representasi citra", "citra digital", "piksel"],
+            "website": ["https://en.wikipedia.org/wiki/Pixel"]
+        }
+    ]
+}

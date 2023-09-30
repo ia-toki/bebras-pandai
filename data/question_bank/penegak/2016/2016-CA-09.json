@@ -1,0 +1,55 @@
+{
+    "_version_": "1.0.0",
+    "id": "2016-CA-09",
+    "title": "Kartu Geometris",
+    "country": "CA",
+    "source": "Bebras Challenge 2016",
+    "type": "MULTIPLE_CHOICE",
+    "description": 
+    {
+        "content": "<p>Ali ingin bermain dengan John. Ali memiliki beberapa kartu berbentuk geometris dan ingin bertukar beberapa kartu yang dimilikinya dengan Jon. Ali menggunakan aturan pertukaran kartu mengikuti diagram berikut: <img><ol type='a'>Berdasarkan aturan permainan:<li>kartu persegi diganti dengan 2 kartu segitiga</li><li>1 kartu segitiga diganti dengan 1 kartu persegi, 1 kartu segitiga, dan 1 kartu persegi lainnya</li></ol>Sebagai contoh, jika Ali mulai permainan dari kartu persegi dengan menggunakan aturan yang ada, setelah 3 langkah dia akan mendapatkan kartu dengan urutan sebagai berikut: <img></p>"
+    },
+    "question":
+    {
+        "options":
+        [
+            {
+                "id": "2016-CA-09-choice-1",
+                "content": "<img>"
+            },
+            {
+                "id": "2016-CA-09-choice-2",
+                "content": "<img>"
+            },
+            {
+                "id": "2016-CA-09-choice-3",
+                "content": "<img>"
+            },
+            {
+                "id": "2016-CA-09-choice-4",
+                "content": "<img>"
+            }
+        ],
+        "content": "Aturan mana yang akan menghasilkan urutan kartu berikut? <img> <strong>Pilih salah satu:</strong>"
+    },
+    "answer":
+    {
+        "correct_answer": ["2016-CA-09-choice-2"],
+        "explanation":
+        {
+            "content": "[ToDo: terlalu banyak gambar]"
+        },
+        "aspect":
+        {
+            "label": "INFORMATIKA",
+            "content": "<p>Aturan-aturan yang disajikan di sini menjelaskan suatu urutan penulisan kembali aturan-aturan yang digunakan pada suatu tata bahasa bebas konteks (context-free grammar) atau sistem tata bahasa lainnya. Tata bahasa dapat digunakan untuk menjelaskan hal-hal seperti:<ul><li>gejala alam, misalnya pertumbuhan tanaman</li><li>bahasa natural, seperti tata bahasa untuk membentuk kalimat</li><li>bahasa formal, seperti bagaimana bahasa pemrograman dibentuk.</li></ul>Soal ini menanyakan proses bagaimana sebuah kata dapat diturunkan (atau di-<i>parse</i>), dengan hanya menggunakan aturan-aturan yang ada, dimana diberikan beberapa pilihan aturan-aturan yang berbeda. <i>Parsing</i> adalah salah satu tahapan penting dalam penerjemahan sebuah program, dari barisan kata-kata yang dapat dibaca manusia menjadi deretan angka-angka biner yang dapat dipahami oleh mesin komputer.</p>"
+        }
+    },
+    "keywords":
+    [
+        {
+            "words": ["grammars", "parsing", "pattern recognition"],
+            "website": ["https://en.wikipedia.org/wiki/Grammar", "https://en.wikipedia.org/wiki/Parsing"]
+        }
+    ]
+}

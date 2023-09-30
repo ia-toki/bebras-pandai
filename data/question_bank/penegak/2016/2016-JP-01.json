@@ -1,0 +1,63 @@
+{
+    "_version_": "1.0.0",
+    "id": "2016-JP-01",
+    "title": "Ramuan Ajaib",
+    "country": "JP",
+    "source": "Bebras Challenge 2016",
+    "type": "MULTIPLE_CHOICE",
+    "description": 
+    {
+        "content": "<p>Taro si berang-berang menemukan lima jenis ramuan ajaib yang efeknya adalah sebagai berikut:<ul><li>Ramuan pertama membuat telinga bertambah panjang</li><li>Ramuan lainnya membuat gigi bertambah panjang</li><li>Ramuan lainnya membuat kumis menjadi keriting</li><li>Ramuan lainnya membuat hidung menjadi putih</li><li>Ramuan terakhir membuat mata menjadi putih</li></ul>Taro menaruh setiap macam ramuan ajaib tersebut dalam sebuah gelas, dan ada sebuah gelas yang berisi air. Keenam gelas tersebut diberi label A sampai dengan F. Malangnya, ia lupa mencatat gelas mana yang mengandung ramuan ajaib apa.<br />Maka, ia mengadakan percobaan sebagai berikut untuk mengidentifikasi jenis ramuan ajaib pada setiap gelas.<ul><li>Percobaan 1: jika ia mengambil ramuan pada gelas A,B dan C, maka efeknya adalah pada Gambar 1</li><li>Percobaan 2: jika ia mengambil ramuan pada gelas A,D dan E, maka efeknya adalah pada Gambar 2</li><li>Percobaan 3: jika ia mengambil ramuan pada gelas C, D dan F, maka efeknya adalah pada Gambar 3</li></ul></p>"
+    },
+    "question":
+    {
+        "options":
+        [
+            {
+                "id": "2016-JP-01-choice-1",
+                "content": "E"
+            },
+            {
+                "id": "2016-JP-01-choice-2",
+                "content": "A"
+            },
+            {
+                "id": "2016-JP-01-choice-3",
+                "content": "B"
+            },
+            {
+                "id": "2016-JP-01-choice-4",
+                "content": "C"
+            },
+            {
+                "id": "2016-JP-01-choice-5",
+                "content": "F"
+            },
+            {
+                "id": "2016-JP-01-choice-6",
+                "content": "D"
+            }
+        ],
+        "content": "<p>Gelas mana yang berisi air? Pilih salah satu:</p>"
+    },
+    "answer":
+    {
+        "correct_answer": ["2016-JP-01-choice-6"],
+        "explanation":
+        {
+            "content": "<p><strong>Solusi 1:</strong><br />Pada percobaan pertama, gelas A, B dan C tidak ada yang berisi air, karena ada tiga perubahan pada berang-berang.<br />Pada percobaan kedua, gelas D atau E berisi air atau ramuan yang membuat hidung menjadi putih. Hal ini dikarenakan dari percobaan pertama A bukan berisi air.<br />Pada percobaan ketiga, gelas D dan F berisi air murni atau ramuan yang membuat kumis keriting. Hal ini dikarenakan dari percobaan pertama C bukan berisi air murni.<br />Oleh karena dapat disimpulkan bahwa D adalah air murni.<br /><br /><strong>Solusi 2:</strong><br />Percobaan 1 menyebabkan tiga perubahan, Percobaan 2 dan 3 menyebabkan dua perubahan. Oleh karena itu tidak ada air murni pada percobaan 1 dan ada satu gelas pada percobaan 2 dan 3 yang berisi air. Gelas yang sama pada percobaan 2 dan 3 adalah D, maka dengan demikian gelas D adalah air murni.</p>"
+        },
+        "aspect":
+        {
+            "label": "INFORMATIKA",
+            "content": "<p>Pada soal ini kita memiliki beberapa fakta yang dapat digunakan untuk menghasilkan informasi baru dengan cara melakukan ekstrapolasi. Hal ini dapat dilakukan dengan menggunakan penalaran logika (logical reasoning). Logika memegang peranan penting di dalam ilmu komputer. Satuan terkecil dalam komputer adalah bit yang memiliki nilai 1 (benar) atau 0 (salah). Semua informasi di dalam komputer disimpan dalam bentuk deretan kombinasi bit. Komputer menggunakan logika untuk mengambil keputusan dan keputusan tersebut didasarkan pada apakah bit bernilai benar (1) atau salah (0).</p><p>Soal ini juga menjelaskan teori dasar himpunan. Kita mencari sebuah elemen dalam himpunan yang tidak digunakan dalam percobaan 1, artinya elemen yang merupakan komplemen dari A, B, C. Setelah itu mencari elemen yang merupakan irisan (elemen yang sama) pada percobaan 2 dan 3.</p>"
+        }
+    },
+    "keywords":
+    [
+        {
+            "words": ["penalaran logika", "himpunan", "irisan", "tidak ada gabungan", "komplemen"],
+            "website": null
+        }
+    ]
+}

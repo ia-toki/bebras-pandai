@@ -1,0 +1,36 @@
+{
+    "_version_": "1.0.0",
+    "id": "2016-NL-04",
+    "title": "Kode Kix",
+    "country": "NL",
+    "source": "Bebras Challenge 2016",
+    "type": "SHORT ANSWER",
+    "description": 
+    {
+        "content": "<p>Kantor Pos Bebras memiliki kode-kode pos yang berisi 36 karakter alfanumeris ('A'<img>'Z' dan '0'<img>'9'). Agar kode-kode pos dapat dibaca oleh mesin pembaca, mereka mengubah kode-kode pos itu menjadi kode-kode Kix. <img> Setiap karakter dikodekan ke dalam 2 bagian pengkodean: bagian atas dan bagian bawah.<br />Masing-masing bagian terdiri atas 4 garis vertikal. Kedua bagian digabungkan sedemikian rupa dengan menyusun bagian atas bertumpukan separuhnya pada bagian bawah sebagai berikut. Setiap garis di bagian atas bertumpukan separuhnya dengan separuh garis di bagian bawah seperti pada gambar berikut ini: bagian atas mengambil bagian tengah (middle) dan atas (top) dari setiap garis, sementara bagian bawah megambil bagian tengah (middle) dan bagian bawah (bottom).<br />Misalnya kode Kix untuk “G7Y0” adalah <img></p>"
+    },
+    "question":
+    {
+        "content": "<p>Jika Kode Kix -nya adalah sebagai berikut, berapa kode hurufnya? <img></p>"
+    },
+    "answer":
+    {
+        "correct_answer": ["BC16"],
+        "explanation":
+        {
+            "content": "<p>Jawaban dapat diperoleh dengan mengamati tabel dan mengkonversi kode Kix menjadi huruf yang terkait. Karakter yang dipakai dalam Kode Kix diberi tanda pada tabel berikut: <img></p>"
+        },
+        "aspect":
+        {
+            "label": "INFORMATIKA",
+            "content": "<p>Kode Kix (benar-benar dipakai oleh Perusahaan Pos Belanda) adalah sebuah contoh dari kode batang (bar codes). Kode batang dapat dibaca oleh mesin/komputer, sehingga sangat berguna untuk mengotomasi proses dan mengurutkan benda-benda yang diproses kantor pos.<br />Pada contoh ini, informasi dalam tabel dipecah menjadi bagian atas dan bagian bawah. Teknik ini sangat umum dipakai untuk merepresentasi informasi.</p>"
+        }
+    },
+    "keywords":
+    [
+        {
+            "words": ["kode batang", "tabel", "encoding dan dekoding"],
+            "website": ["https://en.wikipedia.org/wiki/Barcode"]
+        }
+    ]
+}

@@ -1,0 +1,36 @@
+{
+    "_version_": "1.0.0",
+    "id": "2016-SK-02",
+    "title": "Kaca Jendela Pecah",
+    "country": "SK",
+    "source": "Bebras Challenge 2016",
+    "type": "SHORT_ANSWER",
+    "description": 
+    {
+        "content": "<p>Enam anak sedang bermain di halaman. <img> Salah satu dari mereka melempar bola dan memecahkan kaca jendela rumah Pak Beaverdam. <br />Saat Pak Beaverdam memeriksa jendela tersebut, ia sempat melihat punggung dari anak pelaku pelemparan tersebut sedang berlari. Ia hanya ingat si anak menggunakan <strong>atasan merah</strong> dan <strong>berambut pendek</strong>.</p>"
+    },
+    "question":
+    {
+        "content": "<p>Siapa si pelaku pelemparan itu?<br />Pilih salah satu dari empat anak be>rikut : <strong>John</strong>, <strong>Tom</strong>, <strong>Jane</strong> atau <strong>Dan</strong>?</p>"
+    },
+    "answer":
+    {
+        "correct_answer": ["John"],
+        "explanation":
+        {
+            "content": "<p><Hanya 3 dari anak-anak tersebut memakai atasan merah: Jane, John dan Dane. Tetapi Jane mempunyai rambut pirang dan rambut Dan warnanya ungu. Jadi, si pelempar pastilah John.</p>"
+        },
+        "aspect":
+        {
+            "label": "INFORMATIKA",
+            "content": "<p>Tantangan ini terkait dengan kategorisasi informasi. Salah satu cara menyimpan informasi dalam komputer adalah dalam sebuah basis data. Sebuah basis data menyimpan potongan-potongan informasi yang mempunyai atribut (ciri) yang sama. Misalnya, dalam soal ini, setiap anak mempunyai ciri: warna rambut, baju atasan, panjang rambut. Setiap anak mempunyai nilai yang spesifik untuk atribut-atribut tersebut. Jane dan Eve sama-sama mempunyai atribut warna rambut tetapi nilainya berbeda untuk Jane adalah pirang, sedangkan untuk Eve warna rambutnya adalah coklat. Menentukan atribut apa yang disimpan adalah penting dan menyebabkan kita dapat memilih data dengan atribut tertentu, yang merupakan masalah mendasar dalam database.<br />Tantangan ini untuk siswa yang lebih muda dapat menjadi pengenalan dalam mempelajari karakteristik dari objek nyata, mempertimbangkan kategorisasinya dan membuatnya mampu untuk menentukan sekumpulan objek dengan karakteristik tertentu.</p>"
+        }
+    },
+    "keywords":
+    [
+        {
+            "words": ["memilih", "ciri-ciri", "pengelolaan data", "eliminasi", "basis data"],
+            "website": null
+        }
+    ]
+}
