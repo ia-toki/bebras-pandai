@@ -27,7 +27,7 @@ monday = (
     microsecond=0
 )
 result = {
-    "title": "LATIHAN BEBRAS MINGGUAN #" + config_global_variables["weeklyquiz_number"],
+    "title": f"LATIHAN BEBRAS MINGGUAN #{config_global_variables['weeklyquiz_number']}",
     "created_at": str(today),
     "start_at": str(monday + timedelta(days=7)),
     "end_at": str(monday + timedelta(days=14)),
@@ -48,9 +48,9 @@ for cg_group, cg_val in challengegroup_map.items():
 
     result["problems"][cg_group] = problem_id_list[:cg_val["weeklyquiz_problem_number"]]
     result["max_attempts"][cg_group] = cg_val["weeklyquiz_max_attempts"]
-    result["duration_minute"][cg_group] = cg_val["duration_minute"]
+    result["duration_minute"][cg_group] = cg_val["weeklyquiz_duration_minute"]
 
-    # ToDo: make a logic to fill the sposor later
+    # ToDo: later, make a logic to fill the sponsor(s)
     result["sponsors"][cg_group] = None
 
 # for history data

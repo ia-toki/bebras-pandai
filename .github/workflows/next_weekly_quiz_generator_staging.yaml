@@ -1,11 +1,12 @@
 name: next weekly quiz generator staging
 on:
   schedule:
-    - cron: "0 0 * * MON"
+    - cron: "0 17 * * SUN"  # MON 00:00 UTC+7
+  workflow_dispatch:
 
 jobs:
   next_weekly_quiz_generator:
-    name: Generate weekly quiz for next week
+    name: Generate weekly quiz for next week in staging
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
