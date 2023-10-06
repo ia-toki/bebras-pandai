@@ -1,7 +1,8 @@
 name: next weekly quiz generator staging
 on:
   schedule:
-    - cron: "0 17 * * SUN"  # MON 00:00 UTC+7
+    # - cron: "0 17 * * SUN"  # MON 00:00 UTC+7, don't use this since it causes an incorrect week range
+    - cron: "0 0 * * MON"
   workflow_dispatch:
 
 jobs:
