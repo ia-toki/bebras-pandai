@@ -1,0 +1,36 @@
+name: update materials info staging
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - data/materials/**
+  workflow_dispatch:
+
+jobs:
+  update_materials_info:
+    name: Update info of materials in staging
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: List Modified Files
+        id: list-files
+        run: |
+          git fetch origin ${{ github.base_ref }}:refs/remotes/origin/${{ github.base_ref }}
+          MODIFIED_FILES=$(git diff --name-only origin/${{ github.base_ref }}..${{ github.sha }})
+          echo "::set-output name=modified_files::$MODIFIED_FILES"
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Update materials info that are modified
+        run: |
+          pip install -r utils/scripts/requirements.txt
+          python utils/scripts/update_materials_info.py
+        env:
+          FIREBASE_SECRET_KEY_JSON: ${{ secrets.STG_FIREBASE_ADMINSDK_SECRET_KEY_JSON }}
+          FILES_ADDED_AND_MODIFIED_ON_GIT: ${{ steps.list-files.outputs.modified_files }}
