@@ -27,6 +27,6 @@ GoRouter router = GoRouter(
     GoRoute(
       path: '/quiz_exercise',
       builder: (context, state) => const QuizExercisePage(),
-    )
+    ),
   ],
 );
