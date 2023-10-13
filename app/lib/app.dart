@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'features/onboarding/presentation/bloc/user_initialization_bloc.dart';
+import 'features/quiz_exercise/presentation/bloc/quiz_exercise_cubit.dart';
 import 'services/di.dart';
 import 'services/router_service.dart';
 
@@ -24,6 +25,7 @@ class App extends StatelessWidget {
               OnboardingAuthEvent(),
             ),
         ),
+        BlocProvider(create: (context) => QuizExerciseCubit())
       ],
       child: MaterialApp.router(
         theme: ThemeData(
