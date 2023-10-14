@@ -24,10 +24,16 @@ class App extends StatelessWidget {
               OnboardingAuthEvent(),
             ),
         ),
+        BlocProvider<UserInitializationBloc>(
+          create: (_) => get<UserInitializationBloc>()
+            ..add(
+              GetUserData(),
+            ),
+        ),
       ],
       child: MaterialApp.router(
         theme: ThemeData(
-          textTheme: GoogleFonts.interTextTheme(),
+          textTheme: GoogleFonts.poppinsTextTheme(),
         ),
         routerConfig: router,
         debugShowCheckedModeBanner: false,

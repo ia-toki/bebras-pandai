@@ -2,7 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'di.config.dart';
 
-final GetIt get = GetIt.I;
+final GetIt get = GetIt.instance;
 
 @InjectableInit(
   initializerName: 'init',

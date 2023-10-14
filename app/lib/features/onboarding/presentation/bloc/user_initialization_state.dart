@@ -1,16 +1,58 @@
 part of 'user_initialization_bloc.dart';
 
-abstract class UserInitializationState extends Equatable {
-  const UserInitializationState();
+abstract class UserInitializationState extends Equatable {}
 
+class UserInitializationInitial extends UserInitializationState {
   @override
   List<Object> get props => [];
 }
 
-class UserInitializationInitial extends UserInitializationState {}
+class UserInitializationLoading extends UserInitializationState {
+  @override
+  List<Object> get props => [];
+}
 
-class UserInitializationLoading extends UserInitializationState {}
+class UserError extends UserInitializationState {
+  final String error;
 
-class UserAuthenticated extends UserInitializationState {}
+  UserError(this.error);
+  @override
+  List<Object> get props => [error];
+}
 
-class UserUnauthenticated extends UserInitializationState {}
+class UserAuthenticated extends UserInitializationState {
+  @override
+  List<Object> get props => [];
+}
+
+class UserUnauthenticated extends UserInitializationState {
+  @override
+  List<Object> get props => [];
+}
+
+class UserUnregistered extends UserInitializationState {
+  @override
+  List<Object> get props => [];
+}
+
+class UserRegistered extends UserInitializationState {
+  @override
+  List<Object> get props => [];
+}
+
+class UserGetDataLoading extends UserInitializationState {
+  @override
+  List<Object> get props => [];
+}
+
+class UserDataUploaded extends UserInitializationState {
+  @override
+  List<Object> get props => [];
+}
+
+// class UserDataLoaded extends UserInitializationState {
+//   final RegisteredUserModel userData;
+//   UserDataLoaded(this.userDataList);
+//   @override
+//   List<Object?> get props => [userDataList];
+// }
