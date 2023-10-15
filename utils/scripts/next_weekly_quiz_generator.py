@@ -31,7 +31,7 @@ result = {
     "created_at": str(today),
     "start_at": str(monday + timedelta(days=7)),
     "end_at": str(monday + timedelta(days=14)),
-    "problems": {},
+    "tasks": {},
     "max_attempts": {},
     "duration_minute": {},
     "sponsors": {}
@@ -46,7 +46,7 @@ for cg_group, cg_val in challengegroup_map.items():
         problem_id_list.append(doc.to_dict()["id"])
     random.shuffle(problem_id_list)
 
-    result["problems"][cg_group] = problem_id_list[:cg_val["weeklyquiz_problem_number"]]
+    result["tasks"][cg_group] = problem_id_list[:cg_val["weeklyquiz_task_number"]]
     result["max_attempts"][cg_group] = cg_val["weeklyquiz_max_attempts"]
     result["duration_minute"][cg_group] = cg_val["weeklyquiz_duration_minute"]
 
