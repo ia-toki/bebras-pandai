@@ -25,7 +25,7 @@ class App extends StatelessWidget {
               OnboardingAuthEvent(),
             ),
         ),
-        BlocProvider(create: (context) => QuizRegistrationCubit())
+        BlocProvider(create: (context) => QuizRegistrationCubit()),
       ],
       child: MaterialApp.router(
         theme: ThemeData(

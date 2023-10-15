@@ -20,7 +20,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
         builder: (BuildContext context) {
           return BlocConsumer<QuizRegistrationCubit, QuizRegistrationState>(
             listener: (context, state) {
-              // TODO: implement listener
+              // TODO(someone): implement listener
             },
             builder: (context, state) {
               if (state is QuizRegistrationWeekSelected &&
