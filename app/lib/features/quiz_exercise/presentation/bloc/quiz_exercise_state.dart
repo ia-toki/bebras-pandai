@@ -11,21 +11,19 @@ class QuizExerciseInitialState extends QuizExerciseState {}
 
 class QuizExerciseLoading extends QuizExerciseState {}
 
-class QuizExerciseWeekSelected extends QuizExerciseState {}
+class QuizExerciseSuccess extends QuizExerciseState {
+  final List<QuizExercise> quizExercises;
 
-// class QuizExerciseSuccess extends QuizExerciseState {
-//   final List<QuizExerciseModel> QuizExercises;
+  const QuizExerciseSuccess(this.quizExercises);
 
-//   const QuizExerciseSuccess(this.QuizExercises);
+  @override
+  List<Object> get props => [quizExercises];
+}
 
-//   @override
-//   List<Object> get props => [QuizExercises];
-// }
+class QuizExerciseFailed extends QuizExerciseState {
+  final String error;
 
-// class QuizExerciseFailed extends QuizExerciseState {
-//   final String error;
-
-//   const QuizExerciseFailed(this.error);
-//   @override
-//   List<Object> get props => [error];
-// }
+  const QuizExerciseFailed(this.error);
+  @override
+  List<Object> get props => [error];
+}

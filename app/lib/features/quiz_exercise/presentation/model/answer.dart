@@ -16,7 +16,7 @@ class Answer {
     return Answer(
       aspect: Aspect.fromJson(json['aspect'] as Map<String, dynamic>),
       correctAnswer:
-          json['correctAnswer'].cast<Map<String, dynamic>>() as List<dynamic>,
+          json['correct_answer'].cast<Map<String, dynamic>>() as List<dynamic>,
       explanation:
           Explanation.fromJson(json['explanation'] as Map<String, dynamic>),
     );

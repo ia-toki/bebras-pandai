@@ -1,7 +1,7 @@
 import 'description.dart';
 import 'questions.dart';
 
-class QuizExerciseModel {
+class QuizExercise {
   final String id;
   final String country;
   final String challengeGroup;
@@ -11,7 +11,7 @@ class QuizExerciseModel {
   final Description description;
   final Question question;
 
-  QuizExerciseModel({
+  QuizExercise({
     required this.id,
     required this.country,
     required this.challengeGroup,
@@ -22,8 +22,8 @@ class QuizExerciseModel {
     required this.question,
   });
 
-  factory QuizExerciseModel.fromJson(Map<String, dynamic> json) {
-    return QuizExerciseModel(
+  factory QuizExercise.fromJson(Map<String, dynamic> json) {
+    return QuizExercise(
       id: json['id'] as String,
       country: json['country'] as String,
       challengeGroup: json['challenge_group'] as String,

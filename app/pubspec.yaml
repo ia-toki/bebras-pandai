@@ -51,10 +51,11 @@ dependencies:
   auto_size_text: ^3.0.0
   flutter_polyline_points: ^1.0.0
   google_sign_in: ^6.1.4
-  firebase_core: ^2.15.1
+  firebase_core: ^2.17.0
   firebase_auth: ^4.9.0
   url_launcher: ^6.1.14
   flutter_dotenv: ^5.1.0
+  cloud_firestore: ^4.9.3
 
 dev_dependencies:
   build_runner: null
