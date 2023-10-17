@@ -19,22 +19,17 @@ class App extends StatelessWidget {
     ]);
     return MultiBlocProvider(
       providers: [
+        BlocProvider<UserRegisterBloc>(create: (_) => get<UserRegisterBloc>()
+        ..add(
+            InitEvent(),
+        )),
         BlocProvider<UserInitializationBloc>(
           create: (_) => get<UserInitializationBloc>()
             ..add(
               OnboardingAuthEvent(),
             ),
+          lazy: false,
         ),
-        BlocProvider<UserInitializationBloc>(
-          create: (_) => get<UserInitializationBloc>()
-            ..add(
-              GetUserData(),
-            ),
-        ),
-        BlocProvider<UserRegisterBloc>(create: (_) => get<UserRegisterBloc>()
-        ..add(
-            InitEvent(),
-        )),
       ],
       child: MaterialApp.router(
         theme: ThemeData(

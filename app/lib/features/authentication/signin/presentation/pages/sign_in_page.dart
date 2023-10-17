@@ -80,8 +80,10 @@ class _LoginPageState extends State<LoginPage> {
                     BlocConsumer<SignInBloc, SignInState>(
                       bloc: _signInBloc,
                       listener: (context, state) {
-                        if (state is SignInSuccessState) {
+                        if (state is UserUnregistered) {
                           context.go('/register');
+                        } else if (state is UserRegistered) {
+                          context.go('/main');
                         }
                       },
                       builder: (context, state) {

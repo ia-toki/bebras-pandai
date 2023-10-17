@@ -141,6 +141,7 @@ class _MainPageState extends State<MainPage> {
       Button(
                     buttonType: ButtonType.primary,
                     onTap: () async {
+                      await FirebaseAuth.instance.signOut();
                       await GoogleSignIn().signOut();
                       context.go('/onboarding');
                     },

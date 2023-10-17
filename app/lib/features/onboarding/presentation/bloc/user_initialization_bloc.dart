@@ -17,33 +17,23 @@ part 'user_initialization_state.dart';
 class UserInitializationBloc
     extends Bloc<UserInitializationEvent, UserInitializationState> {
   final RegisterUserRepository registerUserRepository;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  // final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   UserInitializationBloc(this.registerUserRepository) : super(UserInitializationInitial()) {
     on<OnboardingAuthEvent>(_auth);
-    on<GetUserData>(_checkUserRegistered);
   }
 
   FutureOr<void> _auth(OnboardingAuthEvent state,
       Emitter<UserInitializationState> emit,) async {
-    final creds = await _googleSignIn.signInSilently();
+    // final creds = await _googleSignIn.signInSilently();
+    final creds = FirebaseAuth.instance.currentUser;
     if (creds != null) {
       emit(UserAuthenticated());
-    } else {
-      emit(UserUnauthenticated());
-    }
-  }
-
-  FutureOr<void> _checkUserRegistered(GetUserData state,
-      Emitter<UserInitializationState> emit) async {
-    emit(UserInitializationLoading());
-    final creds = await _googleSignIn.signInSilently();
-    if (creds != null) {
-      final FirebaseAuth auth = FirebaseAuth.instance;
-      String userId = auth.currentUser?.uid as String;
+      String userId = creds.uid as String;
       try {
         final data = await registerUserRepository.getById(userId);
 
+        print(data);
         if (data == null) {
           emit(UserUnregistered());
         } else {
@@ -51,34 +41,9 @@ class UserInitializationBloc
         }
       } catch (e) {
         emit(UserError(e.toString()));
-        // emit(Us)
       }
-    }
-
-    // emit(UserUnregistered());
-
-  }
-
-  FutureOr<void> _createUserData(CreateUserData state,
-      Emitter<UserInitializationState> emit,) async {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    String userId = auth.currentUser?.uid as String;
-    emit(UserGetDataLoading());
-    await Future.delayed(const Duration(seconds: 1));
-
-    try {
-      await registerUserRepository.create(
-          userId: userId,
-          email: state.email,
-          name: state.name,
-          birth_date: state.birth_date,
-          school: state.school,
-          province: state.province,
-          bebras_biro: state.bebras_biro,
-      );
-      emit(UserDataUploaded());
-    } catch (e) {
-      // emit(Us)
+    } else {
+      emit(UserUnauthenticated());
     }
   }
 }
