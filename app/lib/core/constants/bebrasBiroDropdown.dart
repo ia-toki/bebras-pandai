@@ -48,7 +48,7 @@ List<BebrasBiro> bebrasBiroList = [
   BebrasBiro(bebrasBiroUniv: "Universitas Katolik Soegijapranata", valueDropdown: "universitas_katolik_soegijapranata", isActive: true,),
   BebrasBiro(bebrasBiroUniv: "Universitas Muhammadiyah Surakarta", valueDropdown: "universitas_muhammadiyah_surakarta", isActive: true,),
   BebrasBiro(bebrasBiroUniv: "Politeknik Negeri Jakarta", valueDropdown: "politeknik_negeri_jakarta", isActive: true,),
-  BebrasBiro(bebrasBiroUniv: "Universitas Gajah Mada", valueDropdown: "universitas_gajah_mada", isActive: true,),
+  BebrasBiro(bebrasBiroUniv: "Universitas Gadjah Mada", valueDropdown: "universitas_gadjah_mada", isActive: true,),
   BebrasBiro(bebrasBiroUniv: "Universitas Negeri Yogyakarta", valueDropdown: "universitas_negeri_yogyakarta", isActive: true,),
   BebrasBiro(bebrasBiroUniv: "Politeknik Negeri Bandung", valueDropdown: "politeknik_negeri_bandung", isActive: true,),
   BebrasBiro(bebrasBiroUniv: "Universitas Hasanudin", valueDropdown: "universitas_hasanudin", isActive: true,),
