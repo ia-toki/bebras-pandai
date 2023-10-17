@@ -1,7 +1,7 @@
 class RegisteredUserModel {
   final String email;
   final String name;
-  final DateTime birth_date;
+  final String birth_date;
   final String school;
   final String province;
   final String bebras_biro;
@@ -15,14 +15,14 @@ class RegisteredUserModel {
     required this.bebras_biro,
   });
 
-  factory RegisteredUserModel.fromJson(Map<String, dynamic> json) {
+  factory RegisteredUserModel.fromJson(dynamic json) {
     return RegisteredUserModel(
-      email: json['email'] as String,
-      name: json['name'] as String,
-      birth_date: json['birth_date'] as DateTime,
-      school: json['school'] as String,
-      province: json['province'] as String,
-      bebras_biro: json['bebras_biro'] as String
+      email: json.data()['email'].toString(),
+      name: json.data()['name'].toString(),
+      birth_date: json.data()['birth_date'].toString(),
+      school: json.data()['school'].toString(),
+      province: json.data()['province'].toString(),
+      bebras_biro: json.data()['bebras_biro'].toString()
     );
   }
 }

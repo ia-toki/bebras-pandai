@@ -14,7 +14,7 @@ class CheckRegisteredUser extends UserInitializationEvent {}
 class CreateUserData extends UserInitializationEvent {
   final String email;
   final String name;
-  final DateTime birth_date;
+  final String birth_date;
   final String school;
   final String province;
   final String bebras_biro;

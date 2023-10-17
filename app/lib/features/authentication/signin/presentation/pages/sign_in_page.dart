@@ -81,7 +81,6 @@ class _LoginPageState extends State<LoginPage> {
                       bloc: _signInBloc,
                       listener: (context, state) {
                         if (state is SignInSuccessState) {
-                          // context.go('/main');
                           context.go('/register');
                         }
                       },

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'features/authentication/register/bloc/user_register_bloc.dart';
 import 'features/onboarding/presentation/bloc/user_initialization_bloc.dart';
 import 'services/di.dart';
 import 'services/router_service.dart';
@@ -30,6 +31,10 @@ class App extends StatelessWidget {
               GetUserData(),
             ),
         ),
+        BlocProvider<UserRegisterBloc>(create: (_) => get<UserRegisterBloc>()
+        ..add(
+            InitEvent(),
+        )),
       ],
       child: MaterialApp.router(
         theme: ThemeData(

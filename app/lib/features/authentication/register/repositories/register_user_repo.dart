@@ -8,15 +8,26 @@ class RegisterUserRepository {
   final _firecloud = FirebaseFirestore.instance.collection('registered_user');
 
   Future<void> create({
-    required String email,
+    required String userId,
+    required dynamic email,
     required String name,
-    required DateTime birth_date,
+    required String birth_date,
     required String school,
     required String province,
     required String bebras_biro,
   }) async {
     try {
-      await _firecloud.add({"name": name, "email": email, });
+      await _firecloud.doc(userId)
+          .set({
+            "name": name,
+            "email": email,
+            "birth_date": birth_date,
+            "school": school,
+            "province": province,
+            "bebras_biro": bebras_biro,
+          },
+          SetOptions(merge: true),
+      );
     } on FirebaseException catch (e) {
       if (kDebugMode) {
         print("Failed with error '${e.code}': '${e.message}'");
@@ -48,9 +59,20 @@ class RegisterUserRepository {
   Future<RegisteredUserModel?> getById(String userId) async {
     try {
       final result = await FirebaseFirestore.instance
-          .collection("registered_user").doc(userId).get();
+          .collection("registered_user")
+          .doc(userId)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+            if (documentSnapshot.exists) {
+              return documentSnapshot;
+            }
+        });
+      if(result != null) {
+        return RegisteredUserModel.fromJson(result);
+      } else {
+        return null;
+      }
 
-      return RegisteredUserModel.fromJson(result as Map<String, dynamic>);
     } on FirebaseException catch (e) {
       if (kDebugMode) {
         print("Failed with error '${e.code}': '${e.message}'");
