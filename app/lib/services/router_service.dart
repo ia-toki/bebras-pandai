@@ -23,5 +23,9 @@ GoRouter router = GoRouter(
       path: '/construction',
       builder: (context, state) => const UnderConstructionPage(),
     ),
+    GoRoute(
+      path: '/onboard-quiz',
+      builder: (context, state) => const UnderConstructionPage(),
+    ),
   ],
 );
