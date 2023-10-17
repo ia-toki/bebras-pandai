@@ -5,17 +5,15 @@ import '../model/quiz_exercise.dart';
 
 @injectable
 class QuizExerciseRepository {
-  final _firecloud = FirebaseFirestore.instance.collection('task_set');
-
   Future<List<QuizExercise>> getAll() async {
-    List<QuizExercise> quizExerciseList = [];
+    final quizExerciseList = <QuizExercise>[];
     try {
       final result =
           await FirebaseFirestore.instance.collection('task_set').get();
+      for (final element in result.docs) {
+        quizExerciseList.add(QuizExercise.fromJson(element.data()));
+      }
 
-      result.docs.forEach((element) {
-        return quizExerciseList.add(QuizExercise.fromJson(element.data()));
-      });
       return quizExerciseList;
     } on FirebaseException catch (e) {
       if (kDebugMode) {

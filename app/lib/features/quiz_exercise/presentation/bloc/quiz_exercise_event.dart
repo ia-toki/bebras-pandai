@@ -8,5 +8,5 @@ abstract class QuizExerciseEvent extends Equatable {
 }
 
 class GetQuizExercise extends QuizExerciseEvent {
-  GetQuizExercise();
+  const GetQuizExercise();
 }
