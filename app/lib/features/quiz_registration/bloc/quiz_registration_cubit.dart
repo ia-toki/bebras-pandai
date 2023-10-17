@@ -12,4 +12,10 @@ class QuizRegistrationCubit extends Cubit<QuizRegistrationState> {
 
     emit(QuizRegistrationWeekSelected(selectedWeek));
   }
+
+  void selectLevel(String selectedLevel) {
+    emit(QuizRegistrationLoading());
+
+    emit(QuizRegistrationLevelSelected(selectedLevel));
+  }
 }

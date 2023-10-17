@@ -20,19 +20,11 @@ class QuizRegistrationWeekSelected extends QuizRegistrationState {
   List<Object> get props => [selectedWeek];
 }
 
-// class QuizRegistrationSuccess extends QuizRegistrationState {
-//   final List<QuizRegistrationModel> QuizRegistrations;
+class QuizRegistrationLevelSelected extends QuizRegistrationState {
+  final String selectedLevel;
 
-//   const QuizRegistrationSuccess(this.QuizRegistrations);
+  const QuizRegistrationLevelSelected(this.selectedLevel);
 
-//   @override
-//   List<Object> get props => [QuizRegistrations];
-// }
-
-// class QuizRegistrationFailed extends QuizRegistrationState {
-//   final String error;
-
-//   const QuizRegistrationFailed(this.error);
-//   @override
-//   List<Object> get props => [error];
-// }
+  @override
+  List<Object> get props => [selectedLevel];
+}
