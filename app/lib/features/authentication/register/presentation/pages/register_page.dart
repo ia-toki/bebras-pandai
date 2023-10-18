@@ -22,6 +22,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return BlocListener<UserRegisterBloc, RegisterFormState>(
         listener: (context, state) {
       if (state is UserRegisterSuccessState) {
@@ -105,6 +106,14 @@ class _RegisterPageState extends State<RegisterPage> {
                         },
                         builder: (context, state) {
                           return ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              fixedSize: Size(size.width, 45),
+                              backgroundColor: Colors.black,
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
                             onPressed: () {
                               if (state is! UserRegisterLoadingState) {
                                 BlocProvider.of<UserRegisterBloc>(context)
@@ -112,7 +121,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 // context.go('/main');
                               }
                             },
-                            child: Text('Daftar'),
+                            child: Text('Daftar', style: TextStyle(fontWeight: FontWeight.w600),),
                           );
                         }),
                   ],
