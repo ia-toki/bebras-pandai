@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../../core/bases/enum/button_type.dart';
 import '../../../../../core/bases/widgets/atoms/button.dart';
+import '../../../../../core/bases/widgets/layout/bebras_scaffold.dart';
 import '../../../../../core/constants/assets.dart';
 import '../../../../../core/constants/bebrasBiroDropdown.dart';
 import '../../../../../core/constants/colorConstant.dart';

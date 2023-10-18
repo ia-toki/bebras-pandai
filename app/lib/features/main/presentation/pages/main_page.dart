@@ -39,7 +39,7 @@ class _MainPageState extends State<MainPage> {
                     Assets.bebrasPandaiText,
                   ),
                   const SizedBox(
-                    height: 100,
+                    height: 40,
                   ),
                   RichText(
                     text: TextSpan(

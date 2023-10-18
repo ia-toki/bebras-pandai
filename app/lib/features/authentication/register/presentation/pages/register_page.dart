@@ -30,11 +30,11 @@ class _RegisterPageState extends State<RegisterPage> {
     },
     child: BlocBuilder<UserRegisterBloc, RegisterFormState>(
         builder: (context, state) {
-          return Scaffold(
-            resizeToAvoidBottomInset: false,
+          return BebrasScaffold(
+            avoidBottomInset: false,
             body: Padding(
               padding: const EdgeInsets.only(
-                  left: 16.0, top: 50.0, right: 16.0),
+                  left: 16.0, top: 30.0, right: 16.0),
               child: Form(
                 key: state.formKey,
                 child: Column(
@@ -45,7 +45,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       height: 40,
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 40,
                     ),
                     Text(
                       'Detail Akun',
@@ -112,7 +112,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 // context.go('/main');
                               }
                             },
-                            child: Text('Submit'),
+                            child: Text('Daftar'),
                           );
                         }),
                   ],
