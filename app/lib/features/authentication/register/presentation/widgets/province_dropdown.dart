@@ -7,32 +7,19 @@ class ProvinceDropdown extends StatelessWidget {
 
   final String labelText;
   final void Function (String value)? handleTextInput;
-  final String? Function(IndonesiaProvince?)? validator;
-
-  List<IndonesiaProvince> get dropdownIndonesiaProvince {
-    var list = provinceList.where((el) => el.isActive).toList();
-    var menuItems = list
-        .map((element) => IndonesiaProvince(
-      provinceName: element.provinceName,
-      valueProvince: element.valueProvince,
-      isActive: element.isActive,),
-    ).toList();
-    return menuItems;
-  }
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       // margin: const EdgeInsets.only(top: 10),
       height: 63.0,
-      child: DropdownSearch<IndonesiaProvince>(
+      child: DropdownSearch<String>(
         validator: validator,
-        itemAsString: (IndonesiaProvince indonesiaProvince) =>
-            indonesiaProvince.userAsString(),
         popupProps: PopupProps.menu(
           showSearchBox: true,
         ),
-        items: dropdownIndonesiaProvince,
+        items: provinceList,
         dropdownDecoratorProps: DropDownDecoratorProps(
           textAlignVertical: TextAlignVertical.center,
           baseStyle: TextStyle(fontSize: 12.0),
@@ -55,8 +42,7 @@ class ProvinceDropdown extends StatelessWidget {
             ),
           ),
         ),
-        // onChanged: (IndonesiaProvince? test) => print(test?.valueProvince),
-        onChanged: (IndonesiaProvince? test) => handleTextInput!(test!.valueProvince),
+        onChanged: (String? item) => handleTextInput!(item!),
         selectedItem: null,
       ),
     );

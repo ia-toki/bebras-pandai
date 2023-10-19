@@ -7,30 +7,18 @@ class BiroBebrasDropdown extends StatelessWidget {
 
   final String labelText;
   final void Function (String value)? handleTextInput;
-  final String? Function(BebrasBiro?)? validator;
-
-  List<BebrasBiro> get dropdownItems {
-    var list = bebrasBiroList.where((el) => el.isActive).toList();
-    var menuItems = list
-        .map((element) => BebrasBiro(
-      bebrasBiroUniv: element.bebrasBiroUniv,
-      valueDropdown: element.valueDropdown,
-      isActive: element.isActive,),
-    ).toList();
-    return menuItems;
-  }
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 63.0,
-      child: DropdownSearch<BebrasBiro>(
+      child: DropdownSearch<String>(
         validator: validator,
-        itemAsString: (BebrasBiro bebras) => bebras.userAsString(),
         popupProps: PopupProps.menu(
           showSearchBox: true,
         ),
-        items: dropdownItems,
+        items: bebrasBiroList,
         dropdownDecoratorProps: DropDownDecoratorProps(
           textAlignVertical: TextAlignVertical.center,
           baseStyle: TextStyle(fontSize: 12.0),
@@ -53,8 +41,7 @@ class BiroBebrasDropdown extends StatelessWidget {
             ),
           ),
         ),
-        onChanged: (BebrasBiro? test) => handleTextInput!(test!.valueDropdown),
-          // print(test?.valueDropdown);
+        onChanged: (String? item) => handleTextInput!(item!),
         selectedItem: null,
       ),
     );
