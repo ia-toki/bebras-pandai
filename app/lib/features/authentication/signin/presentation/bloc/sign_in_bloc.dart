@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bebras_pandai/features/authentication/register/repositories/register_user_repo.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,7 +14,8 @@ part 'sign_in_state.dart';
 @injectable
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
   final SignInUseCase _signInUseCase;
-  SignInBloc(this._signInUseCase) : super(SignInInitialState()) {
+  final RegisterUserRepository registerUserRepository;
+  SignInBloc(this._signInUseCase, this.registerUserRepository) : super(SignInInitialState()) {
     on<TriggerSignInEvent>(_userSignIn);
   }
 
@@ -35,6 +37,20 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       },
       (right) async {
         emit(SignInSuccessState(user: right));
+        final creds = FirebaseAuth.instance.currentUser;
+          String userId = creds!.uid as String;
+          try {
+            final data = await registerUserRepository.getById(userId);
+
+            print(data);
+            if (data == null) {
+              emit(UserUnregistered());
+            } else {
+              emit(UserRegistered());
+            }
+          } catch (e) {
+            emit(UserError(e.toString()));
+          }
       },
     );
   }
