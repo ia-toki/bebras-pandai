@@ -54,7 +54,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
 
             if (pickedDate != null) {
               String formattedDate =
-              DateFormat('dd MMM yyyy').format(pickedDate);
+              DateFormat('yyyy-MM-dd').format(pickedDate);
               widget.handleTextInput!(formattedDate);
               setState(() {
                 dateinput.text = formattedDate;
