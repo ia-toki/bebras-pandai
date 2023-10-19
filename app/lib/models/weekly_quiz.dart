@@ -6,9 +6,9 @@ class WeeklyQuizModel extends Equatable {
   final String id;
   final String title;
   final String created_at;
-  final Map<String, int> duration_minute;
+  final Map<String, dynamic> duration_minute;
   final String end_at;
-  final Map<String, int> max_attempts;
+  final Map<String, dynamic> max_attempts;
   final Map<String, dynamic> problems;
   final Map<String, dynamic> sponsors;
   final String start_at;

@@ -11,11 +11,18 @@ class QuizRegistrationPage extends StatefulWidget {
 
 class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
   final nama = 'dummy';
+  String selectedWeek = '';
 
   @override
   void initState() {
     super.initState();
     context.read<QuizRegistrationCubit>().fetchRunningWeeklyQuiz();
+  }
+
+  void selectWeek(String week) {
+    setState(() {
+      selectedWeek = week;
+    });
   }
 
   Widget quizCard() {
@@ -55,13 +62,9 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
     return showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
-        return BlocConsumer<QuizRegistrationCubit, QuizRegistrationState>(
-          listener: (context, state) {
-            // TODO: implement listener
-          },
-          builder: (context, state) {
-            if (state is QuizRegistrationWeekSelected &&
-                state.selectedWeek != '') {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            if (selectedWeek != '') {
               return Container(
                 constraints: const BoxConstraints(minHeight: 30),
                 width: double.infinity,
@@ -76,9 +79,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                     Container(
                       margin: const EdgeInsets.only(left: 20),
                       child: InkWell(
-                        onTap: () => context
-                            .read<QuizRegistrationCubit>()
-                            .selectWeek(''),
+                        onTap: () => setState(() => selectedWeek = ''),
                         child: const Row(
                           children: [
                             Icon(Icons.chevron_left),
@@ -93,7 +94,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                     Container(
                       margin: const EdgeInsets.only(left: 20),
                       child: Text(
-                        'Daftar Latihan Bebras ${state.selectedWeek == 'next_week' ? 'Minggu Depan' : 'Minggu Ini'}',
+                        'Daftar Latihan Bebras ${selectedWeek == 'next_weekly_quiz' ? 'Minggu Depan' : 'Minggu Ini'}',
                         textAlign: TextAlign.left,
                         style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
@@ -108,7 +109,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                         child: Button(
                           onTap: () => context
                               .read<QuizRegistrationCubit>()
-                              .selectLevel('sikecil'),
+                              .registerParticipant('sikecil', selectedWeek),
                           customButtonColor: Colors.blue.shade400,
                           customTextColor: Colors.white,
                           text: 'siKecil',
@@ -122,7 +123,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                         child: Button(
                           onTap: () => context
                               .read<QuizRegistrationCubit>()
-                              .selectLevel('siaga'),
+                              .registerParticipant('siaga', selectedWeek),
                           customButtonColor: Colors.green.shade400,
                           customTextColor: Colors.white,
                           text: 'Siaga',
@@ -136,7 +137,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                         child: Button(
                           onTap: () => context
                               .read<QuizRegistrationCubit>()
-                              .selectLevel('penggalang'),
+                              .registerParticipant('penggalang', selectedWeek),
                           customButtonColor: Colors.red.shade400,
                           customTextColor: Colors.white,
                           text: 'Penggalang',
@@ -150,7 +151,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                         child: Button(
                           onTap: () => context
                               .read<QuizRegistrationCubit>()
-                              .selectLevel('penegak'),
+                              .registerParticipant('penegak', selectedWeek),
                           customButtonColor: Colors.orange.shade400,
                           customTextColor: Colors.white,
                           text: 'Penegak',
@@ -189,9 +190,8 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 40),
                       width: double.infinity,
                       child: Button(
-                        onTap: () => context
-                            .read<QuizRegistrationCubit>()
-                            .selectWeek('next_week'),
+                        onTap: () =>
+                            setState(() => selectedWeek = 'next_weekly_quiz'),
                         customButtonColor: Colors.green.shade400,
                         customTextColor: Colors.white,
                         text: 'Latihan Minggu Depan',
@@ -203,9 +203,8 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 40),
                       width: double.infinity,
                       child: Button(
-                        onTap: () => context
-                            .read<QuizRegistrationCubit>()
-                            .selectWeek('this_week'),
+                        onTap: () => setState(
+                            () => selectedWeek = 'running_weekly_quiz'),
                         customButtonColor: Colors.brown.shade400,
                         customTextColor: Colors.white,
                         text: 'Latihan Minggu Ini',

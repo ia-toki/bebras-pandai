@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../models/registered_participant.dart';
 import '../../../models/weekly_quiz.dart';
 import '../../../services/quiz_service.dart';
 
@@ -10,16 +11,17 @@ part 'quiz_registration_event.dart';
 class QuizRegistrationCubit extends Cubit<QuizRegistrationState> {
   QuizRegistrationCubit() : super(QuizRegistrationInitialState());
 
-  void selectWeek(String selectedWeek) {
-    emit(QuizRegistrationLoading());
+  Future<void> registerParticipant(
+      String selectedLevel, String selectedWeek) async {
+    try {
+      emit(QuizRegistrationLoading());
+      await QuizService().registerParticipant(selectedWeek, selectedLevel);
 
-    emit(QuizRegistrationWeekSelected(selectedWeek));
-  }
-
-  void selectLevel(String selectedLevel) {
-    emit(QuizRegistrationLoading());
-
-    emit(QuizRegistrationLevelSelected(selectedLevel));
+      emit(const QuizRegistrationSuccess('success'));
+    } catch (e) {
+      print(e.toString());
+      emit(RunningWeeklyQuizFailed(e.toString()));
+    }
   }
 
   Future<void> fetchRunningWeeklyQuiz() async {
