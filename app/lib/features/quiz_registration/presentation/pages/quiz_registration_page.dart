@@ -12,6 +12,12 @@ class QuizRegistrationPage extends StatefulWidget {
 class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
   final nama = 'dummy';
 
+  @override
+  void initState() {
+    super.initState();
+    context.read<QuizRegistrationCubit>().fetchRunningWeeklyQuiz();
+  }
+
   Widget quizCard() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
@@ -239,17 +245,15 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(border: Border.all()),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            'Silahkan klik Tombol `Daftar Latihan Bebras` dibawah untuk memulai',
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          quizCard()
-                        ]),
+                    child: ListView(children: [
+                      const Text(
+                        'Silahkan klik Tombol `Daftar Latihan Bebras` dibawah untuk memulai',
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      quizCard(),
+                    ]),
                   ),
                   const SizedBox(
                     height: 10,
