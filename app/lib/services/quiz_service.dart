@@ -1,4 +1,6 @@
 // import 'package:airplane/models/destination_model.dart';
+// ignore_for_file: inference_failure_on_collection_literal
+import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/registered_participant.dart';
 import '../models/weekly_quiz.dart';
@@ -36,7 +38,9 @@ class QuizService {
     final snapshot = await _runningWeeklyQuizRef.doc(week).get();
 
     try {
+      final dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
       await _weeklyQuizParticipantRef.doc().set({
+        'attempts': [],
         'challenge_group': level,
         'quiz_end_at': snapshot['end_at'],
         'quiz_id': snapshot['id'],
@@ -44,7 +48,40 @@ class QuizService {
         'quiz_start_at': snapshot['start_at'],
         'user_name': FirebaseService.auth().currentUser?.displayName,
         'user_uid': FirebaseService.auth().currentUser?.uid,
+        'created_at': dateFormat.format(DateTime.now()),
       });
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<RegisteredParticipantModel> getRunningWeeklyQuizByIdAndParticipant(
+    String quizId,
+  ) async {
+    try {
+      final querySnapshot = await _weeklyQuizParticipantRef
+          .where('quiz_id', isEqualTo: quizId)
+          .get();
+      for (final doc in querySnapshot.docs) {
+        final snapshot = doc.data()! as Map<String, dynamic>;
+
+        if (snapshot['user_uid'] == FirebaseService.auth().currentUser?.uid) {
+          print(snapshot['user_uid']);
+          return RegisteredParticipantModel(
+            user_name: snapshot['user_name'] as String,
+            user_uid: snapshot['user_uid'] as String,
+            challenge_group: snapshot['challenge_group'] as String,
+            created_at: snapshot['created_at'] as String,
+            quiz_end_at: snapshot['quiz_end_at'] as String,
+            quiz_start_at: snapshot['quiz_start_at'] as String,
+            quiz_id: snapshot['quiz_id'] as String,
+            quiz_max_attempts: snapshot['quiz_max_attempts'] as int,
+            attempts: snapshot['attempts'] as List<dynamic>,
+          );
+        }
+      }
+
+      return const RegisteredParticipantModel();
     } catch (e) {
       rethrow;
     }

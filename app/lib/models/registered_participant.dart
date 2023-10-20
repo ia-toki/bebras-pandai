@@ -10,17 +10,19 @@ class RegisteredParticipantModel extends Equatable {
   final String quiz_end_at;
   final String quiz_start_at;
   final String quiz_id;
+  final List<dynamic> attempts;
   final int quiz_max_attempts;
 
   const RegisteredParticipantModel({
-    required this.user_name,
-    required this.user_uid,
-    required this.challenge_group,
-    required this.created_at,
-    required this.quiz_end_at,
-    required this.quiz_start_at,
-    required this.quiz_id,
-    required this.quiz_max_attempts,
+    this.user_name = '',
+    this.user_uid = '',
+    this.challenge_group = '',
+    this.created_at = '',
+    this.quiz_end_at = '',
+    this.quiz_start_at = '',
+    this.quiz_id = '',
+    this.quiz_max_attempts = 0,
+    this.attempts = const [],
   });
 
   @override

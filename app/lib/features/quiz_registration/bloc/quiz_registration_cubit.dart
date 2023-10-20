@@ -19,7 +19,6 @@ class QuizRegistrationCubit extends Cubit<QuizRegistrationState> {
 
       emit(const QuizRegistrationSuccess('success'));
     } catch (e) {
-      print(e.toString());
       emit(RunningWeeklyQuizFailed(e.toString()));
     }
   }
@@ -34,6 +33,33 @@ class QuizRegistrationCubit extends Cubit<QuizRegistrationState> {
       emit(RunningWeeklyQuizSuccess(runningWeeklyQuiz));
     } catch (e) {
       emit(RunningWeeklyQuizFailed(e.toString()));
+    }
+  }
+
+  Future<WeeklyQuizModel> getQuizId(String week) async {
+    try {
+      final weeklyQuiz = await QuizService().fetchWeeklyQuiz(week);
+
+      return weeklyQuiz;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> fetchParticipantWeeklyQuiz() async {
+    try {
+      final runningWeeklyQuiz = await getQuizId('running_weekly_quiz');
+
+      final register = await QuizService()
+          .getRunningWeeklyQuizByIdAndParticipant(runningWeeklyQuiz.id);
+
+      if (register.quiz_id != '') {
+        emit(GetRunningWeeklyQuizSuccess(runningWeeklyQuiz, register));
+      } else {
+        emit(const GetRunningWeeklyQuizFailed('error'));
+      }
+    } catch (e) {
+      emit(GetRunningWeeklyQuizFailed(e.toString()));
     }
   }
 }

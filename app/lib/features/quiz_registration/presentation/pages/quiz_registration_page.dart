@@ -16,7 +16,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
   @override
   void initState() {
     super.initState();
-    context.read<QuizRegistrationCubit>().fetchRunningWeeklyQuiz();
+    context.read<QuizRegistrationCubit>().fetchParticipantWeeklyQuiz();
   }
 
   void selectWeek(String week) {
@@ -25,32 +25,32 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
     });
   }
 
-  Widget quizCard() {
+  Widget quizCard(String name, String date, String score) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 18),
       decoration: BoxDecoration(border: Border.all()),
-      child: const Column(children: [
+      child: Column(children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Quiz A',
-              style: TextStyle(fontSize: 18),
+              name,
+              style: const TextStyle(fontSize: 12),
             ),
             Text(
-              'Nilai: 100',
-              style: TextStyle(fontSize: 18),
+              'Nilai: $score',
+              style: const TextStyle(fontSize: 12),
             )
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
         Row(
           children: [
             Text(
-              'dikerjakan: 2023-09-09 09:09',
-              style: TextStyle(fontSize: 12),
+              'dikerjakan: $date',
+              style: const TextStyle(fontSize: 12),
             )
           ],
         )
@@ -149,9 +149,12 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 40),
                         width: double.infinity,
                         child: Button(
-                          onTap: () => context
-                              .read<QuizRegistrationCubit>()
-                              .registerParticipant('penegak', selectedWeek),
+                          onTap: () => {
+                            context
+                                .read<QuizRegistrationCubit>()
+                                .registerParticipant('penegak', selectedWeek),
+                            Navigator.pop(context)
+                          },
                           customButtonColor: Colors.orange.shade400,
                           customTextColor: Colors.white,
                           text: 'Penegak',
@@ -239,20 +242,61 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: MediaQuery.of(context).size.height - 300,
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(border: Border.all()),
-                    child: ListView(children: [
-                      const Text(
-                        'Silahkan klik Tombol `Daftar Latihan Bebras` dibawah untuk memulai',
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      quizCard(),
-                    ]),
+                  BlocConsumer<QuizRegistrationCubit, QuizRegistrationState>(
+                    listener: (context, state) {
+                      if (state is QuizRegistrationSuccess) {
+                        context
+                            .read<QuizRegistrationCubit>()
+                            .fetchParticipantWeeklyQuiz();
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is QuizRegistrationLoading) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      return Container(
+                        height: MediaQuery.of(context).size.height - 300,
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        decoration: BoxDecoration(border: Border.all()),
+                        child: BlocConsumer<QuizRegistrationCubit,
+                            QuizRegistrationState>(
+                          listener: (context, state) {
+                            // TODO: implement listener
+                          },
+                          builder: (context, state) {
+                            if (state is GetRunningWeeklyQuizSuccess) {
+                              return ListView(children: [
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                quizCard(
+                                    state.runningWeeklyQuiz.title,
+                                    state.registeredParticipantModel.attempts
+                                            .isNotEmpty
+                                        ? state.registeredParticipantModel
+                                            .attempts[0]['score'] as String
+                                        : '',
+                                    '30'),
+                              ]);
+                            }
+
+                            if (state is GetRunningWeeklyQuizFailed) {
+                              return const Center(
+                                child: Text(
+                                  'Silahkan klik Tombol `Daftar Latihan Bebras` dibawah untuk memulai',
+                                ),
+                              );
+                            }
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
+                        ),
+                      );
+                    },
                   ),
                   const SizedBox(
                     height: 10,

@@ -13,16 +13,17 @@ class WeeklyQuizModel extends Equatable {
   final Map<String, dynamic> sponsors;
   final String start_at;
 
-  const WeeklyQuizModel(
-      {required this.id,
-      required this.title,
-      required this.created_at,
-      required this.duration_minute,
-      required this.end_at,
-      required this.max_attempts,
-      required this.problems,
-      required this.sponsors,
-      required this.start_at});
+  const WeeklyQuizModel({
+    required this.id,
+    required this.title,
+    required this.created_at,
+    required this.duration_minute,
+    required this.end_at,
+    required this.max_attempts,
+    required this.problems,
+    required this.sponsors,
+    required this.start_at,
+  });
 
   @override
   List<Object> get props => [
@@ -34,6 +35,6 @@ class WeeklyQuizModel extends Equatable {
         max_attempts,
         problems,
         sponsors,
-        start_at
+        start_at,
       ];
 }
