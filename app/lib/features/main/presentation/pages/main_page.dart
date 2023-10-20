@@ -7,8 +7,20 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
+class Course {
+  String title;
+  String description;
+  Course(this.title, this.description);
+}
+
 class _MainPageState extends State<MainPage> {
   final nama = 'dummy';
+  final List<Course> courses = [
+    Course('SiKecil', 'abdcdafadf'),
+    Course('Siaga', 'abdcdafadf'),
+    Course('Penggalang', 'abdcdafadf'),
+    Course('Penegak', 'abdcdafadf'),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +39,7 @@ class _MainPageState extends State<MainPage> {
                     Assets.bebrasPandaiText,
                   ),
                   const SizedBox(
-                    height: 100,
+                    height: 40,
                   ),
                   RichText(
                     text: TextSpan(
@@ -71,7 +83,7 @@ class _MainPageState extends State<MainPage> {
                   Button(
                     buttonType: ButtonType.primary,
                     onTap: () async {
-                      await context.push('/construction');
+                      await context.push('/quiz_registration');
                     },
                     text: 'Ikut Quiz',
                   ),
@@ -81,6 +93,7 @@ class _MainPageState extends State<MainPage> {
                   Button(
                     buttonType: ButtonType.primary,
                     onTap: () async {
+                      await FirebaseAuth.instance.signOut();
                       await GoogleSignIn().signOut();
                       context.go('/onboarding');
                     },

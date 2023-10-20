@@ -13,6 +13,8 @@ class Button extends StatelessWidget {
   final double innerHorizontalPadding;
   final double innerVerticalPadding;
   final double fontSize;
+  final Color customButtonColor;
+  final Color customTextColor;
 
   const Button({
     required this.text,
@@ -23,6 +25,8 @@ class Button extends StatelessWidget {
     this.innerHorizontalPadding = 20,
     this.innerVerticalPadding = 16,
     this.fontSize = 16,
+    this.customButtonColor = Colors.transparent,
+    this.customTextColor = BaseColors.black,
     super.key,
   });
 
@@ -41,12 +45,12 @@ class Button extends StatelessWidget {
         buttonColor = BaseColors.white;
         break;
       case ButtonType.tertiary:
-        textColor = BaseColors.primarySwatch;
-        buttonColor = BaseColors.black;
+        textColor = BaseColors.white;
+        buttonColor = Colors.blueAccent;
         break;
       case null:
-        textColor = BaseColors.black;
-        buttonColor = Colors.transparent;
+        textColor = customTextColor;
+        buttonColor = customButtonColor;
         break;
     }
 

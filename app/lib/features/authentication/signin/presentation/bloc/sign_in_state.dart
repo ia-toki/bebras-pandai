@@ -32,3 +32,21 @@ class SignInFailureState extends SignInState {
   @override
   List<Object> get props => [message];
 }
+
+class UserUnregistered extends SignInState {
+  @override
+  List<Object> get props => [];
+}
+
+class UserRegistered extends SignInState {
+  @override
+  List<Object> get props => [];
+}
+
+class UserError extends SignInState {
+  final String error;
+
+  UserError(this.error);
+  @override
+  List<Object> get props => [error];
+}

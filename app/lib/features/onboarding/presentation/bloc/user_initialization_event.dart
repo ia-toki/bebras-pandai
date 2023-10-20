@@ -8,3 +8,27 @@ abstract class UserInitializationEvent extends Equatable {
 }
 
 class OnboardingAuthEvent extends UserInitializationEvent {}
+
+class CheckRegisteredUser extends UserInitializationEvent {}
+
+class CreateUserData extends UserInitializationEvent {
+  final String email;
+  final String name;
+  final String birth_date;
+  final String school;
+  final String province;
+  final String bebras_biro;
+
+  CreateUserData(
+      this.email,
+      this.name,
+      this.birth_date,
+      this.school,
+      this.province,
+      this.bebras_biro,
+      );
+}
+
+class GetUserData extends UserInitializationEvent {
+  GetUserData();
+}
