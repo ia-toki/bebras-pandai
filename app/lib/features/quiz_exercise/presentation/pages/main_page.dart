@@ -10,7 +10,11 @@ class QuizExercisePage extends StatefulWidget {
 }
 
 class _QuizExercisePageState extends State<QuizExercisePage> {
-  final nama = 'dummy';
+  @override
+  void initState() {
+    BlocProvider.of<QuizExerciseBlocInitialize>(context).add(GetQuizExercise());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

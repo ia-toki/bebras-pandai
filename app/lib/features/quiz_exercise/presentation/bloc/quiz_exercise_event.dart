@@ -1,4 +1,4 @@
-part of 'quiz_exercise_cubit.dart';
+part of 'quiz_exercise_bloc.dart';
 
 abstract class QuizExerciseEvent extends Equatable {
   const QuizExerciseEvent();
@@ -7,6 +7,4 @@ abstract class QuizExerciseEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class GetQuizExercise extends QuizExerciseEvent {
-  const GetQuizExercise();
-}
+class GetQuizExercise extends QuizExerciseEvent {}
