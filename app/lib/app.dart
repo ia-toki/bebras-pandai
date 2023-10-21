@@ -17,23 +17,30 @@ class App extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<UserInitializationBloc>(
-          create: (_) => get<UserInitializationBloc>()
-            ..add(
-              OnboardingAuthEvent(),
-            ),
-        ),
-        BlocProvider(create: (context) => QuizRegistrationCubit()),
-      ],
-      child: MaterialApp.router(
-        theme: ThemeData(
-          textTheme: GoogleFonts.interTextTheme(),
-        ),
-        routerConfig: router,
-        debugShowCheckedModeBanner: false,
+    return MaterialApp.router(
+      theme: ThemeData(
+        textTheme: GoogleFonts.interTextTheme(),
       ),
+      routerConfig: router,
+      debugShowCheckedModeBanner: false,
     );
+    // MultiBlocProvider(
+    //   providers: [
+    //     BlocProvider<UserInitializationBloc>(
+    //       create: (_) => get<UserInitializationBloc>()
+    //         ..add(
+    //           OnboardingAuthEvent(),
+    //         ),
+    //     ),
+    //     BlocProvider(create: (context) => QuizRegistrationCubit()),
+    //   ],
+    //   child: MaterialApp.router(
+    //     theme: ThemeData(
+    //       textTheme: GoogleFonts.interTextTheme(),
+    //     ),
+    //     routerConfig: router,
+    //     debugShowCheckedModeBanner: false,
+    //   ),
+    // );
   }
 }
