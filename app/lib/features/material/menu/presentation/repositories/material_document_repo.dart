@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 import '../modal/materialDocument.dart';
 
 @Injectable()
-class RegisterUserRepository {
+class MaterialDocumentRepository {
   final _firecloud = FirebaseFirestore.instance.collection('materials');
 
   Future<MaterialDocument?> fetchDocument({
