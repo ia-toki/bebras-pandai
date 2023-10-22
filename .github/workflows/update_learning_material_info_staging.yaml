@@ -4,7 +4,7 @@ on:
     branches:
       - main
     paths:
-      - data/materials/**
+      - data/learning_material/**
   workflow_dispatch:
 
 jobs:
@@ -30,7 +30,7 @@ jobs:
       - name: Update materials info that are modified
         run: |
           pip install -r utils/scripts/requirements.txt
-          python utils/scripts/update_materials_info.py
+          python utils/scripts/update_learning_material_info.py
         env:
           FIREBASE_SECRET_KEY_JSON: ${{ secrets.STG_FIREBASE_ADMINSDK_SECRET_KEY_JSON }}
           FILES_ADDED_AND_MODIFIED_ON_GIT: ${{ steps.list-files.outputs.modified_files }}

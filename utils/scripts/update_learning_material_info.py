@@ -11,7 +11,7 @@ firestore_client = firestore.client()
 
 
 def update_info(file_list):
-    col_ref = firestore_client.collection("materials")
+    col_ref = firestore_client.collection("learning_material")
     for file in file_list:
         with open(file, "r") as f:
             file_ref = file.replace(".json", "").split("/")
@@ -23,9 +23,9 @@ def update_info(file_list):
 if __name__ == "__main__":
     updated_files = os.getenv("FILES_ADDED_AND_MODIFIED_ON_GIT")
     if updated_files is not None:
-        # filter which start with `data/materials/` only
-        file_list = [path for path in updated_files.split("\n") if path.startswith("data/materials/")]
+        # filter which start with `data/learning_material/` only
+        file_list = [path for path in updated_files.split("\n") if path.startswith("data/learning_material/")]
     else:
-        file_list = glob("data/materials/*/*.json")
+        file_list = glob("data/learning_material/*/*.json")
     
     update_info(file_list)

@@ -9,9 +9,9 @@ creds = credentials.Certificate(
 initialize_app(creds)
 
 firestore_client = firestore.client()
-col_ref = firestore_client.collection("problem_set")
+col_ref = firestore_client.collection("task_set")
 
-file_list = glob("data/question_bank/*/*/*.json")
+file_list = glob("data/bebras_tasks/*/*/*.json")
 for file in file_list:
     with open(file, "r") as f:
         file_ref = file.replace(".json", "").split("/")
