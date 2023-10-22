@@ -58,8 +58,10 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
       ),
       body: Stack(
         children: [
+          pathPDF == '' ?
+          LinearProgressIndicator() :
           PDFView(
-            filePath: basePath + widget.id.toString() + '.pdf',
+            filePath: pathPDF, // basePath + widget.id.toString() + '.pdf',
             onError: (error) {
               print(error.toString());
             },
