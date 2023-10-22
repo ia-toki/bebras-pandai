@@ -83,6 +83,16 @@ class _MainPageState extends State<MainPage> {
                   Button(
                     buttonType: ButtonType.primary,
                     onTap: () async {
+                      await context.push('/final_score');
+                    },
+                    text: '(Dummy) Final Score Page',
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Button(
+                    buttonType: ButtonType.primary,
+                    onTap: () async {
                       await context.push('/quiz_registration');
                     },
                     text: 'Ikut Quiz',

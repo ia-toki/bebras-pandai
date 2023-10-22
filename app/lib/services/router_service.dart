@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import '../features/authentication/register/presentation/pages/_pages.dart';
 import '../features/authentication/signin/presentation/pages/_pages.dart';
 import '../features/error/presentation/pages/_pages.dart';
+import '../features/final_score/final_score_page.dart';
 import '../features/main/presentation/pages/_pages.dart';
 import '../features/onboarding/presentation/pages/_pages.dart';
 import '../features/quiz_registration/presentation/pages/_pages.dart';
@@ -33,5 +34,8 @@ GoRouter router = GoRouter(
       path: '/quiz_registration',
       builder: (context, state) => const QuizRegistrationPage(),
     ),
+    GoRoute(
+        path: '/final_score',
+        builder: (context, state) => const FinalScorePage())
   ],
 );
