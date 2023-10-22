@@ -24,7 +24,7 @@ class MaterialMenuBloc
       FetchMaterialDocumentEvent event,
     Emitter<MaterialMenuState> emit,
   ) async {
-    var materialDoc = await _materialDocumentRepository.fetchDocument(docId: 'docId');
+    var materialDoc = await _materialDocumentRepository.fetchDocument(docId: '');
     emit(
       state.copyWith(
         materialDocument: MaterialDocument.fromJson(materialDoc),

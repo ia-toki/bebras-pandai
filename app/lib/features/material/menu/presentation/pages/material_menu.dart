@@ -8,33 +8,44 @@ class MaterialMenu extends StatefulWidget {
 }
 
 class _MaterialMenuState extends State<MaterialMenu> {
-  late final MaterialDocumentRepository _materialDocumentRepository;
-  late final MaterialMenuBloc _materialMenuBloc;
+  final Stream<QuerySnapshot> materialsStream =
+      FirebaseFirestore.instance.collection('learning_material').snapshots();
 
   String? selectedValue = null;
 
-  @override
-  void initState() {
-    _materialMenuBloc = get<MaterialMenuBloc>();
-    _materialMenuBloc.add();
-
-    super.initState();
-  }
-  int value = 0;
+  int filterIndex = 0;
 
   Widget CustomRadioButton(String text, int index) {
-    return OutlinedButton(
-      onPressed: () {
+    return InkWell(
+      onTap: () {
         setState(() {
-          value = index;
+          filterIndex = index;
         });
       },
-      // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      // borderSide: BorderSide(color: (value == index) ? Colors.green  : Colors.black),
-      child: Text(
-        text,
-        style: TextStyle(
-          color: (value == index) ? Colors.green : Colors.black,
+      child: Container(
+        alignment: Alignment.center,
+        height: 34,
+        width: 147,
+        decoration: BoxDecoration(
+          border: Border.all(),
+          color: (filterIndex == index) ? Colors.black54 : Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: (filterIndex == index) ? Colors.white : Colors.black,
+              blurRadius: 2.0,
+              spreadRadius: 0.0,
+              offset: (filterIndex == index)
+                  ? Offset(0, 0)
+                  : Offset(2.0, 2.0), // shadow direction: bottom right
+            )
+          ],
+        ),
+        child: Text(
+          text,
+          style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              color: (filterIndex == index) ? Colors.white : Colors.black),
         ),
       ),
     );
@@ -42,361 +53,139 @@ class _MaterialMenuState extends State<MaterialMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-        create: (context) => MaterialMenuBloc(_materialDocumentRepository)..add(FetchMaterialDocumentEvent()),
-        child: BebrasScaffold(
-          // avoidBottomInset: false,
-          body: Padding(
-            padding: const EdgeInsets.only(left: 0.0, top: 10.0, right: 0.0),
-            child: Stack(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(32),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Image.asset(
-                        Assets.bebrasPandaiText,
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      const Text('Latihan yang pernah diikuti'),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      BlocBuilder<MaterialMenuBloc, MaterialMenuState>(
-                        builder: (BuildContext context, state) {
-                          if(state is AllMaterialFetchSuccess){
-                            return Container();
-                          } else {
-                          return Container(
-                            height: MediaQuery.of(context).size.height - 320,
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(horizontal: 1),
-                            decoration: BoxDecoration(border: Border.all()),
-                            child: ListView(
-                              // padding: const EdgeInsets.all(8),
-                              children: <Widget>[
-                                InkWell(
+    return BebrasScaffold(
+      avoidBottomInset: false,
+      body: Padding(
+        padding: const EdgeInsets.only(top: 10.0),
+        child: Stack(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(32),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    Assets.bebrasPandaiText,
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  const Text('Latihan yang pernah diikuti'),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  StreamBuilder<QuerySnapshot>(
+                      stream: materialsStream,
+                      builder: (BuildContext context,
+                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (snapshot.hasError) {
+                          return Text('Something went wrong');
+                        }
+
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Text("Loading");
+                        }
+
+                        return Container(
+                          height: 360,
+                          decoration: BoxDecoration(border: Border.all()),
+                          child: ListView(
+                            children: snapshot.data!.docs
+                                .map((DocumentSnapshot document) {
+                              Map<String, dynamic> materialDoc =
+                                  document.data()! as Map<String, dynamic>;
+                              if (materialDoc['challenge_group'] ==
+                                  bebrasGroupList[filterIndex].bebrasChallengeKey) {
+                                return InkWell(
                                   onTap: () {
-                                    print('object');
-                                    context.go('/material/9090');
+                                    context.push(Uri(
+                                        path: '/material/${document.id}',
+                                        queryParameters: {
+                                          'id': document.id,
+                                          'title': materialDoc['title'],
+                                          'description':
+                                              materialDoc['description'],
+                                          'pdfUrl': materialDoc['url'],
+                                        }).toString());
                                   },
                                   child: Container(
                                     height: 80,
                                     width: double.infinity,
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: 16),
-                                    decoration: BoxDecoration(border: Border.all()),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    decoration:
+                                        BoxDecoration(border: Border.all()),
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 10),
+                                          horizontal: 7, vertical: 10),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(
-                                            'Quiz A',
-                                            style: TextStyle(
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.w500),
+                                          Container(
+                                            width: 140,
+                                            child: Text(
+                                              materialDoc['title'].toString(),
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
                                           ),
-                                          Text(
-                                            'Skor: 90/100',
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w400),
+                                          Container(
+                                            width: 60,
+                                            child: Text(
+                                              'Terakhir dilihat: 15/09',
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
                                           ),
                                         ],
                                       ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  height: 80,
-                                  width: double.infinity,
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 16),
-                                  decoration: BoxDecoration(border: Border.all()),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Quiz A',
-                                          style: TextStyle(
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        Text(
-                                          'Skor: 90/100',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  height: 80,
-                                  width: double.infinity,
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 16),
-                                  decoration: BoxDecoration(border: Border.all()),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Quiz A',
-                                          style: TextStyle(
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        Text(
-                                          'Skor: 90/100',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  height: 80,
-                                  width: double.infinity,
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 16),
-                                  decoration: BoxDecoration(border: Border.all()),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Quiz A',
-                                          style: TextStyle(
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        Text(
-                                          'Skor: 90/100',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  height: 80,
-                                  width: double.infinity,
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 16),
-                                  decoration: BoxDecoration(border: Border.all()),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Quiz A',
-                                          style: TextStyle(
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        Text(
-                                          'Skor: 90/100',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  height: 80,
-                                  width: double.infinity,
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 16),
-                                  decoration: BoxDecoration(border: Border.all()),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Quiz A',
-                                          style: TextStyle(
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        Text(
-                                          'Skor: 90/100',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                          }
-                        },
-                      ),
-                      // Row(
-                      //   children: <Widget>[
-                      //     CustomRadioButton("Single", 1),
-                      //     CustomRadioButton("Married", 2),
-                      //     CustomRadioButton("Other", 3)
-                      //   ],
-                      // ),
-                      // const SizedBox(
-                      //   height: 10,
-                      // ),
-                      Container(
-                        height: 70,
-                        width: double.infinity,
-                        decoration: BoxDecoration(border: Border.all()),
-                        child: Column(
+                                );
+                              }
+                              return Container();
+                            }).toList(),
+                          ),
+                        );
+                      }),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    height: 70,
+                    width: double.infinity,
+                    decoration: BoxDecoration(border: Border.all()),
+                    child: Column(
+                      children: [
+                        Row(
                           children: [
-                            Row(
-                              children: [
-                                Container(
-                                  alignment: Alignment.center,
-                                  height: 34,
-                                  width: 147,
-                                  // padding: const EdgeInsets.symmetric(horizontal: 1),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(),
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black,
-                                        blurRadius: 2.0,
-                                        spreadRadius: 0.0,
-                                        offset: Offset(2.0,
-                                            2.0), // shadow direction: bottom right
-                                      )
-                                    ],
-                                  ),
-                                  child: Text(
-                                    'siKecil',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ),
-                                Container(
-                                  alignment: Alignment.center,
-                                  height: 34,
-                                  width: 147,
-                                  // padding: const EdgeInsets.symmetric(horizontal: 1),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(),
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black,
-                                        blurRadius: 2.0,
-                                        spreadRadius: 0.0,
-                                        offset: Offset(2.0,
-                                            2.0), // shadow direction: bottom right
-                                      )
-                                    ],
-                                  ),
-                                  child: Text(
-                                    'Siaga',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                  alignment: Alignment.center,
-                                  height: 34,
-                                  width: 147,
-                                  // padding: const EdgeInsets.symmetric(horizontal: 1),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(),
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black,
-                                        blurRadius: 2.0,
-                                        spreadRadius: 0.0,
-                                        offset: Offset(2.0,
-                                            2.0), // shadow direction: bottom right
-                                      )
-                                    ],
-                                  ),
-                                  child: Text(
-                                    'Penegak',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ),
-                                Container(
-                                  alignment: Alignment.center,
-                                  height: 34,
-                                  width: 147,
-                                  // padding: const EdgeInsets.symmetric(horizontal: 1),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(),
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black,
-                                        blurRadius: 2.0,
-                                        spreadRadius: 0.0,
-                                        offset: Offset(2.0,
-                                            2.0), // shadow direction: bottom right
-                                      )
-                                    ],
-                                  ),
-                                  child: Text(
-                                    'Penggalang',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ),
-                              ],
-                            ),
+                            CustomRadioButton(
+                                "siKecil", bebrasGroupList[0].index),
+                            CustomRadioButton(
+                                "Siaga", bebrasGroupList[1].index),
                           ],
                         ),
-                      ),
-                    ],
+                        Row(
+                          children: [
+                            CustomRadioButton(
+                                "Penggalang", bebrasGroupList[2].index),
+                            CustomRadioButton(
+                                "Penegak", bebrasGroupList[3].index),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ));
+          ],
+        ),
+      ),
+    );
   }
 }

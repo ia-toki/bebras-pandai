@@ -13,8 +13,7 @@ GoRouter router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const MaterialMenu(),
-      // builder: (context, state) => const SplashScreen(),
+      builder: (context, state) => const SplashScreen(),
     ),
     GoRoute(
       path: '/onboarding',
@@ -42,7 +41,11 @@ GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/material/:id',
-      builder: (context, state) => const PdfViewerPage(file: null, url: '/abc'),
+      builder: (context, state) => PdfViewerPage(
+        pdfUrl: state.queryParameters['pdfUrl'],
+        title: state.queryParameters['title'],
+        id: state.queryParameters['id'],
+      ),
     ),
   ],
 );
