@@ -25,6 +25,11 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
   @override
   void initState() {
     super.initState();
+    if (File(basePath + widget.id.toString() + ".pdf").existsSync()) {
+      setState(() {
+        pathPDF = basePath + widget.id.toString() + ".pdf";
+      });
+    }
     WidgetsBinding.instance.addPostFrameCallback((_){
       saveFile(widget.pdfUrl.toString(), "${widget.id}.pdf");
     });
@@ -61,7 +66,7 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
           pathPDF == '' ?
           LinearProgressIndicator() :
           PDFView(
-            filePath: pathPDF, // basePath + widget.id.toString() + '.pdf',
+            filePath: pathPDF,
             onError: (error) {
               print(error.toString());
             },

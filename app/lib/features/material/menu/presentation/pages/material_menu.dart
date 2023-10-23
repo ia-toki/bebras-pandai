@@ -62,7 +62,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
             Container(
               padding: const EdgeInsets.all(32),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset(
                     Assets.bebrasPandaiText,
@@ -70,7 +70,9 @@ class _MaterialMenuState extends State<MaterialMenu> {
                   const SizedBox(
                     height: 30,
                   ),
-                  const Text('Latihan yang pernah diikuti'),
+                  Container(
+                      width: double.infinity,
+                      child: const Text('Latihan yang pernah diikuti')),
                   const SizedBox(
                     height: 10,
                   ),
@@ -157,7 +159,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
                   ),
                   Container(
                     height: 70,
-                    width: double.infinity,
+                    width: 296, // double.infinity,
                     decoration: BoxDecoration(border: Border.all()),
                     child: Column(
                       children: [
