@@ -11,7 +11,6 @@ class _MaterialMenuState extends State<MaterialMenu> {
   final Stream<QuerySnapshot> materialsStream =
       FirebaseFirestore.instance.collection('learning_material').snapshots();
 
-
   String? selectedValue = null;
 
   int filterIndex = 0;
@@ -25,8 +24,8 @@ class _MaterialMenuState extends State<MaterialMenu> {
       },
       child: Container(
         alignment: Alignment.center,
-        height: 34,
-        width: 147,
+        height: 40,
+        width: 130,
         decoration: BoxDecoration(
           border: Border.all(),
           color: (filterIndex == index) ? Colors.black54 : Colors.white,
@@ -72,6 +71,50 @@ class _MaterialMenuState extends State<MaterialMenu> {
                     height: 30,
                   ),
                   Container(
+                    height: 40,
+                    width: 296, // double.infinity,
+                    decoration: BoxDecoration(border: Border.all()),
+                    child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: <Widget>[
+                          CustomRadioButton(
+                              "siKecil", bebrasGroupList[0].index),
+                          CustomRadioButton("Siaga", bebrasGroupList[1].index),
+                          CustomRadioButton(
+                              "Penggalang", bebrasGroupList[2].index),
+                          CustomRadioButton(
+                              "Penegak", bebrasGroupList[3].index),
+                        ]),
+                  ),
+                  // Container(
+                  //   height: 70,
+                  //   width: 296, // double.infinity,
+                  //   decoration: BoxDecoration(border: Border.all()),
+                  //   child: Column(
+                  //     children: [
+                  //       Row(
+                  //         children: [
+                  //           CustomRadioButton(
+                  //               "siKecil", bebrasGroupList[0].index),
+                  //           CustomRadioButton(
+                  //               "Siaga", bebrasGroupList[1].index),
+                  //         ],
+                  //       ),
+                  //       Row(
+                  //         children: [
+                  //           CustomRadioButton(
+                  //               "Penggalang", bebrasGroupList[2].index),
+                  //           CustomRadioButton(
+                  //               "Penegak", bebrasGroupList[3].index),
+                  //         ],
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
                       width: double.infinity,
                       child: const Text('Latihan yang pernah diikuti')),
                   const SizedBox(
@@ -99,7 +142,8 @@ class _MaterialMenuState extends State<MaterialMenu> {
                               Map<String, dynamic> materialDoc =
                                   document.data()! as Map<String, dynamic>;
                               if (materialDoc['challenge_group'] ==
-                                  bebrasGroupList[filterIndex].bebrasChallengeKey) {
+                                  bebrasGroupList[filterIndex]
+                                      .bebrasChallengeKey) {
                                 return InkWell(
                                   onTap: () {
                                     context.push(Uri(
@@ -155,34 +199,6 @@ class _MaterialMenuState extends State<MaterialMenu> {
                           ),
                         );
                       }),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    height: 70,
-                    width: 296, // double.infinity,
-                    decoration: BoxDecoration(border: Border.all()),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            CustomRadioButton(
-                                "siKecil", bebrasGroupList[0].index),
-                            CustomRadioButton(
-                                "Siaga", bebrasGroupList[1].index),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            CustomRadioButton(
-                                "Penggalang", bebrasGroupList[2].index),
-                            CustomRadioButton(
-                                "Penegak", bebrasGroupList[3].index),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
                 ],
               ),
             ),
