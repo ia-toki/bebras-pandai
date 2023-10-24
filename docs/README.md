@@ -5,7 +5,7 @@
 ### Architecture Diagram
 ![Diagram Arsitektur Bebras Pandai v2](assets/arch-bebras-pandai-2.jpeg)
 
-The Bebras Challenge will be commissioned by Bebras Biro (admin). IA TOKI is only required in helping to develop a Mobile Application for `Latihan Bebras` (potentially replacing https://latihanbebras.ipb.ac.id).
+The Bebras Challenge will be commissioned by Bebras Biro (admin). IA TOKI is only required in helping to develop a Mobile Application for `Latihan Bebras` (replacing https://latihanbebras.ipb.ac.id).
 
 #### Maintained by Bebras Biro
 Here is the usual flow on how to set up the Bebras Challenge:
@@ -18,3 +18,5 @@ The purpose of the Application is to make the operation of distributing new tuto
 - Can download newly updated resources
 - Can try the exercise (`Latihan Bebras`)
 - Can automatically generate `Latihan Bebras` weekly
+
+For the complete specification, please go to the following document https://docs.google.com/document/d/12RwnmWcVlFKhpYy6oAlfT4-44zQjrb_ysw6MMBzSQdE/edit

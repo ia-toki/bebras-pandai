@@ -63,7 +63,7 @@ class _MainPageState extends State<MainPage> {
                   Button(
                     buttonType: ButtonType.primary,
                     onTap: () async {
-                      await context.push('/construction');
+                      await context.push('/material');
                     },
                     text: 'Lihat Materi',
                   ),
