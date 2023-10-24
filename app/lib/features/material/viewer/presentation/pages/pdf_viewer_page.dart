@@ -118,10 +118,10 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
     }
   }
 
-  Future<void> fetchUrlPdfFile(String pathReference) async {
+  Future<void> fetchUrlPdfFile(String urlReference) async {
     try {
-      final storageRef = FirebaseStorage.instance.ref();
-      final url = await storageRef.child(pathReference).getDownloadURL();
+      final storageRef = FirebaseStorage.instance.refFromURL(urlReference);
+      final url = await storageRef.getDownloadURL();
       setState(() {
         remotePathPdf = url;
       });

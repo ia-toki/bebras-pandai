@@ -163,7 +163,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
                                         'title': materialDoc['title'],
                                         'description':
                                             materialDoc['description'],
-                                        'pdfUrl': materialDoc['gsReference'],
+                                        'pdfUrl': materialDoc['url'],
                                       },
                                     ).toString(),
                                   );
