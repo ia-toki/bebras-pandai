@@ -1,25 +1,26 @@
 # 🦫 Bebras Pandai
 
-### Repositori ini berisi kumpulan *script* yang digunakan untuk menunjang [Tantangan Bebras Indonesia](#tantangan-bebras-indonesia) & [Gerakan Pandai](#gerakan-pandai)
+### Repositori ini berisi kumpulan "peralatan" yang digunakan untuk menunjang [Tantangan Bebras Indonesia](#tantangan-bebras-indonesia) & [Gerakan Pandai](#gerakan-pandai)
+
 ## Aplikasi
-`Bebras Pandai` adalah aplikasi yang dikembangkan oleh [IA-TOKI](https://alumni.toki.id/category/ikatan-alumni/) untuk mendukung pembelajaran *[Computational Thinking](https://bebras.or.id/v3/apa-itu-berpikir-komputasional/)* supaya lebih tersebar luas ke seluruh pelosok Indonesia. 🇮🇩🇮🇩🇮🇩
+`Bebras Pandai` adalah aplikasi yang dikembangkan oleh [IA-TOKI](https://alumni.toki.id/category/ikatan-alumni/) untuk mendukung pembelajaran *[Computational Thinking](https://www.cs.cmu.edu/~15110-s13/Wing06-ct.pdf)* supaya lebih tersebar luas ke seluruh pelosok Indonesia. 🇮🇩🇮🇩🇮🇩
 
-Silahkan menuju [app](app) untuk mengakses direktori utama aplikasi.
+<a href="https://play.google.com/store/apps/details?id=com.toki.bebras_pandai" style="margin-left:-11px"><img alt="" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" style="width:200px"></a><br />
+<!-- <a href=''><img alt="" src="https://user-images.githubusercontent.com/24459435/172480740-d70aff84-fcb6-4f4a-bbd1-a3e2fa58f3a9.svg" style="width:165px"></a> -->
 
-<br>
 
-<div style="display:inline-block">
-    <a><img alt="" src="https://github.com/ia-toki/bebras-pandai/raw/docs/readme/docs/assets/bebras-app-demo-removebg-preview.png" style="float:left; width:170px"></a><br />
-<!--
-    <a href='' style="margin-left:-11px"><img alt="" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" style="width:200px"></a><br />
-    <a href=''><img alt="" src="https://user-images.githubusercontent.com/24459435/172480740-d70aff84-fcb6-4f4a-bbd1-a3e2fa58f3a9.svg" style="width:165px"></a>
--->
-</div>
+### Fitur
+Ada 2 fitur yang didukung & dikembangkan di aplikasi ini
+- `Lihat Materi`         : berisikan segala materi yang bisa Anda pelajari terkait `Tantangan Bebras`
+- `Ikuti Latihan Bebras` : mini `Tantangan Bebras` dengan soal (`Bebras Task`) yang selalu diperbarui tiap minggunya 
+
+<a><img alt="" src="docs/assets/bebras-app-demo-removebg-preview.png" style=" width:170px"></a>
 
 ### Pengembangan Perangkat Lunak
 
+Silahkan menuju [app](app) untuk mengakses direktori utama aplikasi.
+
 #### Struktur Direktori
-Kita menggunakan arsitektur *monorepo* di repositori ini. Selain `app` sebagai direktori utama, terdapat bagian-bagian lain untuk mempermudah/mengotomatisasi operasional.
 ```
 .
 ├── .github              # github related script
@@ -27,7 +28,7 @@ Kita menggunakan arsitektur *monorepo* di repositori ini. Selain `app` sebagai d
 ├── data                 # data for mockup, schema, etc
 |   ├── ..
 |   ├── materials        # materials metadata like buku bebras, podcast files, presentations, etc
-│   └── question_bank    # problem set data
+│   └── question_bank    # example of Bebras Task data
 ├── docs                 # contains any documentation & its supporting files
 |   ├── ..
 │   └── assets           # image file et al. used in the documentation
@@ -35,13 +36,16 @@ Kita menggunakan arsitektur *monorepo* di repositori ini. Selain `app` sebagai d
     ├── ..
     └── scripts          # any script to automate the operational
 ```
+Kita menggunakan arsitektur *monorepo* di repositori ini. Selain `app` sebagai direktori utama, terdapat bagian-bagian lain untuk mempermudah/mengotomatisasi operasional.
 
 #### Kontribusi
 Silahkan menuju [CONTRIBUTING.md](docs/CONTRIBUTING.md) mengenai penjelasan cara berkontribusi.
-#### Kontributor
+
+<!--
 <a href = "https://github.com/ia-toki/bebras-pandai/graphs/contributors">
     <img src = "https://contrib.rocks/image?repo=ia-toki/bebras-pandai"/>
 </a>
+-->
 
 <br>
 
@@ -51,7 +55,7 @@ Silahkan menuju [CONTRIBUTING.md](docs/CONTRIBUTING.md) mengenai penjelasan cara
 tautan: https://bebras.or.id/v3/ \
 <img src="https://pandai.bebras.or.id/img/bebrasIndo.039c5a0c.png" alt="alt text" width=170>
 
-Tantangan Bebras Indonesia adalah kompetisi yang dilaksanakan secara online dan serentak dengan memberikan soal-soal yang telah dipersiapkan dalam [Workshop Bebras Internasional](https://www.bebras.org/workshops.html), pada periode bebras week di minggu kedua bulan November. \
+Tantangan Bebras Indonesia adalah kompetisi yang dilaksanakan secara online dan serentak dengan memberikan soal-soal yang telah dipersiapkan dalam [Workshop Bebras Internasional](https://www.bebras.org/workshops.html), pada <ins>periode bebras week di minggu kedua bulan November</ins>. \
 Tantangan Bebras Indonesia dibagi dalam 4 kategori, yaitu:
 - `siKecil`, untuk siswa SD dan yang sederajat kelas 3 atau lebih muda
 - `Siaga`, untuk siswa SD dan yang sederajat kelas 4-6

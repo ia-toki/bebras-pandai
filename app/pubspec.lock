@@ -173,26 +173,47 @@ packages:
     dependency: "direct main"
     description:
       name: cloud_firestore
+<<<<<<< HEAD
       sha256: bf95f7977945a7848c8f29924b43b8721e57da628762a808d60dc44bcc909c6a
       url: "https://pub.dev"
     source: hosted
     version: "4.10.0"
+=======
+      sha256: "1179ae4c69e2ea18179d844d70fc6ed2f082a2bbeb7fa62d35a2a24e2992bd4d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.9.3"
+>>>>>>> e9d6244d628e4329904f65c456aba561e07762ac
   cloud_firestore_platform_interface:
     dependency: transitive
     description:
       name: cloud_firestore_platform_interface
+<<<<<<< HEAD
       sha256: "38d20cb135f84b6e4fad923ed6011729d3d9ea2c92e94297f004cf1501f9d681"
       url: "https://pub.dev"
     source: hosted
     version: "6.0.0"
+=======
+      sha256: acdcf0743bbdd0e6b342f3d2033e15d260a2c6f9434dd34b008b8f1c35e62b23
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.16.2"
+>>>>>>> e9d6244d628e4329904f65c456aba561e07762ac
   cloud_firestore_web:
     dependency: transitive
     description:
       name: cloud_firestore_web
+<<<<<<< HEAD
       sha256: "1f4af7224141bc6569b99699c6ec802749dc527647c8a8c55de2d4d866af44de"
       url: "https://pub.dev"
     source: hosted
     version: "3.8.0"
+=======
+      sha256: "321bb0732c8d782a49aede96805e59609e05cf98b6c34370faa04103f46a4a3a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.7.2"
+>>>>>>> e9d6244d628e4329904f65c456aba561e07762ac
   code_builder:
     dependency: transitive
     description:
@@ -257,6 +278,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.3.2"
+  dropdown_search:
+    dependency: "direct main"
+    description:
+      name: dropdown_search
+      sha256: "55106e8290acaa97ed15bea1fdad82c3cf0c248dd410e651f5a8ac6870f783ab"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.6"
   either_dart:
     dependency: "direct main"
     description:
@@ -325,10 +354,17 @@ packages:
     dependency: "direct main"
     description:
       name: firebase_core
+<<<<<<< HEAD
       sha256: "761d0a00562ba09d491eacdceaf1885df62d072c9431bf3110333e2a9904b1e1"
       url: "https://pub.dev"
     source: hosted
     version: "2.18.0"
+=======
+      sha256: "95580fa07c8ca3072a2bb1fecd792616a33f8683477d25b7d29d3a6a399e6ece"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.17.0"
+>>>>>>> e9d6244d628e4329904f65c456aba561e07762ac
   firebase_core_platform_interface:
     dependency: transitive
     description:
@@ -341,10 +377,17 @@ packages:
     dependency: transitive
     description:
       name: firebase_core_web
+<<<<<<< HEAD
       sha256: "0631a2ec971dbc540275e2fa00c3a8a2676f0a7adbc3c197d6fba569db689d97"
       url: "https://pub.dev"
     source: hosted
     version: "2.8.1"
+=======
+      sha256: e8c408923cd3a25bd342c576a114f2126769cd1a57106a4edeaa67ea4a84e962
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.8.0"
+>>>>>>> e9d6244d628e4329904f65c456aba561e07762ac
   fixnum:
     dependency: transitive
     description:

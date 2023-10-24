@@ -37,30 +37,36 @@ result = {
     "sponsors": {}
 }
 
-challengegroup_map = configuration_coll_ref.document("challenge_group").get().to_dict()
-for cg_group, cg_val in challengegroup_map.items():
-    problem_id_list = []
 
-    query_ref = problemset_coll_ref.where("challenge_group", "==", cg_group)
-    for doc in query_ref.stream():
-        problem_id_list.append(doc.to_dict()["id"])
-    random.shuffle(problem_id_list)
+def generate_next_weekly_quiz():
+    challengegroup_map = configuration_coll_ref.document("challenge_group").get().to_dict()
+    for cg_group, cg_val in challengegroup_map.items():
+        problem_id_list = []
 
-    result["tasks"][cg_group] = problem_id_list[:cg_val["weeklyquiz_task_number"]]
-    result["max_attempts"][cg_group] = cg_val["weeklyquiz_max_attempts"]
-    result["duration_minute"][cg_group] = cg_val["weeklyquiz_duration_minute"]
+        query_ref = problemset_coll_ref.where("challenge_group", "==", cg_group)
+        for doc in query_ref.stream():
+            problem_id_list.append(doc.to_dict()["id"])
+        random.shuffle(problem_id_list)
 
-    # ToDo: later, make a logic to fill the sponsor(s)
-    result["sponsors"][cg_group] = None
+        result["tasks"][cg_group] = problem_id_list[:cg_val["weeklyquiz_task_number"]]
+        result["max_attempts"][cg_group] = cg_val["weeklyquiz_max_attempts"]
+        result["duration_minute"][cg_group] = cg_val["weeklyquiz_duration_minute"]
 
-# for history data
-_, doc_ref = weeklyquizlist_coll_ref.add(result)
-result["id"] = doc_ref.id  # generate random id & put it in the `result` for latest data
+        # ToDo: later, make a logic to fill the sponsor(s)
+        result["sponsors"][cg_group] = None
 
-# for latest data
-to_running = configuration_coll_ref.document("next_weekly_quiz").get().to_dict()
-configuration_coll_ref.document("next_weekly_quiz").set(result)
-configuration_coll_ref.document("running_weekly_quiz").set(to_running)
+    # for history data
+    _, doc_ref = weeklyquizlist_coll_ref.add(result)
+    result["id"] = doc_ref.id  # generate random id & put it in the `result` for latest data
 
-# update global variables
-configuration_coll_ref.document("global_variables").set(config_global_variables)
+    # for latest data
+    to_running = configuration_coll_ref.document("next_weekly_quiz").get().to_dict()
+    configuration_coll_ref.document("next_weekly_quiz").set(result)
+    configuration_coll_ref.document("running_weekly_quiz").set(to_running)
+
+    # update global variables
+    configuration_coll_ref.document("global_variables").set(config_global_variables)
+
+
+if __name__ == "__main__":
+    generate_next_weekly_quiz()
