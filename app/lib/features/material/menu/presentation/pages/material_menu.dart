@@ -11,6 +11,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
   final Stream<QuerySnapshot> materialsStream =
       FirebaseFirestore.instance.collection('learning_material').snapshots();
 
+
   String? selectedValue = null;
 
   int filterIndex = 0;
@@ -108,7 +109,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
                                           'title': materialDoc['title'],
                                           'description':
                                               materialDoc['description'],
-                                          'pdfUrl': materialDoc['url'],
+                                          'pdfUrl': materialDoc['gsReference'],
                                         }).toString());
                                   },
                                   child: Container(

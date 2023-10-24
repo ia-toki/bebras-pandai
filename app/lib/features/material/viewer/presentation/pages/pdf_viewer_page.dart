@@ -20,19 +20,23 @@ class PdfViewerPage extends StatefulWidget {
 
 class _PdfViewerPageState extends State<PdfViewerPage> {
   String basePath = "/storage/emulated/0/Android/data/com.toki.bebras_pandai/files/PDF_Download/";
-  String pathPDF = "";
+  String localPathPdf = "";
+  String remotePathPdf = "";
 
   @override
   void initState() {
     super.initState();
     if (File(basePath + widget.id.toString() + ".pdf").existsSync()) {
       setState(() {
-        pathPDF = basePath + widget.id.toString() + ".pdf";
+        localPathPdf = basePath + widget.id.toString() + ".pdf";
       });
     }
-    WidgetsBinding.instance.addPostFrameCallback((_){
-      saveFile(widget.pdfUrl.toString(), "${widget.id}.pdf");
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      fetchUrlPdfFile(widget.pdfUrl.toString());
     });
+    // WidgetsBinding.instance.addPostFrameCallback((_){
+    //   saveFile(widget.pdfUrl.toString(), "${widget.id}.pdf");
+    // });
   }
 
   @override
@@ -47,15 +51,19 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
         actions: [
           IconButton(
             onPressed: () async {
-              await saveFile(widget.pdfUrl.toString(), "${widget.id}.pdf");
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                    'successfully saved to internal storage',
-                    style: TextStyle(color: Colors.white),
+              try {
+                await saveFile(remotePathPdf, "${widget.id}.pdf");
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'successfully saved to internal storage',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
-                ),
-              );
+                );
+              } catch (e) {
+                print(e);
+              }
             },
             icon: const Icon(Icons.download_rounded),
           ),
@@ -63,10 +71,10 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
       ),
       body: Stack(
         children: [
-          pathPDF == '' ?
+          localPathPdf == '' ?
           LinearProgressIndicator() :
           PDFView(
-            filePath: pathPDF,
+            filePath: localPathPdf,
             onError: (error) {
               print(error.toString());
             },
@@ -101,9 +109,9 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
             saveFile.path,
           );
           setState(() {
-            pathPDF = saveFile.path;
+            localPathPdf = saveFile.path;
           });
-          print(pathPDF);
+          print(localPathPdf);
         }
       }
       return true;
@@ -122,5 +130,18 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
       }
     }
     return false;
+  }
+
+  Future<void> fetchUrlPdfFile(String pathReference) async {
+    try {
+      final storageRef = FirebaseStorage.instance.ref();
+      String url = await storageRef.child(pathReference).getDownloadURL();
+      setState(() {
+        remotePathPdf = url;
+      });
+      saveFile(url, "${widget.id}.pdf");
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 }
