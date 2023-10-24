@@ -116,7 +116,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
                   ),
                   Container(
                       width: double.infinity,
-                      child: const Text('Latihan yang pernah diikuti')),
+                      child: const Text('Daftar Materi')),
                   const SizedBox(
                     height: 10,
                   ),
