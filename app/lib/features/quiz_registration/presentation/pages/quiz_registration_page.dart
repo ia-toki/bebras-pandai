@@ -10,7 +10,6 @@ class QuizRegistrationPage extends StatefulWidget {
 }
 
 class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
-  final nama = 'dummy';
   String selectedWeek = '';
 
   @override
@@ -26,35 +25,48 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
   }
 
   Widget quizCard(String name, String date, String score) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 18),
-      decoration: BoxDecoration(border: Border.all()),
-      child: Column(children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              name,
-              style: const TextStyle(fontSize: 12),
-            ),
-            Text(
-              'Nilai: $score',
-              style: const TextStyle(fontSize: 12),
-            )
-          ],
+    return InkWell(
+      onTap: () {},
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 18),
+        margin: const EdgeInsets.only(bottom: 12),
+        decoration: BoxDecoration(
+          color: Colors.blue[50],
+          borderRadius: BorderRadius.circular(8),
         ),
-        const SizedBox(
-          height: 8,
-        ),
-        Row(
-          children: [
-            Text(
-              'dikerjakan: $date',
-              style: const TextStyle(fontSize: 12),
-            )
-          ],
-        )
-      ]),
+        child: Column(children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Container(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Text(
+                    name,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                ),
+              ),
+              Text(
+                'Nilai: $score',
+                style: const TextStyle(fontSize: 12),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          Row(
+            children: [
+              Text(
+                'dikerjakan: $date',
+                style: const TextStyle(fontSize: 12),
+              )
+            ],
+          )
+        ]),
+      ),
     );
   }
 
@@ -239,9 +251,6 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                     height: 40,
                   ),
                   const Text('Latihan yang pernah diikuti'),
-                  const SizedBox(
-                    height: 10,
-                  ),
                   BlocConsumer<QuizRegistrationCubit, QuizRegistrationState>(
                     listener: (context, state) {
                       if (state is QuizRegistrationSuccess) {
@@ -256,37 +265,48 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                           child: CircularProgressIndicator(),
                         );
                       }
-                      return Container(
+                      return SizedBox(
                         height: MediaQuery.of(context).size.height - 300,
                         width: double.infinity,
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        decoration: BoxDecoration(border: Border.all()),
                         child: BlocConsumer<QuizRegistrationCubit,
                             QuizRegistrationState>(
                           listener: (context, state) {
                             // TODO: implement listener
                           },
                           builder: (context, state) {
-                            if (state is GetRunningWeeklyQuizSuccess) {
+                            if (state is GetParticipantWeeklyQuizSuccess) {
                               return ListView(children: [
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                quizCard(
-                                    state.runningWeeklyQuiz.title,
-                                    state.registeredParticipantModel.attempts
-                                            .isNotEmpty
-                                        ? state.registeredParticipantModel
-                                            .attempts[0]['score'] as String
-                                        : '',
-                                    '30'),
+                                for (final quiz in state.weeklyQuizzes)
+                                  quizCard(
+                                    quiz.quiz_title,
+                                    quiz.attempts.isNotEmpty
+                                        ? quiz.attempts[quiz.attempts.length -
+                                            1]['start_at'] as String
+                                        : '-',
+                                    quiz.attempts.isNotEmpty
+                                        ? quiz.attempts[quiz.attempts.length -
+                                            1]['score'] as String
+                                        : '-',
+                                  ),
                               ]);
                             }
 
-                            if (state is GetRunningWeeklyQuizFailed) {
-                              return const Center(
-                                child: Text(
-                                  'Silahkan klik Tombol `Daftar Latihan Bebras` dibawah untuk memulai',
+                            if (state is GetParticipantWeeklyQuizFailed) {
+                              return Container(
+                                padding: const EdgeInsets.all(10),
+                                margin:
+                                    const EdgeInsets.only(bottom: 12, top: 12),
+                                decoration: BoxDecoration(
+                                  color: Colors.blue[50],
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    'Silahkan klik Tombol `Daftar Latihan Bebras` dibawah untuk memulai',
+                                  ),
                                 ),
                               );
                             }

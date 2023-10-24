@@ -22,7 +22,7 @@ class QuizService {
         duration_minute: snapshot['duration_minute'] as Map<String, dynamic>,
         end_at: snapshot['end_at'] as String,
         max_attempts: snapshot['max_attempts'] as Map<String, dynamic>,
-        problems: snapshot['problems'] as Map<String, dynamic>,
+        problems: snapshot['tasks'] as Map<String, dynamic>,
         sponsors: snapshot['sponsors'] as Map<String, dynamic>,
         start_at: snapshot['start_at'] as String,
       );
@@ -41,6 +41,7 @@ class QuizService {
       final dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
       await _weeklyQuizParticipantRef.doc().set({
         'attempts': [],
+        'quiz_title': snapshot['title'],
         'challenge_group': level,
         'quiz_end_at': snapshot['end_at'],
         'quiz_id': snapshot['id'],
@@ -55,33 +56,20 @@ class QuizService {
     }
   }
 
-  Future<RegisteredParticipantModel> getRunningWeeklyQuizByIdAndParticipant(
-    String quizId,
+  Future<List<RegisteredParticipantModel>> getRunningWeeklyQuizByParticipantUid(
+    String participantUid,
   ) async {
     try {
-      final querySnapshot = await _weeklyQuizParticipantRef
-          .where('quiz_id', isEqualTo: quizId)
+      final result = await _weeklyQuizParticipantRef
+          .where('user_uid', isEqualTo: participantUid)
           .get();
-      for (final doc in querySnapshot.docs) {
-        final snapshot = doc.data()! as Map<String, dynamic>;
 
-        if (snapshot['user_uid'] == FirebaseService.auth().currentUser?.uid) {
-          print(snapshot['user_uid']);
-          return RegisteredParticipantModel(
-            user_name: snapshot['user_name'] as String,
-            user_uid: snapshot['user_uid'] as String,
-            challenge_group: snapshot['challenge_group'] as String,
-            created_at: snapshot['created_at'] as String,
-            quiz_end_at: snapshot['quiz_end_at'] as String,
-            quiz_start_at: snapshot['quiz_start_at'] as String,
-            quiz_id: snapshot['quiz_id'] as String,
-            quiz_max_attempts: snapshot['quiz_max_attempts'] as int,
-            attempts: snapshot['attempts'] as List<dynamic>,
-          );
-        }
-      }
+      final participantQuizzes = result.docs.map((e) {
+        return RegisteredParticipantModel.fromJson(
+            e.id, e.data()! as Map<String, dynamic>);
+      }).toList();
 
-      return const RegisteredParticipantModel();
+      return participantQuizzes;
     } catch (e) {
       rethrow;
     }

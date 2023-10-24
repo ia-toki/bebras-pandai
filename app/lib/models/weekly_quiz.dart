@@ -1,5 +1,4 @@
 // ignore_for_file: non_constant_identifier_names
-
 import 'package:equatable/equatable.dart';
 
 class WeeklyQuizModel extends Equatable {
@@ -24,6 +23,22 @@ class WeeklyQuizModel extends Equatable {
     required this.sponsors,
     required this.start_at,
   });
+
+  factory WeeklyQuizModel.fromJson(
+    String id,
+    Map<String, dynamic> json,
+  ) =>
+      WeeklyQuizModel(
+        id: id,
+        title: json['title'] as String,
+        created_at: json['created_at'] as String,
+        duration_minute: json['duration_minute'] as Map<String, dynamic>,
+        end_at: json['end_at'] as String,
+        max_attempts: json['max_attempts'] as Map<String, dynamic>,
+        problems: json['tasks'] as Map<String, dynamic>,
+        sponsors: json['sponsors'] as Map<String, dynamic>,
+        start_at: json['start_at'] as String,
+      );
 
   @override
   List<Object> get props => [
