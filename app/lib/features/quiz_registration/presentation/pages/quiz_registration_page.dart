@@ -10,38 +10,63 @@ class QuizRegistrationPage extends StatefulWidget {
 }
 
 class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
-  final nama = 'dummy';
+  String selectedWeek = '';
 
-  Widget quizCard() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-      decoration: BoxDecoration(border: Border.all()),
-      child: const Column(children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Quiz A',
-              style: TextStyle(fontSize: 18),
-            ),
-            Text(
-              'Nilai: 100',
-              style: TextStyle(fontSize: 18),
-            )
-          ],
+  @override
+  void initState() {
+    super.initState();
+    context.read<QuizRegistrationCubit>().fetchParticipantWeeklyQuiz();
+  }
+
+  void selectWeek(String week) {
+    setState(() {
+      selectedWeek = week;
+    });
+  }
+
+  Widget quizCard(String name, String date, String score) {
+    return InkWell(
+      onTap: () {},
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 18),
+        margin: const EdgeInsets.only(bottom: 12),
+        decoration: BoxDecoration(
+          color: Colors.blue[50],
+          borderRadius: BorderRadius.circular(8),
         ),
-        SizedBox(
-          height: 8,
-        ),
-        Row(
-          children: [
-            Text(
-              'dikerjakan: 2023-09-09 09:09',
-              style: TextStyle(fontSize: 12),
-            )
-          ],
-        )
-      ]),
+        child: Column(children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Container(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Text(
+                    name,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                ),
+              ),
+              Text(
+                'Nilai: $score',
+                style: const TextStyle(fontSize: 12),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          Row(
+            children: [
+              Text(
+                'dikerjakan: $date',
+                style: const TextStyle(fontSize: 12),
+              )
+            ],
+          )
+        ]),
+      ),
     );
   }
 
@@ -49,13 +74,9 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
     return showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
-        return BlocConsumer<QuizRegistrationCubit, QuizRegistrationState>(
-          listener: (context, state) {
-            // TODO: implement listener
-          },
-          builder: (context, state) {
-            if (state is QuizRegistrationWeekSelected &&
-                state.selectedWeek != '') {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            if (selectedWeek != '') {
               return Container(
                 constraints: const BoxConstraints(minHeight: 30),
                 width: double.infinity,
@@ -70,9 +91,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                     Container(
                       margin: const EdgeInsets.only(left: 20),
                       child: InkWell(
-                        onTap: () => context
-                            .read<QuizRegistrationCubit>()
-                            .selectWeek(''),
+                        onTap: () => setState(() => selectedWeek = ''),
                         child: const Row(
                           children: [
                             Icon(Icons.chevron_left),
@@ -87,7 +106,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                     Container(
                       margin: const EdgeInsets.only(left: 20),
                       child: Text(
-                        'Daftar Latihan Bebras ${state.selectedWeek == 'next_week' ? 'Minggu Depan' : 'Minggu Ini'}',
+                        'Daftar Latihan Bebras ${selectedWeek == 'next_weekly_quiz' ? 'Minggu Depan' : 'Minggu Ini'}',
                         textAlign: TextAlign.left,
                         style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
@@ -102,7 +121,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                         child: Button(
                           onTap: () => context
                               .read<QuizRegistrationCubit>()
-                              .selectLevel('sikecil'),
+                              .registerParticipant('sikecil', selectedWeek),
                           customButtonColor: Colors.blue.shade400,
                           customTextColor: Colors.white,
                           text: 'siKecil',
@@ -117,7 +136,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                         child: Button(
                           onTap: () => context
                               .read<QuizRegistrationCubit>()
-                              .selectLevel('siaga'),
+                              .registerParticipant('siaga', selectedWeek),
                           customButtonColor: Colors.green.shade400,
                           customTextColor: Colors.white,
                           text: 'Siaga',
@@ -131,7 +150,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                         child: Button(
                           onTap: () => context
                               .read<QuizRegistrationCubit>()
-                              .selectLevel('penggalang'),
+                              .registerParticipant('penggalang', selectedWeek),
                           customButtonColor: Colors.red.shade400,
                           customTextColor: Colors.white,
                           text: 'Penggalang',
@@ -143,9 +162,12 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 40),
                         width: double.infinity,
                         child: Button(
-                          onTap: () => context
-                              .read<QuizRegistrationCubit>()
-                              .selectLevel('penegak'),
+                          onTap: () => {
+                            context
+                                .read<QuizRegistrationCubit>()
+                                .registerParticipant('penegak', selectedWeek),
+                            Navigator.pop(context)
+                          },
                           customButtonColor: Colors.orange.shade400,
                           customTextColor: Colors.white,
                           text: 'Penegak',
@@ -184,9 +206,8 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 40),
                       width: double.infinity,
                       child: Button(
-                        onTap: () => context
-                            .read<QuizRegistrationCubit>()
-                            .selectWeek('next_week'),
+                        onTap: () =>
+                            setState(() => selectedWeek = 'next_weekly_quiz'),
                         customButtonColor: Colors.green.shade400,
                         customTextColor: Colors.white,
                         text: 'Latihan Minggu Depan',
@@ -198,9 +219,8 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 40),
                       width: double.infinity,
                       child: Button(
-                        onTap: () => context
-                            .read<QuizRegistrationCubit>()
-                            .selectWeek('this_week'),
+                        onTap: () => setState(
+                            () => selectedWeek = 'running_weekly_quiz'),
                         customButtonColor: Colors.brown.shade400,
                         customTextColor: Colors.white,
                         text: 'Latihan Minggu Ini',
@@ -232,25 +252,76 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                     height: 40,
                   ),
                   const Text('Latihan yang pernah diikuti'),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height - 300,
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(border: Border.all()),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            'Silahkan klik Tombol `Daftar Latihan Bebras` dibawah untuk memulai',
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          quizCard()
-                        ]),
+                  BlocConsumer<QuizRegistrationCubit, QuizRegistrationState>(
+                    listener: (context, state) {
+                      if (state is QuizRegistrationSuccess) {
+                        context
+                            .read<QuizRegistrationCubit>()
+                            .fetchParticipantWeeklyQuiz();
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is QuizRegistrationLoading) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      return SizedBox(
+                        height: MediaQuery.of(context).size.height - 300,
+                        width: double.infinity,
+                        child: BlocConsumer<QuizRegistrationCubit,
+                            QuizRegistrationState>(
+                          listener: (context, state) {
+                            // TODO: implement listener
+                          },
+                          builder: (context, state) {
+                            if (state is GetParticipantWeeklyQuizSuccess) {
+                              return ListView(children: [
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                for (final quiz in state.weeklyQuizzes)
+                                  quizCard(
+                                    quiz.quiz_title,
+                                    quiz.attempts.isNotEmpty
+                                        ? quiz
+                                            .attempts[quiz.attempts.length - 1]
+                                                ['start_at']
+                                            .toString()
+                                        : '-',
+                                    quiz.attempts.isNotEmpty
+                                        ? quiz
+                                            .attempts[quiz.attempts.length - 1]
+                                                ['score']
+                                            .toString()
+                                        : '??',
+                                  ),
+                              ]);
+                            }
+
+                            if (state is GetParticipantWeeklyQuizFailed) {
+                              return Container(
+                                padding: const EdgeInsets.all(10),
+                                margin:
+                                    const EdgeInsets.only(bottom: 12, top: 12),
+                                decoration: BoxDecoration(
+                                  color: Colors.blue[50],
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    'Silahkan klik Tombol `Daftar Latihan Bebras` dibawah untuk memulai',
+                                  ),
+                                ),
+                              );
+                            }
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
+                        ),
+                      );
+                    },
                   ),
                   const SizedBox(
                     height: 10,
