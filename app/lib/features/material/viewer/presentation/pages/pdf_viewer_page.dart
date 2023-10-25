@@ -19,7 +19,8 @@ class PdfViewerPage extends StatefulWidget {
 }
 
 class _PdfViewerPageState extends State<PdfViewerPage> {
-  String basePath = "/storage/emulated/0/Android/data/com.toki.bebras_pandai/files/PDF_Download/";
+  String basePath =
+      "/storage/emulated/0/Android/data/com.toki.bebras_pandai/files/PDF_Download/";
   String localPathPdf = "";
   String remotePathPdf = "";
 
@@ -71,17 +72,17 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
       ),
       body: Stack(
         children: [
-          localPathPdf == '' ?
-          LinearProgressIndicator() :
-          PDFView(
-            filePath: localPathPdf,
-            onError: (error) {
-              print(error.toString());
-            },
-            onPageError: (page, error) {
-              print('$page: ${error.toString()}');
-            },
-          ),
+          localPathPdf == ''
+              ? LinearProgressIndicator()
+              : PDFView(
+                  filePath: localPathPdf,
+                  onError: (error) {
+                    print(error.toString());
+                  },
+                  onPageError: (page, error) {
+                    print('$page: ${error.toString()}');
+                  },
+                ),
         ],
       ),
     );
@@ -89,33 +90,33 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
 
   Future<bool> saveFile(String url, String fileName) async {
     try {
-      if (await _requestPermission(Permission.storage)) {
-        Directory? directory;
-        directory = await getExternalStorageDirectory();
-        String newPath = "";
-        newPath = directory!.path + "/PDF_Download";
-        directory = Directory(newPath);
+      Directory? directory;
+      directory = await getExternalStorageDirectory();
+      String newPath = "";
+      newPath = directory!.path + "/PDF_Download";
+      directory = Directory(newPath);
 
-        File saveFile = File(directory.path + "/$fileName");
-        if (kDebugMode) {
-          print(saveFile.path);
-        }
-        if (!await directory.exists()) {
-          await directory.create(recursive: true);
-        }
-        if (await directory.exists()) {
-          await Dio().download(
-            url,
-            saveFile.path,
-          );
-          setState(() {
-            localPathPdf = saveFile.path;
-          });
-          print(localPathPdf);
-        }
+      File saveFile = File(directory.path + "/$fileName");
+      if (kDebugMode) {
+        print(saveFile.path);
       }
+      if (!await directory.exists()) {
+        await directory.create(recursive: true);
+      }
+      if (await directory.exists()) {
+        await Dio().download(
+          url,
+          saveFile.path,
+        );
+        setState(() {
+          localPathPdf = saveFile.path;
+        });
+        print(localPathPdf);
+      }
+
       return true;
     } catch (e) {
+      debugPrint(e.toString());
       return false;
     }
   }
