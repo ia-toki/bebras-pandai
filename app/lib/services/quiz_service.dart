@@ -62,11 +62,14 @@ class QuizService {
     try {
       final result = await _weeklyQuizParticipantRef
           .where('user_uid', isEqualTo: participantUid)
+          .orderBy('quiz_start_at', descending: true)
           .get();
 
       final participantQuizzes = result.docs.map((e) {
         return RegisteredParticipantModel.fromJson(
-            e.id, e.data()! as Map<String, dynamic>);
+          e.id,
+          e.data()! as Map<String, dynamic>,
+        );
       }).toList();
 
       return participantQuizzes;

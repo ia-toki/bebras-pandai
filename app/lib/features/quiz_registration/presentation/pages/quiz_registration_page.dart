@@ -284,13 +284,17 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                                   quizCard(
                                     quiz.quiz_title,
                                     quiz.attempts.isNotEmpty
-                                        ? quiz.attempts[quiz.attempts.length -
-                                            1]['start_at'] as String
+                                        ? quiz
+                                            .attempts[quiz.attempts.length - 1]
+                                                ['start_at']
+                                            .toString()
                                         : '-',
                                     quiz.attempts.isNotEmpty
-                                        ? quiz.attempts[quiz.attempts.length -
-                                            1]['score'] as String
-                                        : '-',
+                                        ? quiz
+                                            .attempts[quiz.attempts.length - 1]
+                                                ['score']
+                                            .toString()
+                                        : '??',
                                   ),
                               ]);
                             }
