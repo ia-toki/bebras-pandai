@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'features/authentication/register/bloc/user_register_bloc.dart';
 import 'features/onboarding/presentation/bloc/user_initialization_bloc.dart';
 import 'features/quiz_registration/bloc/quiz_registration_cubit.dart';
 import 'services/di.dart';
@@ -20,22 +19,17 @@ class App extends StatelessWidget {
     ]);
     return MultiBlocProvider(
       providers: [
-        BlocProvider<UserRegisterBloc>(create: (_) => get<UserRegisterBloc>()
-        ..add(
-            InitEvent(),
-        )),
         BlocProvider<UserInitializationBloc>(
           create: (_) => get<UserInitializationBloc>()
             ..add(
               OnboardingAuthEvent(),
             ),
-          lazy: false,
         ),
         BlocProvider(create: (context) => QuizRegistrationCubit()),
       ],
       child: MaterialApp.router(
         theme: ThemeData(
-          textTheme: GoogleFonts.poppinsTextTheme(),
+          textTheme: GoogleFonts.interTextTheme(),
         ),
         routerConfig: router,
         debugShowCheckedModeBanner: false,
