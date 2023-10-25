@@ -12,3 +12,4 @@ import '../../../../core/theme/font_theme.dart';
 import '../../../../services/firebase_service.dart';
 
 part 'main_page.dart';
+part 'setting_page.dart';
