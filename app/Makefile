@@ -25,4 +25,9 @@ dev:
 build_apk:
 	@flutter build apk
 
+release:
+	make init
+	@flutter pub run flutter_launcher_icons
+	@flutter build appbundle
+
 .PHONY: format clean build_runner init dev build_apk
