@@ -6,7 +6,7 @@ class BiroBebrasDropdown extends StatelessWidget {
   BiroBebrasDropdown(this.labelText, this.handleTextInput, this.validator);
 
   final String labelText;
-  final void Function (String value)? handleTextInput;
+  final void Function(String value)? handleTextInput;
   final String? Function(String?)? validator;
 
   @override
@@ -24,7 +24,9 @@ class BiroBebrasDropdown extends StatelessWidget {
           baseStyle: TextStyle(fontSize: 12.0),
           dropdownSearchDecoration: InputDecoration(
             helperText: '',
-            helperStyle: TextStyle(fontSize: 10,),
+            helperStyle: TextStyle(
+              fontSize: 10,
+            ),
             hintText: labelText,
             filled: true,
             fillColor: Colors.grey.shade200,
@@ -46,5 +48,4 @@ class BiroBebrasDropdown extends StatelessWidget {
       ),
     );
   }
-
 }

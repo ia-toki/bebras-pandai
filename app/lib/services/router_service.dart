@@ -29,6 +29,10 @@ GoRouter router = GoRouter(
       builder: (context, state) => const MainPage(),
     ),
     GoRoute(
+      path: '/setting',
+      builder: (context, state) => const SettingPage(),
+    ),
+    GoRoute(
       path: '/construction',
       builder: (context, state) => const UnderConstructionPage(),
     ),
