@@ -15,7 +15,7 @@ class QuizExerciseBlocInitialize
   }
 
   FutureOr<void> _fetchQuizExercise(
-      GetQuizExercise quizExercise, Emitter<QuizExerciseState> emit) async {
+      GetQuizExercise quizExercise, Emitter<QuizExerciseState> emit,) async {
     final listofQuizExercise = await _quizExerciseRepository.getAll();
     emit(QuizExerciseSuccess(listofQuizExercise));
   }

@@ -36,7 +36,7 @@ class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
   }
 
   Future<void> _onNameChanged(
-      NameEvent event, Emitter<RegisterFormState> emit) async {
+      NameEvent event, Emitter<RegisterFormState> emit,) async {
     emit(
       state.copyWith(
         name: BlocFormItem(
@@ -49,7 +49,7 @@ class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
   }
 
   Future<void> _onEmailChanged(
-      EmailEvent event, Emitter<RegisterFormState> emit) async {
+      EmailEvent event, Emitter<RegisterFormState> emit,) async {
     emit(
       state.copyWith(
         email: BlocFormItem(
@@ -62,7 +62,7 @@ class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
   }
 
   Future<void> _onBirthDateChanged(
-      BirthDateEvent event, Emitter<RegisterFormState> emit) async {
+      BirthDateEvent event, Emitter<RegisterFormState> emit,) async {
     emit(
       state.copyWith(
         birth_date: BlocFormItem(
@@ -75,7 +75,7 @@ class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
   }
 
   Future<void> _onSchoolChanged(
-      SchoolEvent event, Emitter<RegisterFormState> emit) async {
+      SchoolEvent event, Emitter<RegisterFormState> emit,) async {
     emit(
       state.copyWith(
         school: BlocFormItem(
@@ -88,7 +88,7 @@ class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
   }
 
   Future<void> _onProvinceChanged(
-      ProvinceEvent event, Emitter<RegisterFormState> emit) async {
+      ProvinceEvent event, Emitter<RegisterFormState> emit,) async {
     emit(
       state.copyWith(
         province: BlocFormItem(
@@ -101,7 +101,7 @@ class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
   }
 
   Future<void> _onBebrasBiroChanged(
-      BebrasBiroEvent event, Emitter<RegisterFormState> emit) async {
+      BebrasBiroEvent event, Emitter<RegisterFormState> emit,) async {
     emit(
       state.copyWith(
         bebras_biro: BlocFormItem(
@@ -124,17 +124,17 @@ class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
       FormSubmitEvent event,
       Emitter<RegisterFormState> emit,
       ) async {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    String userId = auth.currentUser?.uid as String;
+    final auth = FirebaseAuth.instance;
+    final userId = auth.currentUser!.uid;
 
     if (state.formKey!.currentState!.validate()) {
 
-    String email = state.email.value.toString();
-    String name = state.name.value.toString();
-    String birthDate = state.birth_date.value.toString();
-    String school = state.school.value.toString();
-    String province = state.province.value.toString();
-    String bebrasBiro = state.bebras_biro.value.toString();
+    final email = state.email.value;
+    final name = state.name.value;
+    final birthDate = state.birth_date.value;
+    final school = state.school.value;
+    final province = state.province.value;
+    final bebrasBiro = state.bebras_biro.value;
 
       emit(UserRegisterLoadingState());
 

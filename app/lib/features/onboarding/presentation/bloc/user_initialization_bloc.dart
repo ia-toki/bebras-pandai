@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../authentication/register/repositories/register_user_repo.dart';
@@ -29,7 +28,7 @@ class UserInitializationBloc
     final creds = FirebaseAuth.instance.currentUser;
     if (creds != null) {
       emit(UserAuthenticated());
-      String userId = creds.uid as String;
+      final userId = creds.uid;
       try {
         final data = await registerUserRepository.getById(userId);
 

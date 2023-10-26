@@ -11,7 +11,7 @@ class _RegisterPageState extends State<RegisterPage> {
   late final UserRegisterBloc _userRegisterBloc;
   TextEditingController dateinput = TextEditingController();
 
-  String? selectedValue = null;
+  String? selectedValue;
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _RegisterPageState extends State<RegisterPage> {
             avoidBottomInset: false,
             body: Padding(
               padding: const EdgeInsets.only(
-                  left: 16.0, top: 30.0, right: 16.0),
+                  left: 16, top: 30, right: 16,),
               child: Form(
                 key: state.formKey,
                 child: Column(
@@ -45,58 +45,58 @@ class _RegisterPageState extends State<RegisterPage> {
                       Assets.bebrasPandaiText,
                       height: 40,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 40,
                     ),
-                    Text(
+                    const Text(
                       'Detail Akun',
                       style: TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.w700),
+                          fontSize: 22, fontWeight: FontWeight.w700,),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     CustomTextField('Email', (value) {
                       BlocProvider.of<UserRegisterBloc>(context)
-                          .add(EmailEvent(email: BlocFormItem(value: value!)));
+                          .add(EmailEvent(email: BlocFormItem(value: value)));
                     }, (val) {
                       return state.email.error;
                     },),
                     CustomTextField('Nama', (value) {
                       BlocProvider.of<UserRegisterBloc>(context)
-                          .add(NameEvent(name: BlocFormItem(value: value!)));
+                          .add(NameEvent(name: BlocFormItem(value: value)));
                     }, (val) {
                       return state.name.error;
                     },),
                     CustomDatePicker('Tanggal Lahir', (value) {
                       BlocProvider.of<UserRegisterBloc>(context)
                           .add(BirthDateEvent(birthDate: BlocFormItem(
-                          value: value!)));
+                          value: value,),),);
                     }, (val) {
                       return state.birth_date.error;
                     }),
                     CustomTextField('Sekolah', (value) {
                       BlocProvider.of<UserRegisterBloc>(context)
                           .add(SchoolEvent(school: BlocFormItem(
-                          value: value!)));
+                          value: value,),),);
                     }, (val) {
                       return state.school.error;
                     }),
                     ProvinceDropdown('Provinsi', (value) {
                       BlocProvider.of<UserRegisterBloc>(context)
                           .add(ProvinceEvent(province: BlocFormItem(
-                          value: value!)));
+                          value: value,),),);
                     }, (val) {
                       return state.province.error;
                     }),
                     BiroBebrasDropdown('Bebras Biro', (value) {
                       BlocProvider.of<UserRegisterBloc>(context)
                           .add(BebrasBiroEvent(bebras_biro: BlocFormItem(
-                          value: value!)));
+                          value: value,),),);
                     }, (val) {
                       return state.bebras_biro.error;
                     }),
-                    SizedBox(height: 20.0),
+                    const SizedBox(height: 20),
                     BlocConsumer<UserRegisterBloc, RegisterFormState>(
                         bloc: _userRegisterBloc,
                         listener: (context, state) {
@@ -121,16 +121,16 @@ class _RegisterPageState extends State<RegisterPage> {
                                 // context.go('/main');
                               }
                             },
-                            child: Text('Daftar', style: TextStyle(fontWeight: FontWeight.w600),),
+                            child: const Text('Daftar', style: TextStyle(fontWeight: FontWeight.w600),),
                           );
-                        }),
+                        },),
                   ],
                 ),
               ),
             ),
           );
         },
-      )
+      ),
     );
   }
 }

@@ -46,7 +46,7 @@ class UserRegistered extends SignInState {
 class UserError extends SignInState {
   final String error;
 
-  UserError(this.error);
+  const UserError(this.error);
   @override
   List<Object> get props => [error];
 }

@@ -1,9 +1,9 @@
-import 'package:bebras_pandai/core/constants/bebrasBiroDropdown.dart';
+import '../../../../../core/constants/bebrasBiroDropdown.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 
 class BiroBebrasDropdown extends StatelessWidget {
-  BiroBebrasDropdown(this.labelText, this.handleTextInput, this.validator);
+  const BiroBebrasDropdown(this.labelText, this.handleTextInput, this.validator, {super.key});
 
   final String labelText;
   final void Function(String value)? handleTextInput;
@@ -11,40 +11,39 @@ class BiroBebrasDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 63.0,
+    return SizedBox(
+      height: 63,
       child: DropdownSearch<String>(
         validator: validator,
-        popupProps: PopupProps.menu(
+        popupProps: const PopupProps.menu(
           showSearchBox: true,
         ),
         items: bebrasBiroList,
         dropdownDecoratorProps: DropDownDecoratorProps(
           textAlignVertical: TextAlignVertical.center,
-          baseStyle: TextStyle(fontSize: 12.0),
+          baseStyle: const TextStyle(fontSize: 12),
           dropdownSearchDecoration: InputDecoration(
             helperText: '',
-            helperStyle: TextStyle(
+            helperStyle: const TextStyle(
               fontSize: 10,
             ),
             hintText: labelText,
             filled: true,
             fillColor: Colors.grey.shade200,
             border: UnderlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
+              borderRadius: BorderRadius.circular(10),
             ),
             enabledBorder: UnderlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
+              borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(color: Colors.grey.shade200),
             ),
             focusedBorder: UnderlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
+              borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(color: Colors.grey.shade400),
             ),
           ),
         ),
         onChanged: (String? item) => handleTextInput!(item!),
-        selectedItem: null,
       ),
     );
   }

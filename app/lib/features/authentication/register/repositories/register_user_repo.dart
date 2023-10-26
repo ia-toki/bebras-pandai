@@ -19,12 +19,12 @@ class RegisterUserRepository {
     try {
       await _firecloud.doc(userId)
           .set({
-            "name": name,
-            "email": email,
-            "birth_date": birth_date,
-            "school": school,
-            "province": province,
-            "bebras_biro": bebras_biro,
+            'name': name,
+            'email': email,
+            'birth_date': birth_date,
+            'school': school,
+            'province': province,
+            'bebras_biro': bebras_biro,
           },
           SetOptions(merge: true),
       );
@@ -38,13 +38,13 @@ class RegisterUserRepository {
   }
 
   Future<List<RegisteredUserModel>> getAll() async {
-    List<RegisteredUserModel> registeredUserList = [];
+    final registeredUserList = <RegisteredUserModel>[];
     try {
-      final result = await FirebaseFirestore.instance.collection("registered_user").get();
+      final result = await FirebaseFirestore.instance.collection('registered_user').get();
 
-      result.docs.forEach((element) {
-        return registeredUserList.add(RegisteredUserModel.fromJson(element.data()));
-      });
+      for (final element in result.docs) {
+        continue;
+      }
       return registeredUserList;
     } on FirebaseException catch (e) {
       if (kDebugMode) {
@@ -59,7 +59,7 @@ class RegisterUserRepository {
   Future<RegisteredUserModel?> getById(String userId) async {
     try {
       final result = await FirebaseFirestore.instance
-          .collection("registered_user")
+          .collection('registered_user')
           .doc(userId)
           .get()
           .then((DocumentSnapshot documentSnapshot) {

@@ -22,7 +22,7 @@ class RegisteredUserModel {
       birth_date: json.data()['birth_date'].toString(),
       school: json.data()['school'].toString(),
       province: json.data()['province'].toString(),
-      bebras_biro: json.data()['bebras_biro'].toString()
+      bebras_biro: json.data()['bebras_biro'].toString(),
     );
   }
 }

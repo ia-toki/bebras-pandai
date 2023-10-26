@@ -11,7 +11,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
   final Stream<QuerySnapshot> materialsStream =
       FirebaseFirestore.instance.collection('learning_material').snapshots();
 
-  String? selectedValue = null;
+  String? selectedValue;
 
   int filterIndex = 0;
 
@@ -32,12 +32,11 @@ class _MaterialMenuState extends State<MaterialMenu> {
           boxShadow: [
             BoxShadow(
               color: (filterIndex == index) ? Colors.white : Colors.black,
-              blurRadius: 2.0,
-              spreadRadius: 0.0,
+              blurRadius: 2,
               offset: (filterIndex == index)
-                  ? Offset(0, 0)
-                  : Offset(2.0, 2.0), // shadow direction: bottom right
-            )
+                  ? const Offset(0, 0)
+                  : const Offset(2, 2), // shadow direction: bottom right
+            ),
           ],
         ),
         child: Text(
@@ -45,7 +44,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
           style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w400,
-              color: (filterIndex == index) ? Colors.white : Colors.black),
+              color: (filterIndex == index) ? Colors.white : Colors.black,),
         ),
       ),
     );
@@ -56,13 +55,12 @@ class _MaterialMenuState extends State<MaterialMenu> {
     return BebrasScaffold(
       avoidBottomInset: false,
       body: Padding(
-        padding: const EdgeInsets.only(top: 10.0),
+        padding: const EdgeInsets.only(top: 10),
         child: Stack(
           children: [
             Container(
               padding: const EdgeInsets.all(32),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset(
                     Assets.bebrasPandaiText,
@@ -78,13 +76,13 @@ class _MaterialMenuState extends State<MaterialMenu> {
                         scrollDirection: Axis.horizontal,
                         children: <Widget>[
                           CustomRadioButton(
-                              "siKecil", bebrasGroupList[0].index),
-                          CustomRadioButton("Siaga", bebrasGroupList[1].index),
+                              'siKecil', bebrasGroupList[0].index,),
+                          CustomRadioButton('Siaga', bebrasGroupList[1].index),
                           CustomRadioButton(
-                              "Penggalang", bebrasGroupList[2].index),
+                              'Penggalang', bebrasGroupList[2].index,),
                           CustomRadioButton(
-                              "Penegak", bebrasGroupList[3].index),
-                        ]),
+                              'Penegak', bebrasGroupList[3].index,),
+                        ],),
                   ),
                   // Container(
                   //   height: 70,
@@ -114,23 +112,23 @@ class _MaterialMenuState extends State<MaterialMenu> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Container(
+                  const SizedBox(
                       width: double.infinity,
-                      child: const Text('Daftar Materi')),
+                      child: Text('Daftar Materi'),),
                   const SizedBox(
                     height: 10,
                   ),
                   StreamBuilder<QuerySnapshot>(
                       stream: materialsStream,
                       builder: (BuildContext context,
-                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                          AsyncSnapshot<QuerySnapshot> snapshot,) {
                         if (snapshot.hasError) {
-                          return Text('Something went wrong');
+                          return const Text('Something went wrong');
                         }
 
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return Text("Loading");
+                          return const Text('Loading');
                         }
 
                         return Container(
@@ -139,7 +137,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
                           child: ListView(
                             children: snapshot.data!.docs
                                 .map((DocumentSnapshot document) {
-                              Map<String, dynamic> materialDoc =
+                              final materialDoc =
                                   document.data()! as Map<String, dynamic>;
                               if (materialDoc['challenge_group'] ==
                                   bebrasGroupList[filterIndex]
@@ -154,38 +152,38 @@ class _MaterialMenuState extends State<MaterialMenu> {
                                           'description':
                                               materialDoc['description'],
                                           'pdfUrl': materialDoc['gsReference'],
-                                        }).toString());
+                                        },).toString(),);
                                   },
                                   child: Container(
                                     height: 80,
                                     width: double.infinity,
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
+                                        horizontal: 16,),
                                     decoration:
                                         BoxDecoration(border: Border.all()),
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 7, vertical: 10),
+                                          horizontal: 7, vertical: 10,),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Container(
+                                          SizedBox(
                                             width: 140,
                                             child: Text(
                                               materialDoc['title'].toString(),
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontSize: 16,
-                                                  fontWeight: FontWeight.w600),
+                                                  fontWeight: FontWeight.w600,),
                                             ),
                                           ),
-                                          Container(
+                                          const SizedBox(
                                             width: 60,
                                             child: Text(
                                               'Terakhir dilihat: 15/09',
                                               style: TextStyle(
                                                   fontSize: 14,
-                                                  fontWeight: FontWeight.w400),
+                                                  fontWeight: FontWeight.w400,),
                                             ),
                                           ),
                                         ],
@@ -198,7 +196,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
                             }).toList(),
                           ),
                         );
-                      }),
+                      },),
                 ],
               ),
             ),

@@ -19,7 +19,7 @@ class CreateUserData extends UserInitializationEvent {
   final String province;
   final String bebras_biro;
 
-  CreateUserData(
+  const CreateUserData(
       this.email,
       this.name,
       this.birth_date,
@@ -30,5 +30,5 @@ class CreateUserData extends UserInitializationEvent {
 }
 
 class GetUserData extends UserInitializationEvent {
-  GetUserData();
+  const GetUserData();
 }

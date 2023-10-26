@@ -4,12 +4,12 @@ import '../model/validation_form_model.dart';
 
 extension extString on String {
   bool get isValidEmail {
-    final emailRegExp = RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    final emailRegExp = RegExp(r'^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+');
     return emailRegExp.hasMatch(this);
   }
 
   bool get isValidName{
-    final nameRegExp = new RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
+    final nameRegExp = RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
     return nameRegExp.hasMatch(this);
   }
 
@@ -18,7 +18,7 @@ extension extString on String {
   }
 
   bool get isValidPhone{
-    final phoneRegExp = RegExp(r"^\+?0[0-9]{10}$");
+    final phoneRegExp = RegExp(r'^\+?0[0-9]{10}$');
     return phoneRegExp.hasMatch(this);
   }
 
@@ -27,7 +27,7 @@ extension extString on String {
 class FormProvider extends ChangeNotifier {
   ValidationFormModel _email = ValidationFormModel(null, null);
   ValidationFormModel _name = ValidationFormModel(null, null);
-  ValidationFormModel _birth_date = ValidationFormModel(null, null);
+  final ValidationFormModel _birth_date = ValidationFormModel(null, null);
   ValidationFormModel _school = ValidationFormModel(null, null);
   ValidationFormModel _province = ValidationFormModel(null, null);
   ValidationFormModel _bebras_biro = ValidationFormModel(null, null);
