@@ -58,6 +58,17 @@ class GetParticipantWeeklyQuizSuccess extends QuizRegistrationState {
   List<Object> get props => [weeklyQuizzes];
 }
 
+class GetRunningQuizTasksSuccess extends QuizRegistrationState {
+  final String tasks;
+
+  const GetRunningQuizTasksSuccess(
+    this.tasks,
+  );
+
+  @override
+  List<Object> get props => [tasks];
+}
+
 class GetParticipantWeeklyQuizFailed extends QuizRegistrationState {
   final String error;
 

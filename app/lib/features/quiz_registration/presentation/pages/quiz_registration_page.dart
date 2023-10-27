@@ -24,9 +24,13 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
     });
   }
 
-  Widget quizCard(String name, String date, String score) {
+  Widget quizCard(
+      String name, String date, String score, BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () async {
+        await context.push('/quiz_tasks/penegak').then((value) =>
+            context.read<QuizRegistrationCubit>().fetchParticipantWeeklyQuiz());
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 18),
         margin: const EdgeInsets.only(bottom: 12),
@@ -295,6 +299,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                                                 ['score']
                                             .toString()
                                         : '??',
+                                    context,
                                   ),
                               ]);
                             }
