@@ -35,9 +35,6 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       fetchUrlPdfFile(widget.pdfUrl.toString());
     });
-    // WidgetsBinding.instance.addPostFrameCallback((_){
-    //   saveFile(widget.pdfUrl.toString(), "${widget.id}.pdf");
-    // });
   }
 
   @override
@@ -52,21 +49,9 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
         actions: [
           IconButton(
             onPressed: () async {
-              try {
-                await saveFile(remotePathPdf, "${widget.id}.pdf");
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(
-                      'successfully saved to internal storage',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                );
-              } catch (e) {
-                print(e);
-              }
+              _generatePdf();
             },
-            icon: const Icon(Icons.download_rounded),
+            icon: const Icon(Icons.print_rounded),
           ),
         ],
       ),
@@ -86,6 +71,17 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
         ],
       ),
     );
+  }
+
+  // Pdf Print
+  void _generatePdf() async {
+    try {
+      final File file = File('${basePath}${widget.id.toString()}.pdf');
+      final fileInByte = await file.readAsBytesSync();
+      await Printing.layoutPdf(onLayout: (_) => fileInByte);
+    } catch (e) {
+      // Do Nothing
+    }
   }
 
   Future<bool> saveFile(String url, String fileName) async {
@@ -119,18 +115,6 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
       debugPrint(e.toString());
       return false;
     }
-  }
-
-  Future<bool> _requestPermission(Permission permission) async {
-    if (await permission.isGranted) {
-      return true;
-    } else {
-      var result = await permission.request();
-      if (result == PermissionStatus.granted) {
-        return true;
-      }
-    }
-    return false;
   }
 
   Future<void> fetchUrlPdfFile(String pathReference) async {

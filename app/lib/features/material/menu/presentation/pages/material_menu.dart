@@ -28,7 +28,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
         width: 130,
         decoration: BoxDecoration(
           border: Border.all(),
-          color: (filterIndex == index) ? Colors.black54 : Colors.white,
+          color: (filterIndex == index) ? Colors.black87 : Colors.white,
           boxShadow: [
             BoxShadow(
               color: (filterIndex == index) ? Colors.white : Colors.black,
