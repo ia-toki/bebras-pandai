@@ -8,7 +8,7 @@ class PdfViewerPage extends StatefulWidget {
 
   const PdfViewerPage({
     required this.pdfUrl,
-    super.key ,
+    super.key,
     this.id,
     this.title,
     this.description,

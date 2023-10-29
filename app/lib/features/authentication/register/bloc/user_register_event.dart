@@ -55,8 +55,8 @@ class ProvinceEvent extends UserRegisterEvent {
 }
 
 class BebrasBiroEvent extends UserRegisterEvent {
-  const BebrasBiroEvent({required this.bebras_biro});
-  final BlocFormItem bebras_biro;
+  const BebrasBiroEvent({required this.bebrasBiro});
+  final BlocFormItem bebrasBiro;
   @override
-  List<Object> get props => [bebras_biro];
+  List<Object> get props => [bebrasBiro];
 }

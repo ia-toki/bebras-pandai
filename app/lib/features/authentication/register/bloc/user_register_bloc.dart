@@ -17,7 +17,8 @@ part 'user_register_state.dart';
 @singleton
 class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
   final RegisterUserRepository registerUserRepository;
-  UserRegisterBloc(this.registerUserRepository) : super(const RegisterFormState()) {
+  UserRegisterBloc(this.registerUserRepository)
+      : super(const RegisterFormState()) {
     on<InitEvent>(_initState);
     on<EmailEvent>(_onEmailChanged);
     on<NameEvent>(_onNameChanged);
@@ -31,17 +32,24 @@ class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
 
   final formKey = GlobalKey<FormState>();
 
-  Future<void> _initState(InitEvent event, Emitter<RegisterFormState> emit) async {
+  Future<void> _initState(
+    InitEvent event,
+    Emitter<RegisterFormState> emit,
+  ) async {
     emit(state.copyWith(formKey: formKey));
   }
 
   Future<void> _onNameChanged(
-      NameEvent event, Emitter<RegisterFormState> emit) async {
+    NameEvent event,
+    Emitter<RegisterFormState> emit,
+  ) async {
     emit(
       state.copyWith(
         name: BlocFormItem(
           value: event.name.value,
-          error: event.name.value == '' ? 'Mohon mengisi nama terlebih dahulu.' : null,
+          error: event.name.value == ''
+              ? 'Mohon mengisi nama terlebih dahulu.'
+              : null,
         ),
         formKey: formKey,
       ),
@@ -49,12 +57,16 @@ class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
   }
 
   Future<void> _onEmailChanged(
-      EmailEvent event, Emitter<RegisterFormState> emit) async {
+    EmailEvent event,
+    Emitter<RegisterFormState> emit,
+  ) async {
     emit(
       state.copyWith(
         email: BlocFormItem(
           value: event.email.value,
-          error: event.email.value == '' ? 'Mohon mengisi e-mail terlebih dahulu.' : null,
+          error: event.email.value == ''
+              ? 'Mohon mengisi e-mail terlebih dahulu.'
+              : null,
         ),
         formKey: formKey,
       ),
@@ -62,12 +74,16 @@ class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
   }
 
   Future<void> _onBirthDateChanged(
-      BirthDateEvent event, Emitter<RegisterFormState> emit) async {
+    BirthDateEvent event,
+    Emitter<RegisterFormState> emit,
+  ) async {
     emit(
       state.copyWith(
-        birth_date: BlocFormItem(
+        birthDate: BlocFormItem(
           value: event.birthDate.value,
-          error: event.birthDate.value == '' ? 'Mohon mengisi tanggal lahir terlebih dahulu.' : null,
+          error: event.birthDate.value == ''
+              ? 'Mohon mengisi tanggal lahir terlebih dahulu.'
+              : null,
         ),
         formKey: formKey,
       ),
@@ -75,12 +91,16 @@ class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
   }
 
   Future<void> _onSchoolChanged(
-      SchoolEvent event, Emitter<RegisterFormState> emit) async {
+    SchoolEvent event,
+    Emitter<RegisterFormState> emit,
+  ) async {
     emit(
       state.copyWith(
         school: BlocFormItem(
           value: event.school.value,
-          error: event.school.value == '' ? 'Mohon mengisi nama sekolah terlebih dahulu.' : null,
+          error: event.school.value == ''
+              ? 'Mohon mengisi nama sekolah terlebih dahulu.'
+              : null,
         ),
         formKey: formKey,
       ),
@@ -88,12 +108,16 @@ class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
   }
 
   Future<void> _onProvinceChanged(
-      ProvinceEvent event, Emitter<RegisterFormState> emit) async {
+    ProvinceEvent event,
+    Emitter<RegisterFormState> emit,
+  ) async {
     emit(
       state.copyWith(
         province: BlocFormItem(
           value: event.province.value,
-          error: event.province.value == '' ? 'Mohon mengisi nama provinsi terlebih dahulu.' : null,
+          error: event.province.value == ''
+              ? 'Mohon mengisi nama provinsi terlebih dahulu.'
+              : null,
         ),
         formKey: formKey,
       ),
@@ -101,12 +125,16 @@ class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
   }
 
   Future<void> _onBebrasBiroChanged(
-      BebrasBiroEvent event, Emitter<RegisterFormState> emit) async {
+    BebrasBiroEvent event,
+    Emitter<RegisterFormState> emit,
+  ) async {
     emit(
       state.copyWith(
-        bebras_biro: BlocFormItem(
-          value: event.bebras_biro.value,
-          error: event.bebras_biro.value == '' ? 'Mohon mengisi biro bebras terlebih dahulu.' : null,
+        bebrasBiro: BlocFormItem(
+          value: event.bebrasBiro.value,
+          error: event.bebrasBiro.value == ''
+              ? 'Mohon mengisi biro bebras terlebih dahulu.'
+              : null,
         ),
         formKey: formKey,
       ),
@@ -114,44 +142,43 @@ class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
   }
 
   Future<void> _onFormReset(
-      FormResetEvent event,
-      Emitter<RegisterFormState> emit,
-      ) async {
+    FormResetEvent event,
+    Emitter<RegisterFormState> emit,
+  ) async {
     state.formKey?.currentState?.reset();
   }
 
   Future<void> _onFormSubmitted(
-      FormSubmitEvent event,
-      Emitter<RegisterFormState> emit,
-      ) async {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    String userId = auth.currentUser?.uid as String;
+    FormSubmitEvent event,
+    Emitter<RegisterFormState> emit,
+  ) async {
+    final auth = FirebaseAuth.instance;
+    final userId = auth.currentUser!.uid;
 
     if (state.formKey!.currentState!.validate()) {
-
-    String email = state.email.value.toString();
-    String name = state.name.value.toString();
-    String birthDate = state.birth_date.value.toString();
-    String school = state.school.value.toString();
-    String province = state.province.value.toString();
-    String bebrasBiro = state.bebras_biro.value.toString();
+      final email = state.email.value;
+      final name = state.name.value;
+      final birthDate = state.birthDate.value;
+      final school = state.school.value;
+      final province = state.province.value;
+      final bebrasBiro = state.bebrasBiro.value;
 
       emit(UserRegisterLoadingState());
 
-    try {
-      await registerUserRepository.create(
+      try {
+        await registerUserRepository.create(
           userId: userId,
           email: email,
           name: name,
-          birth_date: birthDate,
+          birthDate: birthDate,
           school: school,
           province: province,
-          bebras_biro: bebrasBiro,
-      );
-      emit(UserRegisterSuccessState());
-    } catch (e) {
-      // emit(Us)
-    }
+          bebrasBiro: bebrasBiro,
+        );
+        emit(UserRegisterSuccessState());
+      } catch (e) {
+        // emit(Us)
+      }
     }
   }
 }
