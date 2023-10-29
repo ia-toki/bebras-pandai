@@ -35,9 +35,6 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       fetchUrlPdfFile(widget.pdfUrl.toString());
     });
-    // WidgetsBinding.instance.addPostFrameCallback((_){
-    //   saveFile(widget.pdfUrl.toString(), "${widget.id}.pdf");
-    // });
   }
 
   @override
@@ -52,21 +49,9 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
         actions: [
           IconButton(
             onPressed: () async {
-              try {
-                await saveFile(remotePathPdf, '${widget.id}.pdf');
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(
-                      'successfully saved to internal storage',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                );
-              } catch (e) {
-                print(e);
-              }
+              await _generatePdf();
             },
-            icon: const Icon(Icons.download_rounded),
+            icon: const Icon(Icons.print_rounded),
           ),
         ],
       ),
@@ -76,9 +61,11 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
               ? const LinearProgressIndicator()
               : PDFView(
                   filePath: localPathPdf,
-                  onError: print,
+                  onError: (error) {
+                    // Do Nothing
+                  },
                   onPageError: (page, error) {
-                    print('$page: $error');
+                    // Do Nothing
                   },
                 ),
         ],
@@ -86,24 +73,34 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
     );
   }
 
+  // Pdf Print
+  Future<void> _generatePdf() async {
+    try {
+      final file = File('$basePath${widget.id}.pdf');
+      final fileInByte = file.readAsBytesSync();
+      await Printing.layoutPdf(onLayout: (_) => fileInByte);
+    } catch (e) {
+      // Do Nothing
+    }
+  }
+
   Future<bool> saveFile(String url, String fileName) async {
     try {
       Directory? directory;
       directory = await getExternalStorageDirectory();
       var newPath = '';
-      newPath = '${directory?.path}/PDF_Download';
+      newPath = '${directory!.path}/PDF_Download';
       directory = Directory(newPath);
 
       final saveFile = File('${directory.path}/$fileName');
       if (kDebugMode) {
         print(saveFile.path);
       }
-      // ignore: avoid_slow_async_io
-      if (!await directory.exists()) {
+      final isDirectoryExist = directory.existsSync();
+      if (!isDirectoryExist) {
         await directory.create(recursive: true);
       }
-      // ignore: avoid_slow_async_io
-      if (await directory.exists()) {
+      if (isDirectoryExist) {
         await Dio().download(
           url,
           saveFile.path,
