@@ -7,12 +7,12 @@ class PdfViewerPage extends StatefulWidget {
   final String? description;
 
   const PdfViewerPage({
-    Key? key,
     required this.pdfUrl,
+    super.key,
     this.id,
     this.title,
     this.description,
-  }) : super(key: key);
+  });
 
   @override
   State<PdfViewerPage> createState() => _PdfViewerPageState();
@@ -20,16 +20,16 @@ class PdfViewerPage extends StatefulWidget {
 
 class _PdfViewerPageState extends State<PdfViewerPage> {
   String basePath =
-      "/storage/emulated/0/Android/data/com.toki.bebras_pandai/files/PDF_Download/";
-  String localPathPdf = "";
-  String remotePathPdf = "";
+      '/storage/emulated/0/Android/data/com.toki.bebras_pandai/files/PDF_Download/';
+  String localPathPdf = '';
+  String remotePathPdf = '';
 
   @override
   void initState() {
     super.initState();
-    if (File(basePath + widget.id.toString() + ".pdf").existsSync()) {
+    if (File('$basePath${widget.id}.pdf').existsSync()) {
       setState(() {
-        localPathPdf = basePath + widget.id.toString() + ".pdf";
+        localPathPdf = '$basePath${widget.id}.pdf';
       });
     }
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -47,13 +47,13 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
         backgroundColor: Colors.black54,
         title: Text(
           widget.title.toString(), // name
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         actions: [
           IconButton(
             onPressed: () async {
               try {
-                await saveFile(remotePathPdf, "${widget.id}.pdf");
+                await saveFile(remotePathPdf, '${widget.id}.pdf');
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text(
@@ -73,14 +73,12 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
       body: Stack(
         children: [
           localPathPdf == ''
-              ? LinearProgressIndicator()
+              ? const LinearProgressIndicator()
               : PDFView(
                   filePath: localPathPdf,
-                  onError: (error) {
-                    print(error.toString());
-                  },
+                  onError: print,
                   onPageError: (page, error) {
-                    print('$page: ${error.toString()}');
+                    print('$page: $error');
                   },
                 ),
         ],
@@ -92,17 +90,19 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
     try {
       Directory? directory;
       directory = await getExternalStorageDirectory();
-      String newPath = "";
-      newPath = directory!.path + "/PDF_Download";
+      var newPath = '';
+      newPath = '${directory?.path}/PDF_Download';
       directory = Directory(newPath);
 
-      File saveFile = File(directory.path + "/$fileName");
+      final saveFile = File('${directory.path}/$fileName');
       if (kDebugMode) {
         print(saveFile.path);
       }
+      // ignore: avoid_slow_async_io
       if (!await directory.exists()) {
         await directory.create(recursive: true);
       }
+      // ignore: avoid_slow_async_io
       if (await directory.exists()) {
         await Dio().download(
           url,
@@ -121,26 +121,14 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
     }
   }
 
-  Future<bool> _requestPermission(Permission permission) async {
-    if (await permission.isGranted) {
-      return true;
-    } else {
-      var result = await permission.request();
-      if (result == PermissionStatus.granted) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   Future<void> fetchUrlPdfFile(String pathReference) async {
     try {
       final storageRef = FirebaseStorage.instance.ref();
-      String url = await storageRef.child(pathReference).getDownloadURL();
+      final url = await storageRef.child(pathReference).getDownloadURL();
       setState(() {
         remotePathPdf = url;
       });
-      saveFile(url, "${widget.id}.pdf");
+      await saveFile(url, '${widget.id}.pdf');
     } catch (e) {
       debugPrint(e.toString());
     }

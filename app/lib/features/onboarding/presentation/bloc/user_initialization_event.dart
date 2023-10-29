@@ -14,21 +14,21 @@ class CheckRegisteredUser extends UserInitializationEvent {}
 class CreateUserData extends UserInitializationEvent {
   final String email;
   final String name;
-  final String birth_date;
+  final String birthDate;
   final String school;
   final String province;
-  final String bebras_biro;
+  final String bebrasBiro;
 
-  CreateUserData(
-      this.email,
-      this.name,
-      this.birth_date,
-      this.school,
-      this.province,
-      this.bebras_biro,
-      );
+  const CreateUserData(
+    this.email,
+    this.name,
+    this.birthDate,
+    this.school,
+    this.province,
+    this.bebrasBiro,
+  );
 }
 
 class GetUserData extends UserInitializationEvent {
-  GetUserData();
+  const GetUserData();
 }
