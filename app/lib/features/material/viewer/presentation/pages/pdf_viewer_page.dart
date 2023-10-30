@@ -4,14 +4,12 @@ class PdfViewerPage extends StatefulWidget {
   final String? pdfUrl;
   final String? id;
   final String? title;
-  final String? description;
 
   const PdfViewerPage({
     required this.pdfUrl,
     super.key,
     this.id,
     this.title,
-    this.description,
   });
 
   @override
