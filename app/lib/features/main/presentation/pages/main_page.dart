@@ -10,10 +10,17 @@ class MainPage extends StatefulWidget {
 class Course {
   String title;
   String description;
+
   Course(this.title, this.description);
 }
 
 class _MainPageState extends State<MainPage> {
+  final Stream<QuerySnapshot> registeredUserStream =
+      FirebaseFirestore.instance.collection('registered_user').snapshots();
+  final registeredUserSnapshot = FirebaseFirestore.instance
+      .collection("registered_user")
+      .doc(FirebaseService.auth().currentUser?.uid).get();
+
   final nama = 'dummy';
   final List<Course> courses = [
     Course('SiKecil', 'abdcdafadf'),
@@ -41,22 +48,24 @@ class _MainPageState extends State<MainPage> {
                   const SizedBox(
                     height: 40,
                   ),
-                  RichText(
-                    text: TextSpan(
-                      text: 'Selamat Datang\n',
-                      style: FontTheme.blackTitle(),
-                      children: <TextSpan>[
-                        TextSpan(
-                          text:
-                              // ignore: lines_longer_than_80_chars
-                              '${FirebaseService.auth().currentUser?.displayName}!',
-                          style: FontTheme.blackTitleBold(),
-                          // recognizer: TapGestureRecognizer()
-                          //   ..onTap = () => context.go('/signup'),
-                        ),
-                      ],
-                    ),
-                  ),
+                  FutureBuilder(
+                    future: registeredUserSnapshot,
+                    builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                      print(snapshot.data);
+                        return RichText(
+                          text: TextSpan(
+                            text: 'Selamat Datang\n',
+                            style: FontTheme.blackTitle(),
+                            children: <TextSpan>[
+                              TextSpan(
+                                text:
+                                    '${FirebaseService.auth().currentUser?.displayName}!',
+                                style: FontTheme.blackTitleBold(),
+                              ),
+                            ],
+                          ),
+                        );
+                  },),
                   const SizedBox(
                     height: 30,
                   ),
