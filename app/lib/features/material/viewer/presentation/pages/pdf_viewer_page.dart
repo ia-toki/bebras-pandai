@@ -106,7 +106,6 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
         setState(() {
           localPathPdf = saveFile.path;
         });
-        print(localPathPdf);
       }
 
       return true;
