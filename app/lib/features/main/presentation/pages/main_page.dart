@@ -15,23 +15,13 @@ class Course {
 }
 
 class _MainPageState extends State<MainPage> {
-  final Stream<QuerySnapshot> registeredUserStream =
-      FirebaseFirestore.instance.collection('registered_user').snapshots();
   final registeredUserSnapshot = FirebaseFirestore.instance
       .collection("registered_user")
-      .doc(FirebaseService.auth().currentUser?.uid).get();
-
-  final nama = 'dummy';
-  final List<Course> courses = [
-    Course('SiKecil', 'abdcdafadf'),
-    Course('Siaga', 'abdcdafadf'),
-    Course('Penggalang', 'abdcdafadf'),
-    Course('Penegak', 'abdcdafadf'),
-  ];
+      .doc(FirebaseService.auth().currentUser?.uid)
+      .get();
 
   @override
   Widget build(BuildContext context) {
-    // final size = MediaQuery.of(context).size;
 
     return BebrasScaffold(
       body: SingleChildScrollView(
@@ -51,21 +41,22 @@ class _MainPageState extends State<MainPage> {
                   FutureBuilder(
                     future: registeredUserSnapshot,
                     builder: (context, AsyncSnapshot<dynamic> snapshot) {
-                      print(snapshot.data);
-                        return RichText(
-                          text: TextSpan(
-                            text: 'Selamat Datang\n',
-                            style: FontTheme.blackTitle(),
-                            children: <TextSpan>[
-                              TextSpan(
-                                text:
-                                    '${FirebaseService.auth().currentUser?.displayName}!',
-                                style: FontTheme.blackTitleBold(),
-                              ),
-                            ],
-                          ),
-                        );
-                  },),
+                      final useData = snapshot.data?.data();
+                      return RichText(
+                        text: TextSpan(
+                          text: 'Selamat Datang\n',
+                          style: FontTheme.blackTitle(),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text:
+                              toBeginningOfSentenceCase('${useData['name']}!'),
+                              style: FontTheme.blackTitleBold(),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                   const SizedBox(
                     height: 30,
                   ),
