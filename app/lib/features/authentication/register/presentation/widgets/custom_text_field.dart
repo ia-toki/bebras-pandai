@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField(this.labelText, this.handleTextInput, this.validator, {super.key});
+  const CustomTextField(
+    this.labelText,
+    this.handleTextInput,
+    this.validator, {
+    super.key,
+  });
 
   final String labelText;
-  final void Function (String value)? handleTextInput;
+  final void Function(String value)? handleTextInput;
   final String? Function(String?)? validator;
 
   @override

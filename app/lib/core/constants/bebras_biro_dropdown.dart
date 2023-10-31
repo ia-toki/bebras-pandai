@@ -1,19 +1,3 @@
-class BebrasBiro {
-  String bebrasBiroUniv;
-  String valueDropdown;
-  bool isActive;
-
-  BebrasBiro({
-    required this.bebrasBiroUniv,
-    required this.valueDropdown,
-    this.isActive = true,
-  });
-
-  String userAsString() {
-    return bebrasBiroUniv;
-  }
-}
-
 List<String> bebrasBiroList = [
   'Institut Teknologi Bandung',
   'Institut Pertanian Bogor',

@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 class BebrasScaffold extends StatelessWidget {
   final Widget body;
   final bool avoidBottomInset;
-  const BebrasScaffold({required this.body, super.key, this.avoidBottomInset = true});
+  const BebrasScaffold({
+    required this.body,
+    super.key,
+    this.avoidBottomInset = true,
+  });
 
   @override
   Widget build(BuildContext context) {

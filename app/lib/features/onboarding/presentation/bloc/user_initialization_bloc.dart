@@ -8,7 +8,6 @@ import 'package:injectable/injectable.dart';
 import '../../../authentication/register/repositories/register_user_repo.dart';
 
 part 'user_initialization_event.dart';
-
 part 'user_initialization_state.dart';
 
 @injectable
@@ -18,12 +17,15 @@ class UserInitializationBloc
   final RegisterUserRepository registerUserRepository;
   // final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  UserInitializationBloc(this.registerUserRepository) : super(UserInitializationInitial()) {
+  UserInitializationBloc(this.registerUserRepository)
+      : super(UserInitializationInitial()) {
     on<OnboardingAuthEvent>(_auth);
   }
 
-  FutureOr<void> _auth(OnboardingAuthEvent state,
-      Emitter<UserInitializationState> emit,) async {
+  FutureOr<void> _auth(
+    OnboardingAuthEvent state,
+    Emitter<UserInitializationState> emit,
+  ) async {
     // final creds = await _googleSignIn.signInSilently();
     final creds = FirebaseAuth.instance.currentUser;
     if (creds != null) {

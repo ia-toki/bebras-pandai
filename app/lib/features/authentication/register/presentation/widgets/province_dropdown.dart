@@ -1,12 +1,18 @@
-import '../../../../../core/constants/indonesiaProvince.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../core/constants/indonesia_province.dart';
+
 class ProvinceDropdown extends StatelessWidget {
-  const ProvinceDropdown(this.labelText, this.handleTextInput, this.validator, {super.key});
+  const ProvinceDropdown(
+    this.labelText,
+    this.handleTextInput,
+    this.validator, {
+    super.key,
+  });
 
   final String labelText;
-  final void Function (String value)? handleTextInput;
+  final void Function(String value)? handleTextInput;
   final String? Function(String?)? validator;
 
   @override

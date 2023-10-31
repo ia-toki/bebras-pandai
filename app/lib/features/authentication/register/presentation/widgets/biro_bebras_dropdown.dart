@@ -1,9 +1,15 @@
-import '../../../../../core/constants/bebrasBiroDropdown.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../core/constants/bebras_biro_dropdown.dart';
+
 class BiroBebrasDropdown extends StatelessWidget {
-  const BiroBebrasDropdown(this.labelText, this.handleTextInput, this.validator, {super.key});
+  const BiroBebrasDropdown(
+    this.labelText,
+    this.handleTextInput,
+    this.validator, {
+    super.key,
+  });
 
   final String labelText;
   final void Function(String value)? handleTextInput;

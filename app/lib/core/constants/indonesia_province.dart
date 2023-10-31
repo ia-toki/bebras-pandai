@@ -1,19 +1,3 @@
-class IndonesiaProvince {
-  String provinceName;
-  String valueProvince;
-  bool isActive;
-
-  IndonesiaProvince({
-    required this.provinceName,
-    required this.valueProvince,
-    this.isActive = true,
-  });
-
-  String userAsString() {
-    return provinceName;
-  }
-}
-
 List<String> provinceList = [
   'Bali',
   'Banten',
@@ -54,4 +38,3 @@ List<String> provinceList = [
   'Papua Selatan',
   'Papua Barat Daya',
 ];
-
