@@ -10,6 +10,8 @@ class MaterialMenu extends StatefulWidget {
 class _MaterialMenuState extends State<MaterialMenu> {
   final Stream<QuerySnapshot> materialsStream =
       FirebaseFirestore.instance.collection('learning_material').snapshots();
+  String basePath =
+      '/storage/emulated/0/Android/data/com.toki.bebras_pandai/files/PDF_Download/';
 
   String? selectedValue;
 
@@ -72,7 +74,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
                   ),
                   Container(
                     height: 40,
-                    width: 296, // double.infinity,
+                    width: 296,
                     decoration: BoxDecoration(border: Border.all()),
                     child: ListView(
                       scrollDirection: Axis.horizontal,
@@ -81,7 +83,10 @@ class _MaterialMenuState extends State<MaterialMenu> {
                           'siKecil',
                           bebrasGroupList[0].index,
                         ),
-                        customRadioButton('Siaga', bebrasGroupList[1].index),
+                        customRadioButton(
+                          'Siaga',
+                          bebrasGroupList[1].index,
+                        ),
                         customRadioButton(
                           'Penggalang',
                           bebrasGroupList[2].index,
@@ -93,31 +98,6 @@ class _MaterialMenuState extends State<MaterialMenu> {
                       ],
                     ),
                   ),
-                  // Container(
-                  //   height: 70,
-                  //   width: 296, // double.infinity,
-                  //   decoration: BoxDecoration(border: Border.all()),
-                  //   child: Column(
-                  //     children: [
-                  //       Row(
-                  //         children: [
-                  //           customRadioButton(
-                  //               "siKecil", bebrasGroupList[0].index),
-                  //           customRadioButton(
-                  //               "Siaga", bebrasGroupList[1].index),
-                  //         ],
-                  //       ),
-                  //       Row(
-                  //         children: [
-                  //           customRadioButton(
-                  //               "Penggalang", bebrasGroupList[2].index),
-                  //           customRadioButton(
-                  //               "Penegak", bebrasGroupList[3].index),
-                  //         ],
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
                   const SizedBox(
                     height: 10,
                   ),
@@ -150,6 +130,9 @@ class _MaterialMenuState extends State<MaterialMenu> {
                               .map((DocumentSnapshot document) {
                             final materialDoc =
                                 document.data()! as Map<String, dynamic>;
+                            final isDocPrintable =
+                                File('$basePath${document.id}.pdf')
+                                    .existsSync();
                             if (materialDoc['challenge_group'] ==
                                 bebrasGroupList[filterIndex]
                                     .bebrasChallengeKey) {
@@ -161,8 +144,6 @@ class _MaterialMenuState extends State<MaterialMenu> {
                                       queryParameters: {
                                         'id': document.id,
                                         'title': materialDoc['title'],
-                                        'description':
-                                            materialDoc['description'],
                                         'pdfUrl': materialDoc['url'],
                                       },
                                     ).toString(),
@@ -195,16 +176,20 @@ class _MaterialMenuState extends State<MaterialMenu> {
                                             ),
                                           ),
                                         ),
-                                        const SizedBox(
-                                          width: 60,
-                                          child: Text(
-                                            'Terakhir dilihat: 15/09',
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
+                                        isDocPrintable
+                                            ? IconButton(
+                                                onPressed: () {
+                                                  _generatePdf(document.id);
+                                                },
+                                                icon: const Icon(
+                                                  Icons.print_rounded,
+                                                  size: 36,
+                                                  color: Colors
+                                                      .blue,
+                                                ),
+                                                iconSize: 36,
+                                              )
+                                            : const SizedBox(),
                                       ],
                                     ),
                                   ),
@@ -224,5 +209,16 @@ class _MaterialMenuState extends State<MaterialMenu> {
         ),
       ),
     );
+  }
+
+  // PDF print
+  Future<void> _generatePdf(String id) async {
+    try {
+      final file = File('$basePath$id.pdf');
+      final fileInByte = file.readAsBytesSync();
+      await Printing.layoutPdf(onLayout: (_) => fileInByte);
+    } catch (e) {
+      // Do Nothing
+    }
   }
 }
