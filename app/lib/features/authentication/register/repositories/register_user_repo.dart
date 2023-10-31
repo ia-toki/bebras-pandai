@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../model/registered_user.dart';
+
 @Injectable()
 class RegisterUserRepository {
   final _firecloud = FirebaseFirestore.instance.collection('registered_user');
@@ -11,22 +12,22 @@ class RegisterUserRepository {
     required String userId,
     required dynamic email,
     required String name,
-    required String birth_date,
+    required String birthDate,
     required String school,
     required String province,
-    required String bebras_biro,
+    required String bebrasBiro,
   }) async {
     try {
-      await _firecloud.doc(userId)
-          .set({
-            "name": name,
-            "email": email,
-            "birth_date": birth_date,
-            "school": school,
-            "province": province,
-            "bebras_biro": bebras_biro,
-          },
-          SetOptions(merge: true),
+      await _firecloud.doc(userId).set(
+        {
+          'name': name,
+          'email': email,
+          'birth_date': birthDate,
+          'school': school,
+          'province': province,
+          'bebras_biro': bebrasBiro,
+        },
+        SetOptions(merge: true),
       );
     } on FirebaseException catch (e) {
       if (kDebugMode) {
@@ -38,13 +39,14 @@ class RegisterUserRepository {
   }
 
   Future<List<RegisteredUserModel>> getAll() async {
-    List<RegisteredUserModel> registeredUserList = [];
+    final registeredUserList = <RegisteredUserModel>[];
     try {
-      final result = await FirebaseFirestore.instance.collection("registered_user").get();
+      final result =
+          await FirebaseFirestore.instance.collection('registered_user').get();
 
-      result.docs.forEach((element) {
-        return registeredUserList.add(RegisteredUserModel.fromJson(element.data()));
-      });
+      for (final element in result.docs) {
+        registeredUserList.add(RegisteredUserModel.fromJson(element.data()));
+      }
       return registeredUserList;
     } on FirebaseException catch (e) {
       if (kDebugMode) {
@@ -59,20 +61,19 @@ class RegisterUserRepository {
   Future<RegisteredUserModel?> getById(String userId) async {
     try {
       final result = await FirebaseFirestore.instance
-          .collection("registered_user")
+          .collection('registered_user')
           .doc(userId)
           .get()
           .then((DocumentSnapshot documentSnapshot) {
-            if (documentSnapshot.exists) {
-              return documentSnapshot;
-            }
-        });
-      if(result != null) {
+        if (documentSnapshot.exists) {
+          return documentSnapshot;
+        }
+      });
+      if (result != null) {
         return RegisteredUserModel.fromJson(result);
       } else {
         return null;
       }
-
     } on FirebaseException catch (e) {
       if (kDebugMode) {
         print("Failed with error '${e.code}': '${e.message}'");

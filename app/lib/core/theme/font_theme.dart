@@ -44,7 +44,7 @@ class FontTheme {
     );
   }
 
-  // Gray
+  // Grey
   static TextStyle greyTitle() {
     return const TextStyle(
       color: Colors.black,
@@ -53,11 +53,19 @@ class FontTheme {
     );
   }
 
-  static TextStyle grayBold36() {
+  static TextStyle greyBold36() {
     return const TextStyle(
       color: Colors.grey,
       fontSize: 36,
       fontWeight: FontWeight.bold,
+    );
+  }
+
+  static TextStyle greyNormal14() {
+    return const TextStyle(
+      color: Colors.grey,
+      fontSize: 14,
+      fontWeight: FontWeight.normal,
     );
   }
 

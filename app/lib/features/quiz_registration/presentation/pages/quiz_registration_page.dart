@@ -123,9 +123,12 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 40),
                         width: double.infinity,
                         child: Button(
-                          onTap: () => context
-                              .read<QuizRegistrationCubit>()
-                              .registerParticipant('sikecil', selectedWeek),
+                          onTap: () => {
+                            context
+                                .read<QuizRegistrationCubit>()
+                                .registerParticipant('sikecil', selectedWeek),
+                            Navigator.pop(context)
+                          },
                           customButtonColor: Colors.blue.shade400,
                           customTextColor: Colors.white,
                           text: 'siKecil',
@@ -138,9 +141,12 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 40),
                         width: double.infinity,
                         child: Button(
-                          onTap: () => context
-                              .read<QuizRegistrationCubit>()
-                              .registerParticipant('siaga', selectedWeek),
+                          onTap: () => {
+                            context
+                                .read<QuizRegistrationCubit>()
+                                .registerParticipant('siaga', selectedWeek),
+                            Navigator.pop(context)
+                          },
                           customButtonColor: Colors.green.shade400,
                           customTextColor: Colors.white,
                           text: 'Siaga',
@@ -152,9 +158,13 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 40),
                         width: double.infinity,
                         child: Button(
-                          onTap: () => context
-                              .read<QuizRegistrationCubit>()
-                              .registerParticipant('penggalang', selectedWeek),
+                          onTap: () => {
+                            context
+                                .read<QuizRegistrationCubit>()
+                                .registerParticipant(
+                                    'penggalang', selectedWeek),
+                            Navigator.pop(context)
+                          },
                           customButtonColor: Colors.red.shade400,
                           customTextColor: Colors.white,
                           text: 'Penggalang',
@@ -276,7 +286,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                         child: BlocConsumer<QuizRegistrationCubit,
                             QuizRegistrationState>(
                           listener: (context, state) {
-                            // TODO: implement listener
+                            // TODO(someone): implement listener
                           },
                           builder: (context, state) {
                             if (state is GetParticipantWeeklyQuizSuccess) {

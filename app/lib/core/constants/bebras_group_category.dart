@@ -6,8 +6,8 @@ class BebrasGroupCategory {
 }
 
 List<BebrasGroupCategory> bebrasGroupList = [
-  BebrasGroupCategory(0, 'sikecil'),
-  BebrasGroupCategory(1, 'siaga'),
-  BebrasGroupCategory(2, 'penggalang'),
-  BebrasGroupCategory(3, 'penegak'),
+  const BebrasGroupCategory(0, 'sikecil'),
+  const BebrasGroupCategory(1, 'siaga'),
+  const BebrasGroupCategory(2, 'penggalang'),
+  const BebrasGroupCategory(3, 'penegak'),
 ];
