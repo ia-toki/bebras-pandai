@@ -7,7 +7,9 @@ abstract class QuizExerciseState extends Equatable {
   List<Object> get props => [];
 }
 
-class QuizExerciseInitial extends QuizExerciseState {}
+class QuizExerciseInitialState extends QuizExerciseState {}
+
+class QuizExerciseLoading extends QuizExerciseState {}
 
 class QuizExerciseSuccess extends QuizExerciseState {
   final List<QuizExercise> quizExercise;
@@ -17,7 +19,10 @@ class QuizExerciseSuccess extends QuizExerciseState {
   List<Object> get props => [quizExercise];
 }
 
-class QuizExerciseError extends QuizExerciseState {
+class QuizExerciseFailed extends QuizExerciseState {
+  final String error;
+
+  const QuizExerciseFailed(this.error);
   @override
-  List<Object> get props => [];
+  List<Object> get props => [error];
 }

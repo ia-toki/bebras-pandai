@@ -6,5 +6,3 @@ abstract class QuizExerciseEvent extends Equatable {
   @override
   List<Object?> get props => [];
 }
-
-class GetQuizExercise extends QuizExerciseEvent {}

@@ -1,7 +1,9 @@
 // import 'package:airplane/models/destination_model.dart';
 // ignore_for_file: inference_failure_on_collection_literal
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../features/quiz_exercise/presentation/model/quiz_exercise.dart';
 import '../models/registered_participant.dart';
 import '../models/weekly_quiz.dart';
 import 'firebase_service.dart';
@@ -75,6 +77,26 @@ class QuizService {
       return participantQuizzes;
     } catch (e) {
       rethrow;
+    }
+  }
+
+  Future<List<QuizExercise>> getListQuizExerciese() async {
+    final quizExerciseList = <QuizExercise>[];
+    try {
+      final result =
+          await FirebaseFirestore.instance.collection('task_set').get();
+      for (final element in result.docs) {
+        quizExerciseList.add(QuizExercise.fromJson(element.data()));
+      }
+
+      return quizExerciseList;
+    } on FirebaseException catch (e) {
+      if (kDebugMode) {
+        print("Failed with error '${e.code}': '${e.message}'");
+      }
+      return quizExerciseList;
+    } catch (e) {
+      throw Exception(e.toString());
     }
   }
 }

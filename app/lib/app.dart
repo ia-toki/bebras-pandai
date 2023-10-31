@@ -27,12 +27,7 @@ class App extends StatelessWidget {
               OnboardingAuthEvent(),
             ),
         ),
-        BlocProvider<QuizExerciseBlocInitialize>(
-          create: (_) => get<QuizExerciseBlocInitialize>()
-            ..add(
-              GetQuizExercise(),
-            ),
-        ),
+        BlocProvider(create: (context) => QuizExerciseCubit()),
         BlocProvider(create: (context) => QuizRegistrationCubit()),
         BlocProvider(create: (context) => get<UserRegisterBloc>()),
       ],

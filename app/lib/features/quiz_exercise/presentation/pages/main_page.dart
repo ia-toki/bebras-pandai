@@ -12,8 +12,8 @@ class QuizExercisePage extends StatefulWidget {
 class _QuizExercisePageState extends State<QuizExercisePage> {
   @override
   void initState() {
-    BlocProvider.of<QuizExerciseBlocInitialize>(context).add(GetQuizExercise());
     super.initState();
+    context.read<QuizExerciseCubit>().fetchQuizExercise();
   }
 
   @override
