@@ -144,7 +144,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
                                       queryParameters: {
                                         'id': document.id,
                                         'title': materialDoc['title'],
-                                        'pdfUrl': materialDoc['gsReference'],
+                                        'pdfUrl': materialDoc['url'],
                                       },
                                     ).toString(),
                                   );
