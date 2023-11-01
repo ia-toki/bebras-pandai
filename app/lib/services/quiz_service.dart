@@ -12,6 +12,8 @@ class QuizService {
       FirebaseFirestore.instance.collection('configuration');
   final CollectionReference _weeklyQuizParticipantRef =
       FirebaseFirestore.instance.collection('weekly_quiz_participation');
+  final _registeredUserRef = FirebaseFirestore.instance
+      .collection('registered_user');
 
   Future<WeeklyQuizModel> fetchWeeklyQuiz(String week) async {
     try {
@@ -37,6 +39,9 @@ class QuizService {
     final levelLowerCase = level.toLowerCase();
     // final weeklyQuiz = await fetchWeeklyQuiz(week);
     final snapshot = await _runningWeeklyQuizRef.doc(week).get();
+    final registeredUserSnapshot = await _registeredUserRef
+        .doc(FirebaseService.auth().currentUser?.uid)
+        .get();
 
     try {
       final dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
@@ -48,7 +53,7 @@ class QuizService {
         'quiz_id': snapshot['id'],
         'quiz_max_attempts': snapshot['max_attempts'][levelLowerCase],
         'quiz_start_at': snapshot['start_at'],
-        'user_name': FirebaseService.auth().currentUser?.displayName,
+        'user_name': registeredUserSnapshot['name'],
         'user_uid': FirebaseService.auth().currentUser?.uid,
         'created_at': dateFormat.format(DateTime.now()),
       });
