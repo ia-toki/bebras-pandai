@@ -8,7 +8,7 @@ class WeeklyQuizModel extends Equatable {
   final Map<String, dynamic> duration_minute;
   final String end_at;
   final Map<String, dynamic> max_attempts;
-  final Map<String, dynamic> problems;
+  final Map<String, List<String>> problems;
   final Map<String, dynamic> sponsors;
   final String start_at;
 
@@ -35,7 +35,8 @@ class WeeklyQuizModel extends Equatable {
         duration_minute: json['duration_minute'] as Map<String, dynamic>,
         end_at: json['end_at'] as String,
         max_attempts: json['max_attempts'] as Map<String, dynamic>,
-        problems: json['tasks'] as Map<String, dynamic>,
+        problems: (json['tasks'] as Map<String, dynamic>).map((key, value) =>
+            MapEntry(key, List<String>.from(value as List<dynamic>))),
         sponsors: json['sponsors'] as Map<String, dynamic>,
         start_at: json['start_at'] as String,
       );

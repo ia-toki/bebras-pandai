@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:printing/printing.dart';
 
 import '../../../../../core/bases/widgets/layout/bebras_scaffold.dart';
-import '../../../../../core/constants/BebrasGroupCategory.dart';
 import '../../../../../core/constants/assets.dart';
 import '../../../../../core/constants/bebras_group_category.dart';
 

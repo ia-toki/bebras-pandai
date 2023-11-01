@@ -1,16 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
+
 import '../model/quiz_exercise.dart';
+import '../model/quiz_exercise_attempt.dart';
 
 @injectable
 class QuizExerciseRepository {
-  Future<List<QuizExercise>> getAll() async {
+  Future<List<QuizExercise>> getListQuizExercise(
+      List<String> taskIdList) async {
     final quizExerciseList = <QuizExercise>[];
     try {
       final result =
           await FirebaseFirestore.instance.collection('task_set').get();
-      for (final element in result.docs) {
+      final taskResult =
+          result.docs.where((element) => taskIdList.contains(element.id));
+      for (final element in taskResult) {
         quizExerciseList.add(QuizExercise.fromJson(element.data()));
       }
 
@@ -25,21 +30,15 @@ class QuizExerciseRepository {
     }
   }
 
-  Future<QuizExercise?> getById(String quizId) async {
+  Future<void> insertQuizExerciseAttempt(
+      String quizParticipantId, QuizExerciseAttempt attempt) async {
     try {
-      final result = await FirebaseFirestore.instance
-          .collection('task_set')
-          .doc(quizId)
-          .get();
-
-      return QuizExercise.fromJson(result as Map<String, dynamic>);
-    } on FirebaseException catch (e) {
-      if (kDebugMode) {
-        print("Failed with error '${e.code}': '${e.message}'");
-      }
+      await FirebaseFirestore.instance
+          .collection('weekly_quiz_participation')
+          .doc(quizParticipantId)
+          .update({'attempt': attempt});
     } catch (e) {
-      throw Exception(e.toString());
+      rethrow;
     }
-    return null;
   }
 }

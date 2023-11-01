@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../models/registered_participant.dart';
+import '../../../models/quiz_participation.dart';
 import '../../../models/weekly_quiz.dart';
 import '../../../services/firebase_service.dart';
 import '../../../services/quiz_service.dart';
 
-part 'quiz_registration_state.dart';
 part 'quiz_registration_event.dart';
+part 'quiz_registration_state.dart';
 
 class QuizRegistrationCubit extends Cubit<QuizRegistrationState> {
   QuizRegistrationCubit() : super(QuizRegistrationInitialState());

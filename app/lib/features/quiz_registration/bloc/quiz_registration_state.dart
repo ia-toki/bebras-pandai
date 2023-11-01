@@ -48,7 +48,7 @@ class QuizRegistrationSuccess extends QuizRegistrationState {
 }
 
 class GetParticipantWeeklyQuizSuccess extends QuizRegistrationState {
-  final List<RegisteredParticipantModel> weeklyQuizzes;
+  final List<WeeklyQuizParticipation> weeklyQuizzes;
 
   const GetParticipantWeeklyQuizSuccess(
     this.weeklyQuizzes,

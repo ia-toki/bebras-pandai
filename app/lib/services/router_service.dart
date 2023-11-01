@@ -38,7 +38,11 @@ GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/quiz_exercise',
-      builder: (context, state) => const QuizExercisePage(),
+      builder: (context, state) => QuizExercisePage(
+        quizId: state.queryParameters['quiz_id'],
+        challengeGroup: state.queryParameters['challenge_group'],
+        quizParticipantId: state.queryParameters['quiz_participant_id'],
+      ),
     ),
     GoRoute(
       path: '/quiz_registration',

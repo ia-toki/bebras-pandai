@@ -3,7 +3,7 @@ import 'explanation.dart';
 
 class Answer {
   final Aspect aspect;
-  final List<dynamic> correctAnswer;
+  final List<String> correctAnswer;
   final Explanation explanation;
 
   Answer({
@@ -15,8 +15,7 @@ class Answer {
   factory Answer.fromJson(Map<String, dynamic> json) {
     return Answer(
       aspect: Aspect.fromJson(json['aspect'] as Map<String, dynamic>),
-      correctAnswer:
-          json['correct_answer'].cast<Map<String, dynamic>>() as List<dynamic>,
+      correctAnswer: json['correct_answer'] as List<String>,
       explanation:
           Explanation.fromJson(json['explanation'] as Map<String, dynamic>),
     );

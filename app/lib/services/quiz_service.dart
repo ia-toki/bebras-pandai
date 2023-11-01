@@ -1,31 +1,56 @@
 // import 'package:airplane/models/destination_model.dart';
 // ignore_for_file: inference_failure_on_collection_literal
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
-import '../features/quiz_exercise/presentation/model/quiz_exercise.dart';
-import '../models/registered_participant.dart';
+import '../models/quiz_participation.dart';
 import '../models/weekly_quiz.dart';
 import 'firebase_service.dart';
 
 class QuizService {
   final CollectionReference _runningWeeklyQuizRef =
       FirebaseFirestore.instance.collection('configuration');
+  final CollectionReference _weeklyQuizListRef =
+      FirebaseFirestore.instance.collection('weekly_quiz_list');
   final CollectionReference _weeklyQuizParticipantRef =
       FirebaseFirestore.instance.collection('weekly_quiz_participation');
 
-  Future<WeeklyQuizModel> fetchWeeklyQuiz(String week) async {
+  Future<WeeklyQuizModel> getWeeklyQuiz(String week) async {
     try {
       final snapshot = await _runningWeeklyQuizRef.doc(week).get();
       return WeeklyQuizModel(
-        id: snapshot['id'] as String,
+        id: snapshot.id,
         title: snapshot['title'] as String,
         created_at: snapshot['created_at'] as String,
         duration_minute: snapshot['duration_minute'] as Map<String, dynamic>,
         end_at: snapshot['end_at'] as String,
         max_attempts: snapshot['max_attempts'] as Map<String, dynamic>,
-        problems: snapshot['tasks'] as Map<String, dynamic>,
+        problems: (snapshot['tasks'] as Map<String, dynamic>).map(
+            (key, value) =>
+                MapEntry(key, List<String>.from(value as List<dynamic>))),
+        sponsors: snapshot['sponsors'] as Map<String, dynamic>,
+        start_at: snapshot['start_at'] as String,
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<WeeklyQuizModel> getQuiz(String quizId) async {
+    try {
+      final snapshot = await _weeklyQuizListRef.doc(quizId).get();
+      final x = (snapshot['tasks'] as Map<String, dynamic>).map((key, value) =>
+          MapEntry(key, List<String>.from(value as List<dynamic>)));
+      return WeeklyQuizModel(
+        id: snapshot.id,
+        title: snapshot['title'] as String,
+        created_at: snapshot['created_at'] as String,
+        duration_minute: snapshot['duration_minute'] as Map<String, dynamic>,
+        end_at: snapshot['end_at'] as String,
+        max_attempts: snapshot['max_attempts'] as Map<String, dynamic>,
+        problems: (snapshot['tasks'] as Map<String, dynamic>).map(
+            (key, value) =>
+                MapEntry(key, List<String>.from(value as List<dynamic>))),
         sponsors: snapshot['sponsors'] as Map<String, dynamic>,
         start_at: snapshot['start_at'] as String,
       );
@@ -59,7 +84,20 @@ class QuizService {
     }
   }
 
-  Future<List<RegisteredParticipantModel>> getRunningWeeklyQuizByParticipantUid(
+  Future<WeeklyQuizParticipation> getWeeklyQuizParticipant({
+    required String quizParticipantId,
+  }) async {
+    try {
+      final result =
+          await _weeklyQuizParticipantRef.doc(quizParticipantId).get();
+      return WeeklyQuizParticipation.fromJson(
+          result.id, result.data()! as Map<String, dynamic>);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<WeeklyQuizParticipation>> getRunningWeeklyQuizByParticipantUid(
     String participantUid,
   ) async {
     try {
@@ -69,7 +107,7 @@ class QuizService {
           .get();
 
       final participantQuizzes = result.docs.map((e) {
-        return RegisteredParticipantModel.fromJson(
+        return WeeklyQuizParticipation.fromJson(
           e.id,
           e.data()! as Map<String, dynamic>,
         );
@@ -78,26 +116,6 @@ class QuizService {
       return participantQuizzes;
     } catch (e) {
       rethrow;
-    }
-  }
-
-  Future<List<QuizExercise>> getListQuizExerciese() async {
-    final quizExerciseList = <QuizExercise>[];
-    try {
-      final result =
-          await FirebaseFirestore.instance.collection('task_set').get();
-      for (final element in result.docs) {
-        quizExerciseList.add(QuizExercise.fromJson(element.data()));
-      }
-
-      return quizExerciseList;
-    } on FirebaseException catch (e) {
-      if (kDebugMode) {
-        print("Failed with error '${e.code}': '${e.message}'");
-      }
-      return quizExerciseList;
-    } catch (e) {
-      throw Exception(e.toString());
     }
   }
 }

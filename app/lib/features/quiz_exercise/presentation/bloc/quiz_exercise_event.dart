@@ -1,4 +1,4 @@
-part of 'quiz_exercise_bloc.dart';
+part of 'quiz_exercise_cubit.dart';
 
 abstract class QuizExerciseEvent extends Equatable {
   const QuizExerciseEvent();

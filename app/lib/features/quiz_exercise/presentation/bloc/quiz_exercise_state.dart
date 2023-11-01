@@ -1,4 +1,4 @@
-part of 'quiz_exercise_bloc.dart';
+part of 'quiz_exercise_cubit.dart';
 
 abstract class QuizExerciseState extends Equatable {
   const QuizExerciseState();
@@ -11,12 +11,20 @@ class QuizExerciseInitialState extends QuizExerciseState {}
 
 class QuizExerciseLoading extends QuizExerciseState {}
 
-class QuizExerciseSuccess extends QuizExerciseState {
-  final List<QuizExercise> quizExercise;
-  const QuizExerciseSuccess(this.quizExercise);
+class QuizExerciseShow extends QuizExerciseState {
+  final QuizExercise quizExercise;
+  const QuizExerciseShow(this.quizExercise);
 
   @override
   List<Object> get props => [quizExercise];
+}
+
+class QuizExerciseFinished extends QuizExerciseState {
+  final QuizExerciseAttempt quizExerciseAttempt;
+  const QuizExerciseFinished(this.quizExerciseAttempt);
+
+  @override
+  List<Object> get props => [quizExerciseAttempt];
 }
 
 class QuizExerciseFailed extends QuizExerciseState {
