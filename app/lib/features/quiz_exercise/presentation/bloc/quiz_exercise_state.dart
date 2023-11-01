@@ -13,10 +13,12 @@ class QuizExerciseLoading extends QuizExerciseState {}
 
 class QuizExerciseShow extends QuizExerciseState {
   final QuizExercise quizExercise;
-  const QuizExerciseShow(this.quizExercise);
+  final WeeklyQuiz quiz;
+  final Duration remainingDuration;
+  const QuizExerciseShow(this.quiz, this.quizExercise, this.remainingDuration);
 
   @override
-  List<Object> get props => [quizExercise];
+  List<Object> get props => [quiz, quizExercise, remainingDuration];
 }
 
 class QuizExerciseFinished extends QuizExerciseState {

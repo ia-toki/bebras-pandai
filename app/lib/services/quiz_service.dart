@@ -15,16 +15,18 @@ class QuizService {
   final CollectionReference _weeklyQuizParticipantRef =
       FirebaseFirestore.instance.collection('weekly_quiz_participation');
 
-  Future<WeeklyQuizModel> getWeeklyQuiz(String week) async {
+  Future<WeeklyQuiz> getWeeklyQuiz(String week) async {
     try {
       final snapshot = await _runningWeeklyQuizRef.doc(week).get();
-      return WeeklyQuizModel(
+      return WeeklyQuiz(
         id: snapshot.id,
         title: snapshot['title'] as String,
         created_at: snapshot['created_at'] as String,
-        duration_minute: snapshot['duration_minute'] as Map<String, dynamic>,
+        duration_minute: (snapshot['duration_minute'] as Map<String, dynamic>)
+            .map((key, value) => MapEntry(key, value as int)),
         end_at: snapshot['end_at'] as String,
-        max_attempts: snapshot['max_attempts'] as Map<String, dynamic>,
+        max_attempts: (snapshot['max_attempts'] as Map<String, dynamic>)
+            .map((key, value) => MapEntry(key, value as int)),
         problems: (snapshot['tasks'] as Map<String, dynamic>).map(
             (key, value) =>
                 MapEntry(key, List<String>.from(value as List<dynamic>))),
@@ -36,18 +38,20 @@ class QuizService {
     }
   }
 
-  Future<WeeklyQuizModel> getQuiz(String quizId) async {
+  Future<WeeklyQuiz> getQuiz(String quizId) async {
     try {
       final snapshot = await _weeklyQuizListRef.doc(quizId).get();
       final x = (snapshot['tasks'] as Map<String, dynamic>).map((key, value) =>
           MapEntry(key, List<String>.from(value as List<dynamic>)));
-      return WeeklyQuizModel(
+      return WeeklyQuiz(
         id: snapshot.id,
         title: snapshot['title'] as String,
         created_at: snapshot['created_at'] as String,
-        duration_minute: snapshot['duration_minute'] as Map<String, dynamic>,
+        duration_minute: (snapshot['duration_minute'] as Map<String, dynamic>)
+            .map((key, value) => MapEntry(key, value as int)),
         end_at: snapshot['end_at'] as String,
-        max_attempts: snapshot['max_attempts'] as Map<String, dynamic>,
+        max_attempts: (snapshot['max_attempts'] as Map<String, dynamic>)
+            .map((key, value) => MapEntry(key, value as int)),
         problems: (snapshot['tasks'] as Map<String, dynamic>).map(
             (key, value) =>
                 MapEntry(key, List<String>.from(value as List<dynamic>))),

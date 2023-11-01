@@ -9,7 +9,9 @@ class Question {
   factory Question.fromJson(Map<String, dynamic> json) {
     return Question(
       content: json['content'] as String,
-      options: json['options'].cast<Map<String, dynamic>>() as List<Options>,
+      options: (json['options'] as List<dynamic>)
+          .map((e) => Options.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 }

@@ -16,11 +16,15 @@ part 'quiz_exercise_state.dart';
 class QuizExerciseCubit extends Cubit<QuizExerciseState> {
   QuizExerciseCubit() : super(QuizExerciseInitialState());
 
-  late WeeklyQuizModel quiz;
-  late List<QuizExercise> problemList;
+  late WeeklyQuiz quiz;
+  late QuizExercise currentProblem;
   int currentProblemIndex = 0;
+  late List<String> problemIdList;
   late QuizExerciseAttempt attempt;
   late String quizParticipantId;
+  late String challengeGroup;
+  late int remainingDuration;
+
   late QuizService quizService;
   late QuizExerciseRepository quizExerciseRepository;
 
@@ -43,10 +47,15 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
         throw Exception('Challenge Group null');
       }
       this.quizParticipantId = quizParticipantId;
+      this.challengeGroup = challengeGroup;
 
       quiz = await quizService.getQuiz(quizId);
 
-      var problemIdList = quiz.problems[challengeGroup];
+      var _problemIdList = quiz.problems[challengeGroup];
+      if (_problemIdList == null) {
+        throw Exception('Challenge Group not found');
+      }
+      problemIdList = _problemIdList;
       if (problemIdList == null) {
         throw Exception('Task for selected Challenge Group not found');
       }
@@ -65,49 +74,65 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
             answers: []);
       }
 
-      problemList =
-          await quizExerciseRepository.getListQuizExercise(problemIdList);
-      emit(QuizExerciseShow(problemList.first));
+      currentProblem =
+          await quizExerciseRepository.getQuizExercise(problemIdList.first);
+
+      final duration = quiz.duration_minute[challengeGroup];
+      if (duration == null) {
+        throw Exception('Duration for selected Challenge Group not found');
+      }
+      remainingDuration = duration * 60;
+      Timer.periodic(const Duration(seconds: 1), (timer) {
+        if (remainingDuration > 0) {
+          remainingDuration--;
+          emit(QuizExerciseShow(
+              quiz, currentProblem, Duration(seconds: remainingDuration)));
+        } else {
+          emit(QuizExerciseFailed('Duration Ends'));
+        }
+      });
+      emit(QuizExerciseShow(
+          quiz, currentProblem, Duration(seconds: remainingDuration)));
     } catch (e) {
       emit(QuizExerciseFailed(e.toString()));
     }
   }
 
   FutureOr<void> submitAnswer(String answerId) async {
-    var verdict = 'INCORRECT';
-    if (problemList[currentProblemIndex]
-        .answer
-        .correctAnswer
-        .contains(answerId)) {
-      verdict = 'CORRECT';
-    }
-    attempt.answers?.add(QuizExerciseAnswer(
-        answer: answerId,
-        correctAnswer: problemList[currentProblemIndex].answer.correctAnswer,
-        taskChallengeGroup: problemList[currentProblemIndex].challengeGroup,
-        taskId: problemList[currentProblemIndex].id,
-        verdict: verdict));
+    try {
+      var verdict = 'INCORRECT';
+      if (currentProblem.answer.correctAnswer.contains(answerId)) {
+        verdict = 'CORRECT';
+      }
+      attempt.answers?.add(QuizExerciseAnswer(
+          answer: answerId,
+          correctAnswer: currentProblem.answer.correctAnswer,
+          taskChallengeGroup: currentProblem.challengeGroup,
+          taskId: currentProblem.id,
+          verdict: verdict));
 
-    if (verdict == 'CORRECT') {
-      attempt.totalCorrect++;
-      attempt.totalBlank--;
-    } else {
-      attempt.totalIncorrect++;
-      attempt.totalBlank--;
-    }
+      if (verdict == 'CORRECT') {
+        attempt.totalCorrect++;
+        attempt.totalBlank--;
+      } else {
+        attempt.totalIncorrect++;
+        attempt.totalBlank--;
+      }
 
-    currentProblemIndex++;
+      currentProblemIndex++;
 
-    if (currentProblemIndex < problemList.length) {
-      emit(QuizExerciseShow(problemList[currentProblemIndex]));
-    } else {
-      try {
+      if (currentProblemIndex < problemIdList.length) {
+        currentProblem = await quizExerciseRepository
+            .getQuizExercise(problemIdList[currentProblemIndex]);
+        emit(QuizExerciseShow(
+            quiz, currentProblem, Duration(seconds: remainingDuration)));
+      } else {
         await quizExerciseRepository.insertQuizExerciseAttempt(
             quizParticipantId, attempt);
         emit(QuizExerciseFinished(attempt));
-      } catch (e) {
-        emit(QuizExerciseFailed(e.toString()));
       }
+    } catch (e) {
+      emit(QuizExerciseFailed(e.toString()));
     }
   }
 }

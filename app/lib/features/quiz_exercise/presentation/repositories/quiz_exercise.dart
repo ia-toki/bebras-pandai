@@ -30,6 +30,18 @@ class QuizExerciseRepository {
     }
   }
 
+  Future<QuizExercise> getQuizExercise(String taskId) async {
+    try {
+      final result = await FirebaseFirestore.instance
+          .collection('task_set')
+          .doc(taskId)
+          .get();
+      return QuizExercise.fromJson(result.data()!);
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
   Future<void> insertQuizExerciseAttempt(
       String quizParticipantId, QuizExerciseAttempt attempt) async {
     try {

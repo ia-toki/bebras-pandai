@@ -30,7 +30,7 @@ class QuizRegistrationLevelSelected extends QuizRegistrationState {
 }
 
 class RunningWeeklyQuizSuccess extends QuizRegistrationState {
-  final WeeklyQuizModel runningWeeklyQuiz;
+  final WeeklyQuiz runningWeeklyQuiz;
 
   const RunningWeeklyQuizSuccess(this.runningWeeklyQuiz);
 

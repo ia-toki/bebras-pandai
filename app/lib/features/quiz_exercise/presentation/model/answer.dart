@@ -15,7 +15,9 @@ class Answer {
   factory Answer.fromJson(Map<String, dynamic> json) {
     return Answer(
       aspect: Aspect.fromJson(json['aspect'] as Map<String, dynamic>),
-      correctAnswer: json['correct_answer'] as List<String>,
+      correctAnswer: (json['correct_answer'] as List<dynamic>)
+          .map((e) => e.toString())
+          .toList(),
       explanation:
           Explanation.fromJson(json['explanation'] as Map<String, dynamic>),
     );
