@@ -13,7 +13,7 @@ class QuizService {
   final CollectionReference _weeklyQuizParticipantRef =
       FirebaseFirestore.instance.collection('weekly_quiz_participation');
   final _registeredUserRef = FirebaseFirestore.instance
-      .collection("registered_user");
+      .collection('registered_user');
 
   Future<WeeklyQuizModel> fetchWeeklyQuiz(String week) async {
     try {
@@ -39,7 +39,8 @@ class QuizService {
     final levelLowerCase = level.toLowerCase();
     // final weeklyQuiz = await fetchWeeklyQuiz(week);
     final snapshot = await _runningWeeklyQuizRef.doc(week).get();
-    final registeredUserSnapshot = await _registeredUserRef.doc(FirebaseService.auth().currentUser?.uid)
+    final registeredUserSnapshot = await _registeredUserRef
+        .doc(FirebaseService.auth().currentUser?.uid)
         .get();
 
     try {

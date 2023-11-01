@@ -16,7 +16,7 @@ class Course {
 
 class _MainPageState extends State<MainPage> {
   final registeredUserSnapshot = FirebaseFirestore.instance
-      .collection("registered_user")
+      .collection('registered_user')
       .doc(FirebaseService.auth().currentUser?.uid)
       .get();
 
