@@ -47,10 +47,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
   Widget quizCard(String name, String date, String score, String level,
       BuildContext context) {
     return InkWell(
-      onTap: () async {
-        await context.push('/quiz_tasks/penegak').then((value) =>
-            context.read<QuizRegistrationCubit>().fetchParticipantWeeklyQuiz());
-      },
+      onTap: () async {},
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 18),
         margin: const EdgeInsets.only(bottom: 12),
@@ -84,7 +81,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
           Row(
             children: [
               Text(
-                'Llevel: $level',
+                'Kategori: $level',
                 style: const TextStyle(fontSize: 12),
               )
             ],
