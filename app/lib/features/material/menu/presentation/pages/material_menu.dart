@@ -184,8 +184,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
                                                 icon: const Icon(
                                                   Icons.print_rounded,
                                                   size: 36,
-                                                  color: Colors
-                                                      .blue,
+                                                  color: Colors.blue,
                                                 ),
                                                 iconSize: 36,
                                               )

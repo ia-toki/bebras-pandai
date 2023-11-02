@@ -24,9 +24,26 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
     });
   }
 
-  Widget quizCard(String name, String date, String score) {
+  Widget quizCard(WeeklyQuizParticipation weeklyQuizParticipant, String date,
+      String score) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        final endDate = DateFormat('yyyy-MM-dd HH:mm:ss')
+            .parse(weeklyQuizParticipant.quiz_end_at);
+        if (endDate.isBefore(DateTime.now())) {
+        } else {
+          context.push(
+            Uri(
+              path: '/quiz_exercise',
+              queryParameters: {
+                'quiz_id': weeklyQuizParticipant.quiz_id,
+                'challenge_group': weeklyQuizParticipant.challenge_group,
+                'quiz_participant_id': weeklyQuizParticipant.id,
+              },
+            ).toString(),
+          );
+        }
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 18),
         margin: const EdgeInsets.only(bottom: 12),
@@ -42,7 +59,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                 child: Container(
                   padding: const EdgeInsets.only(right: 20),
                   child: Text(
-                    name,
+                    weeklyQuizParticipant.quiz_title,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontSize: 12),
                   ),
@@ -292,17 +309,17 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                                 ),
                                 for (final quiz in state.weeklyQuizzes)
                                   quizCard(
-                                    quiz.quiz_title,
+                                    quiz,
                                     quiz.attempts.isNotEmpty
                                         ? quiz
                                             .attempts[quiz.attempts.length - 1]
-                                                ['start_at']
+                                            .startAt
                                             .toString()
                                         : '-',
                                     quiz.attempts.isNotEmpty
                                         ? quiz
                                             .attempts[quiz.attempts.length - 1]
-                                                ['score']
+                                            .score
                                             .toString()
                                         : '??',
                                   ),

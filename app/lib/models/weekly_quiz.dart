@@ -1,18 +1,18 @@
 // ignore_for_file: non_constant_identifier_names
 import 'package:equatable/equatable.dart';
 
-class WeeklyQuizModel extends Equatable {
+class WeeklyQuiz extends Equatable {
   final String id;
   final String title;
   final String created_at;
-  final Map<String, dynamic> duration_minute;
+  final Map<String, int> duration_minute;
   final String end_at;
-  final Map<String, dynamic> max_attempts;
-  final Map<String, dynamic> problems;
+  final Map<String, int> max_attempts;
+  final Map<String, List<String>> problems;
   final Map<String, dynamic> sponsors;
   final String start_at;
 
-  const WeeklyQuizModel({
+  const WeeklyQuiz({
     required this.id,
     required this.title,
     required this.created_at,
@@ -24,18 +24,21 @@ class WeeklyQuizModel extends Equatable {
     required this.start_at,
   });
 
-  factory WeeklyQuizModel.fromJson(
+  factory WeeklyQuiz.fromJson(
     String id,
     Map<String, dynamic> json,
   ) =>
-      WeeklyQuizModel(
+      WeeklyQuiz(
         id: id,
         title: json['title'] as String,
         created_at: json['created_at'] as String,
-        duration_minute: json['duration_minute'] as Map<String, dynamic>,
+        duration_minute: (json['duration_minute'] as Map<String, dynamic>)
+            .map((key, value) => MapEntry(key, value as int)),
         end_at: json['end_at'] as String,
-        max_attempts: json['max_attempts'] as Map<String, dynamic>,
-        problems: json['tasks'] as Map<String, dynamic>,
+        max_attempts: (json['max_attempts'] as Map<String, dynamic>)
+            .map((key, value) => MapEntry(key, value as int)),
+        problems: (json['tasks'] as Map<String, dynamic>).map((key, value) =>
+            MapEntry(key, List<String>.from(value as List<dynamic>))),
         sponsors: json['sponsors'] as Map<String, dynamic>,
         start_at: json['start_at'] as String,
       );

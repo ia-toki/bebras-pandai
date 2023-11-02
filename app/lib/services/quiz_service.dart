@@ -3,29 +3,60 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
-import '../models/registered_participant.dart';
+import '../models/quiz_participation.dart';
 import '../models/weekly_quiz.dart';
 import 'firebase_service.dart';
 
 class QuizService {
   final CollectionReference _runningWeeklyQuizRef =
       FirebaseFirestore.instance.collection('configuration');
+  final CollectionReference _weeklyQuizListRef =
+      FirebaseFirestore.instance.collection('weekly_quiz_list');
   final CollectionReference _weeklyQuizParticipantRef =
       FirebaseFirestore.instance.collection('weekly_quiz_participation');
   final _registeredUserRef = FirebaseFirestore.instance
       .collection('registered_user');
 
-  Future<WeeklyQuizModel> fetchWeeklyQuiz(String week) async {
+  Future<WeeklyQuiz> getWeeklyQuiz(String week) async {
     try {
       final snapshot = await _runningWeeklyQuizRef.doc(week).get();
-      return WeeklyQuizModel(
-        id: snapshot['id'] as String,
+      return WeeklyQuiz(
+        id: snapshot.id,
         title: snapshot['title'] as String,
         created_at: snapshot['created_at'] as String,
-        duration_minute: snapshot['duration_minute'] as Map<String, dynamic>,
+        duration_minute: (snapshot['duration_minute'] as Map<String, dynamic>)
+            .map((key, value) => MapEntry(key, value as int)),
         end_at: snapshot['end_at'] as String,
-        max_attempts: snapshot['max_attempts'] as Map<String, dynamic>,
-        problems: snapshot['tasks'] as Map<String, dynamic>,
+        max_attempts: (snapshot['max_attempts'] as Map<String, dynamic>)
+            .map((key, value) => MapEntry(key, value as int)),
+        problems: (snapshot['tasks'] as Map<String, dynamic>).map(
+            (key, value) =>
+                MapEntry(key, List<String>.from(value as List<dynamic>))),
+        sponsors: snapshot['sponsors'] as Map<String, dynamic>,
+        start_at: snapshot['start_at'] as String,
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<WeeklyQuiz> getQuiz(String quizId) async {
+    try {
+      final snapshot = await _weeklyQuizListRef.doc(quizId).get();
+      final x = (snapshot['tasks'] as Map<String, dynamic>).map((key, value) =>
+          MapEntry(key, List<String>.from(value as List<dynamic>)));
+      return WeeklyQuiz(
+        id: snapshot.id,
+        title: snapshot['title'] as String,
+        created_at: snapshot['created_at'] as String,
+        duration_minute: (snapshot['duration_minute'] as Map<String, dynamic>)
+            .map((key, value) => MapEntry(key, value as int)),
+        end_at: snapshot['end_at'] as String,
+        max_attempts: (snapshot['max_attempts'] as Map<String, dynamic>)
+            .map((key, value) => MapEntry(key, value as int)),
+        problems: (snapshot['tasks'] as Map<String, dynamic>).map(
+            (key, value) =>
+                MapEntry(key, List<String>.from(value as List<dynamic>))),
         sponsors: snapshot['sponsors'] as Map<String, dynamic>,
         start_at: snapshot['start_at'] as String,
       );
@@ -62,7 +93,20 @@ class QuizService {
     }
   }
 
-  Future<List<RegisteredParticipantModel>> getRunningWeeklyQuizByParticipantUid(
+  Future<WeeklyQuizParticipation> getWeeklyQuizParticipant({
+    required String quizParticipantId,
+  }) async {
+    try {
+      final result =
+          await _weeklyQuizParticipantRef.doc(quizParticipantId).get();
+      return WeeklyQuizParticipation.fromJson(
+          result.id, result.data()! as Map<String, dynamic>);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<WeeklyQuizParticipation>> getRunningWeeklyQuizByParticipantUid(
     String participantUid,
   ) async {
     try {
@@ -72,7 +116,7 @@ class QuizService {
           .get();
 
       final participantQuizzes = result.docs.map((e) {
-        return RegisteredParticipantModel.fromJson(
+        return WeeklyQuizParticipation.fromJson(
           e.id,
           e.data()! as Map<String, dynamic>,
         );

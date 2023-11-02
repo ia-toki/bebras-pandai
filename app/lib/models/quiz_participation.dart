@@ -2,7 +2,9 @@
 
 import 'package:equatable/equatable.dart';
 
-class RegisteredParticipantModel extends Equatable {
+import '../features/quiz_exercise/presentation/model/quiz_exercise_attempt.dart';
+
+class WeeklyQuizParticipation extends Equatable {
   final String id;
   final String quiz_title;
   final String user_name;
@@ -12,10 +14,10 @@ class RegisteredParticipantModel extends Equatable {
   final String quiz_end_at;
   final String quiz_start_at;
   final String quiz_id;
-  final List<dynamic> attempts;
+  final List<QuizExerciseAttempt> attempts;
   final int quiz_max_attempts;
 
-  const RegisteredParticipantModel({
+  const WeeklyQuizParticipation({
     this.id = '',
     this.quiz_title = '',
     this.user_name = '',
@@ -29,11 +31,11 @@ class RegisteredParticipantModel extends Equatable {
     this.attempts = const [],
   });
 
-  factory RegisteredParticipantModel.fromJson(
+  factory WeeklyQuizParticipation.fromJson(
     String id,
     Map<String, dynamic> json,
   ) =>
-      RegisteredParticipantModel(
+      WeeklyQuizParticipation(
         id: id,
         quiz_start_at: json['quiz_start_at'] as String,
         quiz_title: json['quiz_title'] as String,
@@ -44,7 +46,8 @@ class RegisteredParticipantModel extends Equatable {
         quiz_end_at: json['quiz_end_at'] as String,
         quiz_id: json['quiz_id'] as String,
         quiz_max_attempts: json['quiz_max_attempts'] as int,
-        attempts: json['attempts'] as List<dynamic>,
+        attempts:
+            List<QuizExerciseAttempt>.from(json['attempts'] as List<dynamic>),
       );
 
   @override
