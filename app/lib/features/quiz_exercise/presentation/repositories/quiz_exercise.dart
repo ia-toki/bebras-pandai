@@ -48,7 +48,9 @@ class QuizExerciseRepository {
       await FirebaseFirestore.instance
           .collection('weekly_quiz_participation')
           .doc(quizParticipantId)
-          .update({'attempt': attempt});
+          .update({
+        'attempts': FieldValue.arrayUnion([attempt.toJson()])
+      });
     } catch (e) {
       rethrow;
     }

@@ -15,10 +15,23 @@ class QuizExerciseShow extends QuizExerciseState {
   final QuizExercise quizExercise;
   final WeeklyQuiz quiz;
   final Duration remainingDuration;
-  const QuizExerciseShow(this.quiz, this.quizExercise, this.remainingDuration);
+  final String selectedAnswer;
+  final String modalErrorMessage;
+  const QuizExerciseShow(
+      {required this.quiz,
+      required this.quizExercise,
+      required this.remainingDuration,
+      required this.selectedAnswer,
+      this.modalErrorMessage = ''});
 
   @override
-  List<Object> get props => [quiz, quizExercise, remainingDuration];
+  List<Object> get props => [
+        quiz,
+        quizExercise,
+        remainingDuration,
+        selectedAnswer,
+        modalErrorMessage
+      ];
 }
 
 class QuizExerciseFinished extends QuizExerciseState {

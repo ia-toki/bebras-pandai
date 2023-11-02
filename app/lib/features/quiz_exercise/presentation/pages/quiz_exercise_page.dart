@@ -32,7 +32,6 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
             Padding(
               padding: const EdgeInsets.all(32),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset(
                     Assets.bebrasPandaiText,
@@ -41,78 +40,83 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                     height: 20,
                   ),
                   BlocConsumer<QuizExerciseCubit, QuizExerciseState>(
-                      listener: (context, state) {},
-                      buildWhen: (context, state) {
-                        return !(state is QuizExerciseFinished);
-                      },
-                      builder: (context, state) {
-                        if (state is QuizExerciseLoading) {
-                          return Text('LOADING');
-                        }
-                        if (state is QuizExerciseFailed) {
-                          return Text(state.error);
-                        }
-                        if (state is QuizExerciseShow) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                      listenWhen: (context, state) {
+                    return state is QuizExerciseFinished;
+                  }, listener: (context, state) {
+                    if (state is QuizExerciseFinished) {
+                      context.replace(
+                        Uri(
+                          path: '/quiz_result',
+                          queryParameters: {},
+                        ).toString(),
+                      );
+                    }
+                  }, buildWhen: (context, state) {
+                    return state is! QuizExerciseFinished;
+                  }, builder: (context, state) {
+                    if (state is QuizExerciseLoading) {
+                      return Text('LOADING');
+                    }
+                    if (state is QuizExerciseFailed) {
+                      return Text(state.error);
+                    }
+                    if (state is QuizExerciseShow) {
+                      return Column(
+                        children: [
+                          Container(
+                            color: Colors.yellowAccent,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 4, horizontal: 8),
+                            child: Text(
+                                '${state.remainingDuration.inMinutes.toString().padLeft(2, '0')} : ${state.remainingDuration.inSeconds.remainder(60).toString().padLeft(2, '0')}'),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Container(
-                                color: Colors.yellowAccent,
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 4, horizontal: 8),
-                                child: Text(
-                                    '${state.remainingDuration.inMinutes} : ${state.remainingDuration.inSeconds.remainder(60)}'),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                              Text(state.quizExercise.title),
+                              Column(
                                 children: [
-                                  Text(state.quizExercise.title),
-                                  Column(
-                                    children: [
-                                      Text(state.quizExercise.id),
-                                      Text(state.quizExercise.source),
-                                    ],
-                                  )
+                                  Text(state.quizExercise.id),
+                                  Text(state.quizExercise.source),
                                 ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                height:
-                                    MediaQuery.of(context).size.height - 340,
-                                width: double.infinity,
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
-                                decoration: BoxDecoration(border: Border.all()),
-                                child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Html(
-                                        data: state
-                                            .quizExercise.description.content,
-                                      )
-                                    ]),
-                              ),
-                              const SizedBox(
-                                height: 14,
-                              ),
-                              Container(
-                                width: 150,
-                                child: Button(
-                                  text: 'JAWAB',
-                                  buttonType: ButtonType.primary,
-                                ),
                               )
                             ],
-                          );
-                        }
-                        return Container();
-                      }),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            height: MediaQuery.of(context).size.height - 340,
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            decoration: BoxDecoration(border: Border.all()),
+                            child: Column(children: [
+                              Html(
+                                data: state.quizExercise.description.content,
+                              )
+                            ]),
+                          ),
+                          const SizedBox(
+                            height: 14,
+                          ),
+                          Container(
+                            width: 150,
+                            child: Button(
+                              text: 'JAWAB',
+                              buttonType: ButtonType.primary,
+                              onTap: () {
+                                showAnswerOptions();
+                              },
+                            ),
+                          )
+                        ],
+                      );
+                    }
+                    return Container();
+                  }),
                 ],
               ),
             ),
@@ -120,5 +124,74 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
         ),
       ),
     );
+  }
+
+  void showAnswerOptions() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return BlocBuilder<QuizExerciseCubit, QuizExerciseState>(
+              buildWhen: (context, state) {
+            return state is QuizExerciseShow;
+          }, builder: (context, state) {
+            if (state is QuizExerciseShow) {
+              return AlertDialog(
+                content: SingleChildScrollView(
+                    child: Column(
+                  children: [
+                    Container(
+                      width: 400,
+                      height: 200,
+                      child: Html(data: state.quizExercise.question.content),
+                    ),
+                    ...state.quizExercise.question.options
+                        .map((e) => RadioListTile(
+                            title: Text(e.content),
+                            value: e.id,
+                            groupValue: state.selectedAnswer,
+                            onChanged: (value) {
+                              context
+                                  .read<QuizExerciseCubit>()
+                                  .selectAnswer(e.id);
+                            }))
+                        .toList(),
+                    Text(state.modalErrorMessage),
+                  ],
+                )),
+                actions: [
+                  Container(
+                    width: 100,
+                    height: 50,
+                    child: Button(
+                      buttonType: ButtonType.secondary,
+                      text: 'Cancel',
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                  Container(
+                    width: 100,
+                    height: 50,
+                    child: Button(
+                      buttonType: ButtonType.tertiary,
+                      text: 'OK',
+                      onTap: () {
+                        context.read<QuizExerciseCubit>().submitAnswer();
+                        if (state.selectedAnswer != '') {
+                          Navigator.pop(context);
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              );
+            }
+            return Container(
+              width: 100,
+              height: 100,
+            );
+          });
+        });
   }
 }

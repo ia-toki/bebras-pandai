@@ -23,6 +23,8 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
   late QuizExerciseAttempt attempt;
   late String quizParticipantId;
   late String challengeGroup;
+
+  String selectedAnswer = '';
   late int remainingDuration;
 
   late QuizService quizService;
@@ -83,29 +85,59 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
       }
       remainingDuration = duration * 60;
       Timer.periodic(const Duration(seconds: 1), (timer) {
-        if (remainingDuration > 0) {
+        if (state is! QuizExerciseShow) {
+          timer.cancel();
+        } else if (remainingDuration > 0) {
           remainingDuration--;
           emit(QuizExerciseShow(
-              quiz, currentProblem, Duration(seconds: remainingDuration)));
+            quiz: quiz,
+            quizExercise: currentProblem,
+            remainingDuration: Duration(seconds: remainingDuration),
+            selectedAnswer: selectedAnswer,
+          ));
         } else {
+          timer.cancel();
           emit(QuizExerciseFailed('Duration Ends'));
         }
       });
       emit(QuizExerciseShow(
-          quiz, currentProblem, Duration(seconds: remainingDuration)));
+        quiz: quiz,
+        quizExercise: currentProblem,
+        remainingDuration: Duration(seconds: remainingDuration),
+        selectedAnswer: selectedAnswer,
+      ));
     } catch (e) {
       emit(QuizExerciseFailed(e.toString()));
     }
   }
 
-  FutureOr<void> submitAnswer(String answerId) async {
+  void selectAnswer(String answerId) {
+    selectedAnswer = answerId;
+    emit(QuizExerciseShow(
+      quiz: quiz,
+      quizExercise: currentProblem,
+      remainingDuration: Duration(seconds: remainingDuration),
+      selectedAnswer: selectedAnswer,
+    ));
+  }
+
+  FutureOr<void> submitAnswer() async {
+    if (selectedAnswer == '') {
+      emit(QuizExerciseShow(
+          quiz: quiz,
+          quizExercise: currentProblem,
+          remainingDuration: Duration(seconds: remainingDuration),
+          selectedAnswer: selectedAnswer,
+          modalErrorMessage: 'Pilih salah satu jawaban'));
+      return;
+    }
     try {
       var verdict = 'INCORRECT';
-      if (currentProblem.answer.correctAnswer.contains(answerId)) {
+      if (currentProblem.answer.correctAnswer.contains(selectedAnswer)) {
         verdict = 'CORRECT';
       }
       attempt.answers?.add(QuizExerciseAnswer(
-          answer: answerId,
+          answer: selectedAnswer,
           correctAnswer: currentProblem.answer.correctAnswer,
           taskChallengeGroup: currentProblem.challengeGroup,
           taskId: currentProblem.id,
@@ -124,9 +156,22 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
       if (currentProblemIndex < problemIdList.length) {
         currentProblem = await quizExerciseRepository
             .getQuizExercise(problemIdList[currentProblemIndex]);
+        selectedAnswer = '';
         emit(QuizExerciseShow(
-            quiz, currentProblem, Duration(seconds: remainingDuration)));
+          quiz: quiz,
+          quizExercise: currentProblem,
+          remainingDuration: Duration(seconds: remainingDuration),
+          selectedAnswer: selectedAnswer,
+        ));
       } else {
+        attempt.score = (attempt.totalCorrect /
+                (attempt.totalCorrect +
+                    attempt.totalIncorrect +
+                    attempt.totalBlank) *
+                100)
+            .toInt();
+        attempt.endAt = DateTime.now();
+        attempt.uploadedAt = DateTime.now();
         await quizExerciseRepository.insertQuizExerciseAttempt(
             quizParticipantId, attempt);
         emit(QuizExerciseFinished(attempt));

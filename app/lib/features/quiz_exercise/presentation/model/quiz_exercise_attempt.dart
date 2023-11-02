@@ -19,4 +19,17 @@ class QuizExerciseAttempt {
       required this.totalIncorrect,
       this.score,
       this.answers});
+
+  Map<String, Object?> toJson() {
+    return {
+      'start_at': startAt,
+      'end_at': endAt,
+      'uploaded_at': uploadedAt,
+      'n_answer_blank': totalBlank,
+      'n_answer_correct': totalCorrect,
+      'n_answer_incorrect': totalIncorrect,
+      'score': score,
+      'answers': answers?.map((e) => e.toJson()).toList(),
+    };
+  }
 }
