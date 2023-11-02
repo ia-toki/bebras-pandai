@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../models/registered_participant.dart';
-import '../../../models/weekly_quiz.dart';
-import '../../../services/firebase_service.dart';
-import '../../../services/quiz_service.dart';
+import '../../../../models/quiz_participation.dart';
+import '../../../../models/weekly_quiz.dart';
+import '../../../../services/firebase_service.dart';
+import '../../service/QuizService.dart';
 
-part 'quiz_registration_state.dart';
 part 'quiz_registration_event.dart';
+part 'quiz_registration_state.dart';
 
 class QuizRegistrationCubit extends Cubit<QuizRegistrationState> {
   QuizRegistrationCubit() : super(QuizRegistrationInitialState());
@@ -42,18 +42,18 @@ class QuizRegistrationCubit extends Cubit<QuizRegistrationState> {
     }
   }
 
-  Future<void> fetchRunningQuizTasks(String level) async {
-    try {
-      final participantWeeklyQuizzes =
-          await QuizService().fetchWeeklyQuiz('running_weekly_quiz');
+  // Future<void> fetchRunningQuizTasks(String level) async {
+  //   try {
+  //     final participantWeeklyQuizzes =
+  //         await QuizService().fetchWeeklyQuiz('running_weekly_quiz');
 
-      final tasks = await QuizService().fetchWeeklyQuizTaskSet(
-        participantWeeklyQuizzes.problems[level][0].toString(),
-      );
+  //     final tasks = await QuizService().fetchWeeklyQuizTaskSet(
+  //       participantWeeklyQuizzes.problems[level][0].toString(),
+  //     );
 
-      emit(GetRunningQuizTasksSuccess(tasks));
-    } catch (e) {
-      emit(GetParticipantWeeklyQuizFailed(e.toString()));
-    }
-  }
+  //     emit(GetRunningQuizTasksSuccess(tasks));
+  //   } catch (e) {
+  //     emit(GetParticipantWeeklyQuizFailed(e.toString()));
+  //   }
+  // }
 }

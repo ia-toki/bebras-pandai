@@ -61,6 +61,7 @@ dependencies:
   cloud_firestore: ^4.9.3
   dropdown_search: ^5.0.6
   firebase_storage: ^11.3.1
+  flutter_html: ^3.0.0-beta.2
   printing: ^5.11.0
 
 dev_dependencies:

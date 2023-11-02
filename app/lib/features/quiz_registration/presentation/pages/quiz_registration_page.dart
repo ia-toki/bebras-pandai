@@ -354,13 +354,13 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                                     quiz.attempts.isNotEmpty
                                         ? quiz
                                             .attempts[quiz.attempts.length - 1]
-                                                ['start_at']
+                                            .startAt
                                             .toString()
                                         : '-',
                                     quiz.attempts.isNotEmpty
                                         ? quiz
                                             .attempts[quiz.attempts.length - 1]
-                                                ['score']
+                                            .score
                                             .toString()
                                         : '??',
                                     quiz.challenge_group,

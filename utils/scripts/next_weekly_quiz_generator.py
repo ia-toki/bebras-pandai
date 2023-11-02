@@ -12,7 +12,7 @@ initialize_app(creds)
 
 firestore_client = firestore.client()
 configuration_coll_ref = firestore_client.collection("configuration")
-problemset_coll_ref = firestore_client.collection("problem_set")
+taskset_coll_ref = firestore_client.collection("task_set")
 weeklyquizlist_coll_ref = firestore_client.collection("weekly_quiz_list")
 
 config_global_variables = configuration_coll_ref.document("global_variables").get().to_dict()
@@ -43,7 +43,7 @@ def generate_next_weekly_quiz():
     for cg_group, cg_val in challengegroup_map.items():
         problem_id_list = []
 
-        query_ref = problemset_coll_ref.where("challenge_group", "==", cg_group)
+        query_ref = taskset_coll_ref.where("challenge_group", "==", cg_group)
         for doc in query_ref.stream():
             problem_id_list.append(doc.to_dict()["id"])
         random.shuffle(problem_id_list)

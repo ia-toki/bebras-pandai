@@ -10,21 +10,18 @@ class MainPage extends StatefulWidget {
 class Course {
   String title;
   String description;
+
   Course(this.title, this.description);
 }
 
 class _MainPageState extends State<MainPage> {
-  final nama = 'dummy';
-  final List<Course> courses = [
-    Course('SiKecil', 'abdcdafadf'),
-    Course('Siaga', 'abdcdafadf'),
-    Course('Penggalang', 'abdcdafadf'),
-    Course('Penegak', 'abdcdafadf'),
-  ];
+  final registeredUserSnapshot = FirebaseFirestore.instance
+      .collection('registered_user')
+      .doc(FirebaseService.auth().currentUser?.uid)
+      .get();
 
   @override
   Widget build(BuildContext context) {
-    // final size = MediaQuery.of(context).size;
 
     return BebrasScaffold(
       body: SingleChildScrollView(
@@ -41,21 +38,24 @@ class _MainPageState extends State<MainPage> {
                   const SizedBox(
                     height: 40,
                   ),
-                  RichText(
-                    text: TextSpan(
-                      text: 'Selamat Datang\n',
-                      style: FontTheme.blackTitle(),
-                      children: <TextSpan>[
-                        TextSpan(
-                          text:
-                              // ignore: lines_longer_than_80_chars
-                              '${FirebaseService.auth().currentUser?.displayName}!',
-                          style: FontTheme.blackTitleBold(),
-                          // recognizer: TapGestureRecognizer()
-                          //   ..onTap = () => context.go('/signup'),
+                  FutureBuilder(
+                    future: registeredUserSnapshot,
+                    builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                      final useData = snapshot.data?.data();
+                      return RichText(
+                        text: TextSpan(
+                          text: 'Selamat Datang\n',
+                          style: FontTheme.blackTitle(),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text:
+                              toBeginningOfSentenceCase('${useData['name']}!'),
+                              style: FontTheme.blackTitleBold(),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
                   const SizedBox(
                     height: 30,
