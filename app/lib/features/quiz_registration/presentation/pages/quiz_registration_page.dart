@@ -397,8 +397,15 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                     height: 10,
                   ),
                   Button(
-                    buttonType: ButtonType.tertiary,
+                    customButtonColor:
+                        isNextWeekSelected && isRunningWeekSelected
+                            ? Colors.grey
+                            : Colors.blueAccent,
+                    customTextColor: Colors.white,
                     onTap: () async {
+                      if (isNextWeekSelected && isRunningWeekSelected) {
+                        return;
+                      }
                       await showModal();
                     },
                     text: 'Daftar Latihan Bebras',
