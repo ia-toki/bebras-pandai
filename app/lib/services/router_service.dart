@@ -51,11 +51,5 @@ GoRouter router = GoRouter(
         id: state.queryParameters['id'],
       ),
     ),
-    GoRoute(
-      path: '/quiz_tasks/:id',
-      builder: (context, state) => QuizTasksPage(
-        id: state.queryParameters['id'],
-      ),
-    ),
   ],
 );

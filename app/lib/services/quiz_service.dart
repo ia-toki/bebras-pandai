@@ -17,6 +17,26 @@ class QuizService {
     db.settings = const Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
   }
 
+  // week => running_weekly_quiz or next_weekly_quiz
+  Future<bool> checkParticipantWeeklyQuiz(String week) async {
+    try {
+      final quizConfiguration = await fetchWeeklyQuiz(week);
+      final participantUid = FirebaseService.auth().currentUser!.uid;
+      final registeredQuizes =
+          await getRunningWeeklyQuizByParticipantUid(participantUid);
+
+      for (final registeredQuiz in registeredQuizes) {
+        if (quizConfiguration.id == registeredQuiz.quiz_id) {
+          return true;
+        }
+      }
+
+      return false;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<WeeklyQuizModel> fetchWeeklyQuiz(String week) async {
     try {
       final snapshot = await db.collection('configuration').doc(week).get();
