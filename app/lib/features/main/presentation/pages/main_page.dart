@@ -22,7 +22,6 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return BebrasScaffold(
       body: SingleChildScrollView(
         child: Stack(
@@ -48,8 +47,8 @@ class _MainPageState extends State<MainPage> {
                           style: FontTheme.blackTitle(),
                           children: <TextSpan>[
                             TextSpan(
-                              text:
-                              toBeginningOfSentenceCase('${useData['name']}!'),
+                              text: toBeginningOfSentenceCase(
+                                  '${useData?['name']}!'),
                               style: FontTheme.blackTitleBold(),
                             ),
                           ],
@@ -89,19 +88,19 @@ class _MainPageState extends State<MainPage> {
                   Button(
                     buttonType: ButtonType.primary,
                     onTap: () async {
-                      await context.push('/final_score');
+                      await context.push('/quiz_registration');
                     },
-                    text: '(Dummy) Final Score Page',
+                    text: 'Ikut Latihan Mingguan',
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   Button(
                     buttonType: ButtonType.primary,
                     onTap: () async {
-                      await context.push('/quiz_registration');
+                      await context.push('/final_score');
                     },
-                    text: 'Ikut Latihan Mingguan',
+                    text: '(Dummy) Final Score Page',
                   ),
                   const SizedBox(
                     height: 20,

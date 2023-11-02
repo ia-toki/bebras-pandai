@@ -34,9 +34,13 @@ class QuizExerciseRepository {
     try {
       final result = await FirebaseFirestore.instance
           .collection('task_set')
-          .doc(taskId)
+          .where('id', isEqualTo: taskId)
           .get();
-      return QuizExercise.fromJson(result.data()!);
+      final data = result.docs.first;
+      if (data == null) {
+        throw Exception('Task ID not found');
+      }
+      return QuizExercise.fromJson(data.data());
     } catch (e) {
       throw Exception(e.toString());
     }

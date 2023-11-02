@@ -47,7 +47,9 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                       context.replace(
                         Uri(
                           path: '/quiz_result',
-                          queryParameters: {},
+                          queryParameters: {
+                            'quizParticipantId': state.quizParticipantId,
+                          },
                         ).toString(),
                       );
                     }

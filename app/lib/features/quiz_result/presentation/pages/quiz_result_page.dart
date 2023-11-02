@@ -1,16 +1,14 @@
-import 'package:flutter/material.dart';
+part of '_pages.dart';
 
-import '../../core/bases/widgets/layout/bebras_scaffold.dart';
-import '../../core/constants/assets.dart';
-
-class FinalScorePage extends StatefulWidget {
-  const FinalScorePage({super.key});
+class QuizResultPage extends StatefulWidget {
+  final String? quizParticipantId;
+  QuizResultPage({super.key, this.quizParticipantId});
 
   @override
-  State<FinalScorePage> createState() => _FinalScorePageState();
+  State<QuizResultPage> createState() => _QuizResultPageState();
 }
 
-class _FinalScorePageState extends State<FinalScorePage> {
+class _QuizResultPageState extends State<QuizResultPage> {
   @override
   Widget build(BuildContext context) {
     return BebrasScaffold(

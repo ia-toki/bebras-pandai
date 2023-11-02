@@ -10,7 +10,6 @@ import '../model/quiz_exercise_answer.dart';
 import '../model/quiz_exercise_attempt.dart';
 import '../repositories/quiz_exercise.dart';
 
-part 'quiz_exercise_event.dart';
 part 'quiz_exercise_state.dart';
 
 class QuizExerciseCubit extends Cubit<QuizExerciseState> {
@@ -35,8 +34,8 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
       String? quizParticipantId,
       String? challengeGroup}) async {
     try {
-      this.quizService = QuizService();
-      this.quizExerciseRepository = QuizExerciseRepository();
+      quizService = QuizService();
+      quizExerciseRepository = QuizExerciseRepository();
 
       emit(QuizExerciseLoading());
       if (quizId == null) {
@@ -174,7 +173,7 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
         attempt.uploadedAt = DateTime.now();
         await quizExerciseRepository.insertQuizExerciseAttempt(
             quizParticipantId, attempt);
-        emit(QuizExerciseFinished(attempt));
+        emit(QuizExerciseFinished(quizParticipantId));
       }
     } catch (e) {
       emit(QuizExerciseFailed(e.toString()));
