@@ -5,7 +5,10 @@ import '../features/authentication/signin/presentation/pages/_pages.dart';
 import '../features/error/presentation/pages/_pages.dart';
 import '../features/final_score/final_score_page.dart';
 import '../features/main/presentation/pages/_pages.dart';
+import '../features/material/menu/presentation/pages/_pages.dart';
+import '../features/material/viewer/presentation/pages/_pages.dart';
 import '../features/onboarding/presentation/pages/_pages.dart';
+import '../features/quiz_exercise/presentation/pages/_pages.dart';
 import '../features/quiz_registration/presentation/pages/_pages.dart';
 
 GoRouter router = GoRouter(
@@ -27,8 +30,20 @@ GoRouter router = GoRouter(
       builder: (context, state) => const MainPage(),
     ),
     GoRoute(
+      path: '/setting',
+      builder: (context, state) => const SettingPage(),
+    ),
+    GoRoute(
       path: '/construction',
       builder: (context, state) => const UnderConstructionPage(),
+    ),
+    GoRoute(
+      path: '/quiz_exercise',
+      builder: (context, state) => QuizExercisePage(
+        quizId: state.queryParameters['quiz_id'],
+        challengeGroup: state.queryParameters['challenge_group'],
+        quizParticipantId: state.queryParameters['quiz_participant_id'],
+      ),
     ),
     GoRoute(
       path: '/quiz_registration',
@@ -36,6 +51,18 @@ GoRouter router = GoRouter(
     ),
     GoRoute(
         path: '/final_score',
-        builder: (context, state) => const FinalScorePage())
+        builder: (context, state) => const FinalScorePage()),
+    GoRoute(
+      path: '/material',
+      builder: (context, state) => const MaterialMenu(),
+    ),
+    GoRoute(
+      path: '/material/:id',
+      builder: (context, state) => PdfViewerPage(
+        pdfUrl: state.queryParameters['pdfUrl'],
+        title: state.queryParameters['title'],
+        id: state.queryParameters['id'],
+      ),
+    ),
   ],
 );

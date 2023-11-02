@@ -10,21 +10,18 @@ class MainPage extends StatefulWidget {
 class Course {
   String title;
   String description;
+
   Course(this.title, this.description);
 }
 
 class _MainPageState extends State<MainPage> {
-  final nama = 'dummy';
-  final List<Course> courses = [
-    Course('SiKecil', 'abdcdafadf'),
-    Course('Siaga', 'abdcdafadf'),
-    Course('Penggalang', 'abdcdafadf'),
-    Course('Penegak', 'abdcdafadf'),
-  ];
+  final registeredUserSnapshot = FirebaseFirestore.instance
+      .collection('registered_user')
+      .doc(FirebaseService.auth().currentUser?.uid)
+      .get();
 
   @override
   Widget build(BuildContext context) {
-    // final size = MediaQuery.of(context).size;
 
     return BebrasScaffold(
       body: SingleChildScrollView(
@@ -41,44 +38,53 @@ class _MainPageState extends State<MainPage> {
                   const SizedBox(
                     height: 40,
                   ),
-                  RichText(
-                    text: TextSpan(
-                      text: 'Selamat Datang\n',
-                      style: FontTheme.blackTitle(),
-                      children: <TextSpan>[
-                        TextSpan(
-                          text:
-                              // ignore: lines_longer_than_80_chars
-                              '${FirebaseService.auth().currentUser?.displayName},',
-                          style: FontTheme.blackTitleBold(),
-                          // recognizer: TapGestureRecognizer()
-                          //   ..onTap = () => context.go('/signup'),
+                  FutureBuilder(
+                    future: registeredUserSnapshot,
+                    builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                      final useData = snapshot.data?.data();
+                      return RichText(
+                        text: TextSpan(
+                          text: 'Selamat Datang\n',
+                          style: FontTheme.blackTitle(),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text:
+                              toBeginningOfSentenceCase('${useData['name']}!'),
+                              style: FontTheme.blackTitleBold(),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
                   const SizedBox(
                     height: 30,
                   ),
                   Button(
-                    buttonType: ButtonType.primary,
                     onTap: () async {
-                      await context.push('/construction');
+                      final url = Uri.parse(
+                        'https://bebras.or.id/v3/bebras-indonesia-challenge-2023/',
+                      );
+                      if (!await launchUrl(url)) {
+                        throw Exception('Could not launch $url');
+                      }
                     },
-                    text: 'Lihat Materi',
+                    customButtonColor: Colors.blue,
+                    customTextColor: Colors.white,
+                    text: 'ℹ️  Tentang Tantangan Bebras  ℹ️',
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   Button(
                     buttonType: ButtonType.primary,
                     onTap: () async {
-                      await context.push('/construction');
+                      await context.push('/material');
                     },
-                    text: 'Cetak Materi',
+                    text: 'Lihat / Cetak Materi',
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   Button(
                     buttonType: ButtonType.primary,
@@ -95,27 +101,26 @@ class _MainPageState extends State<MainPage> {
                     onTap: () async {
                       await context.push('/quiz_registration');
                     },
-                    text: 'Ikut Quiz',
+                    text: 'Ikut Latihan Mingguan',
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   Button(
-                    buttonType: ButtonType.primary,
                     onTap: () async {
-                      await FirebaseAuth.instance.signOut();
-                      await GoogleSignIn().signOut();
-                      context.go('/onboarding');
+                      await context.push('/setting');
                     },
-                    text: 'Log out',
+                    customButtonColor: Colors.grey,
+                    customTextColor: Colors.white,
+                    text: 'Pengaturan',
                   ),
                   const SizedBox(
-                    height: 60,
+                    height: 255,
                   ),
                   InkWell(
                     onTap: () async {
                       final url = Uri.parse(
-                        'https://bebras.or.id/v3/bebras-indonesia-challenge-2022/',
+                        'https://tlx.toki.id/',
                       );
                       if (!await launchUrl(url)) {
                         throw Exception('Could not launch $url');
@@ -123,9 +128,9 @@ class _MainPageState extends State<MainPage> {
                     },
                     child: Center(
                       child: Text(
-                        'Tentang Bebras Challange',
+                        'From Ikatan Alumni TOKI with 🩷',
                         textAlign: TextAlign.center,
-                        style: FontTheme.blackTextBold(),
+                        style: FontTheme.greyNormal14(),
                       ),
                     ),
                   ),
