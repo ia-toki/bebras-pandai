@@ -97,16 +97,6 @@ class _MainPageState extends State<MainPage> {
                     height: 20,
                   ),
                   Button(
-                    buttonType: ButtonType.primary,
-                    onTap: () async {
-                      await context.push('/quiz_exercise');
-                    },
-                    text: 'Quiz Exercise',
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Button(
                     onTap: () async {
                       await context.push('/setting');
                     },
