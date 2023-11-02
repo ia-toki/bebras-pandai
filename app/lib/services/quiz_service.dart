@@ -59,9 +59,10 @@ class QuizService {
   // week => running_weekly_quiz or next_weekly_quiz
   Future<void> registerParticipant(String week, String level) async {
     final levelLowerCase = level.toLowerCase();
-    // final weeklyQuiz = await fetchWeeklyQuiz(week);
     final snapshot = await db.collection('configuration').doc(week).get();
 
+    // background task untuk fetch task untuk sesuai minggu dan level
+    // yang akan didaftarkan agar bisa dipakai offline
     for (final taskId in snapshot['tasks'][level] as List<dynamic>) {
       await fetchWeeklyQuizTaskSet(taskId.toString());
     }
@@ -124,18 +125,6 @@ class QuizService {
 
       return participantQuizzes;
     } catch (e) {
-      // final quizListString = prefs.getString('quiz_list');
-      // final quizListDecoded = jsonDecode(quizListString.toString());
-      // final quizList = quizListDecoded['quiz_list'] as List<dynamic>;
-
-      // final participantQuizzes = quizList.map((e) {
-      //   return RegisteredParticipantModel.fromJson(
-      //     '',
-      //     e.data()! as Map<String, dynamic>,
-      //   );
-      // }).toList();
-
-      // return participantQuizzes;
       rethrow;
     }
   }
