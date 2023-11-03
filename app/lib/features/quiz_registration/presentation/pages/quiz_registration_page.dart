@@ -11,11 +11,15 @@ class QuizRegistrationPage extends StatefulWidget {
 
 class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
   String selectedWeek = '';
+  bool isRunningWeekSelected = false;
+  bool isNextWeekSelected = false;
 
   @override
   void initState() {
     super.initState();
     context.read<QuizRegistrationCubit>().fetchParticipantWeeklyQuiz();
+    checkRunningWeeklyQuiz();
+    checkNextWeeklyQuiz();
   }
 
   void selectWeek(String week) {
@@ -24,8 +28,24 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
     });
   }
 
+  Future<void> checkRunningWeeklyQuiz() async {
+    final check =
+        await QuizService().checkParticipantWeeklyQuiz('running_weekly_quiz');
+    setState(() {
+      isRunningWeekSelected = check;
+    });
+  }
+
+  Future<void> checkNextWeeklyQuiz() async {
+    final check =
+        await QuizService().checkParticipantWeeklyQuiz('next_weekly_quiz');
+    setState(() {
+      isNextWeekSelected = check;
+    });
+  }
+
   Widget quizCard(WeeklyQuizParticipation weeklyQuizParticipant, String date,
-      String score) {
+      String score, String level, BuildContext context) {
     return InkWell(
       onTap: () {
         final endDate = DateFormat('yyyy-MM-dd HH:mm:ss')
@@ -67,6 +87,17 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
               ),
               Text(
                 'Nilai: $score',
+                style: const TextStyle(fontSize: 12),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          Row(
+            children: [
+              Text(
+                'Kategori: $level',
                 style: const TextStyle(fontSize: 12),
               )
             ],
@@ -136,11 +167,14 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 40),
                         width: double.infinity,
                         child: Button(
-                          onTap: () => {
+                          onTap: () {
                             context
                                 .read<QuizRegistrationCubit>()
-                                .registerParticipant('sikecil', selectedWeek),
-                            Navigator.pop(context)
+                                .registerParticipant('sikecil', selectedWeek);
+                            checkNextWeeklyQuiz();
+                            checkRunningWeeklyQuiz();
+                            selectWeek('');
+                            Navigator.pop(context);
                           },
                           customButtonColor: Colors.blue.shade400,
                           customTextColor: Colors.white,
@@ -154,11 +188,14 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 40),
                         width: double.infinity,
                         child: Button(
-                          onTap: () => {
+                          onTap: () {
                             context
                                 .read<QuizRegistrationCubit>()
-                                .registerParticipant('siaga', selectedWeek),
-                            Navigator.pop(context)
+                                .registerParticipant('siaga', selectedWeek);
+                            checkNextWeeklyQuiz();
+                            checkRunningWeeklyQuiz();
+                            selectWeek('');
+                            Navigator.pop(context);
                           },
                           customButtonColor: Colors.green.shade400,
                           customTextColor: Colors.white,
@@ -171,12 +208,15 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 40),
                         width: double.infinity,
                         child: Button(
-                          onTap: () => {
+                          onTap: () {
                             context
                                 .read<QuizRegistrationCubit>()
                                 .registerParticipant(
-                                    'penggalang', selectedWeek),
-                            Navigator.pop(context)
+                                    'penggalang', selectedWeek);
+                            checkNextWeeklyQuiz();
+                            checkRunningWeeklyQuiz();
+                            selectWeek('');
+                            Navigator.pop(context);
                           },
                           customButtonColor: Colors.red.shade400,
                           customTextColor: Colors.white,
@@ -189,11 +229,14 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 40),
                         width: double.infinity,
                         child: Button(
-                          onTap: () => {
+                          onTap: () {
                             context
                                 .read<QuizRegistrationCubit>()
-                                .registerParticipant('penegak', selectedWeek),
-                            Navigator.pop(context)
+                                .registerParticipant('penegak', selectedWeek);
+                            checkNextWeeklyQuiz();
+                            checkRunningWeeklyQuiz();
+                            selectWeek('');
+                            Navigator.pop(context);
                           },
                           customButtonColor: Colors.orange.shade400,
                           customTextColor: Colors.white,
@@ -235,6 +278,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                       child: Button(
                         onTap: () =>
                             setState(() => selectedWeek = 'next_weekly_quiz'),
+                        isDisabled: isNextWeekSelected,
                         customButtonColor: Colors.green.shade400,
                         customTextColor: Colors.white,
                         text: 'Latihan Minggu Depan',
@@ -248,6 +292,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                       child: Button(
                         onTap: () => setState(
                             () => selectedWeek = 'running_weekly_quiz'),
+                        isDisabled: isRunningWeekSelected,
                         customButtonColor: Colors.brown.shade400,
                         customTextColor: Colors.white,
                         text: 'Latihan Minggu Ini',
@@ -322,6 +367,8 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                                             .score
                                             .toString()
                                         : '??',
+                                    quiz.challenge_group,
+                                    context,
                                   ),
                               ]);
                             }
@@ -354,6 +401,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                     height: 10,
                   ),
                   Button(
+                    isDisabled: isNextWeekSelected && isRunningWeekSelected,
                     buttonType: ButtonType.tertiary,
                     onTap: () async {
                       await showModal();
