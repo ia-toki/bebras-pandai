@@ -4,13 +4,15 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField(
     this.labelText,
     this.handleTextInput,
-    this.validator, {
+    this.validator,
+    this.initValue, {
     super.key,
   });
 
   final String labelText;
   final void Function(String value)? handleTextInput;
   final String? Function(String?)? validator;
+  final String? initValue;
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +21,7 @@ class CustomTextField extends StatelessWidget {
       child: TextFormField(
         onChanged: (value) => handleTextInput!(value),
         validator: validator,
+        initialValue: initValue,
         style: const TextStyle(fontSize: 12),
         decoration: InputDecoration(
           helperText: '',

@@ -8,7 +8,6 @@ class SplashScreen extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return BlocListener<UserInitializationBloc, UserInitializationState>(
       listener: (context, state) {
-        print(state);
         if (state is UserUnauthenticated) {
           context.go('/onboarding');
         } else if (state is UserUnregistered) {

@@ -1,7 +1,9 @@
 part of '_pages.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+  const RegisterPage({super.key, this.isUpdateProfile});
+
+  final String? isUpdateProfile;
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -9,8 +11,6 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   late final UserRegisterBloc _userRegisterBloc;
-  TextEditingController dateinput = TextEditingController();
-
   String? selectedValue;
 
   @override
@@ -23,146 +23,203 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return BlocListener<UserRegisterBloc, RegisterFormState>(
-      listener: (context, state) {
-        if (state is UserRegisterSuccessState) {
-          context.go('/main');
-        }
-      },
-      child: BlocBuilder<UserRegisterBloc, RegisterFormState>(
-        builder: (context, state) {
-          return BebrasScaffold(
-            avoidBottomInset: false,
-            body: Padding(
-              padding: const EdgeInsets.only(
-                left: 16,
-                top: 30,
-                right: 16,
-              ),
-              child: Form(
-                key: state.formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Image.asset(
-                      Assets.bebrasPandaiText,
-                      height: 40,
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    const Text(
-                      'Detail Akun',
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w700,
+    return BlocProvider(
+      create: (_) => get<UserRegisterBloc>()
+        ..add(
+          InitialValueEvent(),
+        ),
+      child: BlocListener<UserRegisterBloc, RegisterFormState>(
+        listener: (context, state) {
+          if (state is UserRegisterSuccessState) {
+            if(widget.isUpdateProfile == 'true') {
+              context.go('/setting');
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: const Text('Pembaruan data profil berhasil'),
+                action: SnackBarAction(
+                  label: 'OK',
+                  onPressed: () {
+                    // Some code to undo the change.
+                  },
+                ),
+              ));
+            } else {
+              context.go('/main');
+            }
+          }
+        },
+        child: BlocBuilder<UserRegisterBloc, RegisterFormState>(
+          builder: (context, state) {
+            return BebrasScaffold(
+              avoidBottomInset: false,
+              body: Padding(
+                padding: const EdgeInsets.only(
+                  left: 16,
+                  top: 30,
+                  right: 16,
+                ),
+                child: Form(
+                  key: state.formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Image.asset(
+                        Assets.bebrasPandaiText,
+                        height: 40,
                       ),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    CustomTextField(
-                      'Email',
-                      (value) {
-                        BlocProvider.of<UserRegisterBloc>(context)
-                            .add(EmailEvent(email: BlocFormItem(value: value)));
-                      },
-                      (val) {
-                        return state.email.error;
-                      },
-                    ),
-                    CustomTextField(
-                      'Nama',
-                      (value) {
-                        BlocProvider.of<UserRegisterBloc>(context)
-                            .add(NameEvent(name: BlocFormItem(value: value)));
-                      },
-                      (val) {
-                        return state.name.error;
-                      },
-                    ),
-                    CustomDatePicker('Tanggal Lahir', (value) {
-                      BlocProvider.of<UserRegisterBloc>(context).add(
-                        BirthDateEvent(
-                          birthDate: BlocFormItem(
-                            value: value,
-                          ),
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      Text(
+                        widget.isUpdateProfile == 'true'
+                            ? 'Perbarui Data'
+                            : 'Detail Akun',
+                        style: const TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w700,
                         ),
-                      );
-                    }, (val) {
-                      return state.birthDate.error;
-                    }),
-                    CustomTextField('Sekolah', (value) {
-                      BlocProvider.of<UserRegisterBloc>(context).add(
-                        SchoolEvent(
-                          school: BlocFormItem(
-                            value: value,
-                          ),
-                        ),
-                      );
-                    }, (val) {
-                      return state.school.error;
-                    }),
-                    ProvinceDropdown('Provinsi', (value) {
-                      BlocProvider.of<UserRegisterBloc>(context).add(
-                        ProvinceEvent(
-                          province: BlocFormItem(
-                            value: value,
-                          ),
-                        ),
-                      );
-                    }, (val) {
-                      return state.province.error;
-                    }),
-                    BiroBebrasDropdown('Bebras Biro', (value) {
-                      BlocProvider.of<UserRegisterBloc>(context).add(
-                        BebrasBiroEvent(
-                          bebrasBiro: BlocFormItem(
-                            value: value,
-                          ),
-                        ),
-                      );
-                    }, (val) {
-                      return state.bebrasBiro.error;
-                    }),
-                    const SizedBox(height: 20),
-                    BlocConsumer<UserRegisterBloc, RegisterFormState>(
-                      bloc: _userRegisterBloc,
-                      listener: (context, state) {
-                        if (state is UserRegisterSuccessState) {
-                          context.go('/main');
-                        }
-                      },
-                      builder: (context, state) {
-                        return ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            fixedSize: Size(size.width, 45),
-                            backgroundColor: Colors.black,
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      CustomTextField(
+                        'Email',
+                        (value) {
+                          BlocProvider.of<UserRegisterBloc>(context).add(
+                              EmailEvent(email: BlocFormItem(value: value)));
+                        },
+                        (val) {
+                          return state.email.error;
+                        },
+                        state.email.value,
+                      ),
+                      CustomTextField(
+                        'Nama',
+                        (value) {
+                          BlocProvider.of<UserRegisterBloc>(context)
+                              .add(NameEvent(name: BlocFormItem(value: value)));
+                        },
+                        (val) {
+                          return state.name.error;
+                        },
+                        state.name.value,
+                      ),
+                      CustomDatePicker(
+                        'Tanggal Lahir',
+                        (value) {
+                          BlocProvider.of<UserRegisterBloc>(context).add(
+                            BirthDateEvent(
+                              birthDate: BlocFormItem(
+                                value: value,
+                              ),
                             ),
-                          ),
-                          onPressed: () {
-                            if (state is! UserRegisterLoadingState) {
-                              BlocProvider.of<UserRegisterBloc>(context)
-                                  .add(const FormSubmitEvent());
-                              // context.go('/main');
+                          );
+                        },
+                        (val) {
+                          return state.birthDate.error;
+                        },
+                        state.birthDate.value,
+                      ),
+                      CustomTextField(
+                        'Sekolah',
+                        (value) {
+                          BlocProvider.of<UserRegisterBloc>(context).add(
+                            SchoolEvent(
+                              school: BlocFormItem(
+                                value: value,
+                              ),
+                            ),
+                          );
+                        },
+                        (val) {
+                          return state.school.error;
+                        },
+                        state.school.value,
+                      ),
+                      ProvinceDropdown(
+                        'Provinsi',
+                        (value) {
+                          BlocProvider.of<UserRegisterBloc>(context).add(
+                            ProvinceEvent(
+                              province: BlocFormItem(
+                                value: value,
+                              ),
+                            ),
+                          );
+                        },
+                        (val) {
+                          return state.province.error;
+                        },
+                        state.province.value,
+                      ),
+                      BiroBebrasDropdown(
+                        'Bebras Biro',
+                        (value) {
+                          BlocProvider.of<UserRegisterBloc>(context).add(
+                            BebrasBiroEvent(
+                              bebrasBiro: BlocFormItem(
+                                value: value,
+                              ),
+                            ),
+                          );
+                        },
+                        (val) {
+                          return state.bebrasBiro.error;
+                        },
+                        state.bebrasBiro.value,
+                      ),
+                      const SizedBox(height: 20),
+                      BlocConsumer<UserRegisterBloc, RegisterFormState>(
+                        bloc: _userRegisterBloc,
+                        listener: (context, state) {
+                          if (state is UserRegisterSuccessState) {
+                            if(widget.isUpdateProfile == 'true') {
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: const Text('Profile data successfully updated'),
+                                action: SnackBarAction(
+                                  label: 'OK',
+                                  onPressed: () {
+                                    // Some code to undo the change.
+                                  },
+                                ),
+                              ));
+                            } else {
+                              context.go('/main');
                             }
-                          },
-                          child: const Text(
-                            'Daftar',
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
+                          }
+                        },
+                        builder: (context, state) {
+                          return ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              fixedSize: Size(size.width, 45),
+                              backgroundColor: Colors.black,
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            onPressed: () {
+                              if (state is! UserRegisterLoadingState) {
+                                BlocProvider.of<UserRegisterBloc>(context)
+                                    .add(const FormSubmitEvent());
+                              }
+                            },
+                            child: Text(
+                              widget.isUpdateProfile == 'true'
+                                  ? 'Perbarui'
+                                  : 'Daftar',
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w600),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

@@ -32,7 +32,12 @@ class _SettingPageState extends State<SettingPage> {
                   Button(
                     buttonType: ButtonType.primary,
                     onTap: () async {
-                      await context.push('/construction');
+                      await context.push(Uri(
+                      path: '/register',
+                        queryParameters: {
+                          'isUpdateProfile': "true",
+                        },
+                      ).toString(),);
                     },
                     text: 'Edit Profil',
                   ),

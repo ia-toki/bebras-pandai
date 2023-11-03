@@ -7,20 +7,22 @@ class ProvinceDropdown extends StatelessWidget {
   const ProvinceDropdown(
     this.labelText,
     this.handleTextInput,
-    this.validator, {
+    this.validator,
+      this.initValue, {
     super.key,
   });
 
   final String labelText;
   final void Function(String value)? handleTextInput;
   final String? Function(String?)? validator;
+  final String? initValue;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      // margin: const EdgeInsets.only(top: 10),
       height: 63,
       child: DropdownSearch<String>(
+        selectedItem: initValue,
         validator: validator,
         popupProps: const PopupProps.menu(
           showSearchBox: true,

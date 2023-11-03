@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../../services/firebase_service.dart';
 import '../../../authentication/register/repositories/register_user_repo.dart';
 import '../model/form_item.dart';
 
@@ -17,8 +19,10 @@ part 'user_register_state.dart';
 @singleton
 class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
   final RegisterUserRepository registerUserRepository;
+
   UserRegisterBloc(this.registerUserRepository)
       : super(const RegisterFormState()) {
+    on<InitialValueEvent>(initValueState);
     on<InitEvent>(_initState);
     on<EmailEvent>(_onEmailChanged);
     on<NameEvent>(_onNameChanged);
@@ -31,6 +35,43 @@ class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
   }
 
   final formKey = GlobalKey<FormState>();
+
+  FutureOr<void> initValueState(
+    InitialValueEvent event,
+    Emitter<RegisterFormState> emit,
+  ) async {
+    await FirebaseFirestore.instance
+        .collection('registered_user')
+        .doc(FirebaseService.auth().currentUser?.uid)
+        .get()
+        .then(
+          (value) => {
+            emit(
+              state.copyWith(
+                formKey: formKey,
+                name: BlocFormItem(
+                  value: value['name'].toString(),
+                ),
+                email: BlocFormItem(
+                  value: value['email'].toString(),
+                ),
+                birthDate: BlocFormItem(
+                  value: value['birth_date'].toString(),
+                ),
+                school: BlocFormItem(
+                  value: value['school'].toString(),
+                ),
+                province: BlocFormItem(
+                  value: value['province'].toString(),
+                ),
+                bebrasBiro: BlocFormItem(
+                  value: value['bebras_biro'].toString(),
+                ),
+              ),
+            ),
+          },
+        );
+  }
 
   Future<void> _initState(
     InitEvent event,

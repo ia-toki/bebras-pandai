@@ -15,6 +15,10 @@ class FormResetEvent extends UserRegisterEvent {
   const FormResetEvent();
 }
 
+class InitialValueEvent extends UserRegisterEvent {
+  const InitialValueEvent();
+}
+
 class InitEvent extends UserRegisterEvent {
   const InitEvent();
 }
