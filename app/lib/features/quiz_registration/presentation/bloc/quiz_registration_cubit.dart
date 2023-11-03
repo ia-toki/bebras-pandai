@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../models/quiz_participation.dart';
 import '../../../../models/weekly_quiz.dart';
 import '../../../../services/firebase_service.dart';
-import '../../service/QuizService.dart';
+import '../../../../services/quiz_service.dart';
 
 part 'quiz_registration_event.dart';
 part 'quiz_registration_state.dart';
