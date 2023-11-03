@@ -11,6 +11,10 @@ class FormSubmitEvent extends UserRegisterEvent {
   const FormSubmitEvent();
 }
 
+class FormSubmitUpdateEvent extends UserRegisterEvent {
+  const FormSubmitUpdateEvent();
+}
+
 class FormResetEvent extends UserRegisterEvent {
   const FormResetEvent();
 }

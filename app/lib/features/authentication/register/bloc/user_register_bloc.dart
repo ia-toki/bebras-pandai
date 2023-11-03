@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../services/firebase_service.dart';
 import '../../../authentication/register/repositories/register_user_repo.dart';
@@ -31,6 +32,7 @@ class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
     on<ProvinceEvent>(_onProvinceChanged);
     on<BebrasBiroEvent>(_onBebrasBiroChanged);
     on<FormSubmitEvent>(_onFormSubmitted);
+    on<FormSubmitUpdateEvent>(_onFormUpdateSubmitted);
     on<FormResetEvent>(_onFormReset);
   }
 
@@ -195,6 +197,7 @@ class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
   ) async {
     final auth = FirebaseAuth.instance;
     final userId = auth.currentUser!.uid;
+    final dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
 
     if (state.formKey!.currentState!.validate()) {
       final email = state.email.value;
@@ -215,6 +218,43 @@ class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
           school: school,
           province: province,
           bebrasBiro: bebrasBiro,
+          createdAt: dateFormat.format(DateTime.now()),
+        );
+        emit(UserRegisterSuccessState());
+      } catch (e) {
+        // emit(Us)
+      }
+    }
+  }
+
+  Future<void> _onFormUpdateSubmitted(
+      FormSubmitUpdateEvent event,
+      Emitter<RegisterFormState> emit,
+      ) async {
+    final auth = FirebaseAuth.instance;
+    final userId = auth.currentUser!.uid;
+    final dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
+
+    if (state.formKey!.currentState!.validate()) {
+      final email = state.email.value;
+      final name = state.name.value;
+      final birthDate = state.birthDate.value;
+      final school = state.school.value;
+      final province = state.province.value;
+      final bebrasBiro = state.bebrasBiro.value;
+
+      emit(UserRegisterLoadingState());
+
+      try {
+        await registerUserRepository.update(
+          userId: userId,
+          email: email,
+          name: name,
+          birthDate: birthDate,
+          school: school,
+          province: province,
+          bebrasBiro: bebrasBiro,
+          updatedAt: dateFormat.format(DateTime.now()),
         );
         emit(UserRegisterSuccessState());
       } catch (e) {

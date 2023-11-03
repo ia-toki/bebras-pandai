@@ -199,8 +199,13 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                             onPressed: () {
                               if (state is! UserRegisterLoadingState) {
-                                BlocProvider.of<UserRegisterBloc>(context)
-                                    .add(const FormSubmitEvent());
+                                if(widget.isUpdateProfile == 'true') {
+                                  BlocProvider.of<UserRegisterBloc>(context)
+                                      .add(const FormSubmitUpdateEvent());
+                                } else {
+                                  BlocProvider.of<UserRegisterBloc>(context)
+                                      .add(const FormSubmitEvent());
+                                }
                               }
                             },
                             child: Text(
