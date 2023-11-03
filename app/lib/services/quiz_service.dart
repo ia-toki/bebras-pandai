@@ -12,6 +12,7 @@ import '../../../services/firebase_service.dart';
 
 class QuizService {
   FirebaseFirestore db = FirebaseFirestore.instance;
+  String currentUserUID = FirebaseService.auth().currentUser!.uid;
 
   QuizService() {
     db.settings = const Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
@@ -21,9 +22,8 @@ class QuizService {
   Future<bool> checkParticipantWeeklyQuiz(String week) async {
     try {
       final quizConfiguration = await getWeeklyQuizByWeek(week);
-      final participantUid = FirebaseService.auth().currentUser!.uid;
       final registeredQuizes =
-          await getRunningWeeklyQuizByParticipantUid(participantUid);
+          await getRunningWeeklyQuizByParticipantUid(currentUserUID);
 
       for (final registeredQuiz in registeredQuizes) {
         if (quizConfiguration.id == registeredQuiz.quiz_id) {
@@ -42,6 +42,8 @@ class QuizService {
   Future<void> registerParticipant(String week, String level) async {
     final levelLowerCase = level.toLowerCase();
     final snapshot = await db.collection('configuration').doc(week).get();
+    final registeredUserSnapshot =
+        await db.collection('registered_user').doc(currentUserUID).get();
 
     // background task untuk fetch task untuk sesuai minggu dan level
     // yang akan didaftarkan agar bisa dipakai offline
@@ -58,8 +60,8 @@ class QuizService {
         'quiz_id': snapshot['id'],
         'quiz_max_attempts': snapshot['max_attempts'][levelLowerCase],
         'quiz_start_at': snapshot['start_at'],
-        'user_name': FirebaseService.auth().currentUser?.displayName,
-        'user_uid': FirebaseService.auth().currentUser?.uid,
+        'user_name': registeredUserSnapshot['name'],
+        'user_uid': currentUserUID,
         'created_at': DateTime.now(),
       });
     } catch (e) {
@@ -120,7 +122,7 @@ class QuizService {
       final snapshot = await db.collection('configuration').doc(week).get();
       return WeeklyQuiz.fromJson(
         snapshot['id'] as String,
-        snapshot as Map<String, dynamic>,
+        snapshot.data()!,
       );
     } catch (e) {
       rethrow;
@@ -133,7 +135,7 @@ class QuizService {
           await db.collection('weekly_quiz_list').doc(quizId).get();
       return WeeklyQuiz.fromJson(
         snapshot.id,
-        snapshot as Map<String, dynamic>,
+        snapshot.data()!,
       );
     } catch (e) {
       rethrow;
