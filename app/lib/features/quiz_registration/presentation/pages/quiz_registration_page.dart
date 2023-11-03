@@ -44,10 +44,26 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
     });
   }
 
-  Widget quizCard(String name, String date, String score, String level,
-      BuildContext context) {
+  Widget quizCard(WeeklyQuizParticipation weeklyQuizParticipant, String date,
+      String score, String level, BuildContext context) {
     return InkWell(
-      onTap: () async {},
+      onTap: () {
+        final endDate = DateFormat('yyyy-MM-dd HH:mm:ss')
+            .parse(weeklyQuizParticipant.quiz_end_at);
+        if (endDate.isBefore(DateTime.now())) {
+        } else {
+          context.push(
+            Uri(
+              path: '/quiz_exercise',
+              queryParameters: {
+                'quiz_id': weeklyQuizParticipant.quiz_id,
+                'challenge_group': weeklyQuizParticipant.challenge_group,
+                'quiz_participant_id': weeklyQuizParticipant.id,
+              },
+            ).toString(),
+          );
+        }
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 18),
         margin: const EdgeInsets.only(bottom: 12),
@@ -63,7 +79,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                 child: Container(
                   padding: const EdgeInsets.only(right: 20),
                   child: Text(
-                    name,
+                    weeklyQuizParticipant.quiz_title,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontSize: 12),
                   ),
@@ -260,14 +276,10 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 40),
                       width: double.infinity,
                       child: Button(
-                        onTap: () {
-                          if (!isNextWeekSelected) {
-                            setState(() => selectedWeek = 'next_weekly_quiz');
-                          }
-                        },
-                        customButtonColor: isNextWeekSelected
-                            ? Colors.grey
-                            : Colors.green.shade400,
+                        onTap: () =>
+                            setState(() => selectedWeek = 'next_weekly_quiz'),
+                        isDisabled: isNextWeekSelected,
+                        customButtonColor: Colors.green.shade400,
                         customTextColor: Colors.white,
                         text: 'Latihan Minggu Depan',
                       )),
@@ -278,15 +290,10 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 40),
                       width: double.infinity,
                       child: Button(
-                        onTap: () {
-                          if (!isRunningWeekSelected) {
-                            setState(
-                                () => selectedWeek = 'running_weekly_quiz');
-                          }
-                        },
-                        customButtonColor: isRunningWeekSelected
-                            ? Colors.grey
-                            : Colors.brown.shade400,
+                        onTap: () => setState(
+                            () => selectedWeek = 'running_weekly_quiz'),
+                        isDisabled: isRunningWeekSelected,
+                        customButtonColor: Colors.brown.shade400,
                         customTextColor: Colors.white,
                         text: 'Latihan Minggu Ini',
                       ))
@@ -347,7 +354,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                                 ),
                                 for (final quiz in state.weeklyQuizzes)
                                   quizCard(
-                                    quiz.quiz_title,
+                                    quiz,
                                     quiz.attempts.isNotEmpty
                                         ? quiz
                                             .attempts[quiz.attempts.length - 1]
@@ -394,15 +401,9 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                     height: 10,
                   ),
                   Button(
-                    customButtonColor:
-                        isNextWeekSelected && isRunningWeekSelected
-                            ? Colors.grey
-                            : Colors.blueAccent,
-                    customTextColor: Colors.white,
+                    isDisabled: isNextWeekSelected && isRunningWeekSelected,
+                    buttonType: ButtonType.tertiary,
                     onTap: () async {
-                      if (isNextWeekSelected && isRunningWeekSelected) {
-                        return;
-                      }
                       await showModal();
                     },
                     text: 'Daftar Latihan Bebras',
