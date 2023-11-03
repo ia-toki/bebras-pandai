@@ -10,7 +10,6 @@ class WeeklyQuizParticipation extends Equatable {
   final String user_name;
   final String user_uid;
   final String challenge_group;
-  final String created_at;
   final String quiz_end_at;
   final String quiz_start_at;
   final String quiz_id;
@@ -23,7 +22,6 @@ class WeeklyQuizParticipation extends Equatable {
     this.user_name = '',
     this.user_uid = '',
     this.challenge_group = '',
-    this.created_at = '',
     this.quiz_end_at = '',
     this.quiz_start_at = '',
     this.quiz_id = '',
@@ -40,14 +38,14 @@ class WeeklyQuizParticipation extends Equatable {
         quiz_start_at: json['quiz_start_at'] as String,
         quiz_title: json['quiz_title'] as String,
         user_name: json['user_name'] as String,
-        created_at: json['created_at'] as String,
         user_uid: json['user_uid'] as String,
         challenge_group: json['challenge_group'] as String,
         quiz_end_at: json['quiz_end_at'] as String,
         quiz_id: json['quiz_id'] as String,
         quiz_max_attempts: json['quiz_max_attempts'] as int,
-        attempts:
-            List<QuizExerciseAttempt>.from(json['attempts'] as List<dynamic>),
+        attempts: (json['attempts'] as List)
+            .map((i) => QuizExerciseAttempt.fromJson(i as Map<String, dynamic>))
+            .toList(),
       );
 
   @override
@@ -55,7 +53,6 @@ class WeeklyQuizParticipation extends Equatable {
         user_name,
         user_uid,
         challenge_group,
-        created_at,
         quiz_end_at,
         quiz_start_at,
         quiz_id,
