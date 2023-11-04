@@ -37,4 +37,19 @@ class QuizRegistrationCubit extends Cubit<QuizRegistrationState> {
       emit(GetParticipantWeeklyQuizFailed(e.toString()));
     }
   }
+
+  // Future<void> fetchRunningQuizTasks(String level) async {
+  //   try {
+  //     final participantWeeklyQuizzes =
+  //         await QuizService().getWeeklyQuizByWeek('running_weekly_quiz');
+
+  //     final tasks = await QuizService().fetchWeeklyQuizTaskSet(
+  //       participantWeeklyQuizzes.problems[level][0].toString(),
+  //     );
+
+  //     emit(GetRunningQuizTasksSuccess(tasks));
+  //   } catch (e) {
+  //     emit(GetParticipantWeeklyQuizFailed(e.toString()));
+  //   }
+  // }
 }

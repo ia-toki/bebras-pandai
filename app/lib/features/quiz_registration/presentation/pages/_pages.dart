@@ -8,6 +8,7 @@ import '../../../../core/bases/widgets/atoms/button.dart';
 import '../../../../core/bases/widgets/layout/bebras_scaffold.dart';
 import '../../../../core/constants/assets.dart';
 import '../../../../models/quiz_participation.dart';
+import '../../../../services/quiz_service.dart';
 import '../bloc/quiz_registration_cubit.dart';
 
 part 'quiz_registration_page.dart';
