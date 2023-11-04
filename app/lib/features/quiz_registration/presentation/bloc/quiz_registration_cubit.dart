@@ -45,7 +45,7 @@ class QuizRegistrationCubit extends Cubit<QuizRegistrationState> {
   // Future<void> fetchRunningQuizTasks(String level) async {
   //   try {
   //     final participantWeeklyQuizzes =
-  //         await QuizService().fetchWeeklyQuiz('running_weekly_quiz');
+  //         await QuizService().getWeeklyQuizByWeek('running_weekly_quiz');
 
   //     final tasks = await QuizService().fetchWeeklyQuizTaskSet(
   //       participantWeeklyQuizzes.problems[level][0].toString(),

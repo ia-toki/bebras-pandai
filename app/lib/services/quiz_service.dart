@@ -12,41 +12,18 @@ import '../../../services/firebase_service.dart';
 
 class QuizService {
   FirebaseFirestore db = FirebaseFirestore.instance;
+  String currentUserUID = FirebaseService.auth().currentUser!.uid;
 
   QuizService() {
     db.settings = const Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
   }
 
-  Future<WeeklyQuiz> getWeeklyQuiz(String week) async {
-    try {
-      final snapshot = await db.collection('configuration').doc(week).get();
-      return WeeklyQuiz(
-        id: snapshot.id,
-        title: snapshot['title'] as String,
-        created_at: snapshot['created_at'] as String,
-        duration_minute: (snapshot['duration_minute'] as Map<String, dynamic>)
-            .map((key, value) => MapEntry(key, value as int)),
-        end_at: snapshot['end_at'] as String,
-        max_attempts: (snapshot['max_attempts'] as Map<String, dynamic>)
-            .map((key, value) => MapEntry(key, value as int)),
-        problems: (snapshot['tasks'] as Map<String, dynamic>).map(
-            (key, value) =>
-                MapEntry(key, List<String>.from(value as List<dynamic>))),
-        sponsors: snapshot['sponsors'] as Map<String, dynamic>,
-        start_at: snapshot['start_at'] as String,
-      );
-    } catch (e) {
-      rethrow;
-    }
-  }
-
   // week => running_weekly_quiz or next_weekly_quiz
   Future<bool> checkParticipantWeeklyQuiz(String week) async {
     try {
-      final quizConfiguration = await fetchWeeklyQuiz(week);
-      final participantUid = FirebaseService.auth().currentUser!.uid;
+      final quizConfiguration = await getWeeklyQuizByWeek(week);
       final registeredQuizes =
-          await getRunningWeeklyQuizByParticipantUid(participantUid);
+          await getRunningWeeklyQuizByParticipantUid(currentUserUID);
 
       for (final registeredQuiz in registeredQuizes) {
         if (quizConfiguration.id == registeredQuiz.quiz_id) {
@@ -56,30 +33,7 @@ class QuizService {
 
       return false;
     } catch (e) {
-      print(e.toString());
-      rethrow;
-    }
-  }
-
-  Future<WeeklyQuiz> fetchWeeklyQuiz(String week) async {
-    try {
-      final snapshot = await db.collection('configuration').doc(week).get();
-      return WeeklyQuiz(
-        id: snapshot['id'] as String,
-        title: snapshot['title'] as String,
-        created_at: snapshot['created_at'] as String,
-        duration_minute: (snapshot['duration_minute'] as Map<String, dynamic>)
-            .map((key, value) => MapEntry(key, value as int)),
-        end_at: snapshot['end_at'] as String,
-        max_attempts: (snapshot['max_attempts'] as Map<String, dynamic>)
-            .map((key, value) => MapEntry(key, value as int)),
-        problems: (snapshot['tasks'] as Map<String, dynamic>).map(
-            (key, value) =>
-                MapEntry(key, List<String>.from(value as List<dynamic>))),
-        sponsors: snapshot['sponsors'] as Map<String, dynamic>,
-        start_at: snapshot['start_at'] as String,
-      );
-    } catch (e) {
+      print(e);
       rethrow;
     }
   }
@@ -88,6 +42,8 @@ class QuizService {
   Future<void> registerParticipant(String week, String level) async {
     final levelLowerCase = level.toLowerCase();
     final snapshot = await db.collection('configuration').doc(week).get();
+    final registeredUserSnapshot =
+        await db.collection('registered_user').doc(currentUserUID).get();
 
     // background task untuk fetch task untuk sesuai minggu dan level
     // yang akan didaftarkan agar bisa dipakai offline
@@ -96,7 +52,6 @@ class QuizService {
     }
 
     try {
-      final dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
       await db.collection('weekly_quiz_participation').doc().set({
         'attempts': [],
         'quiz_title': snapshot['title'],
@@ -105,20 +60,25 @@ class QuizService {
         'quiz_id': snapshot['id'],
         'quiz_max_attempts': snapshot['max_attempts'][levelLowerCase],
         'quiz_start_at': snapshot['start_at'],
-        'user_name': FirebaseService.auth().currentUser?.displayName,
-        'user_uid': FirebaseService.auth().currentUser?.uid,
-        'created_at': dateFormat.format(DateTime.now()),
+        'user_name': registeredUserSnapshot['name'],
+        'user_uid': currentUserUID,
+        'created_at': DateTime.now(),
       });
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<String> fetchWeeklyQuizTaskSet(String taskId) async {
+  Future<Map<String, dynamic>> fetchWeeklyQuizTaskSet(String taskId) async {
     try {
-      final result = await db.collection('task_set').doc(taskId).get();
+      final result =
+          await db.collection('task_set').where('id', isEqualTo: taskId).get();
 
-      return result['question'].toString();
+      final data = result.docs.first;
+      if (data == null) {
+        throw Exception('Task ID not found');
+      }
+      return data.data();
     } catch (e) {
       rethrow;
     }
@@ -127,7 +87,7 @@ class QuizService {
   Future<List<WeeklyQuizParticipation>> getRunningWeeklyQuizByParticipantUid(
     String participantUid,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
+    // final prefs = await SharedPreferences.getInstance();
 
     try {
       final result = await db
@@ -136,20 +96,20 @@ class QuizService {
           .orderBy('quiz_start_at', descending: true)
           .get();
 
-      final participantQuizzesListJson = [];
+      // final participantQuizzesListJson = [];
 
       final participantQuizzes = result.docs.map((e) {
-        participantQuizzesListJson.add(e.data());
+        // participantQuizzesListJson.add(e.data());
         return WeeklyQuizParticipation.fromJson(
           e.id,
           e.data(),
         );
       }).toList();
 
-      final encodedQuizList =
-          jsonEncode({'quiz_list': participantQuizzesListJson});
+      // final encodedQuizList =
+      //     jsonEncode({'quiz_list': participantQuizzesListJson});
 
-      await prefs.setString('quiz_list', encodedQuizList);
+      // await prefs.setString('quiz_list', encodedQuizList);
 
       return participantQuizzes;
     } catch (e) {
@@ -157,26 +117,25 @@ class QuizService {
     }
   }
 
-  Future<WeeklyQuiz> getQuiz(String quizId) async {
+  Future<WeeklyQuiz> getWeeklyQuizByWeek(String week) async {
+    try {
+      final snapshot = await db.collection('configuration').doc(week).get();
+      return WeeklyQuiz.fromJson(
+        snapshot['id'] as String,
+        snapshot.data()!,
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<WeeklyQuiz> getWeeklyQuizById(String quizId) async {
     try {
       final snapshot =
           await db.collection('weekly_quiz_list').doc(quizId).get();
-      final x = (snapshot['tasks'] as Map<String, dynamic>).map((key, value) =>
-          MapEntry(key, List<String>.from(value as List<dynamic>)));
-      return WeeklyQuiz(
-        id: snapshot.id,
-        title: snapshot['title'] as String,
-        created_at: snapshot['created_at'] as String,
-        duration_minute: (snapshot['duration_minute'] as Map<String, dynamic>)
-            .map((key, value) => MapEntry(key, value as int)),
-        end_at: snapshot['end_at'] as String,
-        max_attempts: (snapshot['max_attempts'] as Map<String, dynamic>)
-            .map((key, value) => MapEntry(key, value as int)),
-        problems: (snapshot['tasks'] as Map<String, dynamic>).map(
-            (key, value) =>
-                MapEntry(key, List<String>.from(value as List<dynamic>))),
-        sponsors: snapshot['sponsors'] as Map<String, dynamic>,
-        start_at: snapshot['start_at'] as String,
+      return WeeklyQuiz.fromJson(
+        snapshot.id,
+        snapshot.data()!,
       );
     } catch (e) {
       rethrow;
@@ -192,7 +151,9 @@ class QuizService {
           .doc(quizParticipantId)
           .get();
       return WeeklyQuizParticipation.fromJson(
-          result.id, result.data()! as Map<String, dynamic>);
+        result.id,
+        result.data()!,
+      );
     } catch (e) {
       rethrow;
     }

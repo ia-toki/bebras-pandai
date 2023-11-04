@@ -51,7 +51,7 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
       this.quizParticipantId = quizParticipantId;
       this.challengeGroup = challengeGroup;
 
-      quiz = await quizService.getQuiz(quizId);
+      quiz = await quizService.getWeeklyQuizById(quizId);
 
       var _problemIdList = quiz.problems[challengeGroup];
       if (_problemIdList == null) {
@@ -65,8 +65,9 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
         throw Exception('Problem Set empty');
       }
 
-      var weeklyQuizParticipant = await quizService.getWeeklyQuizParticipant(
-          quizParticipantId: quizParticipantId);
+      final weeklyQuizParticipant = await quizService.getWeeklyQuizParticipant(
+        quizParticipantId: quizParticipantId,
+      );
       if (weeklyQuizParticipant.attempts.isEmpty) {
         attempt = QuizExerciseAttempt(
             startAt: DateTime.now(),

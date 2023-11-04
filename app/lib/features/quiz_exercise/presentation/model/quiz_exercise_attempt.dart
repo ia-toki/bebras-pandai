@@ -8,17 +8,36 @@ class QuizExerciseAttempt {
   int totalCorrect;
   int totalIncorrect;
   int? score;
-  List<QuizExerciseAnswer>? answers;
+  List<dynamic>? answers;
 
-  QuizExerciseAttempt(
-      {required this.startAt,
-      this.endAt,
-      this.uploadedAt,
-      required this.totalBlank,
-      required this.totalCorrect,
-      required this.totalIncorrect,
-      this.score,
-      this.answers});
+  QuizExerciseAttempt({
+    required this.startAt,
+    this.endAt,
+    this.uploadedAt,
+    required this.totalBlank,
+    required this.totalCorrect,
+    required this.totalIncorrect,
+    this.score,
+    this.answers,
+  });
+
+  factory QuizExerciseAttempt.fromJson(
+    Map<String, dynamic> json,
+  ) =>
+      QuizExerciseAttempt(
+        startAt: json['start_at'].toDate() as DateTime,
+        endAt: (json['end_at'] == null)
+            ? null
+            : json['end_at'].toDate() as DateTime,
+        uploadedAt: (json['uploaded_at'] == null)
+            ? null
+            : json['uploaded_at'].toDate() as DateTime,
+        totalBlank: json['n_answer_blank'] as int,
+        totalCorrect: json['n_answer_correct'] as int,
+        totalIncorrect: json['n_answer_incorrect'] as int,
+        score: json['score'] as int,
+        answers: json['answers'] as List<dynamic>,
+      );
 
   Map<String, Object?> toJson() {
     return {

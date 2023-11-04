@@ -401,7 +401,6 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                     height: 10,
                   ),
                   Button(
-                    isDisabled: isNextWeekSelected && isRunningWeekSelected,
                     buttonType: ButtonType.tertiary,
                     onTap: () async {
                       await showModal();
