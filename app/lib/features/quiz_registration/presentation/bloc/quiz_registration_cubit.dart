@@ -32,11 +32,7 @@ class QuizRegistrationCubit extends Cubit<QuizRegistrationState> {
       final participantWeeklyQuizzes = await QuizService()
           .getRunningWeeklyQuizByParticipantUid(participantUid);
 
-      if (participantWeeklyQuizzes.isNotEmpty) {
-        emit(GetParticipantWeeklyQuizSuccess(participantWeeklyQuizzes));
-      } else {
-        emit(const GetParticipantWeeklyQuizFailed('error'));
-      }
+      emit(GetParticipantWeeklyQuizSuccess(participantWeeklyQuizzes));
     } catch (e) {
       emit(GetParticipantWeeklyQuizFailed(e.toString()));
     }

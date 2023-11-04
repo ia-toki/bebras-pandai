@@ -96,16 +96,6 @@ class _MainPageState extends State<MainPage> {
                     height: 20,
                   ),
                   Button(
-                    buttonType: ButtonType.primary,
-                    onTap: () async {
-                      await context.push('/final_score');
-                    },
-                    text: '(Dummy) Final Score Page',
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Button(
                     onTap: () async {
                       await context.push('/setting');
                     },

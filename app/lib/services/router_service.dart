@@ -1,4 +1,3 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/authentication/register/presentation/pages/_pages.dart';
@@ -8,10 +7,8 @@ import '../features/main/presentation/pages/_pages.dart';
 import '../features/material/menu/presentation/pages/_pages.dart';
 import '../features/material/viewer/presentation/pages/_pages.dart';
 import '../features/onboarding/presentation/pages/_pages.dart';
-import '../features/quiz_exercise/presentation/bloc/quiz_exercise_cubit.dart';
 import '../features/quiz_exercise/presentation/pages/_pages.dart';
 import '../features/quiz_registration/presentation/pages/_pages.dart';
-import '../features/quiz_result/presentation/bloc/quiz_result_cubit.dart';
 import '../features/quiz_result/presentation/pages/_pages.dart';
 
 GoRouter router = GoRouter(
@@ -42,13 +39,10 @@ GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/quiz_exercise',
-      builder: (context, state) => BlocProvider(
-        create: (context) => QuizExerciseCubit(),
-        child: QuizExercisePage(
-          quizId: state.queryParameters['quiz_id'],
-          challengeGroup: state.queryParameters['challenge_group'],
-          quizParticipantId: state.queryParameters['quiz_participant_id'],
-        ),
+      builder: (context, state) => QuizExercisePage(
+        quizId: state.queryParameters['quiz_id'],
+        challengeGroup: state.queryParameters['challenge_group'],
+        quizParticipantId: state.queryParameters['quiz_participant_id'],
       ),
     ),
     GoRoute(
@@ -56,12 +50,10 @@ GoRouter router = GoRouter(
       builder: (context, state) => const QuizRegistrationPage(),
     ),
     GoRoute(
-      path: '/quiz_final_score',
-      builder: (context, state) => BlocProvider(
-          create: (context) => QuizResultCubit(),
-          child: QuizResultPage(
-            quizParticipantId: state.queryParameters['quiz_participant_id'],
-          )),
+      path: '/quiz_result',
+      builder: (context, state) => QuizResultPage(
+        quizParticipantId: state.queryParameters['quiz_participant_id'],
+      ),
     ),
     GoRoute(
       path: '/material',

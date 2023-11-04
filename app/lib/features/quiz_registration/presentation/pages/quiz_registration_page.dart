@@ -303,6 +303,22 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                           },
                           builder: (context, state) {
                             if (state is GetParticipantWeeklyQuizSuccess) {
+                              if (state.weeklyQuizzes.isEmpty) {
+                                return Container(
+                                  padding: const EdgeInsets.all(10),
+                                  margin: const EdgeInsets.only(
+                                      bottom: 12, top: 12),
+                                  decoration: BoxDecoration(
+                                    color: Colors.blue[50],
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: const Center(
+                                    child: Text(
+                                      'Silahkan klik Tombol `Daftar Latihan Bebras` dibawah untuk memulai',
+                                    ),
+                                  ),
+                                );
+                              }
                               return ListView(children: [
                                 const SizedBox(
                                   height: 10,
@@ -327,20 +343,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                             }
 
                             if (state is GetParticipantWeeklyQuizFailed) {
-                              return Container(
-                                padding: const EdgeInsets.all(10),
-                                margin:
-                                    const EdgeInsets.only(bottom: 12, top: 12),
-                                decoration: BoxDecoration(
-                                  color: Colors.blue[50],
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: const Center(
-                                  child: Text(
-                                    'Silahkan klik Tombol `Daftar Latihan Bebras` dibawah untuk memulai',
-                                  ),
-                                ),
-                              );
+                              return Text(state.error);
                             }
                             return const Center(
                               child: CircularProgressIndicator(),

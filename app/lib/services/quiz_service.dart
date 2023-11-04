@@ -14,8 +14,8 @@ class QuizService {
       FirebaseFirestore.instance.collection('weekly_quiz_list');
   final CollectionReference _weeklyQuizParticipantRef =
       FirebaseFirestore.instance.collection('weekly_quiz_participation');
-  final _registeredUserRef = FirebaseFirestore.instance
-      .collection('registered_user');
+  final _registeredUserRef =
+      FirebaseFirestore.instance.collection('registered_user');
 
   Future<WeeklyQuiz> getWeeklyQuiz(String week) async {
     try {
@@ -99,8 +99,9 @@ class QuizService {
     try {
       final result =
           await _weeklyQuizParticipantRef.doc(quizParticipantId).get();
+      final data = result.data();
       return WeeklyQuizParticipation.fromJson(
-          result.id, result.data()! as Map<String, dynamic>);
+          result.id, data! as Map<String, dynamic>);
     } catch (e) {
       rethrow;
     }

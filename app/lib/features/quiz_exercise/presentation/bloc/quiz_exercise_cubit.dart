@@ -20,16 +20,17 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
   int currentProblemIndex = 0;
   late List<String> problemIdList;
   late QuizExerciseAttempt attempt;
-  late String quizParticipantId;
   late String challengeGroup;
+  String? quizParticipantId;
 
   String selectedAnswer = '';
   late int remainingDuration;
+  Timer? timer;
 
   late QuizService quizService;
   late QuizExerciseRepository quizExerciseRepository;
 
-  FutureOr<void> fetchQuizExercise(
+  FutureOr<void> initialize(
       {String? quizId,
       String? quizParticipantId,
       String? challengeGroup}) async {
@@ -83,7 +84,7 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
         throw Exception('Duration for selected Challenge Group not found');
       }
       remainingDuration = duration * 60;
-      Timer.periodic(const Duration(seconds: 1), (timer) {
+      timer = Timer.periodic(const Duration(seconds: 1), (timer) {
         if (state is! QuizExerciseShow) {
           timer.cancel();
         } else if (remainingDuration > 0) {
@@ -172,11 +173,17 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
         attempt.endAt = DateTime.now();
         attempt.uploadedAt = DateTime.now();
         await quizExerciseRepository.insertQuizExerciseAttempt(
-            quizParticipantId, attempt);
-        emit(QuizExerciseFinished(quizParticipantId));
+            quizParticipantId!, attempt);
+        emit(QuizExerciseFinished(quizParticipantId!));
       }
     } catch (e) {
       emit(QuizExerciseFailed(e.toString()));
     }
+  }
+
+  @override
+  Future<void> close() {
+    timer?.cancel();
+    return super.close();
   }
 }
