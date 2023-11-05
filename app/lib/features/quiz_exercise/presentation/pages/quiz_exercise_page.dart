@@ -61,6 +61,12 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                       return Text(state.error);
                     }
                     if (state is QuizExerciseShow) {
+                      final exercise = state.quizExercise;
+                      final taskDecription =
+                          '<h3>Deskripsi</h3>${exercise.description.content}';
+                      final taskQuestion =
+                          '<h3>Pertanyaan</h3>${exercise.question.content}';
+
                       return Column(
                         children: [
                           Container(
@@ -76,26 +82,46 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(state.quizExercise.title),
+                              Image.asset(
+                                '${Assets.flagDir}${state.quizExercise.country}.png',
+                                width: 40,
+                                height: 20,
+                              ),
+                              Text(
+                                state.quizExercise.title,
+                                textAlign: TextAlign.center,
+                                style: FontTheme.blackSubtitleBold(),
+                              ),
                               Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Text(state.quizExercise.id),
-                                  Text(state.quizExercise.source),
+                                  Text(
+                                    state.quizExercise.id,
+                                    style: const TextStyle(fontSize: 9),
+                                  ),
+                                  Text(
+                                    state.quizExercise.source,
+                                    style: const TextStyle(fontSize: 7),
+                                  ),
                                 ],
-                              )
+                              ),
                             ],
                           ),
+                          Container(
+                            height: 2,
+                            color: Colors.black,
+                          ),
                           const SizedBox(
-                            height: 10,
+                            height: 3,
                           ),
                           Container(
                             height: MediaQuery.of(context).size.height - 340,
                             width: double.infinity,
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
                             decoration: BoxDecoration(border: Border.all()),
                             child: Column(children: [
                               Html(
-                                data: state.quizExercise.description.content,
+                                data: taskDecription + taskQuestion,
                               )
                             ]),
                           ),
@@ -142,7 +168,9 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                     SizedBox(
                       width: 400,
                       height: 200,
-                      child: Html(data: state.quizExercise.question.content),
+                      child: Html(
+                          data:
+                              '<h5>Pertanyaan</h5>${state.quizExercise.question.content}'),
                     ),
                     ...state.quizExercise.question.options
                         .map((e) => RadioListTile(

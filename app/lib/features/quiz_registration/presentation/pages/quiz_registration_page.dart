@@ -108,7 +108,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
           Row(
             children: [
               Text(
-                'dikerjakan: $date',
+                'Dikerjakan: $date',
                 style: const TextStyle(fontSize: 12),
               )
             ],
