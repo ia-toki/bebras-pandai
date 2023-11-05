@@ -1,4 +1,4 @@
-// ignore_for_file: lines_longer_than_80_chars, require_trailing_commas
+// ignore_for_file: lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation
 
 part of '_pages.dart';
 
@@ -55,7 +55,7 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                     return state is! QuizExerciseFinished;
                   }, builder: (context, state) {
                     if (state is QuizExerciseLoading) {
-                      return Text('LOADING');
+                      return const Text('LOADING');
                     }
                     if (state is QuizExerciseFailed) {
                       return Text(state.error);
@@ -102,7 +102,7 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                           const SizedBox(
                             height: 14,
                           ),
-                          Container(
+                          SizedBox(
                             width: 150,
                             child: Button(
                               text: 'JAWAB',
@@ -139,7 +139,7 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                 content: SingleChildScrollView(
                     child: Column(
                   children: [
-                    Container(
+                    SizedBox(
                       width: 400,
                       height: 200,
                       child: Html(data: state.quizExercise.question.content),
@@ -153,13 +153,12 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                               context
                                   .read<QuizExerciseCubit>()
                                   .selectAnswer(e.id);
-                            }))
-                        .toList(),
+                            })),
                     Text(state.modalErrorMessage),
                   ],
                 )),
                 actions: [
-                  Container(
+                  SizedBox(
                     width: 100,
                     height: 50,
                     child: Button(
@@ -170,7 +169,7 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                       },
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: 100,
                     height: 50,
                     child: Button(
@@ -187,7 +186,7 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                 ],
               );
             }
-            return Container(
+            return const SizedBox(
               width: 100,
               height: 100,
             );

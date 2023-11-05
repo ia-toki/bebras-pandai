@@ -1,10 +1,9 @@
-// import 'package:airplane/models/destination_model.dart';
 // ignore_for_file: inference_failure_on_collection_literal
-import 'dart:convert';
 
+// import 'package:airplane/models/destination_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:intl/intl.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/quiz_participation.dart';
 import '../../../models/weekly_quiz.dart';
@@ -73,11 +72,8 @@ class QuizService {
     try {
       final result =
           await db.collection('task_set').where('id', isEqualTo: taskId).get();
-
       final data = result.docs.first;
-      if (data == null) {
-        throw Exception('Task ID not found');
-      }
+
       return data.data();
     } catch (e) {
       rethrow;
