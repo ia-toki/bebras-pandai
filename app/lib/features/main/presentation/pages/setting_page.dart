@@ -35,7 +35,7 @@ class _SettingPageState extends State<SettingPage> {
                       await context.push(Uri(
                       path: '/register',
                         queryParameters: {
-                          'isUpdateProfile': "true",
+                          'isUpdateProfile': 'true',
                         },
                       ).toString(),);
                     },

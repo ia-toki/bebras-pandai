@@ -26,22 +26,24 @@ class _RegisterPageState extends State<RegisterPage> {
     return BlocProvider(
       create: (_) => get<UserRegisterBloc>()
         ..add(
-          InitialValueEvent(),
+          const InitialValueEvent(),
         ),
       child: BlocListener<UserRegisterBloc, RegisterFormState>(
         listener: (context, state) {
           if (state is UserRegisterSuccessState) {
-            if(widget.isUpdateProfile == 'true') {
+            if (widget.isUpdateProfile == 'true') {
               context.go('/setting');
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: const Text('Pembaruan data profil berhasil'),
-                action: SnackBarAction(
-                  label: 'OK',
-                  onPressed: () {
-                    // Some code to undo the change.
-                  },
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text('Pembaruan data profil berhasil'),
+                  action: SnackBarAction(
+                    label: 'OK',
+                    onPressed: () {
+                      // Some code to undo the change.
+                    },
+                  ),
                 ),
-              ));
+              );
             } else {
               context.go('/main');
             }
@@ -85,7 +87,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         'Email',
                         (value) {
                           BlocProvider.of<UserRegisterBloc>(context).add(
-                              EmailEvent(email: BlocFormItem(value: value)));
+                            EmailEvent(email: BlocFormItem(value: value)),
+                          );
                         },
                         (val) {
                           return state.email.error;
@@ -172,16 +175,20 @@ class _RegisterPageState extends State<RegisterPage> {
                         bloc: _userRegisterBloc,
                         listener: (context, state) {
                           if (state is UserRegisterSuccessState) {
-                            if(widget.isUpdateProfile == 'true') {
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: const Text('Profile data successfully updated'),
-                                action: SnackBarAction(
-                                  label: 'OK',
-                                  onPressed: () {
-                                    // Some code to undo the change.
-                                  },
+                            if (widget.isUpdateProfile == 'true') {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: const Text(
+                                    'Profile data successfully updated',
+                                  ),
+                                  action: SnackBarAction(
+                                    label: 'OK',
+                                    onPressed: () {
+                                      // Some code to undo the change.
+                                    },
+                                  ),
                                 ),
-                              ));
+                              );
                             } else {
                               context.go('/main');
                             }
@@ -199,7 +206,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                             onPressed: () {
                               if (state is! UserRegisterLoadingState) {
-                                if(widget.isUpdateProfile == 'true') {
+                                if (widget.isUpdateProfile == 'true') {
                                   BlocProvider.of<UserRegisterBloc>(context)
                                       .add(const FormSubmitUpdateEvent());
                                 } else {
