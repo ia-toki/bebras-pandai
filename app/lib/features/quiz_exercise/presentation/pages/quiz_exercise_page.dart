@@ -119,11 +119,11 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                             width: double.infinity,
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             decoration: BoxDecoration(border: Border.all()),
-                            child: Column(children: [
-                              Html(
+                            child: SingleChildScrollView(
+                              child: Html(
                                 data: taskDecription + taskQuestion,
-                              )
-                            ]),
+                              ),
+                            ),
                           ),
                           const SizedBox(
                             height: 14,
@@ -163,28 +163,38 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
             if (state is QuizExerciseShow) {
               return AlertDialog(
                 content: SingleChildScrollView(
-                    child: Column(
-                  children: [
-                    SizedBox(
-                      width: 400,
-                      height: 200,
-                      child: Html(
-                          data:
-                              '<h5>Pertanyaan</h5>${state.quizExercise.question.content}'),
-                    ),
-                    ...state.quizExercise.question.options
-                        .map((e) => RadioListTile(
-                            title: Text(e.content),
-                            value: e.id,
-                            groupValue: state.selectedAnswer,
-                            onChanged: (value) {
-                              context
-                                  .read<QuizExerciseCubit>()
-                                  .selectAnswer(e.id);
-                            })),
-                    Text(state.modalErrorMessage),
-                  ],
-                )),
+                  child: Column(
+                    children: [
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Text(
+                          'Pertanyaan',
+                          style: FontTheme.blackTextBold(),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 400,
+                        height: 200,
+                        child: SingleChildScrollView(
+                          child:
+                              Html(data: state.quizExercise.question.content),
+                        ),
+                      ),
+                      ...state.quizExercise.question.options
+                          .map((e) => RadioListTile(
+                              title: Text(e.content),
+                              value: e.id,
+                              groupValue: state.selectedAnswer,
+                              onChanged: (value) {
+                                context
+                                    .read<QuizExerciseCubit>()
+                                    .selectAnswer(e.id);
+                              })),
+                      Text(state.modalErrorMessage),
+                    ],
+                  ),
+                ),
                 actions: [
                   SizedBox(
                     width: 100,
