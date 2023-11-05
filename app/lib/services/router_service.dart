@@ -22,7 +22,9 @@ GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/register',
-      builder: (context, state) => const RegisterPage(),
+      builder: (context, state) => RegisterPage(
+        isUpdateProfile: state.queryParameters['isUpdateProfile'],
+      ),
     ),
     GoRoute(
       path: '/main',

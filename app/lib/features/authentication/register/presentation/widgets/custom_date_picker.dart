@@ -5,13 +5,15 @@ class CustomDatePicker extends StatefulWidget {
   const CustomDatePicker(
     this.labelText,
     this.handleTextInput,
-    this.validator, {
+    this.validator,
+      this.initValue, {
     super.key,
   });
 
   final String labelText;
   final void Function(String value)? handleTextInput;
   final String? Function(String?)? validator;
+  final String? initValue;
 
   @override
   State<CustomDatePicker> createState() => _CustomDatePickerState();
@@ -19,6 +21,15 @@ class CustomDatePicker extends StatefulWidget {
 
 class _CustomDatePickerState extends State<CustomDatePicker> {
   final TextEditingController dateinput = TextEditingController();
+
+  @override
+  void initState() {
+    setState(() {
+      dateinput.text = widget.initValue!;
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
