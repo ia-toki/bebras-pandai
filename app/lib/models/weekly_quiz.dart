@@ -37,8 +37,10 @@ class WeeklyQuiz extends Equatable {
         end_at: json['end_at'] as String,
         max_attempts: (json['max_attempts'] as Map<String, dynamic>)
             .map((key, value) => MapEntry(key, value as int)),
-        problems: (json['tasks'] as Map<String, dynamic>).map((key, value) =>
-            MapEntry(key, List<String>.from(value as List<dynamic>))),
+        problems: (json['tasks'] as Map<String, dynamic>).map(
+          (key, value) =>
+              MapEntry(key, List<String>.from(value as List<dynamic>)),
+        ),
         sponsors: json['sponsors'] as Map<String, dynamic>,
         start_at: json['start_at'] as String,
       );
