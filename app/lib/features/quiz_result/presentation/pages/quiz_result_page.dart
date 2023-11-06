@@ -68,7 +68,9 @@ class _QuizResultPageState extends State<QuizResultPage> {
                       ],
                     );
                   }
-                  if (state is QuizResultNotAvailable) {}
+                  if (state is QuizResultNotAvailable) {
+                    return Text('Result not available');
+                  }
                   if (state is QuizResultFailed) {
                     return Text(state.error);
                   }

@@ -50,7 +50,25 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
       onTap: () {
         final endDate = DateFormat('yyyy-MM-dd HH:mm:ss')
             .parse(weeklyQuizParticipant.quiz_end_at);
-        if (endDate.isBefore(DateTime.now())) {
+        if (weeklyQuizParticipant.attempts.length ==
+            weeklyQuizParticipant.quiz_max_attempts) {
+          context.push(
+            Uri(
+              path: '/quiz_result',
+              queryParameters: {
+                'quiz_participant_id': weeklyQuizParticipant.id,
+              },
+            ).toString(),
+          );
+        } else if (weeklyQuizParticipant.attempts.isNotEmpty) {
+          context.push(
+            Uri(
+              path: '/quiz_result',
+              queryParameters: {
+                'quiz_participant_id': weeklyQuizParticipant.id,
+              },
+            ).toString(),
+          );
         } else {
           context.push(
             Uri(
