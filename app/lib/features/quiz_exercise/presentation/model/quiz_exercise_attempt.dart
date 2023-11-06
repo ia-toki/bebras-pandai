@@ -1,4 +1,4 @@
-import 'quiz_exercise_answer.dart';
+// import 'quiz_exercise_answer.dart';
 
 class QuizExerciseAttempt {
   DateTime startAt;
@@ -12,11 +12,11 @@ class QuizExerciseAttempt {
 
   QuizExerciseAttempt({
     required this.startAt,
-    this.endAt,
-    this.uploadedAt,
     required this.totalBlank,
     required this.totalCorrect,
     required this.totalIncorrect,
+    this.endAt,
+    this.uploadedAt,
     this.score,
     this.answers,
   });

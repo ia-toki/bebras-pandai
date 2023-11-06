@@ -8,7 +8,8 @@ import '../model/quiz_exercise_attempt.dart';
 @injectable
 class QuizExerciseRepository {
   Future<List<QuizExercise>> getListQuizExercise(
-      List<String> taskIdList) async {
+    List<String> taskIdList,
+  ) async {
     final quizExerciseList = <QuizExercise>[];
     try {
       final result =
@@ -47,13 +48,15 @@ class QuizExerciseRepository {
   }
 
   Future<void> insertQuizExerciseAttempt(
-      String quizParticipantId, QuizExerciseAttempt attempt) async {
+    String quizParticipantId,
+    QuizExerciseAttempt attempt,
+  ) async {
     try {
       await FirebaseFirestore.instance
           .collection('weekly_quiz_participation')
           .doc(quizParticipantId)
           .update({
-        'attempts': FieldValue.arrayUnion([attempt.toJson()])
+        'attempts': FieldValue.arrayUnion([attempt.toJson()]),
       });
     } catch (e) {
       rethrow;

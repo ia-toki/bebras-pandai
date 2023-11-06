@@ -1,4 +1,4 @@
-// ignore_for_file: lines_longer_than_80_chars, require_trailing_commas
+// ignore_for_file: lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation
 
 part of '_pages.dart';
 
@@ -60,12 +60,18 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                     return state is! QuizExerciseFinished;
                   }, builder: (context, state) {
                     if (state is QuizExerciseLoading) {
-                      return Text('LOADING');
+                      return const Text('LOADING');
                     }
                     if (state is QuizExerciseFailed) {
                       return Text(state.error);
                     }
                     if (state is QuizExerciseShow) {
+                      final exercise = state.quizExercise;
+                      final taskDecription =
+                          '<h3>Deskripsi</h3>${exercise.description.content}';
+                      final taskQuestion =
+                          '<h3>Pertanyaan</h3>${exercise.question.content}';
+
                       return Column(
                         children: [
                           Container(
@@ -81,33 +87,53 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(state.quizExercise.title),
+                              Image.asset(
+                                '${Assets.flagDir}${state.quizExercise.country}.png',
+                                width: 40,
+                                height: 20,
+                              ),
+                              Text(
+                                state.quizExercise.title,
+                                textAlign: TextAlign.center,
+                                style: FontTheme.blackSubtitleBold(),
+                              ),
                               Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Text(state.quizExercise.id),
-                                  Text(state.quizExercise.source),
+                                  Text(
+                                    state.quizExercise.id,
+                                    style: const TextStyle(fontSize: 9),
+                                  ),
+                                  Text(
+                                    state.quizExercise.source,
+                                    style: const TextStyle(fontSize: 7),
+                                  ),
                                 ],
-                              )
+                              ),
                             ],
                           ),
+                          Container(
+                            height: 2,
+                            color: Colors.black,
+                          ),
                           const SizedBox(
-                            height: 10,
+                            height: 3,
                           ),
                           Container(
                             height: MediaQuery.of(context).size.height - 340,
                             width: double.infinity,
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
                             decoration: BoxDecoration(border: Border.all()),
-                            child: Column(children: [
-                              Html(
-                                data: state.quizExercise.description.content,
-                              )
-                            ]),
+                            child: SingleChildScrollView(
+                              child: Html(
+                                data: taskDecription + taskQuestion,
+                              ),
+                            ),
                           ),
                           const SizedBox(
                             height: 14,
                           ),
-                          Container(
+                          SizedBox(
                             width: 150,
                             child: Button(
                               text: 'JAWAB',
@@ -142,29 +168,40 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
             if (state is QuizExerciseShow) {
               return AlertDialog(
                 content: SingleChildScrollView(
-                    child: Column(
-                  children: [
-                    Container(
-                      width: 400,
-                      height: 200,
-                      child: Html(data: state.quizExercise.question.content),
-                    ),
-                    ...state.quizExercise.question.options
-                        .map((e) => RadioListTile(
-                            title: Text(e.content),
-                            value: e.id,
-                            groupValue: state.selectedAnswer,
-                            onChanged: (value) {
-                              context
-                                  .read<QuizExerciseCubit>()
-                                  .selectAnswer(e.id);
-                            }))
-                        .toList(),
-                    Text(state.modalErrorMessage),
-                  ],
-                )),
+                  child: Column(
+                    children: [
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Text(
+                          'Pertanyaan',
+                          style: FontTheme.blackTextBold(),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 400,
+                        height: 200,
+                        child: SingleChildScrollView(
+                          child:
+                              Html(data: state.quizExercise.question.content),
+                        ),
+                      ),
+                      ...state.quizExercise.question.options
+                          .map((e) => RadioListTile(
+                              title: Text(e.content),
+                              value: e.id,
+                              groupValue: state.selectedAnswer,
+                              onChanged: (value) {
+                                context
+                                    .read<QuizExerciseCubit>()
+                                    .selectAnswer(e.id);
+                              })),
+                      Text(state.modalErrorMessage),
+                    ],
+                  ),
+                ),
                 actions: [
-                  Container(
+                  SizedBox(
                     width: 100,
                     height: 50,
                     child: Button(
@@ -175,7 +212,7 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                       },
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: 100,
                     height: 50,
                     child: Button(
@@ -192,7 +229,7 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                 ],
               );
             }
-            return Container(
+            return const SizedBox(
               width: 100,
               height: 100,
             );

@@ -7,7 +7,7 @@
     "type": "MULTIPLE_CHOICE",
     "description": 
     {
-        "content": "<p>Sebuah mobil robot bekerja dengan aturan yang sederhana untuk melalui suatu maze: “belok kanan setiap memungkinkan untuk belok kanan”. Gambar di kanan menunjukkan suatu contoh bagaimana mobil robot akan berjalan melalui suatu maze. <img>/p>"
+        "content": "<p>Sebuah mobil robot bekerja dengan aturan yang sederhana untuk melalui suatu maze: “belok kanan setiap memungkinkan untuk belok kanan”. Gambar di kanan menunjukkan suatu contoh bagaimana mobil robot akan berjalan melalui suatu maze.</p><br><img style='max-width: 100%' src='https://raw.githubusercontent.com/ia-toki/bebras-pandai/main/data/bebras_task_asset/penegak/2016/2016-BE-01_0.png'>"
     },
     "question":
     {
@@ -34,7 +34,7 @@
                 "content": "4"
             }
         ],
-        "content": "<p>Dengan cara kerja demikian, berapa banyakkah dari <strong>empat maze</strong> berikut ini mobil robot dapat akhirnya mencapai titik merah? <img> <strong>Pilih salah satu:</strong></p>"
+        "content": "<p>Dengan cara kerja demikian, berapa banyakkah dari <strong>empat maze</strong> berikut ini mobil robot dapat akhirnya mencapai titik merah? <br> <img style='max-width: 100%' src='https://raw.githubusercontent.com/ia-toki/bebras-pandai/main/data/bebras_task_asset/penegak/2016/2016-BE-01_1.png'> <strong>Pilih salah satu:</strong></p>"
     },
     "answer":
     {

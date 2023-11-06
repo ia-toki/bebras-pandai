@@ -27,15 +27,16 @@ class QuizExercise {
 
   factory QuizExercise.fromJson(Map<String, dynamic> json) {
     return QuizExercise(
-        id: json['id'] as String,
-        country: json['country'] as String,
-        challengeGroup: json['challenge_group'] as String,
-        title: json['title'] as String,
-        source: json['source'] as String,
-        type: json['type'] as String,
-        description:
-            Description.fromJson(json['description'] as Map<String, dynamic>),
-        question: Question.fromJson(json['question'] as Map<String, dynamic>),
-        answer: Answer.fromJson(json['answer'] as Map<String, dynamic>));
+      id: json['id'] as String,
+      country: json['country'] as String,
+      challengeGroup: json['challenge_group'] as String,
+      title: json['title'] as String,
+      source: json['source'] as String,
+      type: json['type'] as String,
+      description:
+          Description.fromJson(json['description'] as Map<String, dynamic>),
+      question: Question.fromJson(json['question'] as Map<String, dynamic>),
+      answer: Answer.fromJson(json['answer'] as Map<String, dynamic>),
+    );
   }
 }

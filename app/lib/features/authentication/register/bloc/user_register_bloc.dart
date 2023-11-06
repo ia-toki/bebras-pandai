@@ -1,11 +1,14 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:intl/intl.dart';
 
+import '../../../../services/firebase_service.dart';
 import '../../../authentication/register/repositories/register_user_repo.dart';
 import '../model/form_item.dart';
 
@@ -17,8 +20,10 @@ part 'user_register_state.dart';
 @singleton
 class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
   final RegisterUserRepository registerUserRepository;
+
   UserRegisterBloc(this.registerUserRepository)
       : super(const RegisterFormState()) {
+    on<InitialValueEvent>(initValueState);
     on<InitEvent>(_initState);
     on<EmailEvent>(_onEmailChanged);
     on<NameEvent>(_onNameChanged);
@@ -27,10 +32,48 @@ class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
     on<ProvinceEvent>(_onProvinceChanged);
     on<BebrasBiroEvent>(_onBebrasBiroChanged);
     on<FormSubmitEvent>(_onFormSubmitted);
+    on<FormSubmitUpdateEvent>(_onFormUpdateSubmitted);
     on<FormResetEvent>(_onFormReset);
   }
 
   final formKey = GlobalKey<FormState>();
+
+  FutureOr<void> initValueState(
+    InitialValueEvent event,
+    Emitter<RegisterFormState> emit,
+  ) async {
+    await FirebaseFirestore.instance
+        .collection('registered_user')
+        .doc(FirebaseService.auth().currentUser?.uid)
+        .get()
+        .then(
+          (value) => {
+            emit(
+              state.copyWith(
+                formKey: formKey,
+                name: BlocFormItem(
+                  value: value['name'].toString(),
+                ),
+                email: BlocFormItem(
+                  value: value['email'].toString(),
+                ),
+                birthDate: BlocFormItem(
+                  value: value['birth_date'].toString(),
+                ),
+                school: BlocFormItem(
+                  value: value['school'].toString(),
+                ),
+                province: BlocFormItem(
+                  value: value['province'].toString(),
+                ),
+                bebrasBiro: BlocFormItem(
+                  value: value['bebras_biro'].toString(),
+                ),
+              ),
+            ),
+          },
+        );
+  }
 
   Future<void> _initState(
     InitEvent event,
@@ -154,6 +197,7 @@ class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
   ) async {
     final auth = FirebaseAuth.instance;
     final userId = auth.currentUser!.uid;
+    final dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
 
     if (state.formKey!.currentState!.validate()) {
       final email = state.email.value;
@@ -174,6 +218,43 @@ class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
           school: school,
           province: province,
           bebrasBiro: bebrasBiro,
+          createdAt: dateFormat.format(DateTime.now()),
+        );
+        emit(UserRegisterSuccessState());
+      } catch (e) {
+        // emit(Us)
+      }
+    }
+  }
+
+  Future<void> _onFormUpdateSubmitted(
+      FormSubmitUpdateEvent event,
+      Emitter<RegisterFormState> emit,
+      ) async {
+    final auth = FirebaseAuth.instance;
+    final userId = auth.currentUser!.uid;
+    final dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
+
+    if (state.formKey!.currentState!.validate()) {
+      final email = state.email.value;
+      final name = state.name.value;
+      final birthDate = state.birthDate.value;
+      final school = state.school.value;
+      final province = state.province.value;
+      final bebrasBiro = state.bebrasBiro.value;
+
+      emit(UserRegisterLoadingState());
+
+      try {
+        await registerUserRepository.update(
+          userId: userId,
+          email: email,
+          name: name,
+          birthDate: birthDate,
+          school: school,
+          province: province,
+          bebrasBiro: bebrasBiro,
+          updatedAt: dateFormat.format(DateTime.now()),
         );
         emit(UserRegisterSuccessState());
       } catch (e) {
