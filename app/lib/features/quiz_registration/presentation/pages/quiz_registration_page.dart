@@ -48,7 +48,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
       String score, String level, BuildContext context) {
     return InkWell(
       onTap: () {
-        if (weeklyQuizParticipant.attempts.length ==
+        if (weeklyQuizParticipant.attempts.length >=
             weeklyQuizParticipant.quiz_max_attempts) {
           context.push(
             Uri(
