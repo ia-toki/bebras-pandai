@@ -9,14 +9,6 @@ import '../../../models/weekly_quiz.dart';
 import '../../../services/firebase_service.dart';
 
 class QuizService {
-  final CollectionReference _runningWeeklyQuizRef =
-      FirebaseFirestore.instance.collection('configuration');
-  final CollectionReference _weeklyQuizListRef =
-      FirebaseFirestore.instance.collection('weekly_quiz_list');
-  final CollectionReference _weeklyQuizParticipantRef =
-      FirebaseFirestore.instance.collection('weekly_quiz_participation');
-  final _registeredUserRef =
-      FirebaseFirestore.instance.collection('registered_user');
   FirebaseFirestore db = FirebaseFirestore.instance;
   String currentUserUID = FirebaseService.auth().currentUser!.uid;
 

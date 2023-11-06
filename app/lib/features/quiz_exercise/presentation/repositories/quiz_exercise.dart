@@ -37,10 +37,10 @@ class QuizExerciseRepository {
           .collection('task_set')
           .where('id', isEqualTo: taskId)
           .get();
-      final data = result.docs.first;
-      if (data == null) {
+      if (result.docs.isEmpty) {
         throw Exception('Task ID not found');
       }
+      final data = result.docs.first;
       return QuizExercise.fromJson(data.data());
     } catch (e) {
       throw Exception(e.toString());

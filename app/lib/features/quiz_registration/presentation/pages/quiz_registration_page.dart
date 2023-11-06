@@ -48,8 +48,6 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
       String score, String level, BuildContext context) {
     return InkWell(
       onTap: () {
-        final endDate = DateFormat('yyyy-MM-dd HH:mm:ss')
-            .parse(weeklyQuizParticipant.quiz_end_at);
         if (weeklyQuizParticipant.attempts.length ==
             weeklyQuizParticipant.quiz_max_attempts) {
           context.push(
