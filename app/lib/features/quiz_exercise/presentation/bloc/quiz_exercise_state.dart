@@ -16,12 +16,14 @@ class QuizExerciseShow extends QuizExerciseState {
   final WeeklyQuiz quiz;
   final Duration remainingDuration;
   final String selectedAnswer;
+  final String shortAnswer;
   final String modalErrorMessage;
   const QuizExerciseShow({
     required this.quiz,
     required this.quizExercise,
     required this.remainingDuration,
-    required this.selectedAnswer,
+    this.shortAnswer = '',
+    this.selectedAnswer = '',
     this.modalErrorMessage = '',
   });
 

@@ -87,10 +87,12 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                                 width: 40,
                                 height: 20,
                               ),
-                              Text(
-                                state.quizExercise.title,
-                                textAlign: TextAlign.center,
-                                style: FontTheme.blackSubtitleBold(),
+                              Flexible(
+                                child: Text(
+                                  state.quizExercise.title,
+                                  textAlign: TextAlign.center,
+                                  style: FontTheme.blackSubtitleBold(),
+                                ),
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -181,7 +183,7 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                               Html(data: state.quizExercise.question.content),
                         ),
                       ),
-                      ...state.quizExercise.question.options
+                      ...state.quizExercise.question.options!
                           .map((e) => RadioListTile(
                               title: Text(e.content),
                               value: e.id,
@@ -191,6 +193,16 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                                     .read<QuizExerciseCubit>()
                                     .selectAnswer(e.id);
                               })),
+                      state.quizExercise.type == 'SHORT_ANSWER'
+                          ? Container(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: CustomTextField('Jawaban anda', (value) {
+                                context
+                                    .read<QuizExerciseCubit>()
+                                    .fillAnswer(value);
+                              }, (p0) => null, ''),
+                            )
+                          : Container(),
                       Text(state.modalErrorMessage),
                     ],
                   ),
@@ -215,7 +227,10 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                       text: 'OK',
                       onTap: () {
                         context.read<QuizExerciseCubit>().submitAnswer();
-                        if (state.selectedAnswer != '') {
+                        if (state.quizExercise.type == 'MULTIPLE_CHOICE' &&
+                                state.selectedAnswer != '' ||
+                            state.quizExercise.type == 'SHORT_ANSWER' &&
+                                state.shortAnswer != '') {
                           Navigator.pop(context);
                         }
                       },

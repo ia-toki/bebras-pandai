@@ -27,6 +27,7 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
   late String challengeGroup;
 
   String selectedAnswer = '';
+  String shortAnswer = '';
   late int remainingDuration;
 
   late QuizService quizService;
@@ -130,27 +131,54 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
     );
   }
 
+  void fillAnswer(String answer) {
+    shortAnswer = answer;
+    emit(
+      QuizExerciseShow(
+        quiz: quiz,
+        quizExercise: currentProblem,
+        remainingDuration: Duration(seconds: remainingDuration),
+        shortAnswer: answer,
+      ),
+    );
+  }
+
   FutureOr<void> submitAnswer() async {
-    if (selectedAnswer == '') {
+    if ((currentProblem.type == 'MULTIPLE_CHOICE' && selectedAnswer == '') ||
+        (currentProblem.type == 'SHORT_ANSWER') && shortAnswer == '') {
       emit(
         QuizExerciseShow(
           quiz: quiz,
           quizExercise: currentProblem,
           remainingDuration: Duration(seconds: remainingDuration),
           selectedAnswer: selectedAnswer,
-          modalErrorMessage: 'Pilih salah satu jawaban',
+          shortAnswer: shortAnswer,
+          modalErrorMessage: currentProblem.type == 'MULTIPLE_CHOICE'
+              ? 'Pilih salah satu jawaban'
+              : 'Isi jawaban anda',
         ),
       );
       return;
     }
     try {
       var verdict = 'INCORRECT';
-      if (currentProblem.answer.correctAnswer.contains(selectedAnswer)) {
+
+      if (currentProblem.type == 'MULTIPLE_CHOICE' &&
+          currentProblem.answer.correctAnswer.contains(selectedAnswer)) {
         verdict = 'CORRECT';
       }
+
+      if (currentProblem.type == 'SHORT_ANSWER' &&
+          currentProblem.answer.correctAnswer
+              .contains(shortAnswer.trim().toLowerCase())) {
+        verdict = 'CORRECT';
+      }
+
       attempt.answers?.add(
         QuizExerciseAnswer(
-          answer: selectedAnswer,
+          answer: currentProblem.type == 'SHORT_ANSWER'
+              ? shortAnswer
+              : selectedAnswer,
           correctAnswer: currentProblem.answer.correctAnswer,
           taskChallengeGroup: currentProblem.challengeGroup,
           taskId: currentProblem.id,
@@ -172,12 +200,14 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
         currentProblem = await quizExerciseRepository
             .getQuizExercise(problemIdList[currentProblemIndex]);
         selectedAnswer = '';
+        shortAnswer = '';
         emit(
           QuizExerciseShow(
             quiz: quiz,
             quizExercise: currentProblem,
             remainingDuration: Duration(seconds: remainingDuration),
             selectedAnswer: selectedAnswer,
+            shortAnswer: shortAnswer,
           ),
         );
       } else {
