@@ -37,7 +37,7 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
               child: Column(
                 children: [
                   Image.asset(
-                    Assets.bebrasPandaiText,
+                    Assets.bebrasMascot,
                   ),
                   const SizedBox(
                     height: 20,

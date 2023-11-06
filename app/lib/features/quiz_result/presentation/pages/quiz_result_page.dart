@@ -27,7 +27,7 @@ class _QuizResultPageState extends State<QuizResultPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image.asset(
-                Assets.bebrasPandaiText,
+                Assets.bebrasMascot,
               ),
               const SizedBox(
                 height: 40,
