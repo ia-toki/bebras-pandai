@@ -334,7 +334,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Image.asset(
-                    Assets.bebrasMascot,
+                    Assets.bebrasPandaiText,
                   ),
                   const SizedBox(
                     height: 40,
