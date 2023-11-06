@@ -67,7 +67,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
               child: Column(
                 children: [
                   Image.asset(
-                    Assets.bebrasMascot,
+                    Assets.bebrasPandaiText,
                   ),
                   const SizedBox(
                     height: 30,

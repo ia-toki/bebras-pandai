@@ -24,7 +24,7 @@ class _SettingPageState extends State<SettingPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Image.asset(
-                    Assets.bebrasMascot,
+                    Assets.bebrasPandaiText,
                   ),
                   const SizedBox(
                     height: 90,
@@ -32,14 +32,12 @@ class _SettingPageState extends State<SettingPage> {
                   Button(
                     buttonType: ButtonType.primary,
                     onTap: () async {
-                      await context.push(
-                        Uri(
-                          path: '/register',
-                          queryParameters: {
-                            'isUpdateProfile': 'true',
-                          },
-                        ).toString(),
-                      );
+                      await context.push(Uri(
+                      path: '/register',
+                        queryParameters: {
+                          'isUpdateProfile': 'true',
+                        },
+                      ).toString(),);
                     },
                     text: 'Edit Profil',
                   ),

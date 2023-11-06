@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: [
                     Image.asset(
-                      Assets.bebrasMascot,
+                      Assets.bebrasPandaiText,
                     ),
                     const SizedBox(
                       height: 100,
