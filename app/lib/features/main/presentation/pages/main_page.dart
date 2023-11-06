@@ -32,7 +32,7 @@ class _MainPageState extends State<MainPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Image.asset(
-                    Assets.bebrasPandaiText,
+                    Assets.bebrasMascot,
                   ),
                   const SizedBox(
                     height: 40,

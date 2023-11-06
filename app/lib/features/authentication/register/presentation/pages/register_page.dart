@@ -65,7 +65,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Image.asset(
-                        Assets.bebrasPandaiText,
+                        Assets.bebrasMascot,
                         height: 40,
                       ),
                       const SizedBox(

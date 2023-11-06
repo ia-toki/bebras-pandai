@@ -16,7 +16,7 @@ class _UnderConstructionPageState extends State<UnderConstructionPage> {
         child: Column(
           children: [
             Image.asset(
-              Assets.bebrasPandaiText,
+              Assets.bebrasMascot,
             ),
             const SizedBox(
               height: 60,
