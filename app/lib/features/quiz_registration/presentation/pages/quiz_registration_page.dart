@@ -48,9 +48,25 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
       String score, String level, BuildContext context) {
     return InkWell(
       onTap: () {
-        final endDate = DateFormat('yyyy-MM-dd HH:mm:ss')
-            .parse(weeklyQuizParticipant.quiz_end_at);
-        if (endDate.isBefore(DateTime.now())) {
+        if (weeklyQuizParticipant.attempts.length >=
+            weeklyQuizParticipant.quiz_max_attempts) {
+          context.push(
+            Uri(
+              path: '/quiz_result',
+              queryParameters: {
+                'quiz_participant_id': weeklyQuizParticipant.id,
+              },
+            ).toString(),
+          );
+        } else if (weeklyQuizParticipant.attempts.isNotEmpty) {
+          context.push(
+            Uri(
+              path: '/quiz_result',
+              queryParameters: {
+                'quiz_participant_id': weeklyQuizParticipant.id,
+              },
+            ).toString(),
+          );
         } else {
           context.push(
             Uri(
@@ -348,6 +364,22 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                           },
                           builder: (context, state) {
                             if (state is GetParticipantWeeklyQuizSuccess) {
+                              if (state.weeklyQuizzes.isEmpty) {
+                                return Container(
+                                  padding: const EdgeInsets.all(10),
+                                  margin: const EdgeInsets.only(
+                                      bottom: 12, top: 12),
+                                  decoration: BoxDecoration(
+                                    color: Colors.blue[50],
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: const Center(
+                                    child: Text(
+                                      'Silahkan klik Tombol `Daftar Latihan Bebras` dibawah untuk memulai',
+                                    ),
+                                  ),
+                                );
+                              }
                               return ListView(children: [
                                 const SizedBox(
                                   height: 10,
@@ -374,20 +406,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                             }
 
                             if (state is GetParticipantWeeklyQuizFailed) {
-                              return Container(
-                                padding: const EdgeInsets.all(10),
-                                margin:
-                                    const EdgeInsets.only(bottom: 12, top: 12),
-                                decoration: BoxDecoration(
-                                  color: Colors.blue[50],
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: const Center(
-                                  child: Text(
-                                    'Silahkan klik Tombol `Daftar Latihan Bebras` dibawah untuk memulai',
-                                  ),
-                                ),
-                              );
+                              return Text(state.error);
                             }
                             return const Center(
                               child: CircularProgressIndicator(),

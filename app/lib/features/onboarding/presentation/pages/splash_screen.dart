@@ -18,6 +18,7 @@ class SplashScreen extends StatelessWidget {
       },
       child: Scaffold(
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
               child: Padding(

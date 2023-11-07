@@ -22,7 +22,6 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return BebrasScaffold(
       body: SingleChildScrollView(
         child: Stack(
@@ -48,8 +47,8 @@ class _MainPageState extends State<MainPage> {
                           style: FontTheme.blackTitle(),
                           children: <TextSpan>[
                             TextSpan(
-                              text:
-                              toBeginningOfSentenceCase('${useData['name']}!'),
+                              text: toBeginningOfSentenceCase(
+                                  '${useData?['name']}!'),
                               style: FontTheme.blackTitleBold(),
                             ),
                           ],

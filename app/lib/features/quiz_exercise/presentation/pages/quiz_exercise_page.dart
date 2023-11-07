@@ -6,7 +6,7 @@ class QuizExercisePage extends StatefulWidget {
   final String? quizId;
   final String? challengeGroup;
   final String? quizParticipantId;
-  const QuizExercisePage(
+  QuizExercisePage(
       {super.key, this.quizId, this.challengeGroup, this.quizParticipantId});
 
   @override
@@ -16,11 +16,14 @@ class QuizExercisePage extends StatefulWidget {
 class _QuizExercisePageState extends State<QuizExercisePage> {
   @override
   void initState() {
+    final cubit = context.read<QuizExerciseCubit>();
+    if (cubit.quizParticipantId != widget.quizParticipantId) {
+      cubit.initialize(
+          quizId: widget.quizId,
+          quizParticipantId: widget.quizParticipantId,
+          challengeGroup: widget.challengeGroup);
+    }
     super.initState();
-    context.read<QuizExerciseCubit>().fetchQuizExercise(
-        quizId: widget.quizId,
-        quizParticipantId: widget.quizParticipantId,
-        challengeGroup: widget.challengeGroup);
   }
 
   @override
@@ -47,7 +50,9 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                       context.replace(
                         Uri(
                           path: '/quiz_result',
-                          queryParameters: {},
+                          queryParameters: {
+                            'quiz_participant_id': state.quizParticipantId,
+                          },
                         ).toString(),
                       );
                     }

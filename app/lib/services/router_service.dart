@@ -9,6 +9,7 @@ import '../features/material/viewer/presentation/pages/_pages.dart';
 import '../features/onboarding/presentation/pages/_pages.dart';
 import '../features/quiz_exercise/presentation/pages/_pages.dart';
 import '../features/quiz_registration/presentation/pages/_pages.dart';
+import '../features/quiz_result/presentation/pages/_pages.dart';
 
 GoRouter router = GoRouter(
   routes: [
@@ -49,6 +50,12 @@ GoRouter router = GoRouter(
     GoRoute(
       path: '/quiz_registration',
       builder: (context, state) => const QuizRegistrationPage(),
+    ),
+    GoRoute(
+      path: '/quiz_result',
+      builder: (context, state) => QuizResultPage(
+        quizParticipantId: state.queryParameters['quiz_participant_id'],
+      ),
     ),
     GoRoute(
       path: '/material',

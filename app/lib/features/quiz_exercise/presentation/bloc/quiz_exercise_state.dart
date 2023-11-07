@@ -36,11 +36,11 @@ class QuizExerciseShow extends QuizExerciseState {
 }
 
 class QuizExerciseFinished extends QuizExerciseState {
-  final QuizExerciseAttempt quizExerciseAttempt;
-  const QuizExerciseFinished(this.quizExerciseAttempt);
+  final String quizParticipantId;
+  const QuizExerciseFinished(this.quizParticipantId);
 
   @override
-  List<Object> get props => [quizExerciseAttempt];
+  List<Object> get props => [quizParticipantId];
 }
 
 class QuizExerciseFailed extends QuizExerciseState {
