@@ -227,12 +227,7 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                       text: 'OK',
                       onTap: () {
                         context.read<QuizExerciseCubit>().submitAnswer();
-                        if (state.quizExercise.type == 'MULTIPLE_CHOICE' &&
-                                state.selectedAnswer != '' ||
-                            state.quizExercise.type == 'SHORT_ANSWER' &&
-                                state.shortAnswer != '') {
-                          Navigator.pop(context);
-                        }
+                        Navigator.pop(context);
                       },
                     ),
                   ),
