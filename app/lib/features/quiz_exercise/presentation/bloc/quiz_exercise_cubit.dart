@@ -55,11 +55,11 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
 
       quiz = await quizService.getWeeklyQuizById(quizId);
 
-      problemIdList = quiz.problems[challengeGroup]!;
-      // ignore: unnecessary_null_comparison
-      if (problemIdList == null) {
+      final _problemIdList = quiz.problems[challengeGroup];
+      if (_problemIdList == null) {
         throw Exception('Task set for `$challengeGroup` is not found');
       }
+      problemIdList = _problemIdList;
       if (problemIdList.isEmpty) {
         throw Exception('Task set for `$challengeGroup` is empty');
       }
@@ -77,6 +77,9 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
         totalIncorrect: 0,
         answers: [],
       );
+
+      // Fetch all quiz data for it to be available when offline
+      await quizExerciseRepository.getListQuizExercise(problemIdList);
 
       currentProblem =
           await quizExerciseRepository.getQuizExercise(problemIdList.first);

@@ -2,18 +2,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../../services/firebase_service.dart';
 import '../model/quiz_exercise.dart';
 import '../model/quiz_exercise_attempt.dart';
 
 @injectable
 class QuizExerciseRepository {
+  FirebaseFirestore db = FirebaseFirestore.instance;
+
+  QuizExerciseRepository() {
+    db.settings = FirebaseService.settings;
+  }
+
   Future<List<QuizExercise>> getListQuizExercise(
     List<String> taskIdList,
   ) async {
     final quizExerciseList = <QuizExercise>[];
     try {
-      final result =
-          await FirebaseFirestore.instance.collection('task_set').get();
+      final result = await db.collection('task_set').get();
       final taskResult =
           result.docs.where((element) => taskIdList.contains(element.id));
       for (final element in taskResult) {
@@ -33,10 +39,8 @@ class QuizExerciseRepository {
 
   Future<QuizExercise> getQuizExercise(String taskId) async {
     try {
-      final result = await FirebaseFirestore.instance
-          .collection('task_set')
-          .where('id', isEqualTo: taskId)
-          .get();
+      final result =
+          await db.collection('task_set').where('id', isEqualTo: taskId).get();
       if (result.docs.isEmpty) {
         throw Exception('Task ID not found');
       }

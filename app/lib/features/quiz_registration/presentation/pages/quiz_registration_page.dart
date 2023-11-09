@@ -47,10 +47,11 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
   Widget quizCard(WeeklyQuizParticipation weeklyQuizParticipant, String date,
       String score, String level, BuildContext context) {
     return InkWell(
-      onTap: () {
+      onTap: () async {
+        Future future;
         if (weeklyQuizParticipant.attempts.length >=
             weeklyQuizParticipant.quiz_max_attempts) {
-          context.push(
+          future = context.push(
             Uri(
               path: '/quiz_result',
               queryParameters: {
@@ -59,7 +60,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
             ).toString(),
           );
         } else if (weeklyQuizParticipant.attempts.isNotEmpty) {
-          context.push(
+          future = context.push(
             Uri(
               path: '/quiz_result',
               queryParameters: {
@@ -68,7 +69,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
             ).toString(),
           );
         } else {
-          context.push(
+          future = context.push(
             Uri(
               path: '/quiz_exercise',
               queryParameters: {
@@ -79,6 +80,11 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
             ).toString(),
           );
         }
+
+        await future;
+        await context
+            .read<QuizRegistrationCubit>()
+            .fetchParticipantWeeklyQuiz();
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 18),
