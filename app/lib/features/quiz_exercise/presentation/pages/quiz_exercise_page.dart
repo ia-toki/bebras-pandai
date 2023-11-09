@@ -17,12 +17,12 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
   @override
   void initState() {
     final cubit = context.read<QuizExerciseCubit>();
-    if (cubit.quizParticipantId != widget.quizParticipantId) {
-      cubit.initialize(
-          quizId: widget.quizId,
-          quizParticipantId: widget.quizParticipantId,
-          challengeGroup: widget.challengeGroup);
-    }
+    // if (cubit.quizParticipantId != widget.quizParticipantId) {
+    cubit.initialize(
+        quizId: widget.quizId,
+        quizParticipantId: widget.quizParticipantId,
+        challengeGroup: widget.challengeGroup);
+    // }
     super.initState();
   }
 
