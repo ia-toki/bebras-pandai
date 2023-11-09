@@ -78,6 +78,9 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
         answers: [],
       );
 
+      // reset index every time this method is called
+      currentProblemIndex = 0;
+
       // Fetch all quiz data for it to be available when offline
       await quizExerciseRepository.getListQuizExercise(problemIdList);
 
