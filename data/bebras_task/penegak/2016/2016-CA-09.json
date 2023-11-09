@@ -4,10 +4,10 @@
     "title": "Kartu Geometris",
     "country": "CA",
     "source": "Bebras Challenge 2016",
-    "type": "MULTIPLE_CHOICE",
+    "type": "MULTIPLE_CHOICE_IMAGE",
     "description": 
     {
-        "content": "<p>Ali ingin bermain dengan John. Ali memiliki beberapa kartu berbentuk geometris dan ingin bertukar beberapa kartu yang dimilikinya dengan Jon. Ali menggunakan aturan pertukaran kartu mengikuti diagram berikut: <img><ol type='a'>Berdasarkan aturan permainan:<li>kartu persegi diganti dengan 2 kartu segitiga</li><li>1 kartu segitiga diganti dengan 1 kartu persegi, 1 kartu segitiga, dan 1 kartu persegi lainnya</li></ol>Sebagai contoh, jika Ali mulai permainan dari kartu persegi dengan menggunakan aturan yang ada, setelah 3 langkah dia akan mendapatkan kartu dengan urutan sebagai berikut: <img></p>"
+        "content": "<p>Ali ingin bermain dengan John. Ali memiliki beberapa kartu berbentuk geometris dan ingin bertukar beberapa kartu yang dimilikinya dengan Jon. Ali menggunakan aturan pertukaran kartu mengikuti diagram berikut: <br> <img style='max-width: 100%' src='https://raw.githubusercontent.com/ia-toki/bebras-pandai/main/data/bebras_task_asset/penegak/2016/2016-CA-09_0.png'> <br> <ol type='a'>Berdasarkan aturan permainan:<li>kartu persegi diganti dengan 2 kartu segitiga</li><li>1 kartu segitiga diganti dengan 1 kartu persegi, 1 kartu segitiga, dan 1 kartu persegi lainnya</li></ol>Sebagai contoh, jika Ali mulai permainan dari kartu persegi dengan menggunakan aturan yang ada, setelah 3 langkah dia akan mendapatkan kartu dengan urutan sebagai berikut: <br> <img style='max-width: 100%' src='https://raw.githubusercontent.com/ia-toki/bebras-pandai/main/data/bebras_task_asset/penegak/2016/2016-CA-09_1.png'></p>"
     },
     "question":
     {
@@ -15,22 +15,22 @@
         [
             {
                 "id": "2016-CA-09-choice-1",
-                "content": "<img>"
+                "content": "https://raw.githubusercontent.com/ia-toki/bebras-pandai/main/data/bebras_task_asset/penegak/2016/2016-CA-09_3.png"
             },
             {
                 "id": "2016-CA-09-choice-2",
-                "content": "<img>"
+                "content": "https://raw.githubusercontent.com/ia-toki/bebras-pandai/main/data/bebras_task_asset/penegak/2016/2016-CA-09_4.png"
             },
             {
                 "id": "2016-CA-09-choice-3",
-                "content": "<img>"
+                "content": "https://raw.githubusercontent.com/ia-toki/bebras-pandai/main/data/bebras_task_asset/penegak/2016/2016-CA-09_5.png"
             },
             {
                 "id": "2016-CA-09-choice-4",
-                "content": "<img>"
+                "content": "https://raw.githubusercontent.com/ia-toki/bebras-pandai/main/data/bebras_task_asset/penegak/2016/2016-CA-09_6.png"
             }
         ],
-        "content": "Aturan mana yang akan menghasilkan urutan kartu berikut? <img> <strong>Pilih salah satu:</strong>"
+        "content": "Aturan mana yang akan menghasilkan urutan kartu berikut? <br> <img style='max-width: 100%' src='https://raw.githubusercontent.com/ia-toki/bebras-pandai/main/data/bebras_task_asset/penegak/2016/2016-BE-01_2.png'> <br> <strong>Pilih salah satu:</strong>"
     },
     "answer":
     {
