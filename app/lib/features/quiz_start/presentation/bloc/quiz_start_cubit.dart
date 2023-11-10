@@ -34,7 +34,7 @@ class QuizStartCubit extends Cubit<QuizStartState> {
     }
   }
 
-  void setAgreement(bool value) {
+  void setAgreement({required bool value}) {
     agreement = value;
     emit(QuizStartSuccess(
         participation: participation, quiz: quiz, agreement: agreement));

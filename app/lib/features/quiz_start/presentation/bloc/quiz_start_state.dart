@@ -14,7 +14,6 @@ class QuizStartSuccess extends QuizStartState {
       {required this.participation,
       required this.quiz,
       required this.agreement});
-  @override
   List<Object> get props => [participation, quiz, agreement];
 }
 
@@ -23,6 +22,5 @@ class QuizStartFailed extends QuizStartState {
 
   QuizStartFailed(this.error);
 
-  @override
   List<Object> get props => [error];
 }

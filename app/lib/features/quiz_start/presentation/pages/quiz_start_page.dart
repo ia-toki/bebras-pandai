@@ -1,9 +1,11 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 part of '_pages.dart';
 
 class QuizStartPage extends StatefulWidget {
   final String? quizParticipantId;
 
-  QuizStartPage({super.key, this.quizParticipantId});
+  const QuizStartPage({super.key, this.quizParticipantId});
 
   @override
   State<QuizStartPage> createState() => _QuizStartPageState();
@@ -40,7 +42,7 @@ class _QuizStartPageState extends State<QuizStartPage> {
                       if (state is QuizStartFailed) {
                         return Text(state.error);
                       }
-                      return Text('OK');
+                      return const Text('OK');
                     },
                   ),
                 ],
@@ -58,11 +60,9 @@ class _QuizStartPageState extends State<QuizStartPage> {
         Row(
           children: [
             Expanded(
-              flex: 1,
               child: Container(
                 padding: const EdgeInsets.all(16),
-                decoration:
-                    BoxDecoration(border: Border.all(color: Colors.black)),
+                decoration: BoxDecoration(border: Border.all()),
                 child: Column(
                   children: [
                     Text(state.quiz.title),
@@ -75,10 +75,10 @@ class _QuizStartPageState extends State<QuizStartPage> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Text('Peraturan'),
-                    Text('Pra Tantangan'),
-                    Text('1. 12312312312'),
-                    Text('2. qwerqwrqrwf'),
+                    const Text('Peraturan'),
+                    const Text('Pra Tantangan'),
+                    const Text('1. 12312312312'),
+                    const Text('2. qwerqwrqrwf'),
                   ],
                 ),
               ),
@@ -94,10 +94,10 @@ class _QuizStartPageState extends State<QuizStartPage> {
                 value: state.agreement,
                 onChanged: (value) {
                   if (value != null) {
-                    context.read<QuizStartCubit>().setAgreement(value);
+                    context.read<QuizStartCubit>().setAgreement(value: value);
                   }
                 }),
-            Flexible(
+            const Flexible(
                 child: Text(
                     'Saya telah membaca peraturan & akan mengerjakan dengan jujur'))
           ],
