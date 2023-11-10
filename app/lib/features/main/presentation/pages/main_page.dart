@@ -117,7 +117,7 @@ class _MainPageState extends State<MainPage> {
                     },
                     child: Center(
                       child: Text(
-                        'From Ikatan Alumni TOKI with 🩷',
+                        'From Ikatan Alumni TOKI with ❤️',
                         textAlign: TextAlign.center,
                         style: FontTheme.greyNormal14(),
                       ),
