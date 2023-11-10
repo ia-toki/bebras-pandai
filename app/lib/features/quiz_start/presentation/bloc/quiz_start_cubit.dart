@@ -39,4 +39,10 @@ class QuizStartCubit extends Cubit<QuizStartState> {
     emit(QuizStartSuccess(
         participation: participation, quiz: quiz, agreement: agreement));
   }
+
+  void resetAgreement() {
+    agreement = false;
+    emit(QuizStartSuccess(
+        participation: participation, quiz: quiz, agreement: agreement));
+  }
 }

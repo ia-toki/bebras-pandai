@@ -41,7 +41,7 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                     return state is QuizExerciseFinished;
                   }, listener: (context, state) {
                     if (state is QuizExerciseFinished) {
-                      context.replace(
+                      context.pushReplacement(
                         Uri(
                           path: '/quiz_result',
                           queryParameters: {
@@ -49,6 +49,12 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                           },
                         ).toString(),
                       );
+                      context
+                          .read<QuizStartCubit>()
+                          .initialize(widget.quizParticipantId);
+                      context
+                          .read<QuizRegistrationCubit>()
+                          .fetchParticipantWeeklyQuiz();
                     }
                   }, buildWhen: (context, state) {
                     return state is! QuizExerciseFinished;
