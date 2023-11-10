@@ -34,12 +34,12 @@ class _MaterialMenuState extends State<MaterialMenu> {
     return Container(
       constraints: const BoxConstraints(
         minWidth: 100,
-        maxWidth: 120,
+        maxWidth: 130,
       ),
       child: Button(
         buttonType: filterIndex == index ? ButtonType.primary : null,
         text: text,
-        fontSize: 24,
+        fontSize: 14,
         innerVerticalPadding: 12,
         onTap: () {
           setState(() {
@@ -89,9 +89,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
               width: 10,
             ),
             Expanded(
-              child: Flexible(
-                child: Text(title),
-              ),
+              child: Text(title),
             ),
             if (isPrintable)
               IconButton(
@@ -167,7 +165,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
 
                       var displayEmpty = true;
                       final boxHeight =
-                          MediaQuery.of(context).size.height - 300;
+                          MediaQuery.of(context).size.height * 0.65;
                       return SingleChildScrollView(
                         child: SizedBox(
                           height: boxHeight,
@@ -208,7 +206,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
                                     ),
                                     child: const Center(
                                       child: Text(
-                                        'Materi belum diperbarui',
+                                        'Materi belum ada',
                                       ),
                                     ),
                                   ),

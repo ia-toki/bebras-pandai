@@ -14,6 +14,6 @@ List<BebrasGroupCategory> bebrasGroupList = [
   const BebrasGroupCategory(0, 'umum', 'Umum'),
   const BebrasGroupCategory(1, 'sikecil', 'siKecil'),
   const BebrasGroupCategory(2, 'siaga', 'Siaga'),
-  const BebrasGroupCategory(3, 'penggalang', 'Pengggalang'),
+  const BebrasGroupCategory(3, 'penggalang', 'Penggalang'),
   const BebrasGroupCategory(4, 'penegak', 'Penegak'),
 ];
