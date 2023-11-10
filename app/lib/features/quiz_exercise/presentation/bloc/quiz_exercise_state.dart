@@ -18,6 +18,7 @@ class QuizExerciseShow extends QuizExerciseState {
   final String selectedAnswer;
   final String shortAnswer;
   final String modalErrorMessage;
+
   const QuizExerciseShow({
     required this.quiz,
     required this.quizExercise,

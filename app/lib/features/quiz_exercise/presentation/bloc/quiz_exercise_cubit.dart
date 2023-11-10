@@ -99,6 +99,7 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
               quizExercise: currentProblem,
               remainingDuration: Duration(seconds: remainingDuration),
               selectedAnswer: selectedAnswer,
+              shortAnswer: shortAnswer,
             ),
           );
         } else {
@@ -112,6 +113,7 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
           quizExercise: currentProblem,
           remainingDuration: Duration(seconds: remainingDuration),
           selectedAnswer: selectedAnswer,
+          shortAnswer: shortAnswer,
         ),
       );
     } catch (e) {
@@ -133,12 +135,13 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
 
   void fillAnswer(String answer) {
     shortAnswer = answer;
+
     emit(
       QuizExerciseShow(
         quiz: quiz,
         quizExercise: currentProblem,
         remainingDuration: Duration(seconds: remainingDuration),
-        shortAnswer: answer,
+        shortAnswer: shortAnswer,
       ),
     );
   }

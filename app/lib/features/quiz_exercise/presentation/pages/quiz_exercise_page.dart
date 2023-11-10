@@ -245,11 +245,8 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                               backgroundColor: Colors.red,
                               duration: const Duration(seconds: 1),
                               behavior: SnackBarBehavior.floating,
-                              margin: EdgeInsets.only(
-                                  bottom:
-                                      MediaQuery.of(context).size.height - 150,
-                                  left: 10,
-                                  right: 10),
+                              margin: const EdgeInsets.only(
+                                  bottom: 50, left: 10, right: 10),
                               content: Text(error),
                             );
 
