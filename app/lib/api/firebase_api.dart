@@ -13,7 +13,7 @@ class FirebaseApi {
     router.push('/material');
   }
 
-  Future initPushNotfications() async {
+  Future<dynamic> initPushNotfications() async {
     await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
       alert: true,
@@ -21,7 +21,7 @@ class FirebaseApi {
       sound: true,
     );
 
-    FirebaseMessaging.instance.getInitialMessage().then(handleMessage);
+    await FirebaseMessaging.instance.getInitialMessage().then(handleMessage);
     FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
     FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
 
@@ -31,6 +31,6 @@ class FirebaseApi {
     await _firebaseMessaging.requestPermission();
     final fCMToken = await _firebaseMessaging.getToken();
     print('Token: $fCMToken');
-    initPushNotfications();
+    await initPushNotfications();
   }
 }

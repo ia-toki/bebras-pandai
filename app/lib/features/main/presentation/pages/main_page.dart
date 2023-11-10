@@ -48,7 +48,7 @@ class _MainPageState extends State<MainPage> {
                           children: <TextSpan>[
                             TextSpan(
                               text: toBeginningOfSentenceCase(
-                                  '${useData?['name']}!'),
+                                  '${useData?['name']}!',),
                               style: FontTheme.blackTitleBold(),
                             ),
                           ],
