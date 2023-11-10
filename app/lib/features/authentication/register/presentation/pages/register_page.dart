@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 part of '_pages.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -32,16 +34,22 @@ class _RegisterPageState extends State<RegisterPage> {
         listener: (context, state) {
           if (state is UserRegisterSuccessState) {
             if (widget.isUpdateProfile == 'true') {
-              context.go('/setting');
+              // refresh page
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                // ignore: inference_failure_on_instance_creation
+                MaterialPageRoute(
+                  builder: (context) =>
+                      const RegisterPage(isUpdateProfile: 'true'),
+                ),
+              );
+
+              // add notification
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text('Pembaruan data profil berhasil'),
-                  action: SnackBarAction(
-                    label: 'OK',
-                    onPressed: () {
-                      // Some code to undo the change.
-                    },
-                  ),
+                const SnackBar(
+                  content: Text('Pembaruan data profil berhasil'),
+                  behavior: SnackBarBehavior.floating,
                 ),
               );
             } else {
@@ -71,13 +79,11 @@ class _RegisterPageState extends State<RegisterPage> {
                       const SizedBox(
                         height: 40,
                       ),
-                      Text(
-                        widget.isUpdateProfile == 'true'
-                            ? 'Perbarui Data'
-                            : 'Detail Akun',
-                        style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w700,
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        child: Text(
+                          'Data Diri',
+                          style: FontTheme.blackSubtitleBold(),
                         ),
                       ),
                       const SizedBox(
