@@ -33,6 +33,7 @@ class QuizExerciseShow extends QuizExerciseState {
         quizExercise,
         remainingDuration,
         selectedAnswer,
+        shortAnswer,
         modalErrorMessage,
       ];
 }
