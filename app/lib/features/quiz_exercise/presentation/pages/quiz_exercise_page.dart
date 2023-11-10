@@ -3,11 +3,8 @@
 part of '_pages.dart';
 
 class QuizExercisePage extends StatefulWidget {
-  final String? quizId;
-  final String? challengeGroup;
   final String? quizParticipantId;
-  QuizExercisePage(
-      {super.key, this.quizId, this.challengeGroup, this.quizParticipantId});
+  QuizExercisePage({super.key, this.quizParticipantId});
 
   @override
   State<QuizExercisePage> createState() => _QuizExercisePageState();
@@ -18,10 +15,7 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
   void initState() {
     final cubit = context.read<QuizExerciseCubit>();
     // if (cubit.quizParticipantId != widget.quizParticipantId) {
-    cubit.initialize(
-        quizId: widget.quizId,
-        quizParticipantId: widget.quizParticipantId,
-        challengeGroup: widget.challengeGroup);
+    cubit.initialize(quizParticipantId: widget.quizParticipantId);
     // }
     super.initState();
   }

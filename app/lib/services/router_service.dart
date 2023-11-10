@@ -10,6 +10,7 @@ import '../features/onboarding/presentation/pages/_pages.dart';
 import '../features/quiz_exercise/presentation/pages/_pages.dart';
 import '../features/quiz_registration/presentation/pages/_pages.dart';
 import '../features/quiz_result/presentation/pages/_pages.dart';
+import '../features/quiz_start/presentation/pages/_pages.dart';
 
 GoRouter router = GoRouter(
   routes: [
@@ -42,8 +43,6 @@ GoRouter router = GoRouter(
     GoRoute(
       path: '/quiz_exercise',
       builder: (context, state) => QuizExercisePage(
-        quizId: state.queryParameters['quiz_id'],
-        challengeGroup: state.queryParameters['challenge_group'],
         quizParticipantId: state.queryParameters['quiz_participant_id'],
       ),
     ),
@@ -54,6 +53,12 @@ GoRouter router = GoRouter(
     GoRoute(
       path: '/quiz_result',
       builder: (context, state) => QuizResultPage(
+        quizParticipantId: state.queryParameters['quiz_participant_id'],
+      ),
+    ),
+    GoRoute(
+      path: '/quiz_start',
+      builder: (context, state) => QuizStartPage(
         quizParticipantId: state.queryParameters['quiz_participant_id'],
       ),
     ),

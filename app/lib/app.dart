@@ -8,6 +8,7 @@ import 'features/onboarding/presentation/bloc/user_initialization_bloc.dart';
 import 'features/quiz_exercise/presentation/bloc/quiz_exercise_cubit.dart';
 import 'features/quiz_registration/presentation/bloc/quiz_registration_cubit.dart';
 import 'features/quiz_result/presentation/bloc/quiz_result_cubit.dart';
+import 'features/quiz_start/presentation/bloc/quiz_start_cubit.dart';
 import 'services/di.dart';
 import 'services/router_service.dart';
 
@@ -30,6 +31,7 @@ class App extends StatelessWidget {
         ),
         BlocProvider(create: (context) => QuizExerciseCubit()),
         BlocProvider(create: (context) => QuizResultCubit()),
+        BlocProvider(create: (context) => QuizStartCubit()),
         BlocProvider(create: (context) => QuizRegistrationCubit()),
         BlocProvider(create: (context) => get<UserRegisterBloc>()),
       ],

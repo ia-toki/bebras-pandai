@@ -48,40 +48,14 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
       String score, String level, BuildContext context) {
     return InkWell(
       onTap: () async {
-        Future future;
-        if (weeklyQuizParticipant.attempts.length >=
-            weeklyQuizParticipant.quiz_max_attempts) {
-          future = context.push(
-            Uri(
-              path: '/quiz_result',
-              queryParameters: {
-                'quiz_participant_id': weeklyQuizParticipant.id,
-              },
-            ).toString(),
-          );
-        } else if (weeklyQuizParticipant.attempts.isNotEmpty) {
-          future = context.push(
-            Uri(
-              path: '/quiz_result',
-              queryParameters: {
-                'quiz_participant_id': weeklyQuizParticipant.id,
-              },
-            ).toString(),
-          );
-        } else {
-          future = context.push(
-            Uri(
-              path: '/quiz_exercise',
-              queryParameters: {
-                'quiz_id': weeklyQuizParticipant.quiz_id,
-                'challenge_group': weeklyQuizParticipant.challenge_group,
-                'quiz_participant_id': weeklyQuizParticipant.id,
-              },
-            ).toString(),
-          );
-        }
-
-        await future;
+        await context.push(
+          Uri(
+            path: '/quiz_start',
+            queryParameters: {
+              'quiz_participant_id': weeklyQuizParticipant.id,
+            },
+          ).toString(),
+        );
         await context
             .read<QuizRegistrationCubit>()
             .fetchParticipantWeeklyQuiz();
