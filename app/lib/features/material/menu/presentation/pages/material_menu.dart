@@ -8,14 +8,27 @@ class MaterialMenu extends StatefulWidget {
 }
 
 class _MaterialMenuState extends State<MaterialMenu> {
-  final Stream<QuerySnapshot> materialsStream =
-      FirebaseFirestore.instance.collection('learning_material').snapshots();
   String basePath =
       '/storage/emulated/0/Android/data/com.toki.bebras_pandai/files/PDF_Download/';
-
+  int filterIndex = 0;
   String? selectedValue;
 
-  int filterIndex = 0;
+  MaterialRepository materialRepository = MaterialRepository();
+  late Stream<QuerySnapshot> materialsStream;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeStream();
+  }
+
+  Future<void> _initializeStream() async {
+    try {
+      materialsStream = materialRepository.getListMaterials();
+    } catch (e) {
+      print('Error initializing stream: $e');
+    }
+  }
 
   Widget materialTab(String text, int index) {
     return Container(
