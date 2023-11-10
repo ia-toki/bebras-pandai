@@ -4,7 +4,7 @@ part of '_pages.dart';
 
 class QuizExercisePage extends StatefulWidget {
   final String? quizParticipantId;
-  QuizExercisePage({super.key, this.quizParticipantId});
+  const QuizExercisePage({super.key, this.quizParticipantId});
 
   @override
   State<QuizExercisePage> createState() => _QuizExercisePageState();

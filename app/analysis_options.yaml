@@ -55,6 +55,8 @@ linter:
     prefer_relative_imports: true
     prefer_if_elements_to_conditional_expressions: false
     cascade_invocations: false
+    require_trailing_commas: false
+    depend_on_referenced_packages: false
     # DO avoid print calls in production code.
     #
     # https://dart-lang.github.io/linter/lints/avoid_print.html
