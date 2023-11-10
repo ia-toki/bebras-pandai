@@ -64,14 +64,17 @@ class _QuizStartPageState extends State<QuizStartPage> {
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(border: Border.all()),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(state.quiz.title),
+                    Center(
+                      child: Text(state.quiz.title),
+                    ),
                     Text(
                         'Jumlah soal: ${state.quiz.problems[state.participation.challenge_group]?.length}'),
                     Text(
                         'Alokasi waktu: ${state.quiz.duration_minute[state.participation.challenge_group]} menit'),
                     Text(
-                        'Sisa coba lagi ${state.participation.attempts.length} / ${state.participation.quiz_max_attempts}'),
+                        'Sisa coba lagi: ${state.participation.attempts.length}/${state.participation.quiz_max_attempts}'),
                     const SizedBox(
                       height: 10,
                     ),
@@ -111,6 +114,7 @@ class _QuizStartPageState extends State<QuizStartPage> {
               state.participation.attempts.length >=
                   state.participation.quiz_max_attempts,
           onTap: () async {
+            Navigator.pop(context); // remove page from stack/history
             await context.push(
               Uri(
                 path: '/quiz_exercise',
