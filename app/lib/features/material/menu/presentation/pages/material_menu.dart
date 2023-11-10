@@ -17,38 +17,82 @@ class _MaterialMenuState extends State<MaterialMenu> {
 
   int filterIndex = 0;
 
-  Widget customRadioButton(String text, int index) {
+  Widget materialTab(String text, int index) {
+    return Container(
+      constraints: const BoxConstraints(
+        minWidth: 100,
+        maxWidth: 120,
+      ),
+      child: Button(
+        buttonType: filterIndex == index ? ButtonType.primary : null,
+        text: text,
+        fontSize: 24,
+        innerVerticalPadding: 12,
+        onTap: () {
+          setState(() {
+            filterIndex = index;
+          });
+        },
+      ),
+    );
+  }
+
+  Widget materialItem(
+    String docId,
+    String title,
+    String url,
+    // ignore: avoid_positional_boolean_parameters
+    bool isPrintable,
+  ) {
     return InkWell(
       onTap: () {
-        setState(() {
-          filterIndex = index;
-        });
+        context.push(
+          Uri(
+            path: '/material/$docId',
+            queryParameters: {
+              'id': docId,
+              'title': title,
+              'pdfUrl': url,
+            },
+          ).toString(),
+        );
       },
       child: Container(
-        alignment: Alignment.center,
-        height: 40,
-        width: 130,
+        height: 60,
+        padding: const EdgeInsets.all(10),
+        margin: const EdgeInsets.only(bottom: 12),
         decoration: BoxDecoration(
-          border: Border.all(),
-          color: (filterIndex == index) ? Colors.black87 : Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: (filterIndex == index) ? Colors.white : Colors.black,
-              blurRadius: 2,
-              offset: (filterIndex == index)
-                  // ignore: use_named_constants
-                  ? const Offset(0, 0)
-                  : const Offset(2, 2), // shadow direction: bottom right
-            ),
-          ],
+          color: Colors.blue[50],
+          borderRadius: BorderRadius.circular(8),
         ),
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-            color: (filterIndex == index) ? Colors.white : Colors.black,
-          ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Image.asset(
+              Assets.icon,
+              width: 40,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Expanded(
+              child: Flexible(
+                child: Text(title),
+              ),
+            ),
+            if (isPrintable)
+              IconButton(
+                onPressed: () {
+                  _generatePdf(docId);
+                },
+                icon: const Icon(
+                  Icons.print_rounded,
+                  size: 28,
+                  color: Colors.blue,
+                ),
+                iconSize: 28,
+              ),
+          ],
         ),
       ),
     );
@@ -72,28 +116,14 @@ class _MaterialMenuState extends State<MaterialMenu> {
                   const SizedBox(
                     height: 30,
                   ),
-                  Container(
+                  SizedBox(
                     height: 40,
-                    width: 296,
-                    decoration: BoxDecoration(border: Border.all()),
+                    width: MediaQuery.of(context).size.height - 10,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       children: <Widget>[
-                        customRadioButton(
-                          'siKecil',
-                          bebrasGroupList[0].index,
-                        ),
-                        customRadioButton(
-                          'Siaga',
-                          bebrasGroupList[1].index,
-                        ),
-                        customRadioButton(
-                          'Penggalang',
-                          bebrasGroupList[2].index,
-                        ),
-                        customRadioButton(
-                          'Penegak',
-                          bebrasGroupList[3].index,
+                        ...bebrasGroupList.map(
+                          (e) => materialTab(e.label, e.index),
                         ),
                       ],
                     ),
@@ -122,81 +152,56 @@ class _MaterialMenuState extends State<MaterialMenu> {
                         return const Text('Loading');
                       }
 
-                      return Container(
-                        height: 360,
-                        decoration: BoxDecoration(border: Border.all()),
-                        child: ListView(
-                          children: snapshot.data!.docs
-                              .map((DocumentSnapshot document) {
-                            final materialDoc =
-                                document.data()! as Map<String, dynamic>;
-                            final isDocPrintable =
-                                File('$basePath${document.id}.pdf')
-                                    .existsSync();
-                            if (materialDoc['challenge_group'] ==
-                                bebrasGroupList[filterIndex]
-                                    .bebrasChallengeKey) {
-                              return InkWell(
-                                onTap: () {
-                                  context.push(
-                                    Uri(
-                                      path: '/material/${document.id}',
-                                      queryParameters: {
-                                        'id': document.id,
-                                        'title': materialDoc['title'],
-                                        'pdfUrl': materialDoc['url'],
-                                      },
-                                    ).toString(),
+                      var displayEmpty = true;
+                      final boxHeight =
+                          MediaQuery.of(context).size.height - 300;
+                      return SingleChildScrollView(
+                        child: SizedBox(
+                          height: boxHeight,
+                          width: double.infinity,
+                          child: ListView(
+                            children: [
+                              ...snapshot.data!.docs.map((d) {
+                                final materialDoc =
+                                    d.data()! as Map<String, dynamic>;
+                                if (materialDoc['challenge_group'] ==
+                                    bebrasGroupList[filterIndex].key) {
+                                  displayEmpty = false;
+                                  return materialItem(
+                                    d.id,
+                                    materialDoc['title'] as String,
+                                    materialDoc['url'] as String,
+                                    File('$basePath${d.id}.pdf').existsSync(),
                                   );
-                                },
-                                child: Container(
-                                  height: 80,
-                                  width: double.infinity,
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                  ),
-                                  decoration:
-                                      BoxDecoration(border: Border.all()),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 7,
-                                      vertical: 10,
+                                }
+                                return Container();
+                              }),
+                              if (displayEmpty)
+                                Transform.translate(
+                                  offset: const Offset(
+                                    0,
+                                    -10,
+                                  ), // Set the desired offset
+                                  child: Container(
+                                    height: boxHeight,
+                                    padding: const EdgeInsets.all(10),
+                                    margin: const EdgeInsets.only(
+                                      bottom: 12,
+                                      top: 12,
                                     ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(
-                                          width: 140,
-                                          child: Text(
-                                            materialDoc['title'].toString(),
-                                            style: const TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                        isDocPrintable
-                                            ? IconButton(
-                                                onPressed: () {
-                                                  _generatePdf(document.id);
-                                                },
-                                                icon: const Icon(
-                                                  Icons.print_rounded,
-                                                  size: 36,
-                                                  color: Colors.blue,
-                                                ),
-                                                iconSize: 36,
-                                              )
-                                            : const SizedBox(),
-                                      ],
+                                    decoration: BoxDecoration(
+                                      color: Colors.blue[50],
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: const Center(
+                                      child: Text(
+                                        'Materi belum diperbarui',
+                                      ),
                                     ),
                                   ),
                                 ),
-                              );
-                            }
-                            return Container();
-                          }).toList(),
+                            ],
+                          ),
                         ),
                       );
                     },
