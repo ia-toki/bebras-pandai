@@ -102,7 +102,7 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
           );
         } else {
           timer.cancel();
-          emit(const QuizExerciseFailed('Duration Ends'));
+          finishExerciseTimeUp();
         }
       });
       emit(
@@ -144,7 +144,12 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
     );
   }
 
-  FutureOr<void> submitAnswer() async {
+  Future<void> finishExerciseTimeUp() async {
+    await postQuizExerciseAttempt();
+    emit(QuizExerciseFinished(quizParticipantId!));
+  }
+
+  Future<void> submitAnswer() async {
     if ((currentProblem.type == 'MULTIPLE_CHOICE' && selectedAnswer == '') ||
         (currentProblem.type == 'SHORT_ANSWER') && shortAnswer == '') {
       emit(
@@ -212,21 +217,25 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
           ),
         );
       } else {
-        attempt.score = (attempt.totalCorrect /
-                (attempt.totalCorrect +
-                    attempt.totalIncorrect +
-                    attempt.totalBlank) *
-                100)
-            .toInt();
-        attempt.endAt = DateTime.now();
-        attempt.uploadedAt = DateTime.now();
-        await quizExerciseRepository.insertQuizExerciseAttempt(
-            quizParticipantId!, attempt);
+        await postQuizExerciseAttempt();
         emit(QuizExerciseFinished(quizParticipantId!));
       }
     } catch (e) {
       emit(QuizExerciseFailed(e.toString()));
     }
+  }
+
+  Future<void> postQuizExerciseAttempt() async {
+    attempt.score = (attempt.totalCorrect /
+            (attempt.totalCorrect +
+                attempt.totalIncorrect +
+                attempt.totalBlank) *
+            100)
+        .toInt();
+    attempt.endAt = DateTime.now();
+    attempt.uploadedAt = DateTime.now();
+    await quizExerciseRepository.insertQuizExerciseAttempt(
+        quizParticipantId!, attempt);
   }
 
   @override

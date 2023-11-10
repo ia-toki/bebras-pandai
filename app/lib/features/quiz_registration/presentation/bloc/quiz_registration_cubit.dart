@@ -6,7 +6,6 @@ import '../../../../models/weekly_quiz.dart';
 import '../../../../services/firebase_service.dart';
 import '../../../../services/quiz_service.dart';
 
-part 'quiz_registration_event.dart';
 part 'quiz_registration_state.dart';
 
 class QuizRegistrationCubit extends Cubit<QuizRegistrationState> {

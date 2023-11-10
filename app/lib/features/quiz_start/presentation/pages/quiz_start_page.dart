@@ -71,7 +71,7 @@ class _QuizStartPageState extends State<QuizStartPage> {
                     Text(
                         'Alokasi waktu: ${state.quiz.duration_minute[state.participation.challenge_group]} menit'),
                     Text(
-                        'Sisa coba lagi ${state.participation.attempts.length} / ${state.participation.quiz_max_attempts}'),
+                        'Sisa coba lagi ${state.participation.quiz_max_attempts - state.participation.attempts.length} / ${state.participation.quiz_max_attempts}'),
                     const SizedBox(
                       height: 10,
                     ),
@@ -111,6 +111,7 @@ class _QuizStartPageState extends State<QuizStartPage> {
               state.participation.attempts.length >=
                   state.participation.quiz_max_attempts,
           onTap: () async {
+            context.read<QuizStartCubit>().resetAgreement();
             await context.push(
               Uri(
                 path: '/quiz_exercise',

@@ -9,6 +9,7 @@ import '../../../../core/bases/widgets/layout/bebras_scaffold.dart';
 import '../../../../core/constants/assets.dart';
 import '../../../../core/theme/font_theme.dart';
 import '../../../authentication/register/presentation/widgets/custom_text_field.dart';
+import '../../../quiz_start/presentation/bloc/quiz_start_cubit.dart';
 import '../bloc/quiz_exercise_cubit.dart';
 
 part 'quiz_exercise_page.dart';

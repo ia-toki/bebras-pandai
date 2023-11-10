@@ -57,5 +57,6 @@ class WeeklyQuizParticipation extends Equatable {
         quiz_start_at,
         quiz_id,
         quiz_max_attempts,
+        attempts,
       ];
 }
