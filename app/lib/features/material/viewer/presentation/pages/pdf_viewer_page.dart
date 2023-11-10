@@ -25,14 +25,22 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
   @override
   void initState() {
     super.initState();
-    if (File('$basePath${widget.id}.pdf').existsSync()) {
+    initializePdf();
+  }
+
+  Future<void> initializePdf() async {
+    final file = File('$basePath${widget.id}.pdf');
+    // ignore: avoid_slow_async_io
+    if (await file.exists()) {
       setState(() {
-        localPathPdf = '$basePath${widget.id}.pdf';
+        localPathPdf = file.path;
       });
     }
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      fetchUrlPdfFile(widget.pdfUrl.toString());
-    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -55,20 +63,39 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
       ),
       body: Stack(
         children: [
-          localPathPdf == ''
-              ? const LinearProgressIndicator()
-              : PDFView(
-                  filePath: localPathPdf,
-                  onError: (error) {
-                    // Do Nothing
-                  },
-                  onPageError: (page, error) {
-                    // Do Nothing
-                  },
-                ),
+          FutureBuilder(
+            future: _loadPdf(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasError) {
+                  return const Center(child: Text('Error loading PDF'));
+                } else {
+                  return PDFView(
+                    filePath: localPathPdf,
+                    onError: (error) {
+                      // Handle PDF view error
+                    },
+                    onPageError: (page, error) {
+                      // Handle PDF view error on a specific page
+                    },
+                  );
+                }
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
         ],
       ),
     );
+  }
+
+  Future<void> _loadPdf() async {
+    if (localPathPdf == '') {
+      await fetchUrlPdfFile(widget.pdfUrl.toString());
+    }
+    // Return a Future to satisfy the FutureBuilder
+    return Future.value();
   }
 
   // Pdf Print

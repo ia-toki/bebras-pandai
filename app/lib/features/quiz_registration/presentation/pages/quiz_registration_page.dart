@@ -56,9 +56,6 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
             },
           ).toString(),
         );
-        await context
-            .read<QuizRegistrationCubit>()
-            .fetchParticipantWeeklyQuiz();
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 18),

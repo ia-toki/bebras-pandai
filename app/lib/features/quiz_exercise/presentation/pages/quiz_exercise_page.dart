@@ -52,6 +52,9 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                       context
                           .read<QuizStartCubit>()
                           .initialize(widget.quizParticipantId);
+                      context
+                          .read<QuizRegistrationCubit>()
+                          .fetchParticipantWeeklyQuiz();
                     }
                   }, buildWhen: (context, state) {
                     return state is! QuizExerciseFinished;
