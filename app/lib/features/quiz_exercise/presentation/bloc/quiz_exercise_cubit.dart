@@ -85,7 +85,7 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
       if (duration == null) {
         throw Exception('Duration for selected Challenge Group not found');
       }
-      remainingDuration = duration * 60;
+      remainingDuration = (duration * 60.0).toInt();
       timer = Timer.periodic(const Duration(seconds: 1), (timer) {
         if (state is! QuizExerciseShow) {
           timer.cancel();
