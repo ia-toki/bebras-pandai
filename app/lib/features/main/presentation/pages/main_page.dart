@@ -15,10 +15,11 @@ class Course {
 }
 
 class _MainPageState extends State<MainPage> {
-  final registeredUserSnapshot = FirebaseFirestore.instance
-      .collection('registered_user')
-      .doc(FirebaseService.auth().currentUser?.uid)
-      .get();
+  @override
+  void initState() {
+    context.read<MainCubit>().fetchUser();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +38,8 @@ class _MainPageState extends State<MainPage> {
                   const SizedBox(
                     height: 40,
                   ),
-                  FutureBuilder(
-                    future: registeredUserSnapshot,
-                    builder: (context, AsyncSnapshot<dynamic> snapshot) {
-                      final useData = snapshot.data?.data();
+                  BlocBuilder<MainCubit, MainState>(builder: (context, state) {
+                    if (state is MainSuccess) {
                       return RichText(
                         text: TextSpan(
                           text: 'Selamat Datang\n',
@@ -48,15 +47,16 @@ class _MainPageState extends State<MainPage> {
                           children: <TextSpan>[
                             TextSpan(
                               text: toBeginningOfSentenceCase(
-                                '${useData?['name']}!',
+                                '${state.userData['name']}!',
                               ),
                               style: FontTheme.blackTitleBold(),
                             ),
                           ],
                         ),
                       );
-                    },
-                  ),
+                    }
+                    return Container();
+                  }),
                   const SizedBox(
                     height: 30,
                   ),
