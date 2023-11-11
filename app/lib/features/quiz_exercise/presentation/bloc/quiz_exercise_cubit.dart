@@ -62,6 +62,9 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
             'Task set for `${participation.challenge_group}` is empty');
       }
 
+      // Shuffle Problem List
+      problemIdList.shuffle();
+
       // TODO(someone): fix the check logic later
       // if (weeklyQuizParticipant.attempts.isEmpty) {
       attempt = QuizExerciseAttempt(

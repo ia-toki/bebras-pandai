@@ -168,6 +168,8 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
             return state is QuizExerciseShow;
           }, builder: (context, state) {
             if (state is QuizExerciseShow) {
+              // Shuffle Quiz Options
+              state.quizExercise.question.options?.shuffle();
               return Scaffold(
                 backgroundColor: Colors.transparent,
                 body: AlertDialog(
