@@ -56,7 +56,7 @@ class _QuizResultPageState extends State<QuizResultPage> {
                             children: [
                               Text('Total Nilai: ${state.attempt.score}'),
                               Text(
-                                  'benar: ${state.attempt.totalCorrect}, salah: ${state.attempt.totalIncorrect}'),
+                                  'benar: ${state.attempt.totalCorrect}, salah: ${state.attempt.totalIncorrect + state.attempt.totalBlank}'),
                               const Text('MANTAP!!!')
                             ],
                           ),

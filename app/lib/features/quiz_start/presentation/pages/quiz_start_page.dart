@@ -74,7 +74,7 @@ class _QuizStartPageState extends State<QuizStartPage> {
                     Text(
                         'Alokasi waktu: ${state.quiz.duration_minute[state.participation.challenge_group]} menit'),
                     Text(
-                        'Sisa coba lagi ${state.participation.quiz_max_attempts - state.participation.attempts.length} / ${state.participation.quiz_max_attempts}'),
+                        'Sisa coba lagi: ${state.participation.quiz_max_attempts - state.participation.attempts.length} dari ${state.participation.quiz_max_attempts} kesempatan'),
                     const SizedBox(
                       height: 10,
                     ),
