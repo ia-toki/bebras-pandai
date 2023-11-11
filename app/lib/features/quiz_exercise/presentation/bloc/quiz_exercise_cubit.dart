@@ -176,6 +176,7 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
 
       if (currentProblem.type == 'SHORT_ANSWER' &&
           currentProblem.answer.correctAnswer
+              .map((answer) => answer.toLowerCase())
               .contains(shortAnswer.trim().toLowerCase())) {
         verdict = 'CORRECT';
       }
