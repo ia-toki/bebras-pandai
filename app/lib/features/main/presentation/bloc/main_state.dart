@@ -12,14 +12,17 @@ class MainSuccess extends MainState {
     this.userData,
   );
 
-  @override
+  // @override
   List<Object> get props => [userData];
 }
 
 class MainFailed extends MainState {
   final String error;
 
-  MainFailed(this.error);
-  @override
+  MainFailed(
+    this.error,
+  );
+
+  // @override
   List<Object> get props => [error];
 }
