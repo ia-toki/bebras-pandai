@@ -4,9 +4,9 @@
 *.pyc
 *.swp
 google-services.json
-GoogleService-Info.plist
 firebase_app_id_file.json
 *.env
+.env
 .DS_Store
 .atom/
 .buildlog/
