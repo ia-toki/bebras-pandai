@@ -95,14 +95,10 @@ class RegisterUserRepository {
       final result = await FirebaseFirestore.instance
           .collection('registered_user')
           .doc(userId)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        if (documentSnapshot.exists) {
-          return documentSnapshot;
-        }
-      });
-      if (result != null) {
-        return RegisteredUserModel.fromJson(result);
+          .get();
+      final data = result.data();
+      if (result.exists && data != null) {
+        return RegisteredUserModel.fromJson(data);
       } else {
         return null;
       }

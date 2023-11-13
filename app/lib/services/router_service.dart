@@ -30,7 +30,7 @@ GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/main',
-      builder: (context, state) => const MainPage(),
+      builder: (context, state) => const HomePage(),
     ),
     GoRoute(
       path: '/setting',

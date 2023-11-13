@@ -3,11 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../services/firebase_service.dart';
+import '../../../authentication/register/model/registered_user.dart';
 
-part 'main_state.dart';
+part 'home_state.dart';
 
-class MainCubit extends Cubit<MainState> {
-  MainCubit() : super(MainInitial());
+class HomeCubit extends Cubit<HomeState> {
+  HomeCubit() : super(HomeInitial());
 
   Future<void> fetchUser() async {
     try {
@@ -16,13 +17,13 @@ class MainCubit extends Cubit<MainState> {
           .doc(FirebaseService.auth().currentUser?.uid)
           .get();
       final userData = userSnapshot.data();
-      if (userData != null) {
-        emit(MainSuccess(userData));
+      if (userSnapshot.exists && userData != null) {
+        emit(HomeSuccess(RegisteredUserModel.fromJson(userData)));
       } else {
         throw Exception('User Data cannot be extracted');
       }
     } catch (e) {
-      emit(MainFailed(e.toString()));
+      emit(HomeFailed(e.toString()));
     }
   }
 }

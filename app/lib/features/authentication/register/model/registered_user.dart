@@ -5,6 +5,7 @@ class RegisteredUserModel {
   final String school;
   final String province;
   final String bebrasBiro;
+  final bool isAdmin;
 
   RegisteredUserModel({
     required this.email,
@@ -13,16 +14,18 @@ class RegisteredUserModel {
     required this.school,
     required this.province,
     required this.bebrasBiro,
+    required this.isAdmin,
   });
 
-  factory RegisteredUserModel.fromJson(dynamic json) {
+  factory RegisteredUserModel.fromJson(Map<String, dynamic> json) {
     return RegisteredUserModel(
-      email: json.data()['email'].toString(),
-      name: json.data()['name'].toString(),
-      birthDate: json.data()['birth_date'].toString(),
-      school: json.data()['school'].toString(),
-      province: json.data()['province'].toString(),
-      bebrasBiro: json.data()['bebras_biro'].toString(),
+      email: json['email'].toString(),
+      name: json['name'].toString(),
+      birthDate: json['birth_date'].toString(),
+      school: json['school'].toString(),
+      province: json['province'].toString(),
+      bebrasBiro: json['bebras_biro'].toString(),
+      isAdmin: json['is_admin'] != null && json['is_admin']! as bool,
     );
   }
 }

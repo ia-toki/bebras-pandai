@@ -14,10 +14,19 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
   @override
   void initState() {
     final cubit = context.read<QuizExerciseCubit>();
-    // if (cubit.quizParticipantId != widget.quizParticipantId) {
-    cubit.initialize(quizParticipantId: widget.quizParticipantId);
-    // }
+    if (cubit.quizParticipantId == widget.quizParticipantId &&
+        cubit.state is QuizExercisePaused) {
+      cubit.resume();
+    } else {
+      cubit.initialize(quizParticipantId: widget.quizParticipantId);
+    }
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    context.read<QuizExerciseCubit>().pause();
+    super.dispose();
   }
 
   @override

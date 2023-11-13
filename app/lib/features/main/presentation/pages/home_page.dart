@@ -1,10 +1,10 @@
 part of '_pages.dart';
 
-class MainPage extends StatefulWidget {
-  const MainPage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<MainPage> createState() => _MainPageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class Course {
@@ -14,10 +14,10 @@ class Course {
   Course(this.title, this.description);
 }
 
-class _MainPageState extends State<MainPage> {
+class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    context.read<MainCubit>().fetchUser();
+    context.read<HomeCubit>().fetchUser();
     super.initState();
   }
 
@@ -38,8 +38,8 @@ class _MainPageState extends State<MainPage> {
                   const SizedBox(
                     height: 40,
                   ),
-                  BlocBuilder<MainCubit, MainState>(builder: (context, state) {
-                    if (state is MainSuccess) {
+                  BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
+                    if (state is HomeSuccess) {
                       return RichText(
                         text: TextSpan(
                           text: 'Selamat Datang\n',
@@ -47,7 +47,7 @@ class _MainPageState extends State<MainPage> {
                           children: <TextSpan>[
                             TextSpan(
                               text: toBeginningOfSentenceCase(
-                                '${state.userData['name']}!',
+                                '${state.user.name}!',
                               ),
                               style: FontTheme.blackTitleBold(),
                             ),

@@ -89,25 +89,7 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
         throw Exception('Duration for selected Challenge Group not found');
       }
       remainingDuration = (duration * 60.0).toInt();
-      timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-        if (state is! QuizExerciseShow) {
-          timer.cancel();
-        } else if (remainingDuration > 0) {
-          remainingDuration--;
-          emit(
-            QuizExerciseShow(
-              quiz: quiz,
-              quizExercise: currentProblem,
-              remainingDuration: Duration(seconds: remainingDuration),
-              selectedAnswer: selectedAnswer,
-              shortAnswer: shortAnswer,
-            ),
-          );
-        } else {
-          timer.cancel();
-          finishExerciseTimeUp();
-        }
-      });
+      timer = Timer.periodic(const Duration(seconds: 1), timerCallback);
       emit(
         QuizExerciseShow(
           quiz: quiz,
@@ -240,6 +222,44 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
     attempt.uploadedAt = DateTime.now();
     await quizExerciseRepository.insertQuizExerciseAttempt(
         quizParticipantId!, attempt);
+  }
+
+  void timerCallback(Timer timer) {
+    if (state is! QuizExerciseShow) {
+      timer.cancel();
+    } else if (remainingDuration > 0) {
+      remainingDuration--;
+      emit(
+        QuizExerciseShow(
+          quiz: quiz,
+          quizExercise: currentProblem,
+          remainingDuration: Duration(seconds: remainingDuration),
+          selectedAnswer: selectedAnswer,
+          shortAnswer: shortAnswer,
+        ),
+      );
+    } else {
+      timer.cancel();
+      finishExerciseTimeUp();
+    }
+  }
+
+  Future<void> pause() async {
+    timer?.cancel();
+    emit(QuizExercisePaused());
+  }
+
+  Future<void> resume() async {
+    timer = Timer.periodic(const Duration(seconds: 1), timerCallback);
+    emit(
+      QuizExerciseShow(
+        quiz: quiz,
+        quizExercise: currentProblem,
+        remainingDuration: Duration(seconds: remainingDuration),
+        selectedAnswer: selectedAnswer,
+        shortAnswer: shortAnswer,
+      ),
+    );
   }
 
   @override

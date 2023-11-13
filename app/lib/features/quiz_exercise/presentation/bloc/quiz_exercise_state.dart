@@ -47,6 +47,8 @@ class QuizExerciseFinished extends QuizExerciseState {
   List<Object> get props => [quizParticipantId];
 }
 
+class QuizExercisePaused extends QuizExerciseState {}
+
 class QuizExerciseFailed extends QuizExerciseState {
   final String error;
 
