@@ -153,7 +153,9 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
   }
 
   Future<void> submitAnswer() async {
-    if ((currentProblem.type == 'MULTIPLE_CHOICE' && selectedAnswer == '') ||
+    if ((currentProblem.type == 'MULTIPLE_CHOICE' ||
+            currentProblem.type == 'MULTIPLE_CHOICE_IMAGE' &&
+                selectedAnswer == '') ||
         (currentProblem.type == 'SHORT_ANSWER') && shortAnswer == '') {
       emit(
         QuizExerciseShow(
@@ -162,9 +164,9 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
           remainingDuration: Duration(seconds: remainingDuration),
           selectedAnswer: selectedAnswer,
           shortAnswer: shortAnswer,
-          modalErrorMessage: currentProblem.type == 'MULTIPLE_CHOICE'
-              ? 'Pilih salah satu jawaban'
-              : 'Isi jawaban anda',
+          modalErrorMessage: currentProblem.type == 'SHORT_ANSWER'
+              ? 'Isi jawaban anda'
+              : 'Pilih salah satu jawaban',
         ),
       );
       return;
@@ -172,8 +174,9 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
     try {
       var verdict = 'INCORRECT';
 
-      if (currentProblem.type == 'MULTIPLE_CHOICE' &&
-          currentProblem.answer.correctAnswer.contains(selectedAnswer)) {
+      if (currentProblem.type == 'MULTIPLE_CHOICE' ||
+          currentProblem.type == 'MULTIPLE_CHOICE_IMAGE' &&
+              currentProblem.answer.correctAnswer.contains(selectedAnswer)) {
         verdict = 'CORRECT';
       }
 
