@@ -168,8 +168,8 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
             return state is QuizExerciseShow;
           }, builder: (context, state) {
             if (state is QuizExerciseShow) {
-              // Shuffle Quiz Options
-              state.quizExercise.question.options?.shuffle();
+              var index = 0;
+
               return Scaffold(
                 backgroundColor: Colors.transparent,
                 body: AlertDialog(
@@ -192,16 +192,40 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                                 Html(data: state.quizExercise.question.content),
                           ),
                         ),
-                        ...state.quizExercise.question.options!
-                            .map((e) => RadioListTile(
-                                title: Text(e.content),
-                                value: e.id,
-                                groupValue: state.selectedAnswer,
-                                onChanged: (value) {
-                                  context
-                                      .read<QuizExerciseCubit>()
-                                      .selectAnswer(e.id);
-                                })),
+                        ...state.quizExercise.question.options!.map((e) {
+                          final current = String.fromCharCode(65 + index);
+                          index++;
+
+                          return RadioListTile(
+                              title: SizedBox(
+                                width: 100,
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      current,
+                                      style: const TextStyle(fontSize: 12),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    state.quizExercise.type ==
+                                            'MULTIPLE_CHOICE_IMAGE'
+                                        ? Image.network(
+                                            e.content,
+                                            width: 140,
+                                          )
+                                        : Text(e.content),
+                                  ],
+                                ),
+                              ),
+                              value: e.id,
+                              groupValue: state.selectedAnswer,
+                              onChanged: (value) {
+                                context
+                                    .read<QuizExerciseCubit>()
+                                    .selectAnswer(e.id);
+                              });
+                        }),
                         state.quizExercise.type == 'SHORT_ANSWER'
                             ? Container(
                                 padding: const EdgeInsets.only(top: 20),
@@ -236,7 +260,6 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                         text: 'OK',
                         onTap: () {
                           var error = '';
-
                           if (state.quizExercise.type == 'SHORT_ANSWER') {
                             if (state.shortAnswer == '') {
                               error = 'Isi jawaban anda';
