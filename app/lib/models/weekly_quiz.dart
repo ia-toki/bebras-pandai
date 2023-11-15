@@ -5,7 +5,7 @@ class WeeklyQuiz extends Equatable {
   final String id;
   final String title;
   final String created_at;
-  final Map<String, int> duration_minute;
+  final Map<String, double> duration_minute;
   final String end_at;
   final Map<String, int> max_attempts;
   final Map<String, List<String>> problems;
@@ -32,8 +32,8 @@ class WeeklyQuiz extends Equatable {
         id: id,
         title: json['title'] as String,
         created_at: json['created_at'] as String,
-        duration_minute: (json['duration_minute'] as Map<String, dynamic>)
-            .map((key, value) => MapEntry(key, value as int)),
+        duration_minute: (json['duration_minute'] as Map<String, dynamic>).map(
+            (key, value) => MapEntry(key, (value as num?)?.toDouble() ?? -1.0)),
         end_at: json['end_at'] as String,
         max_attempts: (json['max_attempts'] as Map<String, dynamic>)
             .map((key, value) => MapEntry(key, value as int)),

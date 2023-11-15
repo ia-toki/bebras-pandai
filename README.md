@@ -5,14 +5,14 @@
 ## Aplikasi
 `Bebras Pandai` adalah aplikasi yang dikembangkan oleh [IA-TOKI](https://alumni.toki.id/category/ikatan-alumni/) untuk mendukung pembelajaran *[Computational Thinking](https://www.cs.cmu.edu/~15110-s13/Wing06-ct.pdf)* supaya lebih tersebar luas ke seluruh pelosok Indonesia. 🇮🇩🇮🇩🇮🇩
 
-<a href="https://play.google.com/store/apps/details?id=com.toki.bebras_pandai" style="margin-left:-11px"><img alt="" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" style="width:200px"></a><br />
+<a href="https://play.google.com/apps/testing/com.toki.bebras_pandai" style="margin-left:-11px"><img alt="" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" style="width:200px"></a><br />
 <!-- <a href=''><img alt="" src="https://user-images.githubusercontent.com/24459435/172480740-d70aff84-fcb6-4f4a-bbd1-a3e2fa58f3a9.svg" style="width:165px"></a> -->
 
 
 ### Fitur
 Ada 2 fitur yang didukung & dikembangkan di aplikasi ini
-- `Lihat Materi`         : berisikan segala materi yang bisa Anda pelajari terkait `Tantangan Bebras`
-- `Ikuti Latihan Bebras` : mini `Tantangan Bebras` dengan soal (`Bebras Task`) yang selalu diperbarui tiap minggunya 
+- `Lihat / Cetak Materi` : berisikan segala materi yang bisa Anda pelajari terkait `Tantangan Bebras`
+- `Ikut Latihan Mingguan` : mini `Tantangan Bebras` dengan soal (`Bebras Task`) yang selalu diperbarui tiap minggunya untuk mengasah kemampuan *[Computational Thinking](https://www.cs.cmu.edu/~15110-s13/Wing06-ct.pdf)* Anda
 
 <a><img alt="" src="docs/assets/bebras-app-demo-removebg-preview.png" style=" width:170px"></a>
 

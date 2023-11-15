@@ -13,7 +13,7 @@ class QuizService {
   String currentUserUID = FirebaseService.auth().currentUser!.uid;
 
   QuizService() {
-    db.settings = const Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
+    db.settings = FirebaseService.settings;
   }
 
   // week => running_weekly_quiz or next_weekly_quiz

@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../models/quiz_participation.dart';
 import '../../../../models/weekly_quiz.dart';
 import '../../../../services/quiz_service.dart';
 import '../model/quiz_exercise.dart';
@@ -18,57 +19,53 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
   QuizExerciseCubit() : super(QuizExerciseInitialState());
 
   late WeeklyQuiz quiz;
+  late WeeklyQuizParticipation participation;
   late QuizExercise currentProblem;
   int currentProblemIndex = 0;
   late List<String> problemIdList;
   late QuizExerciseAttempt attempt;
-  late String challengeGroup;
   String? quizParticipantId;
 
   String selectedAnswer = '';
+  String shortAnswer = '';
   late int remainingDuration;
   Timer? timer;
 
   late QuizService quizService;
   late QuizExerciseRepository quizExerciseRepository;
 
-  FutureOr<void> initialize(
-      {String? quizId,
-      String? quizParticipantId,
-      String? challengeGroup}) async {
+  FutureOr<void> initialize({String? quizParticipantId}) async {
     try {
       quizService = QuizService();
       quizExerciseRepository = QuizExerciseRepository();
 
       emit(QuizExerciseLoading());
-      if (quizId == null) {
-        throw Exception('Quiz Id null');
-      }
       if (quizParticipantId == null) {
         throw Exception('Quiz Participant Id null');
       }
-      if (challengeGroup == null) {
-        throw Exception('Challenge Group null');
-      }
       this.quizParticipantId = quizParticipantId;
-      this.challengeGroup = challengeGroup;
 
-      quiz = await quizService.getWeeklyQuizById(quizId);
+      final participation = await quizService.getWeeklyQuizParticipant(
+        quizParticipantId: quizParticipantId,
+      );
 
-      problemIdList = quiz.problems[challengeGroup]!;
-      // ignore: unnecessary_null_comparison
-      if (problemIdList == null) {
-        throw Exception('Task set for `$challengeGroup` is not found');
+      quiz = await quizService.getWeeklyQuizById(participation.quiz_id);
+
+      final list = quiz.problems[participation.challenge_group];
+      if (list == null) {
+        throw Exception(
+            'Task set for `${participation.challenge_group}` is not found');
       }
+      problemIdList = list;
       if (problemIdList.isEmpty) {
-        throw Exception('Task set for `$challengeGroup` is empty');
+        throw Exception(
+            'Task set for `${participation.challenge_group}` is empty');
       }
+
+      // Shuffle Problem List
+      problemIdList.shuffle();
 
       // TODO(someone): fix the check logic later
-      // final weeklyQuizParticipant = await quizService.getWeeklyQuizParticipant(
-      //   quizParticipantId: quizParticipantId,
-      // );
-      //
       // if (weeklyQuizParticipant.attempts.isEmpty) {
       attempt = QuizExerciseAttempt(
         startAt: DateTime.now(),
@@ -78,14 +75,22 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
         answers: [],
       );
 
+      // reset index every time this method is called
+      currentProblemIndex = 0;
+
+      // Fetch all quiz data for it to be available when offline
+      await quizExerciseRepository.getListQuizExercise(problemIdList);
+
       currentProblem =
           await quizExerciseRepository.getQuizExercise(problemIdList.first);
 
-      final duration = quiz.duration_minute[challengeGroup];
+      currentProblem.question.options?.shuffle();
+
+      final duration = quiz.duration_minute[participation.challenge_group];
       if (duration == null) {
         throw Exception('Duration for selected Challenge Group not found');
       }
-      remainingDuration = duration * 60;
+      remainingDuration = (duration * 60.0).toInt();
       timer = Timer.periodic(const Duration(seconds: 1), (timer) {
         if (state is! QuizExerciseShow) {
           timer.cancel();
@@ -97,11 +102,12 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
               quizExercise: currentProblem,
               remainingDuration: Duration(seconds: remainingDuration),
               selectedAnswer: selectedAnswer,
+              shortAnswer: shortAnswer,
             ),
           );
         } else {
           timer.cancel();
-          emit(const QuizExerciseFailed('Duration Ends'));
+          finishExerciseTimeUp();
         }
       });
       emit(
@@ -110,6 +116,7 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
           quizExercise: currentProblem,
           remainingDuration: Duration(seconds: remainingDuration),
           selectedAnswer: selectedAnswer,
+          shortAnswer: shortAnswer,
         ),
       );
     } catch (e) {
@@ -129,27 +136,64 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
     );
   }
 
-  FutureOr<void> submitAnswer() async {
-    if (selectedAnswer == '') {
+  void fillAnswer(String answer) {
+    shortAnswer = answer;
+
+    emit(
+      QuizExerciseShow(
+        quiz: quiz,
+        quizExercise: currentProblem,
+        remainingDuration: Duration(seconds: remainingDuration),
+        shortAnswer: shortAnswer,
+      ),
+    );
+  }
+
+  Future<void> finishExerciseTimeUp() async {
+    await postQuizExerciseAttempt();
+    emit(QuizExerciseFinished(quizParticipantId!));
+  }
+
+  Future<void> submitAnswer() async {
+    if (((currentProblem.type == 'MULTIPLE_CHOICE' ||
+                currentProblem.type == 'MULTIPLE_CHOICE_IMAGE') &&
+            selectedAnswer == '') ||
+        (currentProblem.type == 'SHORT_ANSWER') && shortAnswer == '') {
       emit(
         QuizExerciseShow(
           quiz: quiz,
           quizExercise: currentProblem,
           remainingDuration: Duration(seconds: remainingDuration),
           selectedAnswer: selectedAnswer,
-          modalErrorMessage: 'Pilih salah satu jawaban',
+          shortAnswer: shortAnswer,
+          modalErrorMessage: currentProblem.type == 'SHORT_ANSWER'
+              ? 'Isi jawaban anda'
+              : 'Pilih salah satu jawaban',
         ),
       );
       return;
     }
     try {
       var verdict = 'INCORRECT';
-      if (currentProblem.answer.correctAnswer.contains(selectedAnswer)) {
+
+      if (currentProblem.type == 'MULTIPLE_CHOICE' ||
+          currentProblem.type == 'MULTIPLE_CHOICE_IMAGE' &&
+              currentProblem.answer.correctAnswer.contains(selectedAnswer)) {
         verdict = 'CORRECT';
       }
+
+      if (currentProblem.type == 'SHORT_ANSWER' &&
+          currentProblem.answer.correctAnswer
+              .map((answer) => answer.toLowerCase())
+              .contains(shortAnswer.trim().toLowerCase())) {
+        verdict = 'CORRECT';
+      }
+
       attempt.answers?.add(
         QuizExerciseAnswer(
-          answer: selectedAnswer,
+          answer: currentProblem.type == 'SHORT_ANSWER'
+              ? shortAnswer
+              : selectedAnswer,
           correctAnswer: currentProblem.answer.correctAnswer,
           taskChallengeGroup: currentProblem.challengeGroup,
           taskId: currentProblem.id,
@@ -171,30 +215,36 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
         currentProblem = await quizExerciseRepository
             .getQuizExercise(problemIdList[currentProblemIndex]);
         selectedAnswer = '';
+        shortAnswer = '';
         emit(
           QuizExerciseShow(
             quiz: quiz,
             quizExercise: currentProblem,
             remainingDuration: Duration(seconds: remainingDuration),
             selectedAnswer: selectedAnswer,
+            shortAnswer: shortAnswer,
           ),
         );
       } else {
-        attempt.score = (attempt.totalCorrect /
-                (attempt.totalCorrect +
-                    attempt.totalIncorrect +
-                    attempt.totalBlank) *
-                100)
-            .toInt();
-        attempt.endAt = DateTime.now();
-        attempt.uploadedAt = DateTime.now();
-        await quizExerciseRepository.insertQuizExerciseAttempt(
-            quizParticipantId!, attempt);
+        await postQuizExerciseAttempt();
         emit(QuizExerciseFinished(quizParticipantId!));
       }
     } catch (e) {
       emit(QuizExerciseFailed(e.toString()));
     }
+  }
+
+  Future<void> postQuizExerciseAttempt() async {
+    attempt.score = (attempt.totalCorrect /
+            (attempt.totalCorrect +
+                attempt.totalIncorrect +
+                attempt.totalBlank) *
+            100)
+        .toInt();
+    attempt.endAt = DateTime.now();
+    attempt.uploadedAt = DateTime.now();
+    await quizExerciseRepository.insertQuizExerciseAttempt(
+        quizParticipantId!, attempt);
   }
 
   @override

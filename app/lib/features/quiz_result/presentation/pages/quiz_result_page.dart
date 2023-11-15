@@ -1,9 +1,11 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 part of '_pages.dart';
 
 class QuizResultPage extends StatefulWidget {
   final String? quizParticipantId;
 
-  QuizResultPage({super.key, this.quizParticipantId});
+  const QuizResultPage({super.key, this.quizParticipantId});
 
   @override
   State<QuizResultPage> createState() => _QuizResultPageState();
@@ -24,7 +26,6 @@ class _QuizResultPageState extends State<QuizResultPage> {
         Padding(
           padding: const EdgeInsets.all(32),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image.asset(
                 Assets.bebrasPandaiText,
@@ -48,15 +49,15 @@ class _QuizResultPageState extends State<QuizResultPage> {
                           height: 20,
                         ),
                         Container(
-                          padding: EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
                               border: Border.all(), color: Colors.grey),
                           child: Column(
                             children: [
                               Text('Total Nilai: ${state.attempt.score}'),
                               Text(
-                                  'benar: ${state.attempt.totalCorrect}, salah: ${state.attempt.totalIncorrect}'),
-                              Text('MANTAP!!!')
+                                  'benar: ${state.attempt.totalCorrect}, salah: ${state.attempt.totalIncorrect + state.attempt.totalBlank}'),
+                              const Text('MANTAP!!!')
                             ],
                           ),
                         ),
@@ -69,7 +70,7 @@ class _QuizResultPageState extends State<QuizResultPage> {
                     );
                   }
                   if (state is QuizResultNotAvailable) {
-                    return Text('Result not available');
+                    return const Text('Result not available');
                   }
                   if (state is QuizResultFailed) {
                     return Text(state.error);

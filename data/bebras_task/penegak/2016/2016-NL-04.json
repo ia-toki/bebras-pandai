@@ -4,7 +4,7 @@
     "title": "Kode Kix",
     "country": "NL",
     "source": "Bebras Challenge 2016",
-    "type": "SHORT ANSWER",
+    "type": "SHORT_ANSWER",
     "description": 
     {
         "content": "<p>Kantor Pos Bebras memiliki kode-kode pos yang berisi 36 karakter alfanumeris ('A'<img>'Z' dan '0'<img>'9'). Agar kode-kode pos dapat dibaca oleh mesin pembaca, mereka mengubah kode-kode pos itu menjadi kode-kode Kix. <img> Setiap karakter dikodekan ke dalam 2 bagian pengkodean: bagian atas dan bagian bawah.<br />Masing-masing bagian terdiri atas 4 garis vertikal. Kedua bagian digabungkan sedemikian rupa dengan menyusun bagian atas bertumpukan separuhnya pada bagian bawah sebagai berikut. Setiap garis di bagian atas bertumpukan separuhnya dengan separuh garis di bagian bawah seperti pada gambar berikut ini: bagian atas mengambil bagian tengah (middle) dan atas (top) dari setiap garis, sementara bagian bawah megambil bagian tengah (middle) dan bagian bawah (bottom).<br />Misalnya kode Kix untuk “G7Y0” adalah <img></p>"

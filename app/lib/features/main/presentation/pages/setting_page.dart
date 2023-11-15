@@ -32,12 +32,14 @@ class _SettingPageState extends State<SettingPage> {
                   Button(
                     buttonType: ButtonType.primary,
                     onTap: () async {
-                      await context.push(Uri(
-                      path: '/register',
-                        queryParameters: {
-                          'isUpdateProfile': 'true',
-                        },
-                      ).toString(),);
+                      await context.push(
+                        Uri(
+                          path: '/register',
+                          queryParameters: {
+                            'isUpdateProfile': 'true',
+                          },
+                        ).toString(),
+                      );
                     },
                     text: 'Edit Profil',
                   ),
@@ -115,7 +117,7 @@ class _SettingPageState extends State<SettingPage> {
                     },
                     child: Center(
                       child: Text(
-                        'From Ikatan Alumni TOKI with 🩷',
+                        'From Ikatan Alumni TOKI with ❤️',
                         textAlign: TextAlign.center,
                         style: FontTheme.greyNormal14(),
                       ),

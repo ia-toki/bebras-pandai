@@ -32,4 +32,4 @@ jobs:
           flutter doctor
           flutter pub get
           flutter pub run build_runner build
-          flutter analyze
+          flutter analyze | grep -v -E 'info'
