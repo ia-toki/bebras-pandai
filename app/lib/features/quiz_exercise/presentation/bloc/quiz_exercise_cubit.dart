@@ -84,6 +84,8 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
       currentProblem =
           await quizExerciseRepository.getQuizExercise(problemIdList.first);
 
+      currentProblem.question.options?.shuffle();
+
       final duration = quiz.duration_minute[participation.challenge_group];
       if (duration == null) {
         throw Exception('Duration for selected Challenge Group not found');
@@ -153,9 +155,9 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
   }
 
   Future<void> submitAnswer() async {
-    if ((currentProblem.type == 'MULTIPLE_CHOICE' ||
-            currentProblem.type == 'MULTIPLE_CHOICE_IMAGE' &&
-                selectedAnswer == '') ||
+    if (((currentProblem.type == 'MULTIPLE_CHOICE' ||
+                currentProblem.type == 'MULTIPLE_CHOICE_IMAGE') &&
+            selectedAnswer == '') ||
         (currentProblem.type == 'SHORT_ANSWER') && shortAnswer == '') {
       emit(
         QuizExerciseShow(

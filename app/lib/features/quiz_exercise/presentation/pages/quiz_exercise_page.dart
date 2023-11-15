@@ -163,20 +163,11 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
     showDialog(
         context: context,
         builder: (context) {
-          var isSuffle = false;
-
           return BlocBuilder<QuizExerciseCubit, QuizExerciseState>(
               buildWhen: (context, state) {
             return state is QuizExerciseShow;
           }, builder: (context, state) {
             if (state is QuizExerciseShow) {
-              // Shuffle Quiz Options
-              if (!isSuffle) {
-                state.quizExercise.question.options?.shuffle();
-                isSuffle = true;
-              }
-
-              final optionLabels = ['A.', 'B.', 'C.', 'D.', 'E.'];
               var index = 0;
 
               return Scaffold(
@@ -202,7 +193,7 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                           ),
                         ),
                         ...state.quizExercise.question.options!.map((e) {
-                          final current = optionLabels[index];
+                          final current = String.fromCharCode(65 + index);
                           index++;
 
                           return RadioListTile(
