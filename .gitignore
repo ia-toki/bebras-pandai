@@ -1,7 +1,3 @@
-# Secret files
-.env
-google-service.json
-
 # Environments
 .venv
 env/
