@@ -79,7 +79,8 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
       currentProblemIndex = 0;
 
       // Fetch all quiz data for it to be available when offline
-      await quizExerciseRepository.getListQuizExercise(problemIdList);
+      await quizExerciseRepository
+          .getListQuizExerciseByTaskIdList(problemIdList);
 
       currentProblem =
           await quizExerciseRepository.getQuizExercise(problemIdList.first);

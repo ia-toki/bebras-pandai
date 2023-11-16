@@ -10,6 +10,8 @@ import 'features/quiz_exercise/presentation/bloc/quiz_exercise_cubit.dart';
 import 'features/quiz_registration/presentation/bloc/quiz_registration_cubit.dart';
 import 'features/quiz_result/presentation/bloc/quiz_result_cubit.dart';
 import 'features/quiz_start/presentation/bloc/quiz_start_cubit.dart';
+import 'features/task_detail/presentation/bloc/task_detail_cubit.dart';
+import 'features/task_list/presentation/bloc/task_list_cubit.dart';
 import 'services/di.dart';
 import 'services/router_service.dart';
 
@@ -31,6 +33,8 @@ class App extends StatelessWidget {
             ),
         ),
         BlocProvider(create: (context) => HomeCubit()),
+        BlocProvider(create: (context) => TaskListCubit()),
+        BlocProvider(create: (context) => TaskDetailCubit()),
         BlocProvider(create: (context) => QuizExerciseCubit()),
         BlocProvider(create: (context) => QuizResultCubit()),
         BlocProvider(create: (context) => QuizStartCubit()),
