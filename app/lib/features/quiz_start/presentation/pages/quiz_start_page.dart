@@ -42,7 +42,9 @@ class _QuizStartPageState extends State<QuizStartPage> {
                       if (state is QuizStartFailed) {
                         return Text(state.error);
                       }
-                      return const Text('OK');
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
                     },
                   ),
                 ],

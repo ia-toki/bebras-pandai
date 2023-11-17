@@ -30,7 +30,6 @@ class _MainPageState extends State<MainPage> {
             Padding(
               padding: const EdgeInsets.all(32),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Image.asset(
                     Assets.bebrasPandaiText,
@@ -40,18 +39,21 @@ class _MainPageState extends State<MainPage> {
                   ),
                   BlocBuilder<MainCubit, MainState>(builder: (context, state) {
                     if (state is MainSuccess) {
-                      return RichText(
-                        text: TextSpan(
-                          text: 'Selamat Datang\n',
-                          style: FontTheme.blackTitle(),
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: toBeginningOfSentenceCase(
-                                '${state.userData['name']}!',
+                      return Align(
+                        alignment: Alignment.centerLeft,
+                        child: RichText(
+                          text: TextSpan(
+                            text: 'Selamat Datang\n',
+                            style: FontTheme.blackTitle(),
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: toBeginningOfSentenceCase(
+                                  '${state.userData['name']}!',
+                                ),
+                                style: FontTheme.blackTitleBold(),
                               ),
-                              style: FontTheme.blackTitleBold(),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       );
                     }
@@ -74,7 +76,7 @@ class _MainPageState extends State<MainPage> {
                     text: 'ℹ️  Tentang Tantangan Bebras  ℹ️',
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 25,
                   ),
                   Button(
                     buttonType: ButtonType.primary,
@@ -84,7 +86,7 @@ class _MainPageState extends State<MainPage> {
                     text: 'Lihat / Cetak Materi',
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 25,
                   ),
                   Button(
                     buttonType: ButtonType.primary,
@@ -94,7 +96,7 @@ class _MainPageState extends State<MainPage> {
                     text: 'Ikut Latihan Mingguan',
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 25,
                   ),
                   Button(
                     onTap: () async {
@@ -104,8 +106,8 @@ class _MainPageState extends State<MainPage> {
                     customTextColor: Colors.white,
                     text: 'Pengaturan',
                   ),
-                  const SizedBox(
-                    height: 255,
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height - 620,
                   ),
                   InkWell(
                     onTap: () async {

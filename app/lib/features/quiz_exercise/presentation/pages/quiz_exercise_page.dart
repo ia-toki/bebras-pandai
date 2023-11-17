@@ -60,7 +60,9 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                     return state is! QuizExerciseFinished;
                   }, builder: (context, state) {
                     if (state is QuizExerciseLoading) {
-                      return const Text('LOADING');
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
                     }
                     if (state is QuizExerciseFailed) {
                       return Text(state.error);
@@ -197,34 +199,39 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                           index++;
 
                           return RadioListTile(
-                              title: SizedBox(
-                                width: 100,
+                            title: SizedBox(
+                              child: Transform.translate(
+                                offset: const Offset(
+                                  -20,
+                                  0,
+                                ), // Set the desired offset
                                 child: Row(
                                   children: [
-                                    Text(
-                                      current,
-                                      style: const TextStyle(fontSize: 12),
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
+                                    Text('$current. '),
                                     state.quizExercise.type ==
                                             'MULTIPLE_CHOICE_IMAGE'
                                         ? Image.network(
                                             e.content,
-                                            width: 140,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                240,
                                           )
-                                        : Text(e.content),
+                                        : Flexible(
+                                            child: Text(e.content),
+                                          )
                                   ],
                                 ),
                               ),
-                              value: e.id,
-                              groupValue: state.selectedAnswer,
-                              onChanged: (value) {
-                                context
-                                    .read<QuizExerciseCubit>()
-                                    .selectAnswer(e.id);
-                              });
+                            ),
+                            value: e.id,
+                            groupValue: state.selectedAnswer,
+                            onChanged: (value) {
+                              context
+                                  .read<QuizExerciseCubit>()
+                                  .selectAnswer(e.id);
+                            },
+                          );
                         }),
                         state.quizExercise.type == 'SHORT_ANSWER'
                             ? Container(
