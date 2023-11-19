@@ -12,7 +12,6 @@ Future<void> handleBackgroundMessage(RemoteMessage message) async {
 
 class FirebaseService {
   static late FirebaseApp app;
-  final _firebaseMessaging = FirebaseMessaging.instance;
 
   static Future<void> initialize() async {
     app = await Firebase.initializeApp(
@@ -26,12 +25,5 @@ class FirebaseService {
 
   static FirebaseAuth auth() {
     return FirebaseAuth.instanceFor(app: app);
-  }
-
-  Future<void> initNotifications() async {
-    await _firebaseMessaging.requestPermission();
-    final fCMToken = await _firebaseMessaging.getToken();
-    print('Token: $fCMToken');
-    FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
   }
 }
