@@ -43,8 +43,7 @@ class QuizExerciseRepository {
     try {
       final globalResult =
           await db.collection('configuration').doc('global_variables').get();
-      final List<dynamic> taskSet =
-          globalResult.get('task_set_doc_index') as List<dynamic>;
+      final taskSet = globalResult.get('task_set_doc_index') as List<dynamic>;
       final taskIds = taskSet.map((e) => e['doc_id'] as String);
 
       final taskListResult = await db

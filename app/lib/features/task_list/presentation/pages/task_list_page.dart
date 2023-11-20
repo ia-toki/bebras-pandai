@@ -44,7 +44,7 @@ class _TaskListPageState extends State<TaskListPage> {
                       if (state is TaskListFailed) {
                         return Text(state.error);
                       }
-                      return Text('');
+                      return const Text('');
                     },
                   ),
                 ],

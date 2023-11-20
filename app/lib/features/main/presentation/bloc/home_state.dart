@@ -12,7 +12,6 @@ class HomeSuccess extends HomeState {
     this.user,
   );
 
-  @override
   List<Object> get props => [user];
 }
 
@@ -20,6 +19,5 @@ class HomeFailed extends HomeState {
   final String error;
 
   HomeFailed(this.error);
-  @override
   List<Object> get props => [error];
 }

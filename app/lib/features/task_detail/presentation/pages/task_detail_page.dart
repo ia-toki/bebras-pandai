@@ -36,82 +36,18 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                   BlocBuilder<TaskDetailCubit, TaskDetailState>(
                     builder: (context, state) {
                       if (state is TaskDetailSuccess) {
-                        final taskDecription =
-                            '<h3>Deskripsi</h3>${state.task.description.content}';
-                        final taskQuestion =
-                            '<h3>Pertanyaan</h3>${state.task.question.content}';
-
-                        return Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Image.asset(
-                                  '${Assets.flagDir}${state.task.country}.png',
-                                  width: 40,
-                                  height: 20,
-                                ),
-                                Flexible(
-                                  child: Text(
-                                    state.task.title,
-                                    textAlign: TextAlign.center,
-                                    style: FontTheme.blackSubtitleBold(),
-                                  ),
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      state.task.id,
-                                      style: const TextStyle(fontSize: 9),
-                                    ),
-                                    Text(
-                                      state.task.source,
-                                      style: const TextStyle(fontSize: 7),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Container(
-                              height: 2,
-                              color: Colors.black,
-                            ),
-                            const SizedBox(
-                              height: 3,
-                            ),
-                            Container(
-                              height: MediaQuery.of(context).size.height - 340,
-                              width: double.infinity,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
-                              decoration: BoxDecoration(border: Border.all()),
-                              child: SingleChildScrollView(
-                                child: Html(
-                                  data: taskDecription + taskQuestion,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 14,
-                            ),
-                            SizedBox(
-                              width: 150,
-                              child: Button(
-                                text: 'JAWAB',
-                                buttonType: ButtonType.primary,
-                                onTap: () {
-                                  showAnswerOptions();
-                                },
-                              ),
-                            )
-                          ],
+                        return TaskView(
+                          task: state.task,
+                          context: context,
+                          onTap: () {
+                            onTaskTap();
+                          },
                         );
                       }
                       if (state is TaskDetailFailed) {
                         return Text(state.error);
                       }
-                      return Text('');
+                      return const Text('');
                     },
                   ),
                 ],
@@ -123,7 +59,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
     );
   }
 
-  void showAnswerOptions() {
+  void onTaskTap() {
     showDialog(
         context: context,
         builder: (context) {
@@ -132,50 +68,9 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
             return state is TaskDetailSuccess;
           }, builder: (context, state) {
             if (state is TaskDetailSuccess) {
-              return Scaffold(
-                backgroundColor: Colors.transparent,
-                body: AlertDialog(
-                  content: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Text(
-                            'Pertanyaan',
-                            style: FontTheme.blackTextBold(),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 400,
-                          height: 200,
-                          child: SingleChildScrollView(
-                            child: Html(data: state.task.question.content),
-                          ),
-                        ),
-                        ...state.task.question.options!.map((e) =>
-                            RadioListTile(
-                                title: Text(e.content),
-                                value: e.id,
-                                groupValue: false,
-                                onChanged: (value) {})),
-                      ],
-                    ),
-                  ),
-                  actions: [
-                    SizedBox(
-                      width: 100,
-                      height: 50,
-                      child: Button(
-                        buttonType: ButtonType.tertiary,
-                        text: 'Ok',
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+              return TaskDialog(
+                task: state.task,
+                preview: true,
               );
             }
             return const SizedBox(
