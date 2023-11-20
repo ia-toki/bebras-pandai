@@ -17,30 +17,20 @@ class SplashScreen extends StatelessWidget {
         }
       },
       child: Scaffold(
-        body: Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Container(
-                  height: size.width * 0.8,
-                  width: size.width * 0.8,
-                  alignment: Alignment.center,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(
-                        Assets.logo,
-                      ),
-                      fit: BoxFit.contain,
-                    ),
-                  ),
+        body: Center(
+          child: Container(
+            height: size.width * 0.75,
+            width: size.width * 0.75,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                  Assets.logo,
                 ),
+                fit: BoxFit.contain,
               ),
             ),
-          ],
+          ),
         ),
-        // safeArea: false,
-        // padding: false,
       ),
     );
   }

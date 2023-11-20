@@ -17,7 +17,6 @@ class _SettingPageState extends State<SettingPage> {
             Padding(
               padding: const EdgeInsets.all(32),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Image.asset(
                     Assets.bebrasPandaiText,
@@ -40,7 +39,7 @@ class _SettingPageState extends State<SettingPage> {
                     text: 'Edit Profil',
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 25,
                   ),
                   Button(
                     onTap: () async {
@@ -56,7 +55,7 @@ class _SettingPageState extends State<SettingPage> {
                     text: 'Hapus Akun',
                   ),
                   const SizedBox(
-                    height: 40,
+                    height: 50,
                   ),
                   Button(
                     buttonType: ButtonType.primary,
@@ -71,7 +70,7 @@ class _SettingPageState extends State<SettingPage> {
                     text: 'Kebijakan Privasi',
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 25,
                   ),
                   Button(
                     onTap: () async {
@@ -112,6 +111,9 @@ class _SettingPageState extends State<SettingPage> {
                       );
                     },
                   ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height - 695,
+                  ),
                   Button(
                     onTap: () async {
                       await FirebaseAuth.instance.signOut();
@@ -123,7 +125,7 @@ class _SettingPageState extends State<SettingPage> {
                     text: 'Keluar',
                   ),
                   const SizedBox(
-                    height: 40,
+                    height: 50,
                   ),
                   InkWell(
                     onTap: () async {

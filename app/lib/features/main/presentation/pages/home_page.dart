@@ -30,7 +30,6 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.all(32),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Image.asset(
                     Assets.bebrasPandaiText,
@@ -49,7 +48,6 @@ class _HomePageState extends State<HomePage> {
                               text: toBeginningOfSentenceCase(
                                 '${state.user.name}!',
                               ),
-                              style: FontTheme.blackTitleBold(),
                             ),
                           ],
                         ),
@@ -74,7 +72,7 @@ class _HomePageState extends State<HomePage> {
                     text: 'ℹ️  Tentang Tantangan Bebras  ℹ️',
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 25,
                   ),
                   Button(
                     buttonType: ButtonType.primary,
@@ -84,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                     text: 'Lihat / Cetak Materi',
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 25,
                   ),
                   Button(
                     buttonType: ButtonType.primary,
@@ -94,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                     text: 'Ikut Latihan Mingguan',
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 25,
                   ),
                   Button(
                     onTap: () async {
@@ -104,8 +102,8 @@ class _HomePageState extends State<HomePage> {
                     customTextColor: Colors.white,
                     text: 'Pengaturan',
                   ),
-                  const SizedBox(
-                    height: 255,
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height - 620,
                   ),
                   InkWell(
                     onTap: () async {

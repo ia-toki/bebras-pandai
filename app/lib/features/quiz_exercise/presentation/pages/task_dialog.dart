@@ -52,33 +52,36 @@ class TaskDialog extends StatelessWidget {
                   final current = String.fromCharCode(65 + e.key);
 
                   return RadioListTile(
-                      title: SizedBox(
-                        width: 100,
+                    title: SizedBox(
+                      child: Transform.translate(
+                        offset: const Offset(
+                          -20,
+                          0,
+                        ), // Set the desired offset
                         child: Row(
                           children: [
-                            Text(
-                              current,
-                              style: const TextStyle(fontSize: 12),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
+                            Text('$current. '),
                             task.type == 'MULTIPLE_CHOICE_IMAGE'
                                 ? Image.network(
                                     e.value.content,
-                                    width: 140,
+                                    width:
+                                        MediaQuery.of(context).size.width - 240,
                                   )
-                                : Text(e.value.content),
+                                : Flexible(
+                                    child: Text(e.value.content),
+                                  )
                           ],
                         ),
                       ),
-                      value: e.value.id,
-                      groupValue: selectedAnswer,
-                      onChanged: (value) {
-                        context
-                            .read<QuizExerciseCubit>()
-                            .selectAnswer(e.value.id);
-                      });
+                    ),
+                    value: e.value.id,
+                    groupValue: selectedAnswer,
+                    onChanged: (value) {
+                      context
+                          .read<QuizExerciseCubit>()
+                          .selectAnswer(e.value.id);
+                    },
+                  );
                 }),
               if (!preview)
                 task.type == 'SHORT_ANSWER'

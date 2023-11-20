@@ -69,7 +69,9 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                     return state is! QuizExerciseFinished;
                   }, builder: (context, state) {
                     if (state is QuizExerciseLoading) {
-                      return const Text('LOADING');
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
                     }
                     if (state is QuizExerciseFailed) {
                       return Text(state.error);
