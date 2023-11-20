@@ -60,6 +60,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
   }
 
   void onTaskTap() {
+    // ignore: inference_failure_on_function_invocation
     showDialog(
         context: context,
         builder: (context) {
