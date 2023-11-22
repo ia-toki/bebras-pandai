@@ -127,7 +127,7 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             decoration: BoxDecoration(border: Border.all()),
                             child: SingleChildScrollView(
-                              child: Html(
+                              child: HtmlWithCachedImages(
                                 data: taskDecription + taskQuestion,
                               ),
                             ),
@@ -188,8 +188,8 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                           width: 400,
                           height: 200,
                           child: SingleChildScrollView(
-                            child:
-                                Html(data: state.quizExercise.question.content),
+                            child: HtmlWithCachedImages(
+                                data: state.quizExercise.question.content),
                           ),
                         ),
                         ...state.quizExercise.question.options!.map((e) {
@@ -210,8 +210,8 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                                     ),
                                     state.quizExercise.type ==
                                             'MULTIPLE_CHOICE_IMAGE'
-                                        ? Image.network(
-                                            e.content,
+                                        ? CachedNetworkImage(
+                                            imageUrl: e.content,
                                             width: 140,
                                           )
                                         : Text(e.content),

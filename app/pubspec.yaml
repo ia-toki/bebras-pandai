@@ -63,6 +63,7 @@ dependencies:
   firebase_storage: ^11.3.1
   flutter_html: ^3.0.0-beta.2
   printing: ^5.11.0
+  cached_network_image: ^3.3.0
 
 dev_dependencies:
   build_runner: null
