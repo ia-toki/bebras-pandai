@@ -129,7 +129,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
                   ),
                   SizedBox(
                     height: 40,
-                    width: MediaQuery.of(context).size.height - 10,
+                    width: MediaQuery.of(context).size.width - 10,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       children: <Widget>[
@@ -160,12 +160,14 @@ class _MaterialMenuState extends State<MaterialMenu> {
                       }
 
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Text('Loading');
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
                       }
 
                       var displayEmpty = true;
                       final boxHeight =
-                          MediaQuery.of(context).size.height * 0.65;
+                          MediaQuery.of(context).size.height - 320;
                       return SingleChildScrollView(
                         child: SizedBox(
                           height: boxHeight,

@@ -308,7 +308,6 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
             Padding(
               padding: const EdgeInsets.all(32),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Image.asset(
                     Assets.bebrasPandaiText,
@@ -316,7 +315,13 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                   const SizedBox(
                     height: 40,
                   ),
-                  const Text('Latihan yang pernah diikuti'),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Latihan yang pernah diikuti',
+                      style: FontTheme.blackSubtitleBold(),
+                    ),
+                  ),
                   BlocConsumer<QuizRegistrationCubit, QuizRegistrationState>(
                     listener: (context, state) {
                       if (state is QuizRegistrationSuccess) {
