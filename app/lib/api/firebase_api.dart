@@ -11,7 +11,7 @@ class FirebaseApi {
   void handleMessage(RemoteMessage? message) {
     if (message == null) return;
 
-    router.push('/material');
+    router.push('/main');
   }
 
   Future<dynamic> initPushNotfications() async {
