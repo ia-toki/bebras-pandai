@@ -160,7 +160,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         (val) {
                           return state.province.error;
                         },
-                        state.province.value,
+                        state.province.value.isNotEmpty
+                            ? state.province.value
+                            : 'Provinsi',
                       ),
                       BiroBebrasDropdown(
                         'Bebras Biro',
@@ -176,7 +178,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         (val) {
                           return state.bebrasBiro.error;
                         },
-                        state.bebrasBiro.value,
+                        state.bebrasBiro.value.isNotEmpty
+                            ? state.bebrasBiro.value
+                            : 'Bebras Biro',
                       ),
                       const SizedBox(height: 20),
                       BlocConsumer<UserRegisterBloc, RegisterFormState>(
