@@ -90,8 +90,8 @@ class _SettingPageState extends State<SettingPage> {
                       if (state is HomeSuccess && state.user.isAdmin) {
                         return Column(
                           children: [
-                            const SizedBox(
-                              height: 130,
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height - 625,
                             ),
                             Button(
                               onTap: () {
@@ -101,18 +101,15 @@ class _SettingPageState extends State<SettingPage> {
                               text: 'Lihat Bebras Task',
                             ),
                             const SizedBox(
-                              height: 20,
+                              height: 25,
                             ),
                           ],
                         );
                       }
-                      return const SizedBox(
-                        height: 200,
+                      return SizedBox(
+                        height: MediaQuery.of(context).size.height - 695,
                       );
                     },
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height - 695,
                   ),
                   Button(
                     onTap: () async {

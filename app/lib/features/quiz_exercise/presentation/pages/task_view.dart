@@ -1,10 +1,10 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 
 import '../../../../core/bases/enum/button_type.dart';
 import '../../../../core/bases/widgets/atoms/button.dart';
+import '../../../../core/bases/widgets/atoms/html_cached_image.dart';
 import '../../../../core/constants/assets.dart';
 import '../../../../core/theme/font_theme.dart';
 import '../model/quiz_exercise.dart';
@@ -80,7 +80,7 @@ class TaskView extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8),
           decoration: BoxDecoration(border: Border.all()),
           child: SingleChildScrollView(
-            child: Html(
+            child: HtmlWithCachedImages(
               // ignore: prefer_adjacent_string_concatenation
               data: '<h3>Deskripsi</h3>${task.description.content}' +
                   '<h3>Pertanyaan</h3>${task.question.content}',

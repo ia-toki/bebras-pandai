@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_html/flutter_html.dart';
 
 import '../../../../core/bases/enum/button_type.dart';
 import '../../../../core/bases/widgets/atoms/button.dart';
+import '../../../../core/bases/widgets/atoms/html_cached_image.dart';
 import '../../../../core/theme/font_theme.dart';
 import '../../../authentication/register/presentation/widgets/custom_text_field.dart';
 import '../bloc/quiz_exercise_cubit.dart';
@@ -44,7 +44,7 @@ class TaskDialog extends StatelessWidget {
                 width: 400,
                 height: 200,
                 child: SingleChildScrollView(
-                  child: Html(data: task.question.content),
+                  child: HtmlWithCachedImages(data: task.question.content),
                 ),
               ),
               if (!preview)

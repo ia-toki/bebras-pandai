@@ -45,10 +45,10 @@ class _HomePageState extends State<HomePage> {
                           style: FontTheme.blackTitle(),
                           children: <TextSpan>[
                             TextSpan(
-                              text: toBeginningOfSentenceCase(
-                                '${state.user.name}!',
-                              ),
-                            ),
+                                text: toBeginningOfSentenceCase(
+                                  '${state.user.name}!',
+                                ),
+                                style: FontTheme.blackTitleBold()),
                           ],
                         ),
                       );
