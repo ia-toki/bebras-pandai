@@ -45,7 +45,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               );
 
-              context.read<MainCubit>().fetchUser();
+              context.read<HomeCubit>().fetchUser();
 
               // add notification
               ScaffoldMessenger.of(context).showSnackBar(

@@ -14,10 +14,19 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
   @override
   void initState() {
     final cubit = context.read<QuizExerciseCubit>();
-    // if (cubit.quizParticipantId != widget.quizParticipantId) {
-    cubit.initialize(quizParticipantId: widget.quizParticipantId);
-    // }
+    if (cubit.quizParticipantId == widget.quizParticipantId &&
+        cubit.state is QuizExercisePaused) {
+      cubit.resume();
+    } else {
+      cubit.initialize(quizParticipantId: widget.quizParticipantId);
+    }
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    context.read<QuizExerciseCubit>().pause();
+    super.dispose();
   }
 
   @override
@@ -68,86 +77,13 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                       return Text(state.error);
                     }
                     if (state is QuizExerciseShow) {
-                      final exercise = state.quizExercise;
-                      final taskDecription =
-                          '<h3>Deskripsi</h3>${exercise.description.content}';
-                      final taskQuestion =
-                          '<h3>Pertanyaan</h3>${exercise.question.content}';
-
-                      return Column(
-                        children: [
-                          Container(
-                            color: Colors.yellowAccent,
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 4, horizontal: 8),
-                            child: Text(
-                                '${state.remainingDuration.inMinutes.toString().padLeft(2, '0')} : ${state.remainingDuration.inSeconds.remainder(60).toString().padLeft(2, '0')}'),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Image.asset(
-                                '${Assets.flagDir}${state.quizExercise.country}.png',
-                                width: 40,
-                                height: 20,
-                              ),
-                              Flexible(
-                                child: Text(
-                                  state.quizExercise.title,
-                                  textAlign: TextAlign.center,
-                                  style: FontTheme.blackSubtitleBold(),
-                                ),
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    state.quizExercise.id,
-                                    style: const TextStyle(fontSize: 9),
-                                  ),
-                                  Text(
-                                    state.quizExercise.source,
-                                    style: const TextStyle(fontSize: 7),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Container(
-                            height: 2,
-                            color: Colors.black,
-                          ),
-                          const SizedBox(
-                            height: 3,
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.height - 340,
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            decoration: BoxDecoration(border: Border.all()),
-                            child: SingleChildScrollView(
-                              child: HtmlWithCachedImages(
-                                data: taskDecription + taskQuestion,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 14,
-                          ),
-                          SizedBox(
-                            width: 150,
-                            child: Button(
-                              text: 'JAWAB',
-                              buttonType: ButtonType.primary,
-                              onTap: () {
-                                showAnswerOptions();
-                              },
-                            ),
-                          )
-                        ],
+                      return TaskView(
+                        task: state.quizExercise,
+                        context: context,
+                        remainingDuration: state.remainingDuration,
+                        onTap: () {
+                          onTaskTap();
+                        },
                       );
                     }
                     return Container();
@@ -161,7 +97,7 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
     );
   }
 
-  void showAnswerOptions() {
+  void onTaskTap() {
     showDialog(
         context: context,
         builder: (context) {
@@ -170,137 +106,12 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
             return state is QuizExerciseShow;
           }, builder: (context, state) {
             if (state is QuizExerciseShow) {
-              var index = 0;
-
-              return Scaffold(
-                backgroundColor: Colors.transparent,
-                body: AlertDialog(
-                  content: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Text(
-                            'Pertanyaan',
-                            style: FontTheme.blackTextBold(),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 400,
-                          height: 200,
-                          child: SingleChildScrollView(
-                            child: HtmlWithCachedImages(
-                                data: state.quizExercise.question.content),
-                          ),
-                        ),
-                        ...state.quizExercise.question.options!.map((e) {
-                          final current = String.fromCharCode(65 + index);
-                          index++;
-
-                          return RadioListTile(
-                            title: SizedBox(
-                              child: Transform.translate(
-                                offset: const Offset(
-                                  -20,
-                                  0,
-                                ), // Set the desired offset
-                                child: Row(
-                                  children: [
-                                    Text('$current. '),
-                                    state.quizExercise.type ==
-                                            'MULTIPLE_CHOICE_IMAGE'
-                                        ? CachedNetworkImage(
-                                            imageUrl: e.content,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width -
-                                                240,
-                                          )
-                                        : Flexible(
-                                            child: Text(e.content),
-                                          )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            value: e.id,
-                            groupValue: state.selectedAnswer,
-                            onChanged: (value) {
-                              context
-                                  .read<QuizExerciseCubit>()
-                                  .selectAnswer(e.id);
-                            },
-                          );
-                        }),
-                        state.quizExercise.type == 'SHORT_ANSWER'
-                            ? Container(
-                                padding: const EdgeInsets.only(top: 20),
-                                child: CustomTextField('Jawaban anda', (value) {
-                                  context
-                                      .read<QuizExerciseCubit>()
-                                      .fillAnswer(value);
-                                }, (p0) => null, ''),
-                              )
-                            : Container(),
-                        Text(state.modalErrorMessage),
-                      ],
-                    ),
-                  ),
-                  actions: [
-                    SizedBox(
-                      width: 100,
-                      height: 50,
-                      child: Button(
-                        buttonType: ButtonType.secondary,
-                        text: 'Cancel',
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      width: 100,
-                      height: 50,
-                      child: Button(
-                        buttonType: ButtonType.tertiary,
-                        text: 'OK',
-                        onTap: () {
-                          var error = '';
-                          if (state.quizExercise.type == 'SHORT_ANSWER') {
-                            if (state.shortAnswer == '') {
-                              error = 'Isi jawaban anda';
-                            }
-                          } else {
-                            if (state.selectedAnswer == '') {
-                              error = 'Pilih salah satu jawaban';
-                            }
-                          }
-
-                          if (error != '') {
-                            final snackBar = SnackBar(
-                              backgroundColor: Colors.red,
-                              duration: const Duration(seconds: 1),
-                              behavior: SnackBarBehavior.floating,
-                              margin: const EdgeInsets.only(
-                                  bottom: 50, left: 10, right: 10),
-                              content: Text(error),
-                            );
-
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-
-                            error = '';
-                            return;
-                          }
-
-                          context.read<QuizExerciseCubit>().submitAnswer();
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+              return TaskDialog(
+                task: state.quizExercise,
+                preview: false,
+                shortAnswer: state.shortAnswer,
+                selectedAnswer: state.selectedAnswer,
+                error: state.modalErrorMessage,
               );
             }
             return const SizedBox(

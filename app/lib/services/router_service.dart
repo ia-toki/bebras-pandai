@@ -11,6 +11,8 @@ import '../features/quiz_exercise/presentation/pages/_pages.dart';
 import '../features/quiz_registration/presentation/pages/_pages.dart';
 import '../features/quiz_result/presentation/pages/_pages.dart';
 import '../features/quiz_start/presentation/pages/_pages.dart';
+import '../features/task_detail/presentation/pages/_pages.dart';
+import '../features/task_list/presentation/pages/_pages.dart';
 
 GoRouter router = GoRouter(
   routes: [
@@ -30,7 +32,7 @@ GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/main',
-      builder: (context, state) => const MainPage(),
+      builder: (context, state) => const HomePage(),
     ),
     GoRoute(
       path: '/setting',
@@ -39,6 +41,16 @@ GoRouter router = GoRouter(
     GoRoute(
       path: '/construction',
       builder: (context, state) => const UnderConstructionPage(),
+    ),
+    GoRoute(
+      path: '/task_list',
+      builder: (context, state) => const TaskListPage(),
+    ),
+    GoRoute(
+      path: '/task_detail',
+      builder: (context, state) => TaskDetailPage(
+        taskId: state.queryParameters['task_id'],
+      ),
     ),
     GoRoute(
       path: '/quiz_exercise',

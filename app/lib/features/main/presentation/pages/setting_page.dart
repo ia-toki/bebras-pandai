@@ -8,12 +8,8 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
-  final nama = 'dummy';
-
   @override
   Widget build(BuildContext context) {
-    // final size = MediaQuery.of(context).size;
-
     return BebrasScaffold(
       body: SingleChildScrollView(
         child: Stack(
@@ -89,8 +85,31 @@ class _SettingPageState extends State<SettingPage> {
                     customTextColor: Colors.white,
                     text: 'Bantu Donasi 💌',
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height - 695,
+                  BlocBuilder<HomeCubit, HomeState>(
+                    builder: (context, state) {
+                      if (state is HomeSuccess && state.user.isAdmin) {
+                        return Column(
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height - 625,
+                            ),
+                            Button(
+                              onTap: () {
+                                context.push('/task_list');
+                              },
+                              buttonType: ButtonType.primary,
+                              text: 'Lihat Bebras Task',
+                            ),
+                            const SizedBox(
+                              height: 25,
+                            ),
+                          ],
+                        );
+                      }
+                      return SizedBox(
+                        height: MediaQuery.of(context).size.height - 695,
+                      );
+                    },
                   ),
                   Button(
                     onTap: () async {
