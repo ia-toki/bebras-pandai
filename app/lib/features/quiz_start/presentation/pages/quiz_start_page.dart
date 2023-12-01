@@ -35,136 +35,140 @@ class _QuizStartPageState extends State<QuizStartPage> {
               color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
         ),
       ),
-      body: Container(
-        margin: const EdgeInsets.only(top: 30),
-        child: Stack(
-          children: [
-            Positioned(
-              top: 0,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: Image.asset(
-                  Assets.topSectionBg,
-                  fit: BoxFit.fill,
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          margin: const EdgeInsets.only(top: 30),
+          child: Stack(
+            children: [
+              Positioned(
+                top: 0,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Image.asset(
+                    Assets.topSectionBg,
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
-            ),
-            Positioned(
-              top: 70,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  children: [
-                    DecoratedBox(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(24)),
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          BlocBuilder<QuizStartCubit, QuizStartState>(
-                            builder: (context, state) {
-                              if (state is QuizStartSuccess) {
-                                return buildSuccessState(state);
-                              }
-                              if (state is QuizStartFailed) {
-                                return Text(state.error);
-                              }
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                    BlocBuilder<QuizStartCubit, QuizStartState>(
-                      builder: (context, state) {
-                        if (state is QuizStartSuccess) {
-                          return Container(
-                            margin: const EdgeInsets.only(top: 20),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Checkbox(
-                                        value: state.agreement,
-                                        onChanged: (value) {
-                                          if (value != null) {
-                                            context
-                                                .read<QuizStartCubit>()
-                                                .setAgreement(value: value);
-                                          }
-                                        }),
-                                    const Flexible(
-                                        child: Text(
-                                            'Saya telah membaca peraturan & akan mengerjakan dengan jujur'))
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Button(
-                                  buttonType: ButtonType.tertiary,
-                                  isDisabled: !state.agreement ||
-                                      state.participation.attempts.length >=
-                                          state.participation.quiz_max_attempts,
-                                  onTap: () async {
-                                    Navigator.pop(context);
-                                    await context.push(
-                                      Uri(
-                                        path: '/quiz_exercise',
-                                        queryParameters: {
-                                          'quiz_participant_id':
-                                              state.participation.id,
-                                        },
-                                      ).toString(),
-                                    );
-                                  },
-                                  text: 'Mulai',
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                state.participation.attempts.isNotEmpty
-                                    ? Button(
-                                        buttonType: ButtonType.primary,
-                                        isDisabled: state
-                                            .participation.attempts.isEmpty,
-                                        onTap: () async {
-                                          await context.push(
-                                            Uri(
-                                              path: '/quiz_result',
-                                              queryParameters: {
-                                                'quiz_participant_id':
-                                                    state.participation.id,
-                                              },
-                                            ).toString(),
-                                          );
-                                        },
-                                        text: 'Lihat Nilai',
-                                      )
-                                    : Container(),
-                              ],
+              Positioned(
+                top: 70,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    children: [
+                      DecoratedBox(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(24)),
+                        child: Column(
+                          children: [
+                            const SizedBox(
+                              height: 20,
                             ),
+                            BlocBuilder<QuizStartCubit, QuizStartState>(
+                              builder: (context, state) {
+                                if (state is QuizStartSuccess) {
+                                  return buildSuccessState(state);
+                                }
+                                if (state is QuizStartFailed) {
+                                  return Text(state.error);
+                                }
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      BlocBuilder<QuizStartCubit, QuizStartState>(
+                        builder: (context, state) {
+                          if (state is QuizStartSuccess) {
+                            return Container(
+                              margin: const EdgeInsets.only(top: 20),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Checkbox(
+                                          value: state.agreement,
+                                          onChanged: (value) {
+                                            if (value != null) {
+                                              context
+                                                  .read<QuizStartCubit>()
+                                                  .setAgreement(value: value);
+                                            }
+                                          }),
+                                      const Flexible(
+                                          child: Text(
+                                              'Saya telah membaca peraturan & akan mengerjakan dengan jujur'))
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Button(
+                                    buttonType: ButtonType.tertiary,
+                                    isDisabled: !state.agreement ||
+                                        state.participation.attempts.length >=
+                                            state.participation
+                                                .quiz_max_attempts,
+                                    onTap: () async {
+                                      Navigator.pop(context);
+                                      await context.push(
+                                        Uri(
+                                          path: '/quiz_exercise',
+                                          queryParameters: {
+                                            'quiz_participant_id':
+                                                state.participation.id,
+                                          },
+                                        ).toString(),
+                                      );
+                                    },
+                                    text: 'Mulai',
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  state.participation.attempts.isNotEmpty
+                                      ? Button(
+                                          buttonType: ButtonType.primary,
+                                          isDisabled: state
+                                              .participation.attempts.isEmpty,
+                                          onTap: () async {
+                                            await context.push(
+                                              Uri(
+                                                path: '/quiz_result',
+                                                queryParameters: {
+                                                  'quiz_participant_id':
+                                                      state.participation.id,
+                                                },
+                                              ).toString(),
+                                            );
+                                          },
+                                          text: 'Lihat Nilai',
+                                        )
+                                      : Container(),
+                                ],
+                              ),
+                            );
+                          }
+                          if (state is QuizStartFailed) {
+                            return Text(state.error);
+                          }
+                          return const Center(
+                            child: CircularProgressIndicator(),
                           );
-                        }
-                        if (state is QuizStartFailed) {
-                          return Text(state.error);
-                        }
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      },
-                    ),
-                  ],
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
