@@ -341,27 +341,27 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BebrasScaffold(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: BackButton(
+          color: Colors.black,
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: const Text(
+          'Riwayat Latihan Sebelumnya',
+          style: TextStyle(
+              color: Colors.black, fontSize: 14, fontWeight: FontWeight.bold),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Stack(
           children: [
             Padding(
-              padding: const EdgeInsets.all(32),
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 10),
               child: Column(
                 children: [
-                  Image.asset(
-                    Assets.bebrasPandaiText,
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Latihan yang pernah diikuti',
-                      style: FontTheme.blackSubtitleBold(),
-                    ),
-                  ),
                   BlocConsumer<QuizRegistrationCubit, QuizRegistrationState>(
                     listener: (context, state) {
                       if (state is QuizRegistrationSuccess) {
@@ -377,7 +377,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                         );
                       }
                       return SizedBox(
-                        height: MediaQuery.of(context).size.height - 300,
+                        height: MediaQuery.of(context).size.height - 100,
                         width: double.infinity,
                         child: BlocConsumer<QuizRegistrationCubit,
                             QuizRegistrationState>(
@@ -441,13 +441,13 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Button(
-                    buttonType: ButtonType.tertiary,
-                    onTap: () async {
-                      await showModal();
-                    },
-                    text: 'Daftar Latihan Bebras',
-                  ),
+                  // Button(
+                  //   buttonType: ButtonType.tertiary,
+                  //   onTap: () async {
+                  //     await showModal();
+                  //   },
+                  //   text: 'Daftar Latihan Bebras',
+                  // ),
                 ],
               ),
             ),
