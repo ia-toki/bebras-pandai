@@ -12,6 +12,7 @@ import '../../../../core/bases/widgets/layout/bebras_scaffold.dart';
 import '../../../../core/constants/assets.dart';
 import '../../../../core/theme/font_theme.dart';
 import '../bloc/home_cubit.dart';
+import 'clip_path.dart';
 
 part 'home_page.dart';
 part 'setting_page.dart';
