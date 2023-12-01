@@ -58,55 +58,95 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
         );
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 18),
+        // padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 18),
+        // height: 90,
         margin: const EdgeInsets.only(bottom: 12),
         decoration: BoxDecoration(
           color: Colors.blue[50],
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Column(children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Container(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: Text(
-                    weeklyQuizParticipant.quiz_title,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 12),
+        child: Row(
+          children: [
+            Container(
+              width: 20,
+              height: 140,
+              decoration: const BoxDecoration(
+                  color: Color(0xFF007D9D),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      bottomLeft: Radius.circular(8))),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.only(right: 20),
+                child: Column(children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.only(right: 20),
+                        child: Text(
+                          weeklyQuizParticipant.quiz_title,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              fontSize: 12, fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'Kategori: $level',
+                        style: const TextStyle(
+                            fontSize: 12, color: Color(0xFF8C8C8C)),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'Dikerjakan: $date',
+                        style: const TextStyle(
+                            fontSize: 12, color: Color(0xFF8C8C8C)),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 10),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF007D9D),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          'Nilai: $score',
+                          style: const TextStyle(
+                              fontSize: 12, color: Colors.white),
+                        ),
+                      )
+                    ],
+                  )
+                ]),
               ),
-              Text(
-                'Nilai: $score',
-                style: const TextStyle(fontSize: 12),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          Row(
-            children: [
-              Text(
-                'Kategori: $level',
-                style: const TextStyle(fontSize: 12),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          Row(
-            children: [
-              Text(
-                'Dikerjakan: $date',
-                style: const TextStyle(fontSize: 12),
-              )
-            ],
-          )
-        ]),
+            ),
+          ],
+        ),
       ),
     );
   }
