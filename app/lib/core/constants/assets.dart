@@ -5,4 +5,5 @@ class Assets {
   static const bebrasPandaiText = 'assets/images/bebras-banner.png';
   static const studyBackground = 'assets/images/study-background.jpg';
   static const bebrasMascot = 'assets/images/bebras-mascot.png';
+  static const topSectionBg = 'assets/images/top_section_bg.png';
 }
