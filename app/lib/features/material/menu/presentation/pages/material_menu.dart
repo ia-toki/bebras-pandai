@@ -32,16 +32,27 @@ class _MaterialMenuState extends State<MaterialMenu> {
 
   Widget materialTab(String text, int index) {
     return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 3.0),
       constraints: const BoxConstraints(
-        minWidth: 100,
-        maxWidth: 130,
+        minWidth: 60,
+        maxWidth: 140,
+        minHeight: 20.0,
+        maxHeight: 25.0,
       ),
-      child: Button(
-        buttonType: filterIndex == index ? ButtonType.primary : null,
-        text: text,
-        fontSize: 14,
-        innerVerticalPadding: 12,
-        onTap: () {
+      child: OutlinedButton(
+        style: OutlinedButton.styleFrom( //<-- SEE HERE
+          side: BorderSide(width: 1, color: Color(0xFF1BB8E1),),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18.0),
+          ),
+        ),
+        // buttonType: filterIndex == index ? ButtonType.secondary : null,
+        child: Text(text, style: TextStyle(
+          fontSize: 14.0,
+            color: Colors.black,
+        )
+        ),
+        onPressed: () {
           setState(() {
             filterIndex = index;
           });
@@ -111,22 +122,24 @@ class _MaterialMenuState extends State<MaterialMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return BebrasScaffold(
-      avoidBottomInset: false,
-      body: Padding(
-        padding: const EdgeInsets.only(top: 10),
-        child: Stack(
+    return
+      // BebrasScaffold(
+      // avoidBottomInset: false,
+      // body: Padding(
+      //   padding: const EdgeInsets.only(top: 10),
+      //   child:
+        Stack(
           children: [
             Container(
-              padding: const EdgeInsets.all(32),
+              // padding: const EdgeInsets.all(32),
               child: Column(
                 children: [
-                  Image.asset(
-                    Assets.bebrasPandaiText,
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
+                  // Image.asset(
+                  //   Assets.bebrasPandaiText,
+                  // ),
+                  // const SizedBox(
+                  //   height: 30,
+                  // ),
                   SizedBox(
                     height: 40,
                     width: MediaQuery.of(context).size.width - 10,
@@ -223,9 +236,9 @@ class _MaterialMenuState extends State<MaterialMenu> {
               ),
             ),
           ],
-        ),
-      ),
-    );
+        );
+    //   ),
+    // );
   }
 
   // PDF print

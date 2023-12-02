@@ -65,6 +65,8 @@ dependencies:
   printing: ^5.11.0
   cached_network_image: ^3.3.0
   firebase_messaging: ^14.7.3
+  carousel_slider: ^4.2.1
+  persistent_bottom_nav_bar: ^5.0.2
 
 dev_dependencies:
   build_runner: null
