@@ -40,7 +40,8 @@ class _MaterialMenuState extends State<MaterialMenu> {
         maxHeight: 25.0,
       ),
       child: OutlinedButton(
-        style: OutlinedButton.styleFrom( //<-- SEE HERE
+        style: OutlinedButton.styleFrom(
+          backgroundColor: filterIndex == index ? Colors.blue : Colors.white,
           side: BorderSide(width: 1, color: Color(0xFF1BB8E1),),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(18.0),
@@ -49,7 +50,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
         // buttonType: filterIndex == index ? ButtonType.secondary : null,
         child: Text(text, style: TextStyle(
           fontSize: 14.0,
-            color: Colors.black,
+            color: filterIndex == index ? Colors.white : Colors.grey,
         )
         ),
         onPressed: () {
@@ -82,12 +83,21 @@ class _MaterialMenuState extends State<MaterialMenu> {
         );
       },
       child: Container(
-        height: 60,
         padding: const EdgeInsets.all(10),
-        margin: const EdgeInsets.only(bottom: 12),
+        margin: const EdgeInsets.only(bottom: 12, left: 5, right: 5,),
+        height: 80,
+        width: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.blue[50],
-          borderRadius: BorderRadius.circular(8),
+          color: Colors.white,
+          borderRadius: const BorderRadius.all(Radius.circular(24,),),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 2,
+              blurRadius: 4,
+              offset: Offset(0, 3), // changes position of shadow
+            ),
+          ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -180,7 +190,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
 
                       var displayEmpty = true;
                       final boxHeight =
-                          MediaQuery.of(context).size.height - 320;
+                          MediaQuery.of(context).size.height - 474;
                       return SingleChildScrollView(
                         child: SizedBox(
                           height: boxHeight,

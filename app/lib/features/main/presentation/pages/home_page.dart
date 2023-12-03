@@ -47,11 +47,10 @@ class _HomePageState extends State<HomePage> {
               Padding(
                 padding: const EdgeInsets.all(32),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
+                    BlocBuilder<HomeCubit, HomeState>(
+                        builder: (context, state) {
                       if (state is HomeSuccess) {
                         return RichText(
                           text: TextSpan(
@@ -63,14 +62,15 @@ class _HomePageState extends State<HomePage> {
                             ),
                             children: <TextSpan>[
                               TextSpan(
-                                  text: toBeginningOfSentenceCase(
-                                    '${state.user.name}!',
-                                  ),
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
-                                  ),),
+                                text: toBeginningOfSentenceCase(
+                                  '${state.user.name}!',
+                                ),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                             ],
                           ),
                         );
@@ -80,44 +80,47 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(
                       height: 30,
                     ),
-                        CarouselSlider(
-                          items: imgList
-                              .map((item) => Container(
-                            margin: const EdgeInsets.only(left: 10.0, right: 10.0,),
-                            child: Center(child: Image.network(item.toString())),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.green,
-                            ),
-                          ))
-                              .toList(),
-                          options: CarouselOptions(
-                            height: 150,
-                            aspectRatio: 16 / 9,
-                            viewportFraction: 1,
-                            initialPage: 0,
-                            enableInfiniteScroll: true,
-                            reverse: false,
-                            autoPlay: true,
-                            autoPlayInterval: Duration(seconds: 3),
-                            autoPlayAnimationDuration:
-                            Duration(milliseconds: 800),
-                            autoPlayCurve: Curves.fastOutSlowIn,
-                            // enlargeCenterPage: true,
-                            // enlargeFactor: 0.3,
-                            // onPageChanged: callbackFunction,
-                            scrollDirection: Axis.horizontal,
-                          ),),
-                        const SizedBox(
-                          height: 25,
-                        ),
+                    CarouselSlider(
+                      items: imgList
+                          .map((item) => Container(
+                                margin: const EdgeInsets.only(
+                                  left: 10.0,
+                                  right: 10.0,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.green,
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  child: Image.network(item, fit: BoxFit.cover, width: 300.0,),
+                                ),
+                              ))
+                          .toList(),
+                      options: CarouselOptions(
+                        height: 150,
+                        aspectRatio: 16 / 9,
+                        viewportFraction: 1,
+                        initialPage: 0,
+                        enableInfiniteScroll: true,
+                        reverse: false,
+                        autoPlay: true,
+                        autoPlayInterval: Duration(seconds: 3),
+                        autoPlayAnimationDuration: Duration(milliseconds: 800),
+                        autoPlayCurve: Curves.fastOutSlowIn,
+                        // enlargeCenterPage: true,
+                        // enlargeFactor: 0.3,
+                        // onPageChanged: callbackFunction,
+                        scrollDirection: Axis.horizontal,
+                      ),
+                    ),
                   ],
                 ),
               ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
+              // Expanded(
+              //   child: SingleChildScrollView(
+              //     child: Column(
+              //       children: [
               const MaterialMenu(),
               //         Button(
               //           onTap: () async {
@@ -183,13 +186,21 @@ class _HomePageState extends State<HomePage> {
               //             ),
               //           ),
               //         ),
-                    ],
-                  ),
-                ),
-              ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const FaIcon(FontAwesomeIcons.graduationCap),
+      ),
+      bottomNavigationBar: BottomNavBar(
+        currentIndex: 0,
       ),
     );
   }
