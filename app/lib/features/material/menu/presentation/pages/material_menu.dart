@@ -214,7 +214,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
                         }
 
                         var displayEmpty = true;
-                        final boxHeight = MediaQuery.of(context).size.height - 474;
+                        final boxHeight = MediaQuery.of(context).size.height - 456; // TODO: set the safe number to be the box height
                         return SingleChildScrollView(
                           child: SizedBox(
                             height: boxHeight,
