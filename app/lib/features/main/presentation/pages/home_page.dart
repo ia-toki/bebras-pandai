@@ -38,8 +38,8 @@ class _HomePageState extends State<HomePage> {
           ClipPath(
             clipper: ClipPathClass(),
             child: Container(
-              height: 250.0,
-              color: Color(0xFF1BB8E1),
+              height: 250,
+              color: const Color(0xFF1BB8E1),
             ),
           ),
           Column(
@@ -84,112 +84,30 @@ class _HomePageState extends State<HomePage> {
                       items: imgList
                           .map((item) => Container(
                                 margin: const EdgeInsets.only(
-                                  left: 10.0,
-                                  right: 10.0,
+                                  left: 10,
+                                  right: 10,
                                 ),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   color: Colors.green,
                                 ),
                                 child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  child: Image.network(item, fit: BoxFit.cover, width: 300.0,),
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network(item, fit: BoxFit.cover, width: 300,),
                                 ),
                               ))
                           .toList(),
                       options: CarouselOptions(
                         height: 150,
-                        aspectRatio: 16 / 9,
                         viewportFraction: 1,
-                        initialPage: 0,
-                        enableInfiniteScroll: true,
-                        reverse: false,
                         autoPlay: true,
-                        autoPlayInterval: Duration(seconds: 3),
-                        autoPlayAnimationDuration: Duration(milliseconds: 800),
-                        autoPlayCurve: Curves.fastOutSlowIn,
-                        // enlargeCenterPage: true,
-                        // enlargeFactor: 0.3,
-                        // onPageChanged: callbackFunction,
-                        scrollDirection: Axis.horizontal,
+                        autoPlayInterval: const Duration(seconds: 3),
                       ),
                     ),
                   ],
                 ),
               ),
-              // Expanded(
-              //   child: SingleChildScrollView(
-              //     child: Column(
-              //       children: [
               const MaterialMenu(),
-              //         Button(
-              //           onTap: () async {
-              //             final url = Uri.parse(
-              //               'https://bebras.or.id/v3/bebras-indonesia-challenge-2023/',
-              //             );
-              //             if (!await launchUrl(url)) {
-              //               throw Exception('Could not launch $url');
-              //             }
-              //           },
-              //           customButtonColor: Colors.blue,
-              //           customTextColor: Colors.white,
-              //           text: 'ℹ️  Tentang Tantangan Bebras  ℹ️',
-              //         ),
-              //         const SizedBox(
-              //           height: 25,
-              //         ),
-              //         Button(
-              //           buttonType: ButtonType.primary,
-              //           onTap: () async {
-              //             await context.push('/material');
-              //           },
-              //           text: 'Lihat / Cetak Materi',
-              //         ),
-              //         const SizedBox(
-              //           height: 25,
-              //         ),
-              //         Button(
-              //           buttonType: ButtonType.primary,
-              //           onTap: () async {
-              //             await context.push('/quiz_registration');
-              //           },
-              //           text: 'Ikut Latihan Mingguan',
-              //         ),
-              //         const SizedBox(
-              //           height: 25,
-              //         ),
-              //         Button(
-              //           onTap: () async {
-              //             await context.push('/setting');
-              //           },
-              //           customButtonColor: Colors.grey,
-              //           customTextColor: Colors.white,
-              //           text: 'Pengaturan',
-              //         ),
-              //         SizedBox(
-              //           height: 120,
-              //         ),
-              //         InkWell(
-              //           onTap: () async {
-              //             final url = Uri.parse(
-              //               'https://tlx.toki.id/',
-              //             );
-              //             if (!await launchUrl(url)) {
-              //               throw Exception('Could not launch $url');
-              //             }
-              //           },
-              //           child: Center(
-              //             child: Text(
-              //               'From Ikatan Alumni TOKI with ❤️',
-              //               textAlign: TextAlign.center,
-              //               style: FontTheme.greyNormal14(),
-              //             ),
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ],
@@ -199,7 +117,7 @@ class _HomePageState extends State<HomePage> {
         onPressed: () {},
         child: const FaIcon(FontAwesomeIcons.graduationCap),
       ),
-      bottomNavigationBar: BottomNavBar(
+      bottomNavigationBar: const BottomNavBar(
         currentIndex: 0,
       ),
     );

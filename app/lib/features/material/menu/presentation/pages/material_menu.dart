@@ -41,8 +41,8 @@ class _MaterialMenuState extends State<MaterialMenu> {
       ),
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
-          backgroundColor: filterIndex == index ? Colors.blue : Colors.white,
-          side: BorderSide(
+          backgroundColor: filterIndex == index ? const Color(0xFF1BB8E1) : Colors.white,
+          side: const BorderSide(
             width: 1,
             color: Color(0xFF1BB8E1),
           ),
@@ -106,7 +106,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 2,
               blurRadius: 4,
-              offset: Offset(0, 3), // changes position of shadow
+              offset: const Offset(0, 3), // changes position of shadow
             ),
           ],
         ),
@@ -131,7 +131,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
                 icon: const Icon(
                   Icons.print_rounded,
                   size: 28,
-                  color: Colors.blue,
+                  color: Color(0xFF1BB8E1),
                 ),
                 iconSize: 28,
               ),
@@ -143,13 +143,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return
-        // BebrasScaffold(
-        // avoidBottomInset: false,
-        // body: Padding(
-        //   padding: const EdgeInsets.only(top: 10),
-        //   child:
-        Stack(
+    return Stack(
       children: [
         Container(
           padding: const EdgeInsets.only(
@@ -157,12 +151,6 @@ class _MaterialMenuState extends State<MaterialMenu> {
           ),
           child: Column(
             children: [
-              // Image.asset(
-              //   Assets.bebrasPandaiText,
-              // ),
-              // const SizedBox(
-              //   height: 30,
-              // ),
               SizedBox(
                 height: 40,
                 width: MediaQuery.of(context).size.width - 10,
@@ -207,14 +195,16 @@ class _MaterialMenuState extends State<MaterialMenu> {
                           return const Text('Something went wrong');
                         }
 
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return const Center(
                             child: CircularProgressIndicator(),
                           );
                         }
 
                         var displayEmpty = true;
-                        final boxHeight = MediaQuery.of(context).size.height - 456; // TODO: set the safe number to be the box height
+                        final boxHeight = MediaQuery.of(context).size.height -
+                            456; // TODO: set the safe number to be the box height
                         return SingleChildScrollView(
                           child: SizedBox(
                             height: boxHeight,
@@ -241,7 +231,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
                                     offset: const Offset(
                                       0,
                                       -10,
-                                    ), // Set the desired offset
+                                    ),
                                     child: Container(
                                       height: boxHeight,
                                       padding: const EdgeInsets.all(10),
@@ -274,8 +264,6 @@ class _MaterialMenuState extends State<MaterialMenu> {
         ),
       ],
     );
-    //   ),
-    // );
   }
 
   // PDF print

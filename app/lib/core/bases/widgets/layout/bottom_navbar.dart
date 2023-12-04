@@ -1,15 +1,12 @@
 import 'dart:ui';
-
-// import 'package:artefak/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-// import 'package:artefak/widgets/auth_sliding_panel.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({
-    Key? key,
+    super.key,
     required this.currentIndex,
-  }) : super(key: key);
+  });
 
   final int currentIndex;
 
@@ -18,22 +15,21 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  int _currentIndex = 0; // To track the selected menu item
+  // To track the selected menu item
+  int _currentIndex = 0;
   void _onTap(int index, BuildContext context) {
     switch (index) {
       case 0:
-        Navigator.popUntil(context, ModalRoute.withName('/'));
+        Navigator.popUntil(context, ModalRoute.withName('/main'));
         break;
       case 1:
-        Navigator.pushNamed(context, '/collection');
+        Navigator.pushNamed(context, '/setting');
         break;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    ThemeData _themeData = Theme.of(context);
-
     // Update the selected menu item index and rebuild the widget
     void _updateIndex(int newIndex) {
       setState(() {
@@ -44,26 +40,29 @@ class _BottomNavBarState extends State<BottomNavBar> {
     // Custom method to build IconButton with color change based on selection
     Widget _buildIconButton(IconData icon, String label, int index) {
       return SizedBox.fromSize(
-        size: Size(80, 56),
+        size: const Size(80, 56),
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: () {},
+            onTap: () {
+              _updateIndex(index);
+              _onTap(index, context);
+            },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 FaIcon(
                   icon,
-                  color: _currentIndex == index ? Colors.blue : Colors.grey,
+                  color: _currentIndex == index ? const Color(0xFF1BB8E1) : Colors.grey,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Text(
                   label,
                   style: TextStyle(
-                    fontSize: 11.0,
-                    color: _currentIndex == index ? Colors.blue : Colors.grey,
+                    fontSize: 11,
+                    color: _currentIndex == index ? const Color(0xFF1BB8E1) : Colors.grey,
                   ),
                 ),
               ],
@@ -71,61 +70,37 @@ class _BottomNavBarState extends State<BottomNavBar> {
           ),
         ),
       );
-      // return IconButton(
-      //   icon: FaIcon(
-      //     icon,
-      //     color: _currentIndex == index ? Colors.blue : Colors.grey,
-      //   ),
-      //   onPressed: () {
-      //     _updateIndex(index);
-      //   },
-      // );
     }
 
     return ClipRect(
       child: BackdropFilter(
         filter: ImageFilter.blur(
-          sigmaX: 30.0,
-          sigmaY: 30.0,
+          sigmaX: 30,
+          sigmaY: 30,
         ),
         child: SizedBox(
           height: 60,
           child: BottomAppBar(
             elevation: 2,
-            // items: <BottomNavigationBarItem>[
             shape: const CircularNotchedRectangle(),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildIconButton(FontAwesomeIcons.fileLines, "Materi", 0),
+                _buildIconButton(FontAwesomeIcons.fileLines, 'Materi', 0),
                 Container(
                   margin: const EdgeInsets.only(
-                    bottom: 9.0,
+                    bottom: 9,
                   ),
                   alignment: Alignment.bottomCenter,
-                  child: Text(
+                  child: const Text(
                     "Latihan",
-                    style: TextStyle(fontSize: 11.0),
+                    style: TextStyle(fontSize: 11),
                   ),
                 ),
-                _buildIconButton(FontAwesomeIcons.gear, "Pengaturan", 1),
-                // IconButton(
-                //   onPressed: () {
-                //     _updateIndex(0);
-                //   },
-                //   icon: const FaIcon(FontAwesomeIcons.fileLines),
-                // ),
-                // IconButton(
-                //   onPressed: () {
-                //     _updateIndex(1);
-                //   },
-                //   icon: const FaIcon(FontAwesomeIcons.gear),
-                // ),
+                _buildIconButton(FontAwesomeIcons.gear, 'Pengaturan', 1),
               ],
             ),
-            // currentIndex: currentIndex,
-            // onTap: (index) => _onTap(index, context),
           ),
         ),
       ),
