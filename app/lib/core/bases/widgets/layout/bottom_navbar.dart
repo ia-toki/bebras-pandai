@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({
@@ -20,10 +21,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
   void _onTap(int index, BuildContext context) {
     switch (index) {
       case 0:
-        Navigator.popUntil(context, ModalRoute.withName('/main'));
+        context.go('/main');
         break;
       case 1:
-        Navigator.pushNamed(context, '/setting');
+        context.go('/setting');
         break;
     }
   }
