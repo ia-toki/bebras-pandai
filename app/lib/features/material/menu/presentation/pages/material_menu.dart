@@ -32,29 +32,29 @@ class _MaterialMenuState extends State<MaterialMenu> {
 
   Widget materialTab(String text, int index) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 3.0),
+      margin: const EdgeInsets.symmetric(horizontal: 3),
       constraints: const BoxConstraints(
         minWidth: 60,
         maxWidth: 140,
-        minHeight: 20.0,
-        maxHeight: 25.0,
+        minHeight: 20,
+        maxHeight: 25,
       ),
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
-          backgroundColor: filterIndex == index ? const Color(0xFF1BB8E1) : Colors.white,
+          backgroundColor:
+            filterIndex == index ? const Color(0xFF1BB8E1) : Colors.white,
           side: const BorderSide(
-            width: 1,
             color: Color(0xFF1BB8E1),
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18.0),
+            borderRadius: BorderRadius.circular(18),
           ),
         ),
-        // buttonType: filterIndex == index ? ButtonType.secondary : null,
         child: Text(text,
             style: TextStyle(
-              fontSize: 14.0,
-              color: filterIndex == index ? Colors.white : Colors.grey,
+              fontSize: 14,
+              color: filterIndex == index
+                  ? Colors.white : const Color(0xFF9E9E9E),
             )),
         onPressed: () {
           setState(() {
@@ -147,7 +147,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
       children: [
         Container(
           padding: const EdgeInsets.only(
-            left: 25.0,
+            left: 25,
           ),
           child: Column(
             children: [
@@ -165,7 +165,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
               ),
               Container(
                 padding: const EdgeInsets.only(
-                  right: 25.0,
+                  right: 25,
                 ),
                 child: Column(
                   children: [
@@ -177,7 +177,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
                       child: Text(
                         'Daftar Materi',
                         style: TextStyle(
-                          fontSize: 16.0,
+                          fontSize: 16,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -203,8 +203,8 @@ class _MaterialMenuState extends State<MaterialMenu> {
                         }
 
                         var displayEmpty = true;
-                        final boxHeight = MediaQuery.of(context).size.height -
-                            456; // TODO: set the safe number to be the box height
+                        final boxHeight =
+                            MediaQuery.of(context).size.height - 456;
                         return SingleChildScrollView(
                           child: SizedBox(
                             height: boxHeight,
