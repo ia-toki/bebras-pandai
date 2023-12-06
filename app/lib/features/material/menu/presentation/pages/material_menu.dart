@@ -205,53 +205,50 @@ class _MaterialMenuState extends State<MaterialMenu> {
                         var displayEmpty = true;
                         final boxHeight = MediaQuery.of(context).size.height -
                             456; // TODO: set the safe number to be the box height
-                        return SingleChildScrollView(
-                          child: SizedBox(
-                            height: boxHeight,
-                            width: double.infinity,
-                            child: ListView(
-                              children: [
-                                ...snapshot.data!.docs.map((d) {
-                                  final materialDoc =
-                                      d.data()! as Map<String, dynamic>;
-                                  if (materialDoc['challenge_group'] ==
-                                      bebrasGroupList[filterIndex].key) {
-                                    displayEmpty = false;
-                                    return materialItem(
-                                      d.id,
-                                      materialDoc['title'] as String,
-                                      materialDoc['url'] as String,
-                                      File('$basePath${d.id}.pdf').existsSync(),
-                                    );
-                                  }
-                                  return Container();
-                                }),
-                                if (displayEmpty)
-                                  Transform.translate(
-                                    offset: const Offset(
-                                      0,
-                                      -10,
+                        return Container(
+                          height: boxHeight,
+                          child: ListView(
+                            children: [
+                              ...snapshot.data!.docs.map((d) {
+                                final materialDoc =
+                                    d.data()! as Map<String, dynamic>;
+                                if (materialDoc['challenge_group'] ==
+                                    bebrasGroupList[filterIndex].key) {
+                                  displayEmpty = false;
+                                  return materialItem(
+                                    d.id,
+                                    materialDoc['title'] as String,
+                                    materialDoc['url'] as String,
+                                    File('$basePath${d.id}.pdf').existsSync(),
+                                  );
+                                }
+                                return Container();
+                              }),
+                              if (displayEmpty)
+                                Transform.translate(
+                                  offset: const Offset(
+                                    0,
+                                    -10,
+                                  ),
+                                  child: Container(
+                                    height: boxHeight,
+                                    padding: const EdgeInsets.all(10),
+                                    margin: const EdgeInsets.only(
+                                      bottom: 12,
+                                      top: 12,
                                     ),
-                                    child: Container(
-                                      height: boxHeight,
-                                      padding: const EdgeInsets.all(10),
-                                      margin: const EdgeInsets.only(
-                                        bottom: 12,
-                                        top: 12,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: Colors.blue[50],
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: const Center(
-                                        child: Text(
-                                          'Materi belum ada',
-                                        ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.blue[50],
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: const Center(
+                                      child: Text(
+                                        'Materi belum ada',
                                       ),
                                     ),
                                   ),
-                              ],
-                            ),
+                                ),
+                            ],
                           ),
                         );
                       },

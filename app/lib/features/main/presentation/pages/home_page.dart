@@ -82,20 +82,26 @@ class _HomePageState extends State<HomePage> {
                     ),
                     CarouselSlider(
                       items: imgList
-                          .map((item) => Container(
-                                margin: const EdgeInsets.only(
-                                  left: 10,
-                                  right: 10,
+                          .map(
+                            (item) => Container(
+                              margin: const EdgeInsets.only(
+                                left: 10,
+                                right: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.green,
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(
+                                  item,
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
                                 ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.green,
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image.network(item, fit: BoxFit.cover, width: 300,),
-                                ),
-                              ))
+                              ),
+                            ),
+                          )
                           .toList(),
                       options: CarouselOptions(
                         height: 150,
