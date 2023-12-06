@@ -32,21 +32,21 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     // Update the selected menu item index and rebuild the widget
-    void _updateIndex(int newIndex) {
+    void updateIndex(int newIndex) {
       setState(() {
         _currentIndex = newIndex;
       });
     }
 
     // Custom method to build IconButton with color change based on selection
-    Widget _buildIconButton(IconData icon, String label, int index) {
+    Widget buildIconButton(IconData icon, String label, int index) {
       return SizedBox.fromSize(
         size: const Size(80, 56),
         child: Material(
           color: Colors.transparent,
           child: InkWell(
             onTap: () {
-              _updateIndex(index);
+              updateIndex(index);
               _onTap(index, context);
             },
             child: Column(
@@ -54,7 +54,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
               children: <Widget>[
                 FaIcon(
                   icon,
-                  color: _currentIndex == index ? const Color(0xFF1BB8E1) : Colors.grey,
+                  color: _currentIndex == index
+                      ? const Color(0xFF1BB8E1) : const Color(0xFF666666),
                 ),
                 const SizedBox(
                   height: 5,
@@ -63,7 +64,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
                   label,
                   style: TextStyle(
                     fontSize: 11,
-                    color: _currentIndex == index ? const Color(0xFF1BB8E1) : Colors.grey,
+                    color: _currentIndex == index
+                        ? const Color(0xFF1BB8E1) : const Color(0xFF666666),
                   ),
                 ),
               ],
@@ -88,18 +90,18 @@ class _BottomNavBarState extends State<BottomNavBar> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildIconButton(FontAwesomeIcons.fileLines, 'Materi', 0),
+                buildIconButton(FontAwesomeIcons.fileLines, 'Materi', 0),
                 Container(
                   margin: const EdgeInsets.only(
                     bottom: 9,
                   ),
                   alignment: Alignment.bottomCenter,
                   child: const Text(
-                    "Latihan",
+                    'Latihan',
                     style: TextStyle(fontSize: 11),
                   ),
                 ),
-                _buildIconButton(FontAwesomeIcons.gear, 'Pengaturan', 1),
+                buildIconButton(FontAwesomeIcons.gear, 'Pengaturan', 1),
               ],
             ),
           ),
