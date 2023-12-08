@@ -43,7 +43,8 @@ class _HomePageState extends State<HomePage> {
           Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 32, right: 32, top: 32, bottom: 16),
+                padding: const EdgeInsets.only(
+                    left: 32, right: 32, top: 32, bottom: 16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -81,21 +82,30 @@ class _HomePageState extends State<HomePage> {
                     CarouselSlider(
                       items: imgList
                           .map(
-                            (item) => Container(
-                              margin: const EdgeInsets.only(
-                                left: 10,
-                                right: 10,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.transparent,
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.network(
-                                  item,
-                                  fit: BoxFit.cover,
-                                  width: double.infinity,
+                            (item) => InkWell(
+                              onTap: () async {
+                                final Uri url = Uri.parse(
+                                    'https://bebras.or.id/v3/bebras-indonesia-challenge-2023/');
+                                if (!await launchUrl(url)) {
+                                  throw Exception('Could not launch $url');
+                                }
+                              }, // Handle your callback
+                              child: Container(
+                                margin: const EdgeInsets.only(
+                                  left: 10,
+                                  right: 10,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.transparent,
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network(
+                                    item,
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                  ),
                                 ),
                               ),
                             ),
