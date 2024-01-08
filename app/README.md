@@ -38,11 +38,11 @@ make build_apk
 
 ### 🔑 Authentication
 **Android**
+1. Add your Signature SHA1 key in Bebras Pandai Firebase Project, specifically on the `Project settings` > `Android apps` \
+    https://www.geeksforgeeks.org/how-to-generate-sha-1-key-in-flutter/
 1. Download `.env` & `google-services.json` file from Firebase storage `secret` directory \
     (ask in the group if you aren't sure how to do this, please don't download it from the project menu & renewing the key)
 1. Put `.env` in this `app/` directory, and `google-services.json` inside `app/android/app/`
-1. Add your SHA1 key in the `Project settings` > `Android apps` \
-    https://www.geeksforgeeks.org/how-to-generate-sha-1-key-in-flutter/
 1. Follow the step in [this section](#-how-to-run-and-build-apk) to test it
 
 **iOS**
