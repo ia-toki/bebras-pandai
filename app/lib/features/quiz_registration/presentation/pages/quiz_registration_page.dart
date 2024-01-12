@@ -172,7 +172,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                           customButtonColor: Colors.blue.shade400,
                           customTextColor: Colors.white,
                           text: 'siKecil',
-                          isDisabled: true,
+                          // isDisabled: true,
                         )),
                     const SizedBox(
                       height: 15,
