@@ -1,6 +1,6 @@
 class Assets {
-  static const sourceImg = 'sourceImg';
-  static const urlImg = 'https://raw.githubusercontent.com';
+  static const sourceImg = '{sourceImg}';
+  static const urlImg = 'https://storage.googleapis.com/';
   static const flagDir = 'assets/images/flags/';
   static const icon = 'assets/icon/icon.png';
   static const logo = 'assets/images/logo.png';
