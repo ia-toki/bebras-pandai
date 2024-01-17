@@ -21,11 +21,11 @@ GoRouter router = GoRouter(
       builder: (context, state) => const SplashScreen(),
     ),
     GoRoute(
-      path: '/splash',
-      builder: (context, state) => const SplashPage(),
+      path: '/onboarding',
+      builder: (context, state) => const OnboardingPage(),
     ),
     GoRoute(
-      path: '/onboarding',
+      path: '/login',
       builder: (context, state) => const LoginPage(),
     ),
     GoRoute(

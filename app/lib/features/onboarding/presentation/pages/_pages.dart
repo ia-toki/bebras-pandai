@@ -10,6 +10,5 @@ import '../../../../core/theme/base_colors.dart';
 import '../../../../core/theme/font_theme.dart';
 import '../bloc/user_initialization_bloc.dart';
 
-part 'splash_page.dart';
-part 'splash_screen.dart';
 part 'onboarding_page.dart';
+part 'splash_screen.dart';
