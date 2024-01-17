@@ -33,21 +33,21 @@ class TaskDialog extends StatelessWidget {
         content: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Text(
-                  'Pertanyaan',
-                  style: FontTheme.blackTextBold(),
-                ),
-              ),
-              SizedBox(
-                width: 400,
-                height: 200,
-                child: SingleChildScrollView(
-                  child: HtmlWithCachedImages(data: task.question.content),
-                ),
-              ),
+              // Container(
+              //   alignment: Alignment.centerLeft,
+              //   padding: const EdgeInsets.symmetric(horizontal: 8),
+              //   child: Text(
+              //     'Pertanyaan',
+              //     style: FontTheme.blackTextBold(),
+              //   ),
+              // ),
+              // SizedBox(
+              //   width: 400,
+              //   height: 200,
+              //   child: SingleChildScrollView(
+              //     child: HtmlWithCachedImages(data: task.question.content),
+              //   ),
+              // ),
               if (!preview)
                 ...task.question.options!.asMap().entries.map((e) {
                   final current = String.fromCharCode(65 + e.key);
