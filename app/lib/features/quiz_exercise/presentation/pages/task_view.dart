@@ -82,8 +82,9 @@ class TaskView extends StatelessWidget {
           child: SingleChildScrollView(
             child: HtmlWithCachedImages(
               // ignore: prefer_adjacent_string_concatenation
-              data: '<h3>Deskripsi</h3>${task.description.content}' +
-                  '<h3>Pertanyaan</h3>${task.question.content}',
+              // data: '<h3>Deskripsi</h3>${task.description.content}' +
+              //     '<h3>Pertanyaan</h3>${task.question.content}',
+              data: task.description.content.replaceAll(Assets.sourceImg, Assets.urlImg),
             ),
           ),
         ),

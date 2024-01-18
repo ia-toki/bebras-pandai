@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/bases/enum/button_type.dart';
 import '../../../../core/bases/widgets/atoms/button.dart';
 import '../../../../core/bases/widgets/atoms/html_cached_image.dart';
+import '../../../../core/constants/assets.dart';
 import '../../../../core/theme/font_theme.dart';
 import '../../../authentication/register/presentation/widgets/custom_text_field.dart';
 import '../bloc/quiz_exercise_cubit.dart';
@@ -32,21 +33,21 @@ class TaskDialog extends StatelessWidget {
         content: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Text(
-                  'Pertanyaan',
-                  style: FontTheme.blackTextBold(),
-                ),
-              ),
-              SizedBox(
-                width: 400,
-                height: 200,
-                child: SingleChildScrollView(
-                  child: HtmlWithCachedImages(data: task.question.content),
-                ),
-              ),
+              // Container(
+              //   alignment: Alignment.centerLeft,
+              //   padding: const EdgeInsets.symmetric(horizontal: 8),
+              //   child: Text(
+              //     'Pertanyaan',
+              //     style: FontTheme.blackTextBold(),
+              //   ),
+              // ),
+              // SizedBox(
+              //   width: 400,
+              //   height: 200,
+              //   child: SingleChildScrollView(
+              //     child: HtmlWithCachedImages(data: task.question.content),
+              //   ),
+              // ),
               if (!preview)
                 ...task.question.options!.asMap().entries.map((e) {
                   final current = String.fromCharCode(65 + e.key);
@@ -62,10 +63,10 @@ class TaskDialog extends StatelessWidget {
                           children: [
                             Text('$current. '),
                             task.type == 'MULTIPLE_CHOICE_IMAGE'
-                                ? Image.network(
-                                    e.value.content,
-                                    width:
-                                        MediaQuery.of(context).size.width - 240,
+                                ? 
+                                 Image.network(
+                  e.value.content.replaceAll(Assets.sourceImg, Assets.urlImg), 
+                  width: MediaQuery.of(context).size.width - 240,
                                   )
                                 : Flexible(
                                     child: Text(e.value.content),
