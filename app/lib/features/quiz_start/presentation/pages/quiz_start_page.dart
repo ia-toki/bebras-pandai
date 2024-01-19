@@ -71,6 +71,9 @@ class _QuizStartPageState extends State<QuizStartPage> {
                     Center(
                       child: Text(state.quiz.title),
                     ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Text(
                         'Jumlah soal: ${state.quiz.problems[state.participation.challenge_group]?.length}'),
                     Text(
@@ -81,9 +84,17 @@ class _QuizStartPageState extends State<QuizStartPage> {
                       height: 10,
                     ),
                     const Text('Peraturan'),
+                    const Text('Dengan menekan tombol Mulai di bawah ini, maka saya menyatakan bahwa,'),
+                    const SizedBox(
+                      height: 5,
+                    ),
                     const Text('Pra Tantangan'),
-                    const Text('1. 12312312312'),
-                    const Text('2. qwerqwrqrwf'),
+                    const Text('1. Saya telah membaca atau meminta orang tua / wali saya membaca informasi dan prosedur untuk mengikuti Tantangan Bebras 2023 ini, sehingga saya telah memahami dan menyetujui partisipasi saya dalam tantangan ini;'),
+                    const Text('2. Saya mengikuti Tantangan Bebras 2023 ini atas kemauan sendiri dan tanpa paksaan dari pihak manapun.'),
+                    const Text('3. Saya bersedia mengikuti/mengerjakan soal-soal Tantangan Bebras 2023 dengan jujur dan penuh tanggungjawab.'),
+                    const Text('4. Tetap menjaga Kesehatan dan mengikuti protokol kesehatan Covid-19 selama mengikuti tantangan.'),
+                    const Text('5. Tidak akan mendokumentasikan dan atau menyebarkan soal-soal Tantangan Bebras 2023 dalam bentuk apapun, serta untuk keperluan dan dengan cara apapun.'),
+                    const Text('6. Latihan harus diselesaikan tanpa keluar dari halaman latihan. Jika latihan sedang berlangsung dan Anda keluar, latihan akan dinyatakan selesai dan skor dihitung seadanya.'),
                   ],
                 ),
               ),
