@@ -69,32 +69,71 @@ class _QuizStartPageState extends State<QuizStartPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Center(
-                      child: Text(state.quiz.title),
+                      child: Text(
+                        state.quiz.title,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
                     Text(
-                        'Jumlah soal: ${state.quiz.problems[state.participation.challenge_group]?.length}'),
+                        'Jumlah soal: ${state.quiz.problems[state.participation.challenge_group]?.length}',
+                        style: const TextStyle(fontSize: 14),
+                    ),
                     Text(
-                        'Alokasi waktu: ${state.quiz.duration_minute[state.participation.challenge_group]} menit'),
+                        'Alokasi waktu: ${state.quiz.duration_minute[state.participation.challenge_group]} menit',
+                        style: const TextStyle(fontSize: 14),
+                    ),
                     Text(
-                        'Sisa coba lagi: ${state.participation.quiz_max_attempts - state.participation.attempts.length} dari ${state.participation.quiz_max_attempts} kesempatan'),
+                        'Sisa coba lagi: ${state.participation.quiz_max_attempts - state.participation.attempts.length} dari ${state.participation.quiz_max_attempts} kesempatan',
+                        style: const TextStyle(fontSize: 14),
+                    ),
                     const SizedBox(
                       height: 10,
                     ),
-                    const Text('Peraturan'),
-                    const Text('Dengan menekan tombol Mulai di bawah ini, maka saya menyatakan bahwa,'),
+                    const Text(
+                      'Peraturan',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const Text(
+                      'Dengan menekan tombol Mulai di bawah ini, maka saya menyatakan bahwa,',
+                      style: TextStyle(fontSize: 14),
+                    ),
                     const SizedBox(
                       height: 5,
                     ),
-                    const Text('Pra Tantangan'),
-                    const Text('1. Saya telah membaca atau meminta orang tua / wali saya membaca informasi dan prosedur untuk mengikuti Tantangan Bebras 2023 ini, sehingga saya telah memahami dan menyetujui partisipasi saya dalam tantangan ini;'),
-                    const Text('2. Saya mengikuti Tantangan Bebras 2023 ini atas kemauan sendiri dan tanpa paksaan dari pihak manapun.'),
-                    const Text('3. Saya bersedia mengikuti/mengerjakan soal-soal Tantangan Bebras 2023 dengan jujur dan penuh tanggungjawab.'),
-                    const Text('4. Tetap menjaga Kesehatan dan mengikuti protokol kesehatan Covid-19 selama mengikuti tantangan.'),
-                    const Text('5. Tidak akan mendokumentasikan dan atau menyebarkan soal-soal Tantangan Bebras 2023 dalam bentuk apapun, serta untuk keperluan dan dengan cara apapun.'),
-                    const Text('6. Latihan harus diselesaikan tanpa keluar dari halaman latihan. Jika latihan sedang berlangsung dan Anda keluar, latihan akan dinyatakan selesai dan skor dihitung seadanya.'),
+                    // const Text('Pra Tantangan'),
+                    const Text(
+                      '1. Saya telah membaca atau meminta orang tua / wali saya membaca informasi dan prosedur untuk mengikuti Tantangan Bebras 2023 ini, sehingga saya telah memahami dan menyetujui partisipasi saya dalam tantangan ini;',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    const Text(
+                      '2. Saya mengikuti Tantangan Bebras 2023 ini atas kemauan sendiri dan tanpa paksaan dari pihak manapun.',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    const Text(
+                      '3. Saya bersedia mengikuti/mengerjakan soal-soal Tantangan Bebras 2023 dengan jujur dan penuh tanggungjawab.',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    const Text(
+                      '4. Tetap menjaga Kesehatan dan mengikuti protokol kesehatan Covid-19 selama mengikuti tantangan.',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    const Text(
+                      '5. Tidak akan mendokumentasikan dan atau menyebarkan soal-soal Tantangan Bebras 2023 dalam bentuk apapun, serta untuk keperluan dan dengan cara apapun.',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    const Text(
+                      '6. Latihan harus diselesaikan tanpa keluar dari halaman latihan. Jika latihan sedang berlangsung dan Anda keluar, latihan akan dinyatakan selesai dan skor dihitung seadanya.',
+                      style: TextStyle(fontSize: 12),
+                    ),
                   ],
                 ),
               ),
