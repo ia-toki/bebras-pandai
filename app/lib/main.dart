@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'api/firebase_api.dart';
 import 'app.dart';
@@ -12,5 +13,6 @@ Future<void> main() async {
   configureDependencies();
   await FirebaseService.initialize();
   await FirebaseApi().initNotifications();
+  await initializeDateFormatting('id_ID', null);
   runApp(const App());
 }

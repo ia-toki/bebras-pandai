@@ -1,5 +1,4 @@
 // ignore_for_file: lines_longer_than_80_chars
-
 import 'package:flutter/material.dart';
 
 import '../../../../core/bases/enum/button_type.dart';
