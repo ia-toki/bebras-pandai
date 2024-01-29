@@ -60,10 +60,58 @@ class _QuizResultPageState extends State<QuizResultPage> {
                                     border: Border.all(), color: Colors.grey),
                                 child: Column(
                                   children: [
-                                    Text('Total Nilai: ${state.attempt.score}'),
-                                    Text(
-                                        'benar: ${state.attempt.totalCorrect}, salah: ${state.attempt.totalIncorrect + state.attempt.totalBlank}'),
-                                    const Text('MANTAP!!!')
+                                    RichText(
+                                        text: TextSpan(
+                                          style: DefaultTextStyle.of(context).style,
+                                          children: <TextSpan>[
+                                            const TextSpan(
+                                              text: 'Total Nilai: ',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: '${state.attempt.score}',
+                                              style: const TextStyle(
+                                                color: Colors.white, // White color for correct values
+                                              ),
+                                            ),
+                                          ]
+                                        )
+                                    ),
+                                    RichText(
+                                      text: TextSpan(
+                                        style: DefaultTextStyle.of(context).style,
+                                        children: <TextSpan>[
+                                          const TextSpan(
+                                            text: 'benar: ',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          TextSpan(
+                                            text: '${state.attempt.totalCorrect}, ',
+                                            style: const TextStyle(
+                                              color: Colors.white, // White color for correct values
+                                            ),
+                                          ),
+                                          const TextSpan(
+                                            text: 'salah: ',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          TextSpan(
+                                            text: '${state.attempt.totalIncorrect + state.attempt.totalBlank}',
+                                            style: const TextStyle(
+                                              color: Colors.white, // White color for incorrect or blank values
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+
+                                    // const Text('MANTAP!!!')
                                   ],
                                 ),
                               ),
@@ -71,12 +119,15 @@ class _QuizResultPageState extends State<QuizResultPage> {
                                 height:
                                     MediaQuery.of(context).size.height - 750,
                               ),
-                              const Text(
-                                'Sampai jumpa di Latihan Bebras selanjutnya',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+                              const Center(
+                                child: Text(
+                                  'Sampai jumpa di Latihan Bebras selanjutnya. Selamat berlatih!',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.center, // Center the text horizontally
                                 ),
-                              ),
+                              )
                             ],
                           ),
                         );

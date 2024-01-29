@@ -12,7 +12,7 @@ class TaskListCubit extends Cubit<TaskListState> {
   Future<void> initialize() async {
     try {
       final quizExerciseRepository = QuizExerciseRepository();
-      final list = await quizExerciseRepository.getListQuizExercise();
+      final list = await quizExerciseRepository.getListQuizExerciseBase();
       emit(TaskListSuccess(taskList: list));
     } catch (e) {
       emit(TaskListFailed(e.toString()));

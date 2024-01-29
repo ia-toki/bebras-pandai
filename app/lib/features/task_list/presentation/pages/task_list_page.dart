@@ -56,7 +56,7 @@ class _TaskListPageState extends State<TaskListPage> {
     );
   }
 
-  Widget buildTaskItem(QuizExercise task) {
+  Widget buildTaskItem(QuizExerciseBase task) {
     return GestureDetector(
       onTap: () {
         context.push(
