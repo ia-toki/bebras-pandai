@@ -5,7 +5,7 @@ import '../../../../core/bases/enum/button_type.dart';
 import '../../../../core/bases/widgets/atoms/button.dart';
 import '../../../../core/bases/widgets/atoms/html_cached_image.dart';
 import '../../../../core/constants/assets.dart';
-import '../../../../core/theme/font_theme.dart';
+// import '../../../../core/theme/font_theme.dart';
 import '../../../authentication/register/presentation/widgets/custom_text_field.dart';
 import '../bloc/quiz_exercise_cubit.dart';
 import '../model/quiz_exercise.dart';
@@ -69,7 +69,9 @@ class TaskDialog extends StatelessWidget {
                   width: MediaQuery.of(context).size.width - 240,
                                   )
                                 : Flexible(
-                                    child: Text(e.value.content),
+                                    child: HtmlWithCachedImages(
+                                        data:e.value.content
+                                    ),
                                   )
                           ],
                         ),

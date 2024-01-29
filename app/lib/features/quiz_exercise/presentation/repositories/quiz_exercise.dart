@@ -65,6 +65,28 @@ class QuizExerciseRepository {
     }
   }
 
+  Future<List<QuizExerciseBase>> getListQuizExerciseBase() async {
+    final quizExerciseBaseList = <QuizExerciseBase>[];
+    try {
+      final globalResult =
+          await db.collection('configuration').doc('global_variables').get();
+      final taskSet = globalResult.get('task_set_doc_index') as List<dynamic>;
+      for (final element in taskSet) {
+        quizExerciseBaseList
+            .add(QuizExerciseBase.fromJson(element as Map<String, dynamic>));
+      }
+
+      return quizExerciseBaseList;
+    } on FirebaseException catch (e) {
+      if (kDebugMode) {
+        print("Failed with error '${e.code}': '${e.message}'");
+      }
+      return quizExerciseBaseList;
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
   Future<QuizExercise> getQuizExercise(String taskId) async {
     try {
       final result =

@@ -91,7 +91,7 @@ class _SettingPageState extends State<SettingPage> {
                         return Column(
                           children: [
                             SizedBox(
-                              height: MediaQuery.of(context).size.height - 625,
+                              height: MediaQuery.of(context).size.height - 765,
                             ),
                             Button(
                               onTap: () {
@@ -106,6 +106,7 @@ class _SettingPageState extends State<SettingPage> {
                           ],
                         );
                       }
+
                       return SizedBox(
                         height: MediaQuery.of(context).size.height - 695,
                       );
