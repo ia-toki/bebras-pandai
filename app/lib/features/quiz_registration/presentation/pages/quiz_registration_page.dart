@@ -28,21 +28,30 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
     });
   }
 
+  void updateIsRunningWeekSelected({required bool newValue}) {
+    setState(() {
+      isRunningWeekSelected = newValue;
+    });
+  }
+
+  void updateIsNextWeekSelected({required bool newValue}) {
+    setState(() {
+      isNextWeekSelected = newValue;
+    });
+  }
+
   Future<void> checkRunningWeeklyQuiz() async {
     final check =
         await QuizService().checkParticipantWeeklyQuiz('running_weekly_quiz');
-    setState(() {
-      isRunningWeekSelected = check;
-    });
+    updateIsRunningWeekSelected(newValue: check);
   }
 
   Future<void> checkNextWeeklyQuiz() async {
     final check =
         await QuizService().checkParticipantWeeklyQuiz('next_weekly_quiz');
-    setState(() {
-      isNextWeekSelected = check;
-    });
+    updateIsNextWeekSelected(newValue: check);
   }
+
 
   Widget quizCard(WeeklyQuizParticipation weeklyQuizParticipant, String date,
       String score, String level, BuildContext context) {
@@ -166,15 +175,17 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                             context
                                 .read<QuizRegistrationCubit>()
                                 .registerParticipant('sikecil', selectedWeek);
-                            checkNextWeeklyQuiz();
-                            checkRunningWeeklyQuiz();
+                            if(selectedWeek == 'next_weekly_quiz') {
+                              updateIsNextWeekSelected(newValue: true);
+                            } else {
+                              updateIsRunningWeekSelected(newValue: true);
+                            }
                             selectWeek('');
                             Navigator.pop(context);
                           },
                           customButtonColor: Colors.blue.shade400,
                           customTextColor: Colors.white,
                           text: 'siKecil',
-                          // isDisabled: true,
                         )),
                     const SizedBox(
                       height: 15,
@@ -187,8 +198,11 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                             context
                                 .read<QuizRegistrationCubit>()
                                 .registerParticipant('siaga', selectedWeek);
-                            checkNextWeeklyQuiz();
-                            checkRunningWeeklyQuiz();
+                            if(selectedWeek == 'next_weekly_quiz') {
+                              updateIsNextWeekSelected(newValue: true);
+                            } else {
+                              updateIsRunningWeekSelected(newValue: true);
+                            }
                             selectWeek('');
                             Navigator.pop(context);
                           },
@@ -208,8 +222,11 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                                 .read<QuizRegistrationCubit>()
                                 .registerParticipant(
                                     'penggalang', selectedWeek);
-                            checkNextWeeklyQuiz();
-                            checkRunningWeeklyQuiz();
+                            if(selectedWeek == 'next_weekly_quiz') {
+                              updateIsNextWeekSelected(newValue: true);
+                            } else {
+                              updateIsRunningWeekSelected(newValue: true);
+                            }
                             selectWeek('');
                             Navigator.pop(context);
                           },
@@ -228,8 +245,11 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                             context
                                 .read<QuizRegistrationCubit>()
                                 .registerParticipant('penegak', selectedWeek);
-                            checkNextWeeklyQuiz();
-                            checkRunningWeeklyQuiz();
+                            if(selectedWeek == 'next_weekly_quiz') {
+                              updateIsNextWeekSelected(newValue: true);
+                            } else {
+                              updateIsRunningWeekSelected(newValue: true);
+                            }
                             selectWeek('');
                             Navigator.pop(context);
                           },
