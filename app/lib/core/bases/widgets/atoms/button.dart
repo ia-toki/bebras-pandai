@@ -15,6 +15,7 @@ class Button extends StatelessWidget {
   final double fontSize;
   final Color customButtonColor;
   final Color customTextColor;
+  final double borderRadius;
 
   const Button({
     required this.text,
@@ -27,6 +28,7 @@ class Button extends StatelessWidget {
     this.fontSize = 16,
     this.customButtonColor = Colors.transparent,
     this.customTextColor = BaseColors.black,
+    this.borderRadius = 16,
     super.key,
   });
 
@@ -69,7 +71,7 @@ class Button extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             color: buttonColor,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(borderRadius),
           ),
           width: double.infinity,
           child: AutoSizeText(
