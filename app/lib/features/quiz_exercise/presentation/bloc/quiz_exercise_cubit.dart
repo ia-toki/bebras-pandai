@@ -119,6 +119,18 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
     );
   }
 
+  Future<bool> updateStatus(String taskId, String? status) async {
+    try {
+      quizExerciseRepository = QuizExerciseRepository();
+      await quizExerciseRepository.updateQuizExercise(taskId, status);
+      return true;
+    } catch (e) {
+      // Handle errors, log, etc.
+      print('Error updating status: $e');
+      return false; // Operation failed
+    }
+  }
+
   void fillAnswer(String answer) {
     shortAnswer = answer;
 

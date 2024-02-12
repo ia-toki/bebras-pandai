@@ -95,7 +95,7 @@ class _SettingPageState extends State<SettingPage> {
                             ),
                             Button(
                               onTap: () {
-                                context.push('/task_list');
+                                context.push('/group_task_list');
                               },
                               buttonType: ButtonType.primary,
                               text: 'Lihat Bebras Task',

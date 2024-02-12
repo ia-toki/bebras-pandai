@@ -3,7 +3,8 @@
 part of '_pages.dart';
 
 class TaskListPage extends StatefulWidget {
-  const TaskListPage({super.key});
+  final String? challengeGroup;
+  const TaskListPage({super.key, this.challengeGroup});
 
   @override
   State<TaskListPage> createState() => _TaskListPageState();
@@ -12,7 +13,7 @@ class TaskListPage extends StatefulWidget {
 class _TaskListPageState extends State<TaskListPage> {
   @override
   void initState() {
-    context.read<TaskListCubit>().initialize();
+    context.read<TaskListCubit>().initialize(group: widget.challengeGroup);
     super.initState();
   }
 
@@ -25,12 +26,21 @@ class _TaskListPageState extends State<TaskListPage> {
             Padding(
               padding: const EdgeInsets.all(32),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Image.asset(
                     Assets.bebrasPandaiText,
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 25,
+                  ),
+                  Text(
+                    widget.challengeGroup!,
+                    textAlign: TextAlign.left,
+                    style: FontTheme.blackTextBold()
+                  ),
+                  const SizedBox(
+                    height: 14,
                   ),
                   BlocBuilder<TaskListCubit, TaskListState>(
                     builder: (context, state) {
@@ -57,6 +67,17 @@ class _TaskListPageState extends State<TaskListPage> {
   }
 
   Widget buildTaskItem(QuizExerciseBase task) {
+    var statusText = '';
+    // Mengambil teks status berdasarkan nilai task.status
+    if (task.status != null) {
+      for (final item in dropdownItems) {
+        if (item['value'] == task.status) {
+          statusText = item['text'] ?? '';
+          break;
+        }
+      }
+    }
+
     return GestureDetector(
       onTap: () {
         context.push(
@@ -84,7 +105,7 @@ class _TaskListPageState extends State<TaskListPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(task.id),
-                    Text(task.challengeGroup),
+                    Text(statusText),
                   ],
                 ),
                 const SizedBox(height: 8),
