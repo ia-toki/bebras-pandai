@@ -3,6 +3,7 @@ import os
 import random
 from datetime import datetime, timedelta
 from firebase_admin import credentials, initialize_app, firestore
+from google.cloud.firestore_v1.base_query import FieldFilter
 
 
 creds = credentials.Certificate(
@@ -43,7 +44,7 @@ def generate_next_weekly_quiz():
     for cg_group, cg_val in challengegroup_map.items():
         problem_id_list = []
 
-        query_ref = taskset_coll_ref.where("challenge_group", "==", cg_group)
+        query_ref = taskset_coll_ref.where(filter=FieldFilter("challenge_group", "==", cg_group)).where(filter=FieldFilter("status", "==", "ready"))
         for doc in query_ref.stream():
             problem_id_list.append(doc.to_dict()["id"])
         random.shuffle(problem_id_list)
