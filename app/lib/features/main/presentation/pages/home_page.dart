@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                     text: 'Pengaturan',
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height - 620,
+                    height: MediaQuery.of(context).size.height - 640,
                   ),
                   InkWell(
                     onTap: () async {
@@ -121,6 +121,13 @@ class _HomePageState extends State<HomePage> {
                         style: FontTheme.greyNormal14(),
                       ),
                     ),
+                  ),
+                  Center(
+                      child: Text(
+                        'V 1.0.0',
+                        textAlign: TextAlign.center,
+                        style: FontTheme.greyNormal14(),
+                      ),
                   ),
                 ],
               ),

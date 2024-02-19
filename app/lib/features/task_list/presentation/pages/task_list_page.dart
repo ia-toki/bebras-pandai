@@ -80,11 +80,24 @@ class _TaskListPageState extends State<TaskListPage> {
 
     return GestureDetector(
       onTap: () {
+        String cleanedTaskId;
+        if (task.id.startsWith('penegak_')) {
+          cleanedTaskId = task.id.replaceFirst('penegak_', ''); 
+        } else if (task.id.startsWith('sikecil_')) {
+          cleanedTaskId = task.id.replaceFirst('sikecil_', '');
+        } else if (task.id.startsWith('penggalang_')) {
+          cleanedTaskId = task.id.replaceFirst('penggalang_', '');
+        } else if (task.id.startsWith('siaga_')) {
+          cleanedTaskId = task.id.replaceFirst('siaga_', '');
+        } else {
+          cleanedTaskId = task.id;
+        }
+
         context.push(
           Uri(
             path: '/task_detail',
             queryParameters: {
-              'task_id': task.id,
+              'task_id': cleanedTaskId,
             },
           ).toString(),
         );

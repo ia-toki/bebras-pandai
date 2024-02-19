@@ -17,7 +17,7 @@ class QuizExerciseBase {
 
   factory QuizExerciseBase.fromJson(Map<String, dynamic> json) {
     return QuizExerciseBase(
-      id: json['id'] as String,
+      id: json['doc_id'] as String,
       challengeGroup: json['challenge_group'] as String,
       title: json['title'] as String,
       status: json['status'] as String?,

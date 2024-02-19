@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../../authentication/register/repositories/register_user_repo.dart';
 
@@ -14,6 +15,7 @@ part 'user_initialization_state.dart';
 @singleton
 class UserInitializationBloc
     extends Bloc<UserInitializationEvent, UserInitializationState> {
+  
   final RegisterUserRepository registerUserRepository;
   // final GoogleSignIn _googleSignIn = GoogleSignIn();
 
@@ -21,7 +23,7 @@ class UserInitializationBloc
       : super(UserInitializationInitial()) {
     on<OnboardingAuthEvent>(_auth);
   }
-
+  
   FutureOr<void> _auth(
     OnboardingAuthEvent state,
     Emitter<UserInitializationState> emit,
@@ -31,20 +33,31 @@ class UserInitializationBloc
     if (creds != null) {
       emit(UserAuthenticated());
       final userId = creds.uid;
+      
+      final packageInfo = await PackageInfo.fromPlatform();
+      
+      final checkVersionApps = await registerUserRepository.getVersionApps(
+        packageInfo.version
+      );
+      
+      if (checkVersionApps == null) {
+       return emit(UpdateAvailable());
+      }
+
       try {
         final data = await registerUserRepository.getById(userId);
 
         print(data);
         if (data == null) {
-          emit(UserUnregistered());
+          return emit(UserUnregistered());
         } else {
-          emit(UserRegistered());
+          return emit(UserRegistered());
         }
       } catch (e) {
-        emit(UserError(e.toString()));
+        return emit(UserError(e.toString()));
       }
     } else {
-      emit(UserUnauthenticated());
+      return emit(UserUnauthenticated());
     }
   }
 }
