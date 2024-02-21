@@ -128,6 +128,7 @@ class RegisterUserRepository {
           return VersionModel(version: storedVersion);
         }
       }
+
       return null;
     } on FirebaseException catch (e) {
       if (kDebugMode) {

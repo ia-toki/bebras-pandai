@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:package_info_plus/package_info_plus.dart';
+import 'package:yaml/yaml.dart';
 
 import '../../../authentication/register/repositories/register_user_repo.dart';
 
@@ -34,12 +35,15 @@ class UserInitializationBloc
       emit(UserAuthenticated());
       final userId = creds.uid;
       
-      final packageInfo = await PackageInfo.fromPlatform();
-      
+      final yamlMap = loadYaml(await rootBundle.loadString('pubspec.yaml'));
+      final versionWithBuildNumber = yamlMap['version'] as String;
+      final parts = versionWithBuildNumber.split('+');
+      final version = parts[0];
+
       final checkVersionApps = await registerUserRepository.getVersionApps(
-        packageInfo.version
+        version
       );
-      
+
       if (checkVersionApps == null) {
        return emit(UpdateAvailable());
       }

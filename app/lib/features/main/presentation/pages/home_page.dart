@@ -15,10 +15,28 @@ class Course {
 }
 
 class _HomePageState extends State<HomePage> {
+  String version = '';
+
   @override
   void initState() {
     context.read<HomeCubit>().fetchUser();
+    _loadVersion();
     super.initState();
+  }
+
+  Future<void> _loadVersion() async {
+    try {
+      final yamlMap =
+          loadYaml(await rootBundle.loadString('pubspec.yaml')); 
+      final versionWithBuildNumber =
+          yamlMap['version'] as String; 
+      final parts = versionWithBuildNumber.split('+'); 
+      setState(() {
+        version = parts[0];
+      });
+    } catch (e) {
+      print('Error loading version: $e');
+    }
   }
 
   @override
@@ -124,7 +142,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Center(
                       child: Text(
-                        'V 1.0.0',
+                        'V $version',
                         textAlign: TextAlign.center,
                         style: FontTheme.greyNormal14(),
                       ),
