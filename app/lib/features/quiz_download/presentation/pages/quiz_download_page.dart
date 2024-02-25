@@ -44,71 +44,8 @@ class _QuizDownloadPageState extends State<QuizDownloadPage> {
     });
   }
 
-  Widget quizCard(WeeklyQuizParticipation weeklyQuizParticipant, String date,
-      String score, String level, BuildContext context) {
-    return InkWell(
-      onTap: () async {
-        await context.push(
-          Uri(
-            path: '/quiz_start',
-            queryParameters: {
-              'quiz_participant_id': weeklyQuizParticipant.id,
-            },
-          ).toString(),
-        );
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 18),
-        margin: const EdgeInsets.only(bottom: 12),
-        decoration: BoxDecoration(
-          color: Colors.blue[50],
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Container(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: Text(
-                    weeklyQuizParticipant.quiz_title,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 12),
-                  ),
-                ),
-              ),
-              Text(
-                'Nilai: $score',
-                style: const TextStyle(fontSize: 12),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          Row(
-            children: [
-              Text(
-                'Kategori: $level',
-                style: const TextStyle(fontSize: 12),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          Row(
-            children: [
-              Text(
-                'Dikerjakan: $date',
-                style: const TextStyle(fontSize: 12),
-              )
-            ],
-          )
-        ]),
-      ),
-    );
+  Function _downloadQuiz() {
+    return context.read<QuizRegistrationCubit>().fetchParticipantWeeklyQuiz;
   }
 
   @override
@@ -121,8 +58,8 @@ class _QuizDownloadPageState extends State<QuizDownloadPage> {
             Container(
               height: 300,
               width: double.infinity,
-              decoration: BoxDecoration(
-                color: const Color(0xFF1BB8E1),
+              decoration: const BoxDecoration(
+                color: Color(0xFF1BB8E1),
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(60),
                   bottomRight: Radius.circular(60),
@@ -132,22 +69,26 @@ class _QuizDownloadPageState extends State<QuizDownloadPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: 15,),
+                    margin: EdgeInsets.only(
+                      top: 15,
+                    ),
                     child: Row(
                       children: [
                         IconButton(
                           onPressed: () => Navigator.of(context).pop(),
-                          icon: const Icon(Icons.arrow_back, color: Colors.white,),
+                          icon: const Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                          ),
                         ),
                         Container(
                           alignment: Alignment.center,
-                          child: Text(
+                          child: const Text(
                             'Latihan Minggu Depan',
                             style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18,
-                              color: Colors.white
-                            ),
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                                color: Colors.white),
                           ),
                         )
                       ],
@@ -162,44 +103,47 @@ class _QuizDownloadPageState extends State<QuizDownloadPage> {
               right: 0,
               bottom: 0,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(42.0),
-                      topRight: Radius.circular(42.0),
+                    topLeft: Radius.circular(42.0),
+                    topRight: Radius.circular(42.0),
                   ),
                 ),
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Latihan yang pernah diikuti',
-                        style: FontTheme.blackSubtitleBold(),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
+                child:
                     BlocConsumer<QuizRegistrationCubit, QuizRegistrationState>(
-                      listener: (context, state) {
-                        if (state is QuizRegistrationSuccess) {
-                          context
-                              .read<QuizRegistrationCubit>()
-                              .fetchParticipantWeeklyQuiz();
-                        }
-                      },
-                      builder: (context, state) {
-                        if (state is QuizRegistrationLoading) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        return SizedBox(
+                  listener: (context, state) {
+                    if (state is QuizRegistrationSuccess) {
+                      // return PermissionToDownloadQuiz(); // onClickDownload: _downloadQuiz);
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is QuizRegistrationLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    if (state is QuizRegistrationSuccess) {
+                      return PermissionToDownloadQuiz(onClickDownload: _downloadQuiz()); // onClickDownload: _downloadQuiz);
+                    }
+                    print(state);
+                    return Column(
+                      children: [
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Latihan yang pernah diikuti',
+                            style: FontTheme.blackSubtitleBold(),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        SizedBox(
                           height: MediaQuery.of(context).size.height - 211,
                           width: double.infinity,
                           child: BlocConsumer<QuizRegistrationCubit,
@@ -225,28 +169,28 @@ class _QuizDownloadPageState extends State<QuizDownloadPage> {
                                     ),
                                   );
                                 }
-                                return ListView(
-                                    children: [
+                                return ListView(children: [
                                   const SizedBox(
                                     height: 20,
                                   ),
                                   for (final quiz in state.weeklyQuizzes)
-                                    quizCard(
+                                    QuizCard(
                                       quiz,
                                       quiz.attempts.isNotEmpty
                                           ? quiz
-                                              .attempts[quiz.attempts.length - 1]
+                                              .attempts[
+                                                  quiz.attempts.length - 1]
                                               .startAt
                                               .toString()
                                           : '-',
                                       quiz.attempts.isNotEmpty
                                           ? quiz
-                                              .attempts[quiz.attempts.length - 1]
+                                              .attempts[
+                                                  quiz.attempts.length - 1]
                                               .score
                                               .toString()
                                           : '??',
                                       quiz.challenge_group,
-                                      context,
                                     ),
                                 ]);
                               }
@@ -259,28 +203,28 @@ class _QuizDownloadPageState extends State<QuizDownloadPage> {
                               );
                             },
                           ),
-                        );
-                      },
-                    ),
-                  ],
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ),
             ),
-        // Container(
-        //   alignment: Alignment.bottomCenter,
-        //   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-        //   child: Button(
-        //     borderRadius: 4,
-        //           customTextColor: Colors.white,
-        //           customButtonColor: const Color(0xFF1BB8E1),
-        //           fontSize: 14,
-        //           innerVerticalPadding: 10,
-        //           onTap: () async {
-        //             // await showModal();
-        //           },
-        //           text: 'Batalkan',
-        //         ),
-        // ),
+            // Container(
+            //   alignment: Alignment.bottomCenter,
+            //   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            //   child: Button(
+            //     borderRadius: 4,
+            //           customTextColor: Colors.white,
+            //           customButtonColor: const Color(0xFF1BB8E1),
+            //           fontSize: 14,
+            //           innerVerticalPadding: 10,
+            //           onTap: () async {
+            //             // await showModal();
+            //           },
+            //           text: 'Batalkan',
+            //         ),
+            // ),
           ],
         ),
       ),

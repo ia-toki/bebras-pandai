@@ -7,5 +7,7 @@ import '../../../../core/theme/font_theme.dart';
 import '../../../../models/quiz_participation.dart';
 import '../../../../services/quiz_service.dart';
 import '../bloc/quiz_registration_cubit.dart';
+import 'components/PermissionToDownloadQuiz.dart';
+import 'components/QuizCard.dart';
 
 part 'quiz_download_page.dart';
