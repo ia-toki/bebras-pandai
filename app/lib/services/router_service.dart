@@ -43,8 +43,14 @@ GoRouter router = GoRouter(
       builder: (context, state) => const UnderConstructionPage(),
     ),
     GoRoute(
+      path: '/group_task_list',
+      builder: (context, state) => const GroupTaskListPage(),
+    ),
+    GoRoute(
       path: '/task_list',
-      builder: (context, state) => const TaskListPage(),
+      builder: (context, state) => TaskListPage(
+        challengeGroup: state.queryParameters['challenge_group'],
+      ),
     ),
     GoRoute(
       path: '/task_detail',

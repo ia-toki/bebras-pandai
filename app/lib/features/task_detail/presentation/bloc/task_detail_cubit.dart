@@ -16,6 +16,7 @@ class TaskDetailCubit extends Cubit<TaskDetailState> {
       }
       final quizExerciseRepository = QuizExerciseRepository();
       final task = await quizExerciseRepository.getQuizExercise(taskId);
+      
       emit(TaskDetailSuccess(task: task));
     } catch (e) {
       emit(TaskDetailFailed(e.toString()));
