@@ -6,7 +6,7 @@ import '../../../../core/bases/enum/button_type.dart';
 import '../../../../core/bases/widgets/atoms/button.dart';
 import '../../../../core/bases/widgets/atoms/html_cached_image.dart';
 import '../../../../core/constants/assets.dart';
-import '../../../../core/theme/font_theme.dart';
+// import '../../../../core/theme/font_theme.dart';
 import '../bloc/quiz_exercise_cubit.dart';
 import '../model/quiz_exercise.dart';
 
@@ -82,18 +82,18 @@ class TaskView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Image.asset(
-                '${Assets.flagDir}${task.country}.png',
-                width: 40,
-                height: 20,
-              ),
-              Flexible(
-                child: Text(
-                  task.title,
-                  textAlign: TextAlign.center,
-                  style: FontTheme.blackSubtitleBold(),
-                ),
-              ),
+              // Image.asset(
+              //   '${Assets.flagDir}${task.country}.png',
+              //   width: 40,
+              //   height: 20,
+              // ),
+              // Flexible(
+              //   child: Text(
+              //     task.title,
+              //     textAlign: TextAlign.center,
+              //     style: FontTheme.blackSubtitleBold(),
+              //   ),
+              // ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
