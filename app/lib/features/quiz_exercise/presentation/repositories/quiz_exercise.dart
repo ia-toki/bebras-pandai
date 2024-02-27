@@ -71,13 +71,10 @@ class QuizExerciseRepository {
       final globalResult =
           await db.collection('configuration').doc('global_variables').get();
 
-      final taskSet = globalResult.get('task_set_doc_index') as List<dynamic>;
+      final taskSet = globalResult.get('task_set_doc_$group') as List<dynamic>;
       for (final element in taskSet) {
-        final challengeGroup = element['challenge_group'] as String;
-        if (challengeGroup == group) {
           quizExerciseBaseList
             .add(QuizExerciseBase.fromJson(element as Map<String, dynamic>));
-        }
       }
 
       return quizExerciseBaseList;

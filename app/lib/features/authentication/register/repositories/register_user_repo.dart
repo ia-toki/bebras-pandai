@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../onboarding/model/version_model.dart';
 import '../model/registered_user.dart';
 
 @Injectable()
@@ -111,4 +112,33 @@ class RegisterUserRepository {
     }
     return null;
   }
+
+  Future<VersionModel?> getVersionApps(String version) async {
+    try {
+      final result = await FirebaseFirestore.instance
+          .collection('configuration')
+          .doc('version')
+          .get();
+
+      final allVersion = result.data()?['version'] as List<dynamic>;
+
+      for (final element in allVersion) {
+        if (element == version) {
+          final storedVersion = element.toString();
+          return VersionModel(version: storedVersion);
+        }
+      }
+
+      return null;
+    } on FirebaseException catch (e) {
+      if (kDebugMode) {
+        print("Failed with error '${e.code}': '${e.message}'");
+      }
+      return null;
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+
 }

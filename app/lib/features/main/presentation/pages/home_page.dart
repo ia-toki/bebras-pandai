@@ -15,10 +15,28 @@ class Course {
 }
 
 class _HomePageState extends State<HomePage> {
+  String version = '';
+
   @override
   void initState() {
     context.read<HomeCubit>().fetchUser();
+    _loadVersion();
     super.initState();
+  }
+
+  Future<void> _loadVersion() async {
+    try {
+      final yamlMap =
+          loadYaml(await rootBundle.loadString('pubspec.yaml')); 
+      final versionWithBuildNumber =
+          yamlMap['version'] as String; 
+      final parts = versionWithBuildNumber.split('+'); 
+      setState(() {
+        version = parts[0];
+      });
+    } catch (e) {
+      print('Error loading version: $e');
+    }
   }
 
   @override
@@ -103,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                     text: 'Pengaturan',
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height - 620,
+                    height: MediaQuery.of(context).size.height - 640,
                   ),
                   InkWell(
                     onTap: () async {
@@ -121,6 +139,13 @@ class _HomePageState extends State<HomePage> {
                         style: FontTheme.greyNormal14(),
                       ),
                     ),
+                  ),
+                  Center(
+                      child: Text(
+                        'V $version',
+                        textAlign: TextAlign.center,
+                        style: FontTheme.greyNormal14(),
+                      ),
                   ),
                 ],
               ),

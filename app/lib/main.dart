@@ -13,6 +13,6 @@ Future<void> main() async {
   configureDependencies();
   await FirebaseService.initialize();
   await FirebaseApi().initNotifications();
-  await initializeDateFormatting('id_ID', null);
+  await initializeDateFormatting('id_ID');
   runApp(const App());
 }

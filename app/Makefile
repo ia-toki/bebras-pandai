@@ -19,6 +19,11 @@ init:
 	make build_runner
 	@echo "╠ Initialize successed!"
 
+release:
+	make init
+	@flutter pub run flutter_launcher_icons
+	@flutter build appbundle
+
 dev:
 	@flutter run lib/main.dart
 
