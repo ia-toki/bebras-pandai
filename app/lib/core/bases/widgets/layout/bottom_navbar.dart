@@ -54,7 +54,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               children: <Widget>[
                 FaIcon(
                   icon,
-                  color: _currentIndex == index
+                  color: widget.currentIndex == index
                       ? const Color(0xFF1BB8E1) : const Color(0xFF666666),
                 ),
                 const SizedBox(
@@ -64,7 +64,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                   label,
                   style: TextStyle(
                     fontSize: 11,
-                    color: _currentIndex == index
+                    color: widget.currentIndex == index
                         ? const Color(0xFF1BB8E1) : const Color(0xFF666666),
                   ),
                 ),
@@ -96,9 +96,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
                     bottom: 9,
                   ),
                   alignment: Alignment.bottomCenter,
-                  child: const Text(
+                  child: Text(
                     'Latihan',
-                    style: TextStyle(fontSize: 11),
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: widget.currentIndex == 2
+                          ? const Color(0xFF1BB8E1) : const Color(0xFF666666),
+                    ),
                   ),
                 ),
                 buildIconButton(FontAwesomeIcons.gear, 'Pengaturan', 1),
