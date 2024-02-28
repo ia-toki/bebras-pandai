@@ -13,10 +13,10 @@ class RegisterUserRepository {
     required String userId,
     required dynamic email,
     required String name,
-    required String birthDate,
+    // required String birthDate,
     required String school,
     required String province,
-    required String bebrasBiro,
+    // required String bebrasBiro,
   }) async {
     try {
       final now = DateTime.now();
@@ -24,10 +24,10 @@ class RegisterUserRepository {
         {
           'name': name,
           'email': email,
-          'birth_date': birthDate,
+          // 'birth_date': birthDate,
           'school': school,
           'province': province,
-          'bebras_biro': bebrasBiro,
+          // 'bebras_biro': bebrasBiro,
           'created_at': now,
           'updated_at': now,
         },
@@ -46,20 +46,20 @@ class RegisterUserRepository {
     required String userId,
     required dynamic email,
     required String name,
-    required String birthDate,
+    // required String birthDate,
     required String school,
     required String province,
-    required String bebrasBiro,
+    // required String bebrasBiro,
     String? updatedAt,
   }) async {
     try {
       await _firecloud.doc(userId).update({
         'name': name,
         'email': email,
-        'birth_date': birthDate,
+        // 'birth_date': birthDate,
         'school': school,
         'province': province,
-        'bebras_biro': bebrasBiro,
+        // 'bebras_biro': bebrasBiro,
         'updated_at': DateTime.now(),
       });
     } on FirebaseException catch (e) {
