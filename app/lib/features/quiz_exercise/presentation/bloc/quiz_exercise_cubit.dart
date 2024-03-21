@@ -20,14 +20,13 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
 
   late WeeklyQuiz quiz;
   late WeeklyQuizParticipation participation;
-  late QuizExercise currentProblem;
   int currentProblemIndex = 0;
   late List<String> problemIdList;
+  late List<QuizExercise> problemList;
+  late List<QuizExerciseAnswer> answerList;
   late QuizExerciseAttempt attempt;
   String? quizParticipantId;
 
-  String selectedAnswer = '';
-  String shortAnswer = '';
   late int remainingDuration;
   Timer? timer;
 
@@ -65,27 +64,28 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
       // Shuffle Problem List
       problemIdList.shuffle();
 
+      // reset index every time this method is called
+      currentProblemIndex = 0;
+
+      // Fetch all quiz data
+      problemList = await quizExerciseRepository.getListQuizExercise(
+          taskIds: problemIdList);
+
       // TODO(someone): fix the check logic later
       // if (weeklyQuizParticipant.attempts.isEmpty) {
+      answerList = problemList
+          .map((e) => QuizExerciseAnswer(
+              taskId: e.id,
+              correctAnswer: e.answer.correctAnswer,
+              answer: '',
+              taskChallengeGroup: e.challengeGroup))
+          .toList();
       attempt = QuizExerciseAttempt(
         startAt: DateTime.now(),
         totalBlank: problemIdList.length,
         totalCorrect: 0,
         totalIncorrect: 0,
-        answers: [],
       );
-
-      // reset index every time this method is called
-      currentProblemIndex = 0;
-
-      // Fetch all quiz data for it to be available when offline
-      await quizExerciseRepository
-          .getListQuizExerciseByTaskIdList(problemIdList);
-
-      currentProblem =
-          await quizExerciseRepository.getQuizExercise(problemIdList.first);
-
-      currentProblem.question.options?.shuffle();
 
       final duration = quiz.duration_minute[participation.challenge_group];
       if (duration == null) {
@@ -96,10 +96,12 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
       emit(
         QuizExerciseShow(
           quiz: quiz,
-          quizExercise: currentProblem,
+          quizExercise: problemList[currentProblemIndex],
           remainingDuration: Duration(seconds: remainingDuration),
-          selectedAnswer: selectedAnswer,
-          shortAnswer: shortAnswer,
+          answer: answerList[currentProblemIndex],
+          attempt: attempt,
+          currentProblemIndex: currentProblemIndex,
+          totalProblem: problemIdList.length,
         ),
       );
     } catch (e) {
@@ -108,13 +110,31 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
   }
 
   void selectAnswer(String answerId) {
-    selectedAnswer = answerId;
+    answerList[currentProblemIndex].answer = answerId;
     emit(
       QuizExerciseShow(
         quiz: quiz,
-        quizExercise: currentProblem,
+        quizExercise: problemList[currentProblemIndex],
         remainingDuration: Duration(seconds: remainingDuration),
-        selectedAnswer: selectedAnswer,
+        answer: answerList[currentProblemIndex],
+        attempt: attempt,
+        currentProblemIndex: currentProblemIndex,
+        totalProblem: problemIdList.length,
+      ),
+    );
+  }
+
+  void fillAnswer(String answer) {
+    answerList[currentProblemIndex].answer = answer;
+    emit(
+      QuizExerciseShow(
+        quiz: quiz,
+        quizExercise: problemList[currentProblemIndex],
+        remainingDuration: Duration(seconds: remainingDuration),
+        attempt: attempt,
+        answer: answerList[currentProblemIndex],
+        currentProblemIndex: currentProblemIndex,
+        totalProblem: problemIdList.length,
       ),
     );
   }
@@ -131,102 +151,110 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
     }
   }
 
-  void fillAnswer(String answer) {
-    shortAnswer = answer;
-
-    emit(
-      QuizExerciseShow(
-        quiz: quiz,
-        quizExercise: currentProblem,
-        remainingDuration: Duration(seconds: remainingDuration),
-        shortAnswer: shortAnswer,
-      ),
-    );
-  }
-
   Future<void> finishExerciseTimeUp() async {
     await postQuizExerciseAttempt();
     emit(QuizExerciseFinished(quizParticipantId!));
   }
 
   Future<void> submitAnswer() async {
-    if (((currentProblem.type == 'MULTIPLE_CHOICE' ||
-                currentProblem.type == 'MULTIPLE_CHOICE_IMAGE') &&
-            selectedAnswer == '') ||
-        (currentProblem.type == 'SHORT_ANSWER') && shortAnswer == '') {
+    var currentProblem = problemList[currentProblemIndex];
+    var answer = answerList[currentProblemIndex].answer;
+    if (answer == '') {
       emit(
         QuizExerciseShow(
           quiz: quiz,
           quizExercise: currentProblem,
           remainingDuration: Duration(seconds: remainingDuration),
-          selectedAnswer: selectedAnswer,
-          shortAnswer: shortAnswer,
+          attempt: attempt,
+          answer: answerList[currentProblemIndex],
           modalErrorMessage: currentProblem.type == 'SHORT_ANSWER'
               ? 'Isi jawaban anda'
               : 'Pilih salah satu jawaban',
+          currentProblemIndex: currentProblemIndex,
+          totalProblem: problemIdList.length,
         ),
       );
       return;
     }
-    try {
-      var verdict = 'INCORRECT';
 
-      if (currentProblem.type == 'MULTIPLE_CHOICE' ||
-          currentProblem.type == 'MULTIPLE_CHOICE_IMAGE' &&
-              currentProblem.answer.correctAnswer.contains(selectedAnswer)) {
-        verdict = 'CORRECT';
-      }
+    var verdict = 'INCORRECT';
+    if (currentProblem.type == 'MULTIPLE_CHOICE' ||
+        currentProblem.type == 'MULTIPLE_CHOICE_IMAGE' &&
+            currentProblem.answer.correctAnswer.contains(answer)) {
+      verdict = 'CORRECT';
+    }
+    if (currentProblem.type == 'SHORT_ANSWER' &&
+        currentProblem.answer.correctAnswer
+            .map((answer) => answer.toLowerCase())
+            .contains(answer.trim().toLowerCase())) {
+      verdict = 'CORRECT';
+    }
+    answerList[currentProblemIndex].verdict = verdict;
 
-      if (currentProblem.type == 'SHORT_ANSWER' &&
-          currentProblem.answer.correctAnswer
-              .map((answer) => answer.toLowerCase())
-              .contains(shortAnswer.trim().toLowerCase())) {
-        verdict = 'CORRECT';
-      }
+    attempt.totalBlank = answerList.where((e) => e.verdict == null).length;
+    attempt.totalCorrect = answerList
+        .where((e) => e.verdict != null && e.verdict == 'CORRECT')
+        .length;
+    attempt.totalIncorrect = answerList
+        .where((e) => e.verdict == null && e.verdict == 'INCORRECT')
+        .length;
 
-      attempt.answers?.add(
-        QuizExerciseAnswer(
-          answer: currentProblem.type == 'SHORT_ANSWER'
-              ? shortAnswer
-              : selectedAnswer,
-          correctAnswer: currentProblem.answer.correctAnswer,
-          taskChallengeGroup: currentProblem.challengeGroup,
-          taskId: currentProblem.id,
-          verdict: verdict,
-        ),
-      );
-
-      if (verdict == 'CORRECT') {
-        attempt.totalCorrect++;
-        attempt.totalBlank--;
-      } else {
-        attempt.totalIncorrect++;
-        attempt.totalBlank--;
-      }
-
+    if (currentProblemIndex < problemIdList.length) {
       currentProblemIndex++;
+    }
 
-      if (currentProblemIndex < problemIdList.length) {
-        currentProblem = await quizExerciseRepository
-            .getQuizExercise(problemIdList[currentProblemIndex]);
-        selectedAnswer = '';
-        shortAnswer = '';
-        emit(
-          QuizExerciseShow(
-            quiz: quiz,
-            quizExercise: currentProblem,
-            remainingDuration: Duration(seconds: remainingDuration),
-            selectedAnswer: selectedAnswer,
-            shortAnswer: shortAnswer,
-          ),
-        );
-      } else {
-        await postQuizExerciseAttempt();
-        emit(QuizExerciseFinished(quizParticipantId!));
-      }
+    emit(
+      QuizExerciseShow(
+        quiz: quiz,
+        quizExercise: problemList[currentProblemIndex],
+        remainingDuration: Duration(seconds: remainingDuration),
+        attempt: attempt,
+        answer: answerList[currentProblemIndex],
+        currentProblemIndex: currentProblemIndex,
+        totalProblem: problemIdList.length,
+      ),
+    );
+  }
+
+  Future<void> finishExercise() async {
+    try {
+      await postQuizExerciseAttempt();
+      emit(QuizExerciseFinished(quizParticipantId!));
     } catch (e) {
       emit(QuizExerciseFailed(e.toString()));
     }
+  }
+
+  void toNextQuestion() {
+    if (currentProblemIndex == problemIdList.length - 1) return;
+    currentProblemIndex++;
+    emit(
+      QuizExerciseShow(
+        quiz: quiz,
+        quizExercise: problemList[currentProblemIndex],
+        remainingDuration: Duration(seconds: remainingDuration),
+        attempt: attempt,
+        answer: answerList[currentProblemIndex],
+        currentProblemIndex: currentProblemIndex,
+        totalProblem: problemIdList.length,
+      ),
+    );
+  }
+
+  void toPreviousQuestion() {
+    if (currentProblemIndex == 0) return;
+    currentProblemIndex--;
+    emit(
+      QuizExerciseShow(
+        quiz: quiz,
+        quizExercise: problemList[currentProblemIndex],
+        remainingDuration: Duration(seconds: remainingDuration),
+        attempt: attempt,
+        answer: answerList[currentProblemIndex],
+        currentProblemIndex: currentProblemIndex,
+        totalProblem: problemIdList.length,
+      ),
+    );
   }
 
   Future<void> postQuizExerciseAttempt() async {
@@ -250,10 +278,12 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
       emit(
         QuizExerciseShow(
           quiz: quiz,
-          quizExercise: currentProblem,
+          quizExercise: problemList[currentProblemIndex],
           remainingDuration: Duration(seconds: remainingDuration),
-          selectedAnswer: selectedAnswer,
-          shortAnswer: shortAnswer,
+          attempt: attempt,
+          answer: answerList[currentProblemIndex],
+          currentProblemIndex: currentProblemIndex,
+          totalProblem: problemIdList.length,
         ),
       );
     } else {
@@ -272,10 +302,12 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
     emit(
       QuizExerciseShow(
         quiz: quiz,
-        quizExercise: currentProblem,
+        quizExercise: problemList[currentProblemIndex],
         remainingDuration: Duration(seconds: remainingDuration),
-        selectedAnswer: selectedAnswer,
-        shortAnswer: shortAnswer,
+        attempt: attempt,
+        answer: answerList[currentProblemIndex],
+        currentProblemIndex: currentProblemIndex,
+        totalProblem: problemIdList.length,
       ),
     );
   }
