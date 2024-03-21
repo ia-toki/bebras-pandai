@@ -14,6 +14,7 @@ import '../../../../core/bases/widgets/layout/bebras_scaffold.dart';
 import '../../../../core/bases/widgets/layout/bottom_navbar.dart';
 import '../../../../core/constants/assets.dart';
 import '../../../../core/theme/font_theme.dart';
+import '../../../../services/firebase_service.dart';
 import '../../../material/menu/presentation/pages/_pages.dart';
 import '../bloc/home_cubit.dart';
 import 'clip_path.dart';
