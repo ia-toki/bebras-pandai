@@ -36,7 +36,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                   BlocBuilder<TaskDetailCubit, TaskDetailState>(
                     builder: (context, state) {
                       if (state is TaskDetailSuccess) {
-                        return TaskView(
+                        return TaskViewDetail(
                           task: state.task,
                           context: context,
                           onTap: () {
@@ -72,6 +72,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
               return TaskDialog(
                 task: state.task,
                 preview: true,
+
               );
             }
             return const SizedBox(

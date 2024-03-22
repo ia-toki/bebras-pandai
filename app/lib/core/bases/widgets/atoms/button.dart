@@ -17,6 +17,7 @@ class Button extends StatelessWidget {
   final Color customTextColor;
   final Color customBorderColor;
   final String icon;
+  final double borderRadius;
 
   const Button({
     required this.text,
@@ -31,6 +32,7 @@ class Button extends StatelessWidget {
     this.customTextColor = BaseColors.black,
     this.customBorderColor = Colors.transparent,
     this.icon = '',
+    this.borderRadius = 16,
     super.key,
   });
 
@@ -73,8 +75,8 @@ class Button extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             color: buttonColor,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: customBorderColor), 
+            borderRadius: BorderRadius.circular(borderRadius),
+            border: Border.all(color: customBorderColor),
           ),
           width: double.infinity,
           child: Row(
@@ -84,7 +86,7 @@ class Button extends StatelessWidget {
                 Image.asset(
                   icon,
                 ),
-              SizedBox(width: icon != '' ? 9.0 : 0), 
+              SizedBox(width: icon != '' ? 9.0 : 0),
               AutoSizeText(
                 text,
                 textAlign: TextAlign.center,

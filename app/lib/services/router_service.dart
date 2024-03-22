@@ -7,6 +7,7 @@ import '../features/main/presentation/pages/_pages.dart';
 import '../features/material/menu/presentation/pages/_pages.dart';
 import '../features/material/viewer/presentation/pages/_pages.dart';
 import '../features/onboarding/presentation/pages/_pages.dart';
+import '../features/quiz_download/presentation/pages/_pages.dart';
 import '../features/quiz_exercise/presentation/pages/_pages.dart';
 import '../features/quiz_registration/presentation/pages/_pages.dart';
 import '../features/quiz_result/presentation/pages/_pages.dart';
@@ -47,8 +48,14 @@ GoRouter router = GoRouter(
       builder: (context, state) => const UnderConstructionPage(),
     ),
     GoRoute(
+      path: '/group_task_list',
+      builder: (context, state) => const GroupTaskListPage(),
+    ),
+    GoRoute(
       path: '/task_list',
-      builder: (context, state) => const TaskListPage(),
+      builder: (context, state) => TaskListPage(
+        challengeGroup: state.queryParameters['challenge_group'],
+      ),
     ),
     GoRoute(
       path: '/task_detail',
@@ -65,6 +72,10 @@ GoRouter router = GoRouter(
     GoRoute(
       path: '/quiz_registration',
       builder: (context, state) => const QuizRegistrationPage(),
+    ),
+    GoRoute(
+      path: '/quiz_download',
+      builder: (context, state) => const QuizDownloadPage(),
     ),
     GoRoute(
       path: '/quiz_result',

@@ -28,24 +28,35 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
     });
   }
 
+  void updateIsRunningWeekSelected({required bool newValue}) {
+    setState(() {
+      isRunningWeekSelected = newValue;
+    });
+  }
+
+  void updateIsNextWeekSelected({required bool newValue}) {
+    setState(() {
+      isNextWeekSelected = newValue;
+    });
+  }
+
   Future<void> checkRunningWeeklyQuiz() async {
     final check =
         await QuizService().checkParticipantWeeklyQuiz('running_weekly_quiz');
-    setState(() {
-      isRunningWeekSelected = check;
-    });
+    updateIsRunningWeekSelected(newValue: check);
   }
 
   Future<void> checkNextWeeklyQuiz() async {
     final check =
         await QuizService().checkParticipantWeeklyQuiz('next_weekly_quiz');
-    setState(() {
-      isNextWeekSelected = check;
-    });
+    updateIsNextWeekSelected(newValue: check);
   }
+
 
   Widget quizCard(WeeklyQuizParticipation weeklyQuizParticipant, String date,
       String score, String level, BuildContext context) {
+        
+    final formattedDate =  (date.isNotEmpty && date != '-') ? DateFormat('dd MMMM yyyy HH:mm', 'id_ID').format(DateTime.parse(date)) : '-';
     return InkWell(
       onTap: () async {
         await context.push(
@@ -101,7 +112,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
           Row(
             children: [
               Text(
-                'Dikerjakan: $date',
+                'Dikerjakan: $formattedDate',
                 style: const TextStyle(fontSize: 12),
               )
             ],
@@ -164,15 +175,17 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                             context
                                 .read<QuizRegistrationCubit>()
                                 .registerParticipant('sikecil', selectedWeek);
-                            checkNextWeeklyQuiz();
-                            checkRunningWeeklyQuiz();
+                            if (selectedWeek == 'next_weekly_quiz') {
+                              updateIsNextWeekSelected(newValue: true);
+                            } else {
+                              updateIsRunningWeekSelected(newValue: true);
+                            }
                             selectWeek('');
                             Navigator.pop(context);
                           },
                           customButtonColor: Colors.blue.shade400,
                           customTextColor: Colors.white,
                           text: 'siKecil',
-                          // isDisabled: true,
                         )),
                     const SizedBox(
                       height: 15,
@@ -185,8 +198,11 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                             context
                                 .read<QuizRegistrationCubit>()
                                 .registerParticipant('siaga', selectedWeek);
-                            checkNextWeeklyQuiz();
-                            checkRunningWeeklyQuiz();
+                            if (selectedWeek == 'next_weekly_quiz') {
+                              updateIsNextWeekSelected(newValue: true);
+                            } else {
+                              updateIsRunningWeekSelected(newValue: true);
+                            }
                             selectWeek('');
                             Navigator.pop(context);
                           },
@@ -206,8 +222,11 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                                 .read<QuizRegistrationCubit>()
                                 .registerParticipant(
                                     'penggalang', selectedWeek);
-                            checkNextWeeklyQuiz();
-                            checkRunningWeeklyQuiz();
+                            if (selectedWeek == 'next_weekly_quiz') {
+                              updateIsNextWeekSelected(newValue: true);
+                            } else {
+                              updateIsRunningWeekSelected(newValue: true);
+                            }
                             selectWeek('');
                             Navigator.pop(context);
                           },
@@ -226,8 +245,11 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                             context
                                 .read<QuizRegistrationCubit>()
                                 .registerParticipant('penegak', selectedWeek);
-                            checkNextWeeklyQuiz();
-                            checkRunningWeeklyQuiz();
+                            if (selectedWeek == 'next_weekly_quiz') {
+                              updateIsNextWeekSelected(newValue: true);
+                            } else {
+                              updateIsRunningWeekSelected(newValue: true);
+                            }
                             selectWeek('');
                             Navigator.pop(context);
                           },
@@ -247,7 +269,6 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
               width: double.infinity,
               color: Colors.white,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   const SizedBox(
@@ -256,40 +277,60 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                   Container(
                     margin: const EdgeInsets.only(left: 20),
                     child: const Text(
-                      'Daftar Latihan Bebras',
+                      'Ayo pilih latihanmu!',
                       textAlign: TextAlign.left,
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ),
                   const SizedBox(
                     height: 25,
                   ),
                   Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                      width: double.infinity,
-                      child: Button(
-                        onTap: () =>
-                            setState(() => selectedWeek = 'next_weekly_quiz'),
-                        isDisabled: isNextWeekSelected,
-                        customButtonColor: Colors.green.shade400,
-                        customTextColor: Colors.white,
-                        text: 'Latihan Minggu Depan',
-                      )),
+                    padding: const EdgeInsets.symmetric(horizontal: 40),
+                    width: double.infinity,
+                    child: Button(
+                      onTap: () {
+                        setState(() => selectedWeek = 'running_weekly_quiz');
+                        context
+                            .read<QuizRegistrationCubit>()
+                            .registerParticipant('siaga', selectedWeek);
+                        checkNextWeeklyQuiz();
+                        checkRunningWeeklyQuiz();
+                        selectWeek('');
+                        Navigator.pop(context);
+                        context.push('/quiz_download');
+                      },
+                      // isDisabled: isRunningWeekSelected,
+                      customButtonColor: const Color(0xFF1BB8E1),
+                      customTextColor: Colors.white,
+                      text: 'Unduh Latihan Minggu Ini',
+                    ),
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
                   Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                      width: double.infinity,
-                      child: Button(
-                        onTap: () => setState(
-                            () => selectedWeek = 'running_weekly_quiz'),
-                        isDisabled: isRunningWeekSelected,
-                        customButtonColor: Colors.brown.shade400,
-                        customTextColor: Colors.white,
-                        text: 'Latihan Minggu Ini',
-                      ))
+                    padding: const EdgeInsets.symmetric(horizontal: 40),
+                    width: double.infinity,
+                    child: Button(
+                      onTap: () {
+                        setState(() => selectedWeek = 'next_weekly_quiz');
+                        context
+                            .read<QuizRegistrationCubit>()
+                            .registerParticipant('siaga', selectedWeek);
+                        checkNextWeeklyQuiz();
+                        checkRunningWeeklyQuiz();
+                        selectWeek('');
+                        Navigator.pop(context);
+                        context.push('/quiz_download');
+                      },
+                      // isDisabled: isNextWeekSelected,
+                      customTextColor: const Color(0xFF1BB8E1),
+                      customButtonColor: const Color(0x1F1BB8E1),
+                      text: 'Latihan Minggu Depan',
+                    ),
+                  ),
                 ],
               ),
             );
@@ -302,117 +343,98 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
   @override
   Widget build(BuildContext context) {
     return BebrasScaffold(
-      body: SingleChildScrollView(
+      body: Container(
+        // padding: const EdgeInsets.all(32),
+        color: const Color(0xFF1BB8E1),
         child: Stack(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(32),
-              child: Column(
-                children: [
-                  Image.asset(
-                    Assets.bebrasPandaiText,
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Latihan yang pernah diikuti',
-                      style: FontTheme.blackSubtitleBold(),
+            Column(
+              children: [
+                const SizedBox(
+                  height: 60,
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(24),
+                    child: Image.asset(
+                      Assets.bLogo,
+                      height: 150,
                     ),
                   ),
-                  BlocConsumer<QuizRegistrationCubit, QuizRegistrationState>(
-                    listener: (context, state) {
-                      if (state is QuizRegistrationSuccess) {
-                        context
-                            .read<QuizRegistrationCubit>()
-                            .fetchParticipantWeeklyQuiz();
-                      }
-                    },
-                    builder: (context, state) {
-                      if (state is QuizRegistrationLoading) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      return SizedBox(
-                        height: MediaQuery.of(context).size.height - 300,
-                        width: double.infinity,
-                        child: BlocConsumer<QuizRegistrationCubit,
-                            QuizRegistrationState>(
-                          listener: (context, state) {
-                            // TODO(someone): implement listener
-                          },
-                          builder: (context, state) {
-                            if (state is GetParticipantWeeklyQuizSuccess) {
-                              if (state.weeklyQuizzes.isEmpty) {
-                                return Container(
-                                  padding: const EdgeInsets.all(10),
-                                  margin: const EdgeInsets.only(
-                                      bottom: 12, top: 12),
-                                  decoration: BoxDecoration(
-                                    color: Colors.blue[50],
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: const Center(
-                                    child: Text(
-                                      'Silahkan klik Tombol `Daftar Latihan Bebras` dibawah untuk memulai',
-                                    ),
-                                  ),
-                                );
-                              }
-                              return ListView(children: [
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                for (final quiz in state.weeklyQuizzes)
-                                  quizCard(
-                                    quiz,
-                                    quiz.attempts.isNotEmpty
-                                        ? quiz
-                                            .attempts[quiz.attempts.length - 1]
-                                            .startAt
-                                            .toString()
-                                        : '-',
-                                    quiz.attempts.isNotEmpty
-                                        ? quiz
-                                            .attempts[quiz.attempts.length - 1]
-                                            .score
-                                            .toString()
-                                        : '??',
-                                    quiz.challenge_group,
-                                    context,
-                                  ),
-                              ]);
-                            }
-
-                            if (state is GetParticipantWeeklyQuizFailed) {
-                              return Text(state.error);
-                            }
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          },
-                        ),
-                      );
-                    },
+                ),
+              ],
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: 300,
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(42),
+                    topRight: Radius.circular(42),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Button(
-                    buttonType: ButtonType.tertiary,
-                    onTap: () async {
-                      await showModal();
-                    },
-                    text: 'Daftar Latihan Bebras',
-                  ),
-                ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Ayo mulai latihanmu!',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    SizedBox(
+                      width: 230,
+                      child: Button(
+                        customTextColor: Colors.white,
+                        customButtonColor: const Color(0xFF1BB8E1),
+                        fontSize: 14,
+                        innerVerticalPadding: 14,
+                        onTap: () async {
+                          await showModal();
+                        },
+                        text: 'Daftar Latihan',
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      width: 230,
+                      child: Button(
+                        customTextColor: const Color(0xFF1BB8E1),
+                        customButtonColor: const Color(0x1F1BB8E1),
+                        fontSize: 14,
+                        innerVerticalPadding: 14,
+                        onTap: () async {
+                          // await showModal();
+                        },
+                        text: 'Riwayat Latihan',
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
         ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.go('/quiz_registration');
+        },
+        child: const FaIcon(FontAwesomeIcons.graduationCap),
+      ),
+      bottomNavigationBar: const BottomNavBar(
+        currentIndex: 2,
       ),
     );
   }

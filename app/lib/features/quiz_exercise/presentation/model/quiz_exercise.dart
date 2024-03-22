@@ -6,18 +6,21 @@ class QuizExerciseBase {
   final String id;
   final String challengeGroup;
   final String title;
+  final String? status;
 
   QuizExerciseBase({
     required this.id,
     required this.challengeGroup,
     required this.title,
+    this.status
   });
 
   factory QuizExerciseBase.fromJson(Map<String, dynamic> json) {
     return QuizExerciseBase(
-      id: json['id'] as String,
+      id: json['doc_id'] as String,
       challengeGroup: json['challenge_group'] as String,
       title: json['title'] as String,
+      status: json['status'] as String?,
     );
   }
 }
@@ -36,6 +39,7 @@ class QuizExercise extends QuizExerciseBase {
     required super.id,
     required super.challengeGroup,
     required super.title,
+    required super.status,
     required this.country,
     required this.source,
     required this.type,
@@ -49,6 +53,7 @@ class QuizExercise extends QuizExerciseBase {
       id: json['id'] as String,
       challengeGroup: json['challenge_group'] as String,
       title: json['title'] as String,
+      status: json['status'] as String?,
       country: json['country'] as String,
       source: json['source'] as String,
       type: json['type'] as String,

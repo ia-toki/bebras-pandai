@@ -1,5 +1,6 @@
 part of '_pages.dart';
 
+
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
@@ -8,7 +9,9 @@ class SplashScreen extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return BlocListener<UserInitializationBloc, UserInitializationState>(
       listener: (context, state) {
-        if (state is UserUnauthenticated) {
+        if (state is UpdateAvailable) { 
+          showUpdateDialog(context);
+        } else if (state is UserUnauthenticated) {
           context.go('/onboarding');
         } else if (state is UserUnregistered) {
           context.go('/register');
@@ -34,4 +37,13 @@ class SplashScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+void showUpdateDialog(BuildContext context) {
+  showDialog<Widget>(
+    context: context,
+    builder: (BuildContext context) {
+      return const UpdateDialog();
+    },
+  );
 }
