@@ -14,17 +14,21 @@ class QuizExerciseLoading extends QuizExerciseState {}
 class QuizExerciseShow extends QuizExerciseState {
   final QuizExercise quizExercise;
   final WeeklyQuiz quiz;
+  final QuizExerciseAnswer answer;
+  final QuizExerciseAttempt attempt;
   final Duration remainingDuration;
-  final String selectedAnswer;
-  final String shortAnswer;
   final String modalErrorMessage;
+  final int currentProblemIndex;
+  final int totalProblem;
 
   const QuizExerciseShow({
     required this.quiz,
     required this.quizExercise,
     required this.remainingDuration,
-    this.shortAnswer = '',
-    this.selectedAnswer = '',
+    required this.currentProblemIndex,
+    required this.totalProblem,
+    required this.attempt,
+    required this.answer,
     this.modalErrorMessage = '',
   });
 
@@ -33,11 +37,13 @@ class QuizExerciseShow extends QuizExerciseState {
         quiz,
         quizExercise,
         remainingDuration,
-        selectedAnswer,
-        shortAnswer,
+        answer,
+        attempt,
         modalErrorMessage,
       ];
 }
+
+class QuizExerciseFinalization extends QuizExerciseState {}
 
 class QuizExerciseFinished extends QuizExerciseState {
   final String quizParticipantId;

@@ -3,14 +3,14 @@ class QuizExerciseAnswer {
   List<String> correctAnswer;
   String taskChallengeGroup;
   String taskId;
-  String verdict;
+  String? verdict;
 
   QuizExerciseAnswer({
+    required this.taskId,
     required this.answer,
     required this.correctAnswer,
     required this.taskChallengeGroup,
-    required this.taskId,
-    required this.verdict,
+    this.verdict,
   });
 
   Map<String, Object?> toJson() {
