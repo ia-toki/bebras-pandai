@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/bases/enum/button_type.dart';
 import '../../../../core/bases/widgets/atoms/button.dart';
 import '../../../../core/bases/widgets/atoms/html_cached_image.dart';
-import '../../../../core/theme/font_theme.dart';
+import '../../../../core/constants/assets.dart';
 import '../../../authentication/register/presentation/widgets/custom_text_field.dart';
 import '../bloc/quiz_exercise_cubit.dart';
 import '../model/quiz_exercise.dart';
@@ -32,22 +32,22 @@ class TaskDialog extends StatelessWidget {
         content: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Text(
-                  'Pertanyaan',
-                  style: FontTheme.blackTextBold(),
-                ),
-              ),
-              SizedBox(
-                width: 400,
-                height: 200,
-                child: SingleChildScrollView(
-                  child: HtmlWithCachedImages(data: task.question.content),
-                ),
-              ),
-              if (!preview)
+              // Container(
+              //   alignment: Alignment.centerLeft,
+              //   padding: const EdgeInsets.symmetric(horizontal: 8),
+              //   child: Text(
+              //     'Pertanyaan',
+              //     style: FontTheme.blackTextBold(),
+              //   ),
+              // ),
+              // SizedBox(
+              //   width: 400,
+              //   height: 200,
+              //   child: SingleChildScrollView(
+              //     child: HtmlWithCachedImages(data: task.question.content),
+              //   ),
+              // ),
+              // if (!preview)
                 ...task.question.options!.asMap().entries.map((e) {
                   final current = String.fromCharCode(65 + e.key);
 
@@ -62,13 +62,15 @@ class TaskDialog extends StatelessWidget {
                           children: [
                             Text('$current. '),
                             task.type == 'MULTIPLE_CHOICE_IMAGE'
-                                ? Image.network(
-                                    e.value.content,
-                                    width:
-                                        MediaQuery.of(context).size.width - 240,
+                                ? 
+                                 Image.network(
+                  e.value.content.replaceAll(Assets.sourceImg, Assets.urlImg), 
+                  width: MediaQuery.of(context).size.width - 240,
                                   )
                                 : Flexible(
-                                    child: Text(e.value.content),
+                                    child: HtmlWithCachedImages(
+                                        data:e.value.content
+                                    ),
                                   )
                           ],
                         ),
@@ -83,7 +85,7 @@ class TaskDialog extends StatelessWidget {
                     },
                   );
                 }),
-              if (!preview)
+              // if (!preview)
                 task.type == 'SHORT_ANSWER'
                     ? Container(
                         padding: const EdgeInsets.only(top: 20),
@@ -109,45 +111,51 @@ class TaskDialog extends StatelessWidget {
               },
             ),
           ),
-          SizedBox(
-            width: 100,
-            height: 50,
-            child: Button(
-              buttonType: ButtonType.tertiary,
-              text: 'OK',
-              onTap: () {
-                var error = '';
-                if (task.type == 'SHORT_ANSWER') {
-                  if (shortAnswer == '') {
-                    error = 'Isi jawaban anda';
+
+          if (!preview)
+            SizedBox(
+              width: 100,
+              height: 50,
+              child: Button(
+                buttonType: ButtonType.tertiary,
+                text: 'OK',
+                onTap: () {
+                  var error = '';
+                  if (task.type == 'SHORT_ANSWER') {
+                    if (shortAnswer == '') {
+                      error = 'Isi jawaban anda';
+                    }
+                  } else {
+                    if (selectedAnswer == '') {
+                      error = 'Pilih salah satu jawaban';
+                    }
                   }
-                } else {
-                  if (selectedAnswer == '') {
-                    error = 'Pilih salah satu jawaban';
+
+                  if (error != '') {
+                    final snackBar = SnackBar(
+                      backgroundColor: Colors.red,
+                      duration: const Duration(seconds: 1),
+                      behavior: SnackBarBehavior.floating,
+                      margin:
+                          const EdgeInsets.only(
+                            bottom: 50, 
+                            left: 10, 
+                            right: 10
+                          ),
+                      content: Text(error),
+                    );
+
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+                    error = '';
+                    return;
                   }
-                }
 
-                if (error != '') {
-                  final snackBar = SnackBar(
-                    backgroundColor: Colors.red,
-                    duration: const Duration(seconds: 1),
-                    behavior: SnackBarBehavior.floating,
-                    margin:
-                        const EdgeInsets.only(bottom: 50, left: 10, right: 10),
-                    content: Text(error),
-                  );
-
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                  error = '';
-                  return;
-                }
-
-                context.read<QuizExerciseCubit>().submitAnswer();
-                Navigator.pop(context);
-              },
+                  context.read<QuizExerciseCubit>().submitAnswer();
+                  Navigator.pop(context);
+                },
+              ),
             ),
-          ),
         ],
       ),
     );

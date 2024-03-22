@@ -40,6 +40,11 @@ class UserRegistered extends UserInitializationState {
   List<Object> get props => [];
 }
 
+class UpdateAvailable extends UserInitializationState {
+  @override
+  List<Object> get props => [];
+}
+
 class UserGetDataLoading extends UserInitializationState {
   @override
   List<Object> get props => [];

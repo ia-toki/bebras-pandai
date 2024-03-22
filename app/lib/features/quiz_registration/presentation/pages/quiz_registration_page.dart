@@ -43,21 +43,20 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
   Future<void> checkRunningWeeklyQuiz() async {
     final check =
         await QuizService().checkParticipantWeeklyQuiz('running_weekly_quiz');
-    setState(() {
-      isRunningWeekSelected = check;
-    });
+    updateIsRunningWeekSelected(newValue: check);
   }
 
   Future<void> checkNextWeeklyQuiz() async {
     final check =
         await QuizService().checkParticipantWeeklyQuiz('next_weekly_quiz');
-    setState(() {
-      isNextWeekSelected = check;
-    });
+    updateIsNextWeekSelected(newValue: check);
   }
+
 
   Widget quizCard(WeeklyQuizParticipation weeklyQuizParticipant, String date,
       String score, String level, BuildContext context) {
+        
+    final formattedDate =  (date.isNotEmpty && date != '-') ? DateFormat('dd MMMM yyyy HH:mm', 'id_ID').format(DateTime.parse(date)) : '-';
     return InkWell(
       onTap: () async {
         await context.push(
@@ -113,7 +112,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
           Row(
             children: [
               Text(
-                'Dikerjakan: $date',
+                'Dikerjakan: $formattedDate',
                 style: const TextStyle(fontSize: 12),
               )
             ],
