@@ -23,6 +23,10 @@ GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/onboarding',
+      builder: (context, state) => const OnboardingPage(),
+    ),
+    GoRoute(
+      path: '/login',
       builder: (context, state) => const LoginPage(),
     ),
     GoRoute(
