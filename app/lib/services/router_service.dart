@@ -32,13 +32,7 @@ GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/onboarding',
-      builder: (context, state) => const OnboardingPage(),
-    ),
-    GoRoute(
-      path: '/login',
-      builder: (context, state) {
-        return const LoginPage();
-      },
+      builder: (context, state) => const LoginPage(),
     ),
     GoRoute(
         path: '/register',

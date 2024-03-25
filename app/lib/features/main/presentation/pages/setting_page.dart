@@ -116,7 +116,7 @@ class _SettingPageState extends State<SettingPage> {
                     onTap: () async {
                       await FirebaseAuth.instance.signOut();
                       await GoogleSignIn().signOut();
-                      context.go('/login');
+                      context.go('/onboarding');
                     },
                     customButtonColor: Colors.red.shade900,
                     customTextColor: Colors.white,

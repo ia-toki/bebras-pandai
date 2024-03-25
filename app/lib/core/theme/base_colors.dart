@@ -26,7 +26,4 @@ class BaseColors {
   static const Color yellow = Color(0xFFfeb451);
   static const Color asparagus = Color(0xFF6da34d);
   static const Color grey = Colors.grey;
-  static const Color brightBlue = Color(0xFF1BB8E1);
-  static const Color greyCustome = Color(0xFFD9D9D9);
-
 }

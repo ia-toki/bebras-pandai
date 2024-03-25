@@ -25,29 +25,28 @@ class _LoginPageState extends State<LoginPage> {
         child: Stack(
           children: [
             Image.asset(
-              Assets.iconLogin,
+              Assets.studyBackground,
               fit: BoxFit.cover,
-              height: size.height * 0.30,
-              width: double.infinity,
+              height: size.height * 0.45,
             ),
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
                 padding: const EdgeInsets.all(32),
-                height: size.height * 0.55,
+                height: size.height * 0.6,
                 width: size.width,
-                // decoration: BoxDecoration(
-                //   borderRadius: BorderRadius.circular(32),
-                //   color: Colors.white,
-                // ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(32),
+                  color: Colors.white,
+                ),
                 child: Column(
                   children: [
-                    // Image.asset(
-                    //   Assets.bebrasPandaiText,
-                    // ),
-                    // const SizedBox(
-                    //   height: 100,
-                    // ),
+                    Image.asset(
+                      Assets.bebrasPandaiText,
+                    ),
+                    const SizedBox(
+                      height: 100,
+                    ),
                     const Text(
                       'Selamat Datang di Aplikasi Bebras Pandai!',
                       textAlign: TextAlign.center,
@@ -63,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                       'Yuk cari tahu seberapa tajam logikamu!',
                     ),
                     const SizedBox(
-                      height: 50,
+                      height: 24,
                     ),
                     BlocConsumer<SignInBloc, SignInState>(
                       bloc: _signInBloc,
@@ -80,9 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                           width: 200,
                           child: Button(
                             text: 'Login with Google',
-                            buttonType: ButtonType.secondary,
-                            customBorderColor: BaseColors.black,
-                            icon: Assets.iconGoogle,
+                            buttonType: ButtonType.primary,
                             onTap: () {
                               if (state is! SignInLoadingState) {
                                 _signInBloc.add(
