@@ -2,6 +2,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/authentication/register/presentation/pages/_pages.dart';
+import '../features/authentication/register/presentation/pages/v2/_pages.dart';
 import '../features/authentication/signin/presentation/pages/_pages.dart';
 import '../features/authentication/signin/presentation/pages/v2/_pages.dart';
 import '../features/error/presentation/pages/_pages.dart';
@@ -54,7 +55,9 @@ GoRouter router = GoRouter(
               isUpdateProfile: state.queryParameters['isUpdateProfile'],
             );
           } else if (dotenv.env['APP_VERSION'] == 'V2') {
-            // return const V2RegisterPage();
+            return RegisterPageV2(
+              isUpdateProfile: state.queryParameters['isUpdateProfile'],
+            );
           }
           return RegisterPage(
             isUpdateProfile: state.queryParameters['isUpdateProfile'],
