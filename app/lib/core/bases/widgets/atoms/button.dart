@@ -30,9 +30,9 @@ class Button extends StatelessWidget {
     this.fontSize = 16,
     this.customButtonColor = Colors.transparent,
     this.customTextColor = BaseColors.black,
+    this.borderRadius = 16,
     this.customBorderColor = Colors.transparent,
     this.icon = '',
-    this.borderRadius = 16,
     super.key,
   });
 

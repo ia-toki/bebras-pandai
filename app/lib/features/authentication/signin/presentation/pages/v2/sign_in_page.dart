@@ -1,13 +1,13 @@
 part of '_pages.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class LoginPageV2 extends StatefulWidget {
+  const LoginPageV2({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginPageV2> createState() => _LoginPageV2State();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageV2State extends State<LoginPageV2> {
   late final SignInBloc _signInBloc;
 
   @override
@@ -25,28 +25,29 @@ class _LoginPageState extends State<LoginPage> {
         child: Stack(
           children: [
             Image.asset(
-              Assets.studyBackground,
+              Assets.iconLogin,
               fit: BoxFit.cover,
-              height: size.height * 0.45,
+              height: size.height * 0.30,
+              width: double.infinity,
             ),
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
                 padding: const EdgeInsets.all(32),
-                height: size.height * 0.6,
+                height: size.height * 0.55,
                 width: size.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(32),
-                  color: Colors.white,
-                ),
+                // decoration: BoxDecoration(
+                //   borderRadius: BorderRadius.circular(32),
+                //   color: Colors.white,
+                // ),
                 child: Column(
                   children: [
-                    Image.asset(
-                      Assets.bebrasPandaiText,
-                    ),
-                    const SizedBox(
-                      height: 100,
-                    ),
+                    // Image.asset(
+                    //   Assets.bebrasPandaiText,
+                    // ),
+                    // const SizedBox(
+                    //   height: 100,
+                    // ),
                     const Text(
                       'Selamat Datang di Aplikasi Bebras Pandai!',
                       textAlign: TextAlign.center,
@@ -62,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                       'Yuk cari tahu seberapa tajam logikamu!',
                     ),
                     const SizedBox(
-                      height: 24,
+                      height: 50,
                     ),
                     BlocConsumer<SignInBloc, SignInState>(
                       bloc: _signInBloc,
@@ -79,7 +80,9 @@ class _LoginPageState extends State<LoginPage> {
                           width: 200,
                           child: Button(
                             text: 'Login with Google',
-                            buttonType: ButtonType.primary,
+                            buttonType: ButtonType.secondary,
+                            customBorderColor: BaseColors.black,
+                            icon: Assets.iconGoogle,
                             onTap: () {
                               if (state is! SignInLoadingState) {
                                 _signInBloc.add(

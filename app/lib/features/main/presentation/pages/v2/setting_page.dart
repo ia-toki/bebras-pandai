@@ -276,7 +276,7 @@
 //                         onTap: () async {
 //                           await FirebaseAuth.instance.signOut();
 //                           await GoogleSignIn().signOut();
-//                           context.go('/onboarding');
+//                           context.go('/login');
 //                         },
 //                         child: Container(
 //                         padding:
