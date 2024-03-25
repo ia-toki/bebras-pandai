@@ -3,11 +3,13 @@ import 'package:go_router/go_router.dart';
 
 import '../features/authentication/register/presentation/pages/_pages.dart';
 import '../features/authentication/signin/presentation/pages/_pages.dart';
+import '../features/authentication/signin/presentation/pages/v2/_pages.dart';
 import '../features/error/presentation/pages/_pages.dart';
 import '../features/main/presentation/pages/_pages.dart';
 import '../features/material/menu/presentation/pages/_pages.dart';
 import '../features/material/viewer/presentation/pages/_pages.dart';
 import '../features/onboarding/presentation/pages/_pages.dart';
+import '../features/onboarding/presentation/pages/v2/_pages.dart';
 import '../features/quiz_download/presentation/pages/_pages.dart';
 import '../features/quiz_exercise/presentation/pages/_pages.dart';
 import '../features/quiz_registration/presentation/pages/_pages.dart';
@@ -25,14 +27,24 @@ GoRouter router = GoRouter(
         if (dotenv.env['APP_VERSION'] == 'V1') {
           return const SplashScreen();
         } else if (dotenv.env['APP_VERSION'] == 'V2') {
-          // return const V2SplashScreen();
+          return const SplashScreenV2();
         }
         return const SplashScreen();
       },
     ),
     GoRoute(
-      path: '/onboarding',
-      builder: (context, state) => const LoginPage(),
+        path: '/onboarding',
+        builder: (context, state) {
+          if (dotenv.env['APP_VERSION'] == 'V1') {
+            return const LoginPage();
+          } else if (dotenv.env['APP_VERSION'] == 'V2') {
+            return const OnboardingPageV2();
+          }
+          return const LoginPage();
+        }),
+    GoRoute(
+      path: '/login',
+      builder: (context, state) => const LoginPageV2(),
     ),
     GoRoute(
         path: '/register',
