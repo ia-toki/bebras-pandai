@@ -46,7 +46,7 @@ class TaskDialog extends StatelessWidget {
               //   ),
               // ),
               // if (!preview)
-              ...task.question.options!.asMap().entries.map((e) {
+              ...task.question.options.asMap().entries.map((e) {
                 final current = String.fromCharCode(65 + e.key);
 
                 return RadioListTile(
@@ -85,9 +85,14 @@ class TaskDialog extends StatelessWidget {
               task.type == 'SHORT_ANSWER'
                   ? Container(
                       padding: const EdgeInsets.only(top: 20),
-                      child: CustomTextField('Jawaban anda', (value) {
-                        context.read<QuizExerciseCubit>().fillAnswer(value);
-                      }, (p0) => null, ''),
+                      child: CustomTextField(
+                        'Jawaban anda',
+                        (value) {
+                          context.read<QuizExerciseCubit>().fillAnswer(value);
+                        },
+                        (p0) => null,
+                        answer,
+                      ),
                     )
                   : Container(),
               if (!preview)

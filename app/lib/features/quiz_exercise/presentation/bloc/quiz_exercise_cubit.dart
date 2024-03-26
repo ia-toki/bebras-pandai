@@ -77,6 +77,10 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
               quizExercise.type == 'SHORT_ANSWER')
           .toList();
 
+      problemIdList = problemList
+          .map((quizExercise) => quizExercise.id) // Extracting ids
+          .toList();
+
       // TODO(someone): fix the check logic later
       // if (weeklyQuizParticipant.attempts.isEmpty) {
       answerList = problemList
