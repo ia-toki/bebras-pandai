@@ -70,6 +70,12 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
       // Fetch all quiz data
       problemList = await quizExerciseRepository.getListQuizExercise(
           taskIds: problemIdList);
+      problemList = problemList
+          .where((quizExercise) =>
+              quizExercise.type == 'MULTIPLE_CHOICE' ||
+              quizExercise.type == 'MULTIPLE_CHOICE_IMAGE' ||
+              quizExercise.type == 'SHORT_ANSWER')
+          .toList();
 
       // TODO(someone): fix the check logic later
       // if (weeklyQuizParticipant.attempts.isEmpty) {
@@ -157,8 +163,8 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
   }
 
   Future<void> submitAnswer() async {
-    var currentProblem = problemList[currentProblemIndex];
-    var answer = answerList[currentProblemIndex].answer;
+    final currentProblem = problemList[currentProblemIndex];
+    final answer = answerList[currentProblemIndex].answer;
     if (answer == '') {
       emit(
         QuizExerciseShow(
