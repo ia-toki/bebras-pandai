@@ -54,7 +54,9 @@ GoRouter router = GoRouter(
               isUpdateProfile: state.queryParameters['isUpdateProfile'],
             );
           } else if (dotenv.env['APP_VERSION'] == 'V2') {
-            // return const V2RegisterPage();
+            return RegisterPageV2(
+              isUpdateProfile: state.queryParameters['isUpdateProfile'],
+            );
           }
           return RegisterPage(
             isUpdateProfile: state.queryParameters['isUpdateProfile'],
