@@ -188,9 +188,9 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
     }
 
     var verdict = 'INCORRECT';
-    if (currentProblem.type == 'MULTIPLE_CHOICE' ||
-        currentProblem.type == 'MULTIPLE_CHOICE_IMAGE' &&
-            currentProblem.answer.correctAnswer.contains(answer)) {
+    if ((currentProblem.type == 'MULTIPLE_CHOICE' ||
+            currentProblem.type == 'MULTIPLE_CHOICE_IMAGE') &&
+        currentProblem.answer.correctAnswer.contains(answer)) {
       verdict = 'CORRECT';
     }
     if (currentProblem.type == 'SHORT_ANSWER' &&
@@ -206,7 +206,7 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
         .where((e) => e.verdict != null && e.verdict == 'CORRECT')
         .length;
     attempt.totalIncorrect = answerList
-        .where((e) => e.verdict == null && e.verdict == 'INCORRECT')
+        .where((e) => e.verdict != null && e.verdict == 'INCORRECT')
         .length;
 
     toNextQuestion();
