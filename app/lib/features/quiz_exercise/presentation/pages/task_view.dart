@@ -177,7 +177,7 @@ class TaskView extends StatelessWidget {
                       ),
                     ),
                     if (attempt.totalBlank == 0)
-                      SizedBox(
+                      const SizedBox(
                         height: 12,
                       ),
                     if (attempt.totalBlank == 0)
@@ -189,7 +189,7 @@ class TaskView extends StatelessWidget {
                           text: 'FINISH',
                           buttonType: ButtonType.tertiary,
                           onTap: () {
-                            context.read<QuizExerciseCubit>().toNextQuestion();
+                            context.read<QuizExerciseCubit>().finishExercise();
                           },
                         ),
                       ),

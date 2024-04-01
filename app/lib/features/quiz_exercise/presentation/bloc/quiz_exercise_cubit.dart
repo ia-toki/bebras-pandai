@@ -209,21 +209,7 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
         .where((e) => e.verdict == null && e.verdict == 'INCORRECT')
         .length;
 
-    if (currentProblemIndex < problemIdList.length) {
-      currentProblemIndex++;
-    }
-
-    emit(
-      QuizExerciseShow(
-        quiz: quiz,
-        quizExercise: problemList[currentProblemIndex],
-        remainingDuration: Duration(seconds: remainingDuration),
-        attempt: attempt,
-        answer: answerList[currentProblemIndex],
-        currentProblemIndex: currentProblemIndex,
-        totalProblem: problemIdList.length,
-      ),
-    );
+    toNextQuestion();
   }
 
   Future<void> finishExercise() async {
