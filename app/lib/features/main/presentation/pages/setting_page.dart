@@ -479,6 +479,16 @@ class _SettingPageState extends State<SettingPage> {
           ),
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.go('/quiz_registration');
+        },
+        child: const FaIcon(FontAwesomeIcons.graduationCap),
+      ),
+      bottomNavigationBar: const BottomNavBar(
+        currentIndex: 1,
+      ),
     );
   }
 }
