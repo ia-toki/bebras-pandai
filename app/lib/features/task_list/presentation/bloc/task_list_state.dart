@@ -6,7 +6,7 @@ abstract class TaskListState {}
 class TaskListInitial extends TaskListState {}
 
 class TaskListSuccess extends TaskListState {
-  final List<QuizExercise> taskList;
+  final List<QuizExerciseBase> taskList;
 
   TaskListSuccess({required this.taskList});
   List<Object> get props => [taskList];

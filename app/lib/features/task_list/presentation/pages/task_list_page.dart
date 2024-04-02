@@ -3,7 +3,8 @@
 part of '_pages.dart';
 
 class TaskListPage extends StatefulWidget {
-  const TaskListPage({super.key});
+  final String? challengeGroup;
+  const TaskListPage({super.key, this.challengeGroup});
 
   @override
   State<TaskListPage> createState() => _TaskListPageState();
@@ -12,7 +13,7 @@ class TaskListPage extends StatefulWidget {
 class _TaskListPageState extends State<TaskListPage> {
   @override
   void initState() {
-    context.read<TaskListCubit>().initialize();
+    context.read<TaskListCubit>().initialize(group: widget.challengeGroup);
     super.initState();
   }
 
@@ -25,12 +26,21 @@ class _TaskListPageState extends State<TaskListPage> {
             Padding(
               padding: const EdgeInsets.all(32),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Image.asset(
                     Assets.bebrasPandaiText,
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 25,
+                  ),
+                  Text(
+                    widget.challengeGroup!,
+                    textAlign: TextAlign.left,
+                    style: FontTheme.blackTextBold()
+                  ),
+                  const SizedBox(
+                    height: 14,
                   ),
                   BlocBuilder<TaskListCubit, TaskListState>(
                     builder: (context, state) {
@@ -56,14 +66,38 @@ class _TaskListPageState extends State<TaskListPage> {
     );
   }
 
-  Widget buildTaskItem(QuizExercise task) {
+  Widget buildTaskItem(QuizExerciseBase task) {
+    var statusText = '';
+    // Mengambil teks status berdasarkan nilai task.status
+    if (task.status != null) {
+      for (final item in dropdownItems) {
+        if (item['value'] == task.status) {
+          statusText = item['text'] ?? '';
+          break;
+        }
+      }
+    }
+
     return GestureDetector(
       onTap: () {
+        String cleanedTaskId;
+        if (task.id.startsWith('penegak_')) {
+          cleanedTaskId = task.id.replaceFirst('penegak_', ''); 
+        } else if (task.id.startsWith('sikecil_')) {
+          cleanedTaskId = task.id.replaceFirst('sikecil_', '');
+        } else if (task.id.startsWith('penggalang_')) {
+          cleanedTaskId = task.id.replaceFirst('penggalang_', '');
+        } else if (task.id.startsWith('siaga_')) {
+          cleanedTaskId = task.id.replaceFirst('siaga_', '');
+        } else {
+          cleanedTaskId = task.id;
+        }
+
         context.push(
           Uri(
             path: '/task_detail',
             queryParameters: {
-              'task_id': task.id,
+              'task_id': cleanedTaskId,
             },
           ).toString(),
         );
@@ -84,7 +118,7 @@ class _TaskListPageState extends State<TaskListPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(task.id),
-                    Text(task.challengeGroup),
+                    Text(statusText),
                   ],
                 ),
                 const SizedBox(height: 8),

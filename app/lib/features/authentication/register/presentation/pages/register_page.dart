@@ -114,22 +114,22 @@ class _RegisterPageState extends State<RegisterPage> {
                         },
                         state.name.value,
                       ),
-                      CustomDatePicker(
-                        'Tanggal Lahir',
-                        (value) {
-                          BlocProvider.of<UserRegisterBloc>(context).add(
-                            BirthDateEvent(
-                              birthDate: BlocFormItem(
-                                value: value,
-                              ),
-                            ),
-                          );
-                        },
-                        (val) {
-                          return state.birthDate.error;
-                        },
-                        state.birthDate.value,
-                      ),
+                      // CustomDatePicker(
+                      //   'Tanggal Lahir',
+                      //   (value) {
+                      //     BlocProvider.of<UserRegisterBloc>(context).add(
+                      //       BirthDateEvent(
+                      //         birthDate: BlocFormItem(
+                      //           value: value,
+                      //         ),
+                      //       ),
+                      //     );
+                      //   },
+                      //   (val) {
+                      //     return state.birthDate.error;
+                      //   },
+                      //   state.birthDate.value,
+                      // ),
                       CustomTextField(
                         'Sekolah',
                         (value) {
@@ -164,24 +164,24 @@ class _RegisterPageState extends State<RegisterPage> {
                             ? state.province.value
                             : 'Provinsi',
                       ),
-                      BiroBebrasDropdown(
-                        'Bebras Biro',
-                        (value) {
-                          BlocProvider.of<UserRegisterBloc>(context).add(
-                            BebrasBiroEvent(
-                              bebrasBiro: BlocFormItem(
-                                value: value,
-                              ),
-                            ),
-                          );
-                        },
-                        (val) {
-                          return state.bebrasBiro.error;
-                        },
-                        state.bebrasBiro.value.isNotEmpty
-                            ? state.bebrasBiro.value
-                            : 'Bebras Biro',
-                      ),
+                      // BiroBebrasDropdown(
+                      //   'Bebras Biro',
+                      //   (value) {
+                      //     BlocProvider.of<UserRegisterBloc>(context).add(
+                      //       BebrasBiroEvent(
+                      //         bebrasBiro: BlocFormItem(
+                      //           value: value,
+                      //         ),
+                      //       ),
+                      //     );
+                      //   },
+                      //   (val) {
+                      //     return state.bebrasBiro.error;
+                      //   },
+                      //   state.bebrasBiro.value.isNotEmpty
+                      //       ? state.bebrasBiro.value
+                      //       : 'Bebras Biro',
+                      // ),
                       const SizedBox(height: 20),
                       BlocConsumer<UserRegisterBloc, RegisterFormState>(
                         bloc: _userRegisterBloc,

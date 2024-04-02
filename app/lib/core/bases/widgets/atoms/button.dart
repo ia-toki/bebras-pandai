@@ -15,6 +15,9 @@ class Button extends StatelessWidget {
   final double fontSize;
   final Color customButtonColor;
   final Color customTextColor;
+  final Color customBorderColor;
+  final String icon;
+  final double borderRadius;
 
   const Button({
     required this.text,
@@ -27,6 +30,9 @@ class Button extends StatelessWidget {
     this.fontSize = 16,
     this.customButtonColor = Colors.transparent,
     this.customTextColor = BaseColors.black,
+    this.borderRadius = 16,
+    this.customBorderColor = Colors.transparent,
+    this.icon = '',
     super.key,
   });
 
@@ -69,18 +75,29 @@ class Button extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             color: buttonColor,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(borderRadius),
+            border: Border.all(color: customBorderColor),
           ),
           width: double.infinity,
-          child: AutoSizeText(
-            text,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: textColor,
-              fontSize: fontSize,
-              fontWeight: FontWeight.w600,
-            ),
-            minFontSize: 2,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (icon != '')
+                Image.asset(
+                  icon,
+                ),
+              SizedBox(width: icon != '' ? 9.0 : 0),
+              AutoSizeText(
+                text,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: fontSize,
+                  fontWeight: FontWeight.w600,
+                ),
+                minFontSize: 2,
+              ),
+            ],
           ),
         ),
       ),

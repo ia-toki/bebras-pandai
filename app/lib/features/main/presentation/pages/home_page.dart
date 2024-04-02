@@ -7,13 +7,6 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-final List<String> imgList = [
-  'https://pandai.bebras.or.id/img/carousel5.ad104915.png',
-  'https://pandai.bebras.or.id/img/banner2023.95952847.jpeg',
-  'https://pandai.bebras.or.id/img/bebrasBanner.96a43a30.jpg',
-  'https://pandai.bebras.or.id/img/grow-with-google-bebras-id.8d80a623.jpg',
-];
-
 class Course {
   String title;
   String description;
@@ -22,119 +15,143 @@ class Course {
 }
 
 class _HomePageState extends State<HomePage> {
+  String version = '';
+
   @override
   void initState() {
     context.read<HomeCubit>().fetchUser();
+    _loadVersion();
     super.initState();
+  }
+
+  Future<void> _loadVersion() async {
+    try {
+      final yamlMap =
+          loadYaml(await rootBundle.loadString('pubspec.yaml')); 
+      final versionWithBuildNumber =
+          yamlMap['version'] as String; 
+      final parts = versionWithBuildNumber.split('+'); 
+      setState(() {
+        version = parts[0];
+      });
+    } catch (e) {
+      print('Error loading version: $e');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return BebrasScaffold(
-      body: Stack(
-        children: [
-          ClipPath(
-            clipper: ClipPathClass(),
-            child: Container(
-              height: 250,
-              color: const Color(0xFF1BB8E1),
-            ),
-          ),
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 32, right: 32, top: 32, bottom: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    BlocBuilder<HomeCubit, HomeState>(
-                        builder: (context, state) {
-                      if (state is HomeSuccess) {
-                        return RichText(
-                          text: TextSpan(
-                            text: 'Selamat Datang\n',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            children: <TextSpan>[
-                              TextSpan(
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(32),
+              child: Column(
+                children: [
+                  Image.asset(
+                    Assets.bebrasPandaiText,
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
+                    if (state is HomeSuccess) {
+                      return RichText(
+                        text: TextSpan(
+                          text: 'Selamat Datang\n',
+                          style: FontTheme.blackTitle(),
+                          children: <TextSpan>[
+                            TextSpan(
                                 text: toBeginningOfSentenceCase(
                                   '${state.user.name}!',
                                 ),
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
+                                style: FontTheme.blackTitleBold()),
+                          ],
+                        ),
+                      );
+                    }
+                    return Container();
+                  }),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Button(
+                    onTap: () async {
+                      final url = Uri.parse(
+                        'https://bebras.or.id/v3/bebras-indonesia-challenge-2023/',
+                      );
+                      if (!await launchUrl(url)) {
+                        throw Exception('Could not launch $url');
                       }
-                      return Container();
-                    }),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    CarouselSlider(
-                      items: imgList
-                          .map(
-                            (item) => InkWell(
-                              onTap: () async {
-                                final Uri url = Uri.parse(
-                                    'https://bebras.or.id/v3/bebras-indonesia-challenge-2023/');
-                                if (!await launchUrl(url)) {
-                                  throw Exception('Could not launch $url');
-                                }
-                              }, // Handle your callback
-                              child: Container(
-                                margin: const EdgeInsets.only(
-                                  left: 10,
-                                  right: 10,
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.transparent,
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image.network(
-                                    item,
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )
-                          .toList(),
-                      options: CarouselOptions(
-                        height: 150,
-                        viewportFraction: 1,
-                        autoPlay: true,
-                        autoPlayInterval: const Duration(seconds: 3),
+                    },
+                    customButtonColor: Colors.blue,
+                    customTextColor: Colors.white,
+                    text: 'ℹ️  Tentang Tantangan Bebras  ℹ️',
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  Button(
+                    buttonType: ButtonType.primary,
+                    onTap: () async {
+                      await context.push('/material');
+                    },
+                    text: 'Lihat / Cetak Materi',
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  Button(
+                    buttonType: ButtonType.primary,
+                    onTap: () async {
+                      await context.push('/quiz_registration');
+                    },
+                    text: 'Ikut Latihan Mingguan',
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  Button(
+                    onTap: () async {
+                      await context.push('/setting');
+                    },
+                    customButtonColor: Colors.grey,
+                    customTextColor: Colors.white,
+                    text: 'Pengaturan',
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height - 640,
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      final url = Uri.parse(
+                        'https://tlx.toki.id/',
+                      );
+                      if (!await launchUrl(url)) {
+                        throw Exception('Could not launch $url');
+                      }
+                    },
+                    child: Center(
+                      child: Text(
+                        'From Ikatan Alumni TOKI with ❤️',
+                        textAlign: TextAlign.center,
+                        style: FontTheme.greyNormal14(),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  Center(
+                      child: Text(
+                        'V $version',
+                        textAlign: TextAlign.center,
+                        style: FontTheme.greyNormal14(),
+                      ),
+                  ),
+                ],
               ),
-              const MaterialMenu(),
-            ],
-          ),
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.go('/quiz_registration');
-        },
-        child: const FaIcon(FontAwesomeIcons.graduationCap),
-      ),
-      bottomNavigationBar: const BottomNavBar(
-        currentIndex: 0,
+            ),
+          ],
+        ),
       ),
     );
   }

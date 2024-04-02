@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/bases/widgets/layout/bebras_scaffold.dart';
 import '../../../../core/constants/assets.dart';
-import '../../../quiz_registration/presentation/bloc/quiz_registration_cubit.dart';
+import '../../../quiz_download/presentation/bloc/quiz_registration_cubit.dart';
 import '../../../quiz_start/presentation/bloc/quiz_start_cubit.dart';
 import '../bloc/quiz_exercise_cubit.dart';
 import 'task_dialog.dart';

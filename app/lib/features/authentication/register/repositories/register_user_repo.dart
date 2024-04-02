@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../onboarding/model/version_model.dart';
 import '../model/registered_user.dart';
 
 @Injectable()
@@ -12,10 +13,10 @@ class RegisterUserRepository {
     required String userId,
     required dynamic email,
     required String name,
-    required String birthDate,
+    // required String birthDate,
     required String school,
     required String province,
-    required String bebrasBiro,
+    // required String bebrasBiro,
   }) async {
     try {
       final now = DateTime.now();
@@ -23,10 +24,10 @@ class RegisterUserRepository {
         {
           'name': name,
           'email': email,
-          'birth_date': birthDate,
+          // 'birth_date': birthDate,
           'school': school,
           'province': province,
-          'bebras_biro': bebrasBiro,
+          // 'bebras_biro': bebrasBiro,
           'created_at': now,
           'updated_at': now,
         },
@@ -45,20 +46,20 @@ class RegisterUserRepository {
     required String userId,
     required dynamic email,
     required String name,
-    required String birthDate,
+    // required String birthDate,
     required String school,
     required String province,
-    required String bebrasBiro,
+    // required String bebrasBiro,
     String? updatedAt,
   }) async {
     try {
       await _firecloud.doc(userId).update({
         'name': name,
         'email': email,
-        'birth_date': birthDate,
+        // 'birth_date': birthDate,
         'school': school,
         'province': province,
-        'bebras_biro': bebrasBiro,
+        // 'bebras_biro': bebrasBiro,
         'updated_at': DateTime.now(),
       });
     } on FirebaseException catch (e) {
@@ -111,4 +112,33 @@ class RegisterUserRepository {
     }
     return null;
   }
+
+  Future<VersionModel?> getVersionApps(String version) async {
+    try {
+      final result = await FirebaseFirestore.instance
+          .collection('configuration')
+          .doc('version')
+          .get();
+
+      final allVersion = result.data()?['version'] as List<dynamic>;
+
+      for (final element in allVersion) {
+        if (element == version) {
+          final storedVersion = element.toString();
+          return VersionModel(version: storedVersion);
+        }
+      }
+
+      return null;
+    } on FirebaseException catch (e) {
+      if (kDebugMode) {
+        print("Failed with error '${e.code}': '${e.message}'");
+      }
+      return null;
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+
 }

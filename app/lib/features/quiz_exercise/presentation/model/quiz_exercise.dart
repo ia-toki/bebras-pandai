@@ -2,11 +2,33 @@ import 'answer.dart';
 import 'description.dart';
 import 'questions.dart';
 
-class QuizExercise {
+class QuizExerciseBase {
   final String id;
-  final String country;
   final String challengeGroup;
   final String title;
+  final String? status;
+
+  QuizExerciseBase({
+    required this.id,
+    required this.challengeGroup,
+    required this.title,
+    this.status
+  });
+
+  factory QuizExerciseBase.fromJson(Map<String, dynamic> json) {
+    return QuizExerciseBase(
+      id: json['doc_id'] as String,
+      challengeGroup: json['challenge_group'] as String,
+      title: json['title'] as String,
+      status: json['status'] as String?,
+    );
+  }
+}
+
+class QuizExercise extends QuizExerciseBase {
+  // using inheritance pattern for properties consistency,
+  // make error if forgot to update this class while the parent is edited
+  final String country;
   final String type;
   final String source;
   final Description description;
@@ -14,10 +36,11 @@ class QuizExercise {
   final Answer answer;
 
   QuizExercise({
-    required this.id,
+    required super.id,
+    required super.challengeGroup,
+    required super.title,
+    required super.status,
     required this.country,
-    required this.challengeGroup,
-    required this.title,
     required this.source,
     required this.type,
     required this.description,
@@ -28,9 +51,10 @@ class QuizExercise {
   factory QuizExercise.fromJson(Map<String, dynamic> json) {
     return QuizExercise(
       id: json['id'] as String,
-      country: json['country'] as String,
       challengeGroup: json['challenge_group'] as String,
       title: json['title'] as String,
+      status: json['status'] as String?,
+      country: json['country'] as String,
       source: json['source'] as String,
       type: json['type'] as String,
       description:
