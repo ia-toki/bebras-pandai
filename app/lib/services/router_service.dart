@@ -2,10 +2,13 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/authentication/register/presentation/pages/_pages.dart';
+import '../features/authentication/register/presentation/pages/v2/_pages.dart';
 import '../features/authentication/signin/presentation/pages/_pages.dart';
 import '../features/authentication/signin/presentation/pages/v2/_pages.dart';
 import '../features/error/presentation/pages/_pages.dart';
 import '../features/main/presentation/pages/_pages.dart';
+import '../features/main/presentation/pages/v2/delete_page.dart';
+import '../features/main/presentation/pages/v2/policy_page.dart';
 import '../features/material/menu/presentation/pages/_pages.dart';
 import '../features/material/viewer/presentation/pages/_pages.dart';
 import '../features/onboarding/presentation/pages/_pages.dart';
@@ -54,7 +57,9 @@ GoRouter router = GoRouter(
               isUpdateProfile: state.queryParameters['isUpdateProfile'],
             );
           } else if (dotenv.env['APP_VERSION'] == 'V2') {
-            // return const V2RegisterPage();
+            // return RegisterPageV2(
+            //   isUpdateProfile: state.queryParameters['isUpdateProfile'],
+            // );
           }
           return RegisterPage(
             isUpdateProfile: state.queryParameters['isUpdateProfile'],
@@ -202,22 +207,45 @@ GoRouter router = GoRouter(
       },
     ),
     GoRoute(
-        path: '/material/:id',
-        builder: (context, state) {
-          if (dotenv.env['APP_VERSION'] == 'V1') {
-            return PdfViewerPage(
-              pdfUrl: state.queryParameters['pdfUrl'],
-              title: state.queryParameters['title'],
-              id: state.queryParameters['id'],
-            );
-          } else if (dotenv.env['APP_VERSION'] == 'V2') {
-            // return const V2PdfViewerPage();
-          }
+      path: '/material/:id',
+      builder: (context, state) {
+        if (dotenv.env['APP_VERSION'] == 'V1') {
           return PdfViewerPage(
             pdfUrl: state.queryParameters['pdfUrl'],
             title: state.queryParameters['title'],
             id: state.queryParameters['id'],
           );
-        }),
+        } else if (dotenv.env['APP_VERSION'] == 'V2') {
+          // return const V2PdfViewerPage();
+        }
+        return PdfViewerPage(
+          pdfUrl: state.queryParameters['pdfUrl'],
+          title: state.queryParameters['title'],
+          id: state.queryParameters['id'],
+        );
+      }
+    ),
+    GoRoute(
+      path: '/policy',
+      builder: (context, state) {
+        if (dotenv.env['APP_VERSION'] == 'V1') {
+          return const PrivacyPolicyPage();
+        } else if (dotenv.env['APP_VERSION'] == 'V2') {
+          // return const V2SettingPage();
+        }
+        return const PrivacyPolicyPage();
+      },
+    ),
+    GoRoute(
+      path: '/delete',
+      builder: (context, state) {
+        if (dotenv.env['APP_VERSION'] == 'V1') {
+          return const DeleteAccountPage();
+        } else if (dotenv.env['APP_VERSION'] == 'V2') {
+          // return const V2SettingPage();
+        }
+        return const DeleteAccountPage();
+      },
+    ),
   ],
 );
