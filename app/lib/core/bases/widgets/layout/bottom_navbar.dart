@@ -5,8 +5,7 @@ import 'package:go_router/go_router.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({
-    super.key,
-    required this.currentIndex,
+    required this.currentIndex, super.key,
   });
 
   final int currentIndex;
@@ -16,8 +15,6 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  // To track the selected menu item
-  int _currentIndex = 0;
   void _onTap(int index, BuildContext context) {
     switch (index) {
       case 0:
@@ -31,12 +28,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
-    // Update the selected menu item index and rebuild the widget
-    void updateIndex(int newIndex) {
-      setState(() {
-        _currentIndex = newIndex;
-      });
-    }
 
     // Custom method to build IconButton with color change based on selection
     Widget buildIconButton(IconData icon, String label, int index) {
@@ -46,7 +37,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
           color: Colors.transparent,
           child: InkWell(
             onTap: () {
-              updateIndex(index);
               _onTap(index, context);
             },
             child: Column(
@@ -87,7 +77,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
             elevation: 2,
             shape: const CircularNotchedRectangle(),
             child: Row(
-              mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 buildIconButton(FontAwesomeIcons.fileLines, 'Materi', 0),
