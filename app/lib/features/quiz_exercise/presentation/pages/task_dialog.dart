@@ -10,8 +10,7 @@ import '../bloc/quiz_exercise_cubit.dart';
 import '../model/quiz_exercise.dart';
 
 class TaskDialog extends StatelessWidget {
-  final String? shortAnswer;
-  final String? selectedAnswer;
+  final String? answer;
   final String? error;
   final bool preview;
   final QuizExercise task;
@@ -19,8 +18,7 @@ class TaskDialog extends StatelessWidget {
     required this.task,
     required this.preview,
     super.key,
-    this.shortAnswer,
-    this.selectedAnswer,
+    this.answer,
     this.error,
   });
 
@@ -48,52 +46,55 @@ class TaskDialog extends StatelessWidget {
               //   ),
               // ),
               // if (!preview)
-                ...task.question.options!.asMap().entries.map((e) {
-                  final current = String.fromCharCode(65 + e.key);
+              ...task.question.options.asMap().entries.map((e) {
+                final current = String.fromCharCode(65 + e.key);
 
-                  return RadioListTile(
-                    title: SizedBox(
-                      child: Transform.translate(
-                        offset: const Offset(
-                          -20,
-                          0,
-                        ), // Set the desired offset
-                        child: Row(
-                          children: [
-                            Text('$current. '),
-                            task.type == 'MULTIPLE_CHOICE_IMAGE'
-                                ? 
-                                 Image.network(
-                  e.value.content.replaceAll(Assets.sourceImg, Assets.urlImg), 
-                  width: MediaQuery.of(context).size.width - 240,
-                                  )
-                                : Flexible(
-                                    child: HtmlWithCachedImages(
-                                        data:e.value.content
-                                    ),
-                                  )
-                          ],
-                        ),
+                return RadioListTile(
+                  title: SizedBox(
+                    child: Transform.translate(
+                      offset: const Offset(
+                        -20,
+                        0,
+                      ), // Set the desired offset
+                      child: Row(
+                        children: [
+                          Text('$current. '),
+                          task.type == 'MULTIPLE_CHOICE_IMAGE'
+                              ? Image.network(
+                                  e.value.content.replaceAll(
+                                      Assets.sourceImg, Assets.urlImg),
+                                  width:
+                                      MediaQuery.of(context).size.width - 240,
+                                )
+                              : Flexible(
+                                  child: HtmlWithCachedImages(
+                                      data: e.value.content),
+                                )
+                        ],
                       ),
                     ),
-                    value: e.value.id,
-                    groupValue: selectedAnswer,
-                    onChanged: (value) {
-                      context
-                          .read<QuizExerciseCubit>()
-                          .selectAnswer(e.value.id);
-                    },
-                  );
-                }),
+                  ),
+                  value: e.value.id,
+                  groupValue: answer,
+                  onChanged: (value) {
+                    context.read<QuizExerciseCubit>().selectAnswer(e.value.id);
+                  },
+                );
+              }),
               // if (!preview)
-                task.type == 'SHORT_ANSWER'
-                    ? Container(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: CustomTextField('Jawaban anda', (value) {
+              task.type == 'SHORT_ANSWER'
+                  ? Container(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: CustomTextField(
+                        'Jawaban anda',
+                        (value) {
                           context.read<QuizExerciseCubit>().fillAnswer(value);
-                        }, (p0) => null, ''),
-                      )
-                    : Container(),
+                        },
+                        (p0) => null,
+                        answer,
+                      ),
+                    )
+                  : Container(),
               if (!preview)
                 if (error != null) Text(error!),
             ],
@@ -111,7 +112,6 @@ class TaskDialog extends StatelessWidget {
               },
             ),
           ),
-
           if (!preview)
             SizedBox(
               width: 100,
@@ -122,11 +122,11 @@ class TaskDialog extends StatelessWidget {
                 onTap: () {
                   var error = '';
                   if (task.type == 'SHORT_ANSWER') {
-                    if (shortAnswer == '') {
+                    if (answer == '') {
                       error = 'Isi jawaban anda';
                     }
                   } else {
-                    if (selectedAnswer == '') {
+                    if (answer == '') {
                       error = 'Pilih salah satu jawaban';
                     }
                   }
@@ -136,12 +136,8 @@ class TaskDialog extends StatelessWidget {
                       backgroundColor: Colors.red,
                       duration: const Duration(seconds: 1),
                       behavior: SnackBarBehavior.floating,
-                      margin:
-                          const EdgeInsets.only(
-                            bottom: 50, 
-                            left: 10, 
-                            right: 10
-                          ),
+                      margin: const EdgeInsets.only(
+                          bottom: 50, left: 10, right: 10),
                       content: Text(error),
                     );
 

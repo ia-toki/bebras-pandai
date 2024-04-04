@@ -36,7 +36,8 @@ class QuizExerciseAttempt {
         totalCorrect: json['n_answer_correct'] as int,
         totalIncorrect: json['n_answer_incorrect'] as int,
         score: json['score'] as int,
-        answers: json['answers'] as List<dynamic>,
+        answers:
+            json['answers'] == null ? [] : json['answers'] as List<dynamic>,
       );
 
   Map<String, Object?> toJson() {

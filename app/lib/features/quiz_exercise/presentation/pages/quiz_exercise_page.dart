@@ -81,9 +81,13 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                         task: state.quizExercise,
                         context: context,
                         remainingDuration: state.remainingDuration,
-                        onTap: () {
-                          onTaskTap();
+                        attempt: state.attempt,
+                        onTaskTap: () {
+                          onAnswerTap();
                         },
+                        showPreviousButton: state.currentProblemIndex > 0,
+                        showNextButton: state.currentProblemIndex <
+                            (state.totalProblem - 1),
                       );
                     }
                     return Container();
@@ -97,7 +101,7 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
     );
   }
 
-  void onTaskTap() {
+  void onAnswerTap() {
     showDialog(
         context: context,
         builder: (context) {
@@ -109,8 +113,7 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
               return TaskDialog(
                 task: state.quizExercise,
                 preview: false,
-                shortAnswer: state.shortAnswer,
-                selectedAnswer: state.selectedAnswer,
+                answer: state.answer.answer,
                 error: state.modalErrorMessage,
               );
             }
