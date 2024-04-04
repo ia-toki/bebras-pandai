@@ -17,7 +17,7 @@ import '../features/quiz_result/presentation/pages/_pages.dart';
 import '../features/quiz_start/presentation/pages/_pages.dart';
 import '../features/task_detail/presentation/pages/_pages.dart';
 import '../features/task_list/presentation/pages/_pages.dart';
-// import '../features/main/presentation/pages/v2/_pages.dart';
+import '../features/main/presentation/pages/v2/_pages.dart';
 
 GoRouter router = GoRouter(
   routes: [
@@ -68,7 +68,7 @@ GoRouter router = GoRouter(
         if (dotenv.env['APP_VERSION'] == 'V1') {
           return const HomePage();
         } else if (dotenv.env['APP_VERSION'] == 'V2') {
-          // return const V2HomePage();
+          return const HomePageV2();
         }
         return const HomePage();
       },
