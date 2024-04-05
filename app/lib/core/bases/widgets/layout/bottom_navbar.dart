@@ -18,7 +18,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   void _onTap(int index, BuildContext context) {
     switch (index) {
       case 0:
-        context.go('/main');
+        context.go('/material');
         break;
       case 1:
         context.go('/setting');
