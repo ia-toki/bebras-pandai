@@ -12,6 +12,7 @@ import '../features/onboarding/presentation/pages/_pages.dart';
 import '../features/onboarding/presentation/pages/v2/_pages.dart';
 import '../features/quiz_download/presentation/pages/_pages.dart';
 import '../features/quiz_exercise/presentation/pages/_pages.dart';
+import '../features/quiz_history/presentation/pages/_pages.dart';
 import '../features/quiz_registration/presentation/pages/_pages.dart';
 import '../features/quiz_result/presentation/pages/_pages.dart';
 import '../features/quiz_start/presentation/pages/_pages.dart';
@@ -163,6 +164,10 @@ GoRouter router = GoRouter(
     GoRoute(
       path: '/quiz_download',
       builder: (context, state) => const QuizDownloadPage(),
+    ),
+    GoRoute(
+      path: '/quiz_history',
+      builder: (context, state) => const QuizHistoryPage(),
     ),
     GoRoute(
         path: '/quiz_result',

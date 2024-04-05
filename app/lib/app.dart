@@ -8,6 +8,7 @@ import 'features/main/presentation/bloc/home_cubit.dart';
 import 'features/onboarding/presentation/bloc/user_initialization_bloc.dart';
 import 'features/quiz_download/presentation/bloc/quiz_registration_cubit.dart';
 import 'features/quiz_exercise/presentation/bloc/quiz_exercise_cubit.dart';
+import 'features/quiz_history/presentation/bloc/quiz_history_cubit.dart';
 import 'features/quiz_result/presentation/bloc/quiz_result_cubit.dart';
 import 'features/quiz_start/presentation/bloc/quiz_start_cubit.dart';
 import 'features/task_detail/presentation/bloc/task_detail_cubit.dart';
@@ -39,11 +40,12 @@ class App extends StatelessWidget {
         BlocProvider(create: (context) => QuizResultCubit()),
         BlocProvider(create: (context) => QuizStartCubit()),
         BlocProvider(create: (context) => QuizRegistrationCubit()),
+        BlocProvider(create: (context) => QuizHistoryCubit()),
         BlocProvider(create: (context) => get<UserRegisterBloc>()),
       ],
       child: MaterialApp.router(
         theme: ThemeData(
-           useMaterial3: false,
+          useMaterial3: false,
           textTheme: GoogleFonts.interTextTheme(),
         ),
         routerConfig: router,

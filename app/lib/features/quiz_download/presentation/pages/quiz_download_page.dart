@@ -51,7 +51,7 @@ class _QuizDownloadPageState extends State<QuizDownloadPage> {
   @override
   Widget build(BuildContext context) {
     return BebrasScaffold(
-      body: Container(
+      body: SizedBox(
         height: double.infinity,
         child: Stack(
           children: [
@@ -66,10 +66,9 @@ class _QuizDownloadPageState extends State<QuizDownloadPage> {
                 ),
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(
+                    margin: const EdgeInsets.only(
                       top: 15,
                     ),
                     child: Row(
@@ -104,11 +103,11 @@ class _QuizDownloadPageState extends State<QuizDownloadPage> {
               bottom: 0,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(42.0),
-                    topRight: Radius.circular(42.0),
+                    topLeft: Radius.circular(42),
+                    topRight: Radius.circular(42),
                   ),
                 ),
                 child:
@@ -125,7 +124,9 @@ class _QuizDownloadPageState extends State<QuizDownloadPage> {
                       );
                     }
                     if (state is QuizRegistrationSuccess) {
-                      return PermissionToDownloadQuiz(onClickDownload: _downloadQuiz()); // onClickDownload: _downloadQuiz);
+                      return PermissionToDownloadQuiz(
+                          onClickDownload:
+                              _downloadQuiz()); // onClickDownload: _downloadQuiz);
                     }
                     print(state);
                     return Column(
