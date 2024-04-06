@@ -1,9 +1,4 @@
-// part of '_pages.dart';
-
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
-import '../../../../../core/bases/widgets/layout/bebras_scaffold.dart';
+part of '_pages.dart';
 
 class PrivacyPolicyPage extends StatefulWidget {
   const PrivacyPolicyPage({super.key});
@@ -59,8 +54,9 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
                       'Sebagai pengguna Bebras Pandai, Anda memiliki hak untuk mengetahui bagaimana data Anda diambil, digunakan, dan dijaga.'
                       'Mohon luangkan waktu sejenak untuk membaca kebijakan privasi kami:',
                       textAlign: TextAlign.justify,
-                      style:
-                          TextStyle(fontSize: 12,)),
+                      style: TextStyle(
+                        fontSize: 12,
+                      )),
                 )
               ],
             ),
@@ -111,38 +107,34 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
             const SizedBox(
               height: 5,
             ),
-            Column(
-              children: [
+            Column(children: [
+              Container(
+                  child: Row(children: [
                 Container(
-                  child: Row(
-                    children: [
-                      Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 5),
-                      height: 30,
-                      width: 30,
-                      child: Center(
-                        child: const Text(
-                          '2',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, color: Colors.white),
-                        ),
+                    margin: const EdgeInsets.symmetric(horizontal: 5),
+                    height: 30,
+                    width: 30,
+                    child: Center(
+                      child: const Text(
+                        '2',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, color: Colors.white),
                       ),
-                      decoration: BoxDecoration(
-                        color: Colors.blue[300],
-                        shape: BoxShape.circle,
-                      )),
-                  Flexible(
-                      child: Text('Penggunaan Informasi',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                          )))
-                    ]
-                  )
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Column(children: [
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.blue[300],
+                      shape: BoxShape.circle,
+                    )),
+                Flexible(
+                    child: Text('Penggunaan Informasi',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                        )))
+              ])),
+              const SizedBox(
+                height: 5,
+              ),
+              Column(children: [
                 Container(
                     child: const Text(
                         'Informasi yang kami kumpulkan digunakan untuk menyajikan konten yang sesuai dengan minat Anda, memantau kinerja aplikasi, dan memastikan keamanan akun Anda. '
@@ -153,43 +145,38 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
                           fontWeight: FontWeight.w400,
                         )))
               ])
-              ]
-            ),
+            ]),
             const SizedBox(
               height: 5,
             ),
-            Column(
-              children: [
+            Column(children: [
+              Container(
+                  child: Row(children: [
                 Container(
-                  child: Row(
-                    children: [
-                      Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 5),
-                      height: 30,
-                      width: 30,
-                      child: Center(
-                        child: const Text(
-                          '3',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, color: Colors.white),
-                        ),
+                    margin: const EdgeInsets.symmetric(horizontal: 5),
+                    height: 30,
+                    width: 30,
+                    child: Center(
+                      child: const Text(
+                        '3',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, color: Colors.white),
                       ),
-                      decoration: BoxDecoration(
-                        color: Colors.blue[300],
-                        shape: BoxShape.circle,
-                      )),
-                  Flexible(
-                      child: Text('Keamanan Data',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                          )))
-                    ]
-                  )
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Column(children: [
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.blue[300],
+                      shape: BoxShape.circle,
+                    )),
+                Flexible(
+                    child: Text('Keamanan Data',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                        )))
+              ])),
+              const SizedBox(
+                height: 5,
+              ),
+              Column(children: [
                 Container(
                     child: const Text(
                         'Keamanan data Anda adalah prioritas kami.'
@@ -200,43 +187,38 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
                           fontWeight: FontWeight.w400,
                         )))
               ])
-              ]
-            ),
+            ]),
             const SizedBox(
               height: 5,
             ),
-            Column(
-              children: [
+            Column(children: [
+              Container(
+                  child: Row(children: [
                 Container(
-                  child: Row(
-                    children: [
-                      Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 5),
-                      height: 30,
-                      width: 30,
-                      child: Center(
-                        child: const Text(
-                          '4',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, color: Colors.white),
-                        ),
+                    margin: const EdgeInsets.symmetric(horizontal: 5),
+                    height: 30,
+                    width: 30,
+                    child: Center(
+                      child: const Text(
+                        '4',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, color: Colors.white),
                       ),
-                      decoration: BoxDecoration(
-                        color: Colors.blue[300],
-                        shape: BoxShape.circle,
-                      )),
-                  Flexible(
-                      child: Text('Perubahan Kebijakan Privasi',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                          )))
-                    ]
-                  )
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Column(children: [
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.blue[300],
+                      shape: BoxShape.circle,
+                    )),
+                Flexible(
+                    child: Text('Perubahan Kebijakan Privasi',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                        )))
+              ])),
+              const SizedBox(
+                height: 5,
+              ),
+              Column(children: [
                 Container(
                     child: const Text(
                         'Kebijakan Privasi kami dapat diperbarui dari waktu ke waktu.'
@@ -247,43 +229,38 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
                           fontWeight: FontWeight.w400,
                         )))
               ])
-              ]
-            ),
+            ]),
             const SizedBox(
               height: 5,
             ),
-            Column(
-              children: [
+            Column(children: [
+              Container(
+                  child: Row(children: [
                 Container(
-                  child: Row(
-                    children: [
-                      Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 5),
-                      height: 30,
-                      width: 30,
-                      child: Center(
-                        child: const Text(
-                          '5',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, color: Colors.white),
-                        ),
+                    margin: const EdgeInsets.symmetric(horizontal: 5),
+                    height: 30,
+                    width: 30,
+                    child: Center(
+                      child: const Text(
+                        '5',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, color: Colors.white),
                       ),
-                      decoration: BoxDecoration(
-                        color: Colors.blue[300],
-                        shape: BoxShape.circle,
-                      )),
-                  Flexible(
-                      child: Text('Kontak Kami',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                          )))
-                    ]
-                  )
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Column(children: [
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.blue[300],
+                      shape: BoxShape.circle,
+                    )),
+                Flexible(
+                    child: Text('Kontak Kami',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                        )))
+              ])),
+              const SizedBox(
+                height: 5,
+              ),
+              Column(children: [
                 Container(
                     child: const Text(
                         'Jika Anda memiliki pertanyaan atau kekhawatiran tentang kebijakan privasi kami, jangan ragu untuk menghubungi tim dukungan kami di support@bebraspandai.com.'
@@ -294,8 +271,7 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
                           fontWeight: FontWeight.w400,
                         )))
               ])
-              ]
-            ),
+            ]),
           ],
         ),
       ),
