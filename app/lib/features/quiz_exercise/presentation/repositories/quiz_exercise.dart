@@ -14,42 +14,19 @@ class QuizExerciseRepository {
     db.settings = FirebaseService.settings;
   }
 
-  Future<List<QuizExercise>> getListQuizExerciseByTaskIdList(
-    List<String> taskIdList,
-  ) async {
+  Future<List<QuizExercise>> getListQuizExercise(
+      {List<String>? taskIds}) async {
     final quizExerciseList = <QuizExercise>[];
     try {
-      final result = await db
-          .collection('task_set')
-          .where(FieldPath.documentId, whereIn: taskIdList)
-          .get();
-      for (final element in result.docs) {
-        quizExerciseList.add(QuizExercise.fromJson(element.data()));
+      if (taskIds == null) {
+        final globalResult =
+            await db.collection('configuration').doc('global_variables').get();
+        final taskSet = globalResult.get('task_set_doc_index') as List<dynamic>;
+        taskIds = taskSet.map((e) => e['doc_id'] as String) as List<String>;
       }
 
-      return quizExerciseList;
-    } on FirebaseException catch (e) {
-      if (kDebugMode) {
-        print("Failed with error '${e.code}': '${e.message}'");
-      }
-      return quizExerciseList;
-    } catch (e) {
-      throw Exception(e.toString());
-    }
-  }
-
-  Future<List<QuizExercise>> getListQuizExercise() async {
-    final quizExerciseList = <QuizExercise>[];
-    try {
-      final globalResult =
-          await db.collection('configuration').doc('global_variables').get();
-      final taskSet = globalResult.get('task_set_doc_index') as List<dynamic>;
-      final taskIds = taskSet.map((e) => e['doc_id'] as String);
-
-      final taskListResult = await db
-          .collection('task_set')
-          .where(FieldPath.documentId, whereIn: taskIds)
-          .get();
+      final taskListResult =
+          await db.collection('task_set').where('id', whereIn: taskIds).get();
       for (final element in taskListResult.docs) {
         quizExerciseList.add(QuizExercise.fromJson(element.data()));
       }
@@ -73,7 +50,7 @@ class QuizExerciseRepository {
 
       final taskSet = globalResult.get('task_set_doc_$group') as List<dynamic>;
       for (final element in taskSet) {
-          quizExerciseBaseList
+        quizExerciseBaseList
             .add(QuizExerciseBase.fromJson(element as Map<String, dynamic>));
       }
 
@@ -82,16 +59,6 @@ class QuizExerciseRepository {
       if (kDebugMode) {
         print("Failed with error '${e.code}': '${e.message}'");
       }
-      return quizExerciseBaseList;
-    } catch (e) {
-      throw Exception(e.toString());
-    }
-  }
-
-  Future<List<QuizExerciseBase>> getListQuizExerciseNew() async {
-    final quizExerciseBaseList = <QuizExerciseBase>[];
-    try {
-      
       return quizExerciseBaseList;
     } catch (e) {
       throw Exception(e.toString());
@@ -131,8 +98,8 @@ class QuizExerciseRepository {
   }
 
   Future<void> updateQuizExercise(
-      String taskId,
-      String? status,
+    String taskId,
+    String? status,
   ) async {
     try {
       // Update Status Task Set
@@ -140,8 +107,8 @@ class QuizExerciseRepository {
           .collection('task_set')
           .doc(taskId)
           .update({
-            'status': status,
-          });
+        'status': status,
+      });
 
       // Dapatkan referensi ke dokumen yang akan diperbarui
       final globalResult = FirebaseFirestore.instance
@@ -172,10 +139,9 @@ class QuizExerciseRepository {
       // Update Status Configuration
       await globalResult.update({
         'task_set_doc_index': taskSet,
-        'weeklyquiz_number' : weeklyQuizNumber
+        'weeklyquiz_number': weeklyQuizNumber
       });
-
-    }  catch (e) {
+    } catch (e) {
       throw Exception(e.toString());
     }
   }

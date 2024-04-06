@@ -32,21 +32,26 @@ class WeeklyQuizParticipation extends Equatable {
   factory WeeklyQuizParticipation.fromJson(
     String id,
     Map<String, dynamic> json,
-  ) =>
-      WeeklyQuizParticipation(
-        id: id,
-        quiz_start_at: json['quiz_start_at'] as String,
-        quiz_title: json['quiz_title'] as String,
-        user_name: json['user_name'] as String,
-        user_uid: json['user_uid'] as String,
-        challenge_group: json['challenge_group'] as String,
-        quiz_end_at: json['quiz_end_at'] as String,
-        quiz_id: json['quiz_id'] as String,
-        quiz_max_attempts: json['quiz_max_attempts'] as int,
-        attempts: (json['attempts'] as List)
-            .map((i) => QuizExerciseAttempt.fromJson(i as Map<String, dynamic>))
-            .toList(),
-      );
+  ) {
+    var attempts = json['attempts'];
+    return WeeklyQuizParticipation(
+      id: id,
+      quiz_start_at: json['quiz_start_at'] as String,
+      quiz_title: json['quiz_title'] as String,
+      user_name: json['user_name'] as String,
+      user_uid: json['user_uid'] as String,
+      challenge_group: json['challenge_group'] as String,
+      quiz_end_at: json['quiz_end_at'] as String,
+      quiz_id: json['quiz_id'] as String,
+      quiz_max_attempts: json['quiz_max_attempts'] as int,
+      attempts: attempts == null
+          ? []
+          : (attempts as List)
+              .map((i) =>
+                  QuizExerciseAttempt.fromJson(i as Map<String, dynamic>))
+              .toList(),
+    );
+  }
 
   @override
   List<Object> get props => [

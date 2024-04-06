@@ -2,11 +2,11 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/authentication/register/presentation/pages/_pages.dart';
-import '../features/authentication/register/presentation/pages/v2/_pages.dart';
 import '../features/authentication/signin/presentation/pages/_pages.dart';
 import '../features/authentication/signin/presentation/pages/v2/_pages.dart';
 import '../features/error/presentation/pages/_pages.dart';
 import '../features/main/presentation/pages/_pages.dart';
+import '../features/main/presentation/pages/v2/_pages.dart';
 import '../features/main/presentation/pages/v2/delete_page.dart';
 import '../features/main/presentation/pages/v2/policy_page.dart';
 import '../features/material/menu/presentation/pages/_pages.dart';
@@ -20,7 +20,6 @@ import '../features/quiz_result/presentation/pages/_pages.dart';
 import '../features/quiz_start/presentation/pages/_pages.dart';
 import '../features/task_detail/presentation/pages/_pages.dart';
 import '../features/task_list/presentation/pages/_pages.dart';
-// import '../features/main/presentation/pages/v2/_pages.dart';
 
 GoRouter router = GoRouter(
   routes: [
@@ -71,7 +70,7 @@ GoRouter router = GoRouter(
         if (dotenv.env['APP_VERSION'] == 'V1') {
           return const HomePage();
         } else if (dotenv.env['APP_VERSION'] == 'V2') {
-          // return const V2HomePage();
+          return const HomePageV2();
         }
         return const HomePage();
       },
@@ -207,24 +206,23 @@ GoRouter router = GoRouter(
       },
     ),
     GoRoute(
-      path: '/material/:id',
-      builder: (context, state) {
-        if (dotenv.env['APP_VERSION'] == 'V1') {
+        path: '/material/:id',
+        builder: (context, state) {
+          if (dotenv.env['APP_VERSION'] == 'V1') {
+            return PdfViewerPage(
+              pdfUrl: state.queryParameters['pdfUrl'],
+              title: state.queryParameters['title'],
+              id: state.queryParameters['id'],
+            );
+          } else if (dotenv.env['APP_VERSION'] == 'V2') {
+            // return const V2PdfViewerPage();
+          }
           return PdfViewerPage(
             pdfUrl: state.queryParameters['pdfUrl'],
             title: state.queryParameters['title'],
             id: state.queryParameters['id'],
           );
-        } else if (dotenv.env['APP_VERSION'] == 'V2') {
-          // return const V2PdfViewerPage();
-        }
-        return PdfViewerPage(
-          pdfUrl: state.queryParameters['pdfUrl'],
-          title: state.queryParameters['title'],
-          id: state.queryParameters['id'],
-        );
-      }
-    ),
+        }),
     GoRoute(
       path: '/policy',
       builder: (context, state) {
