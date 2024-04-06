@@ -103,26 +103,25 @@ class _SettingPageState extends State<SettingPage> {
   DateTime? backButtonPressTime;
   String exitWarning = 'Tekan sekali lagi untuk keluar';
 
-    Future<bool> onDidPop() {
-      final now = DateTime.now();
-      final backButtonHasNotBeenPressedOrSnackBarHasBeenClosed =
-          backButtonPressTime == null ||
-              now.difference(backButtonPressTime!) > const Duration(seconds: 2);
+  Future<bool> onDidPop() {
+    final now = DateTime.now();
+    final backButtonHasNotBeenPressedOrSnackBarHasBeenClosed =
+        backButtonPressTime == null ||
+            now.difference(backButtonPressTime!) > const Duration(seconds: 2);
 
-      if (backButtonHasNotBeenPressedOrSnackBarHasBeenClosed) {
-        backButtonPressTime = now;
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(exitWarning),
-        ));
-        return Future.value(false);
-      }
-
-      return Future.value(true);
+    if (backButtonHasNotBeenPressedOrSnackBarHasBeenClosed) {
+      backButtonPressTime = now;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(exitWarning),
+      ));
+      return Future.value(false);
     }
+
+    return Future.value(true);
+  }
 
   @override
   Widget build(BuildContext context) {
-
     return BebrasScaffold(
       body: PopScope(
         canPop: false,
@@ -227,55 +226,64 @@ class _SettingPageState extends State<SettingPage> {
                             ),
                           ),
                         ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 10),
-                          margin: const EdgeInsets.only(bottom: 12),
-                          decoration: BoxDecoration(
-                            color: const Color(0x0A1BB8E1),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 12),
-                                height: 50,
-                                width: 50,
-                                decoration: const BoxDecoration(
-                                  color: Color(0x1F1BB8E1),
-                                  shape: BoxShape.circle,
-                                  // borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  child: SvgPicture.asset(
-                                    'assets/icon/privacy.svg',
-                                    height: 24,
-                                    width: 24,
+                        InkWell(
+                          onTap: () async {
+                            await context.push(
+                              Uri(
+                                path: '/policy',
+                              ).toString(),
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 10),
+                            margin: const EdgeInsets.only(bottom: 12),
+                            decoration: BoxDecoration(
+                              color: const Color(0x0A1BB8E1),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 12),
+                                  height: 50,
+                                  width: 50,
+                                  decoration: const BoxDecoration(
+                                    color: Color(0x1F1BB8E1),
+                                    shape: BoxShape.circle,
+                                    // borderRadius: BorderRadius.circular(20),
                                   ),
-                                ),
-                              ),
-                              Flexible(
-                                child: Container(
-                                  width: double.infinity,
-                                  child: const Text(
-                                    'Kebijakan Privasi',
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black,
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    child: SvgPicture.asset(
+                                      'assets/icon/privacy.svg',
+                                      height: 24,
+                                      width: 24,
                                     ),
                                   ),
                                 ),
-                              ),
-                              const Icon(
-                                Icons.chevron_right,
-                                size: 28,
-                                color: Colors.black,
-                              ),
-                            ],
+                                Flexible(
+                                  child: Container(
+                                    width: double.infinity,
+                                    child: const Text(
+                                      'Kebijakan Privasi',
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const Icon(
+                                  Icons.chevron_right,
+                                  size: 28,
+                                  color: Colors.black,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         InkWell(

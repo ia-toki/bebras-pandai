@@ -6,9 +6,7 @@ import '../features/authentication/signin/presentation/pages/_pages.dart';
 import '../features/authentication/signin/presentation/pages/v2/_pages.dart';
 import '../features/error/presentation/pages/_pages.dart';
 import '../features/main/presentation/pages/_pages.dart';
-import '../features/main/presentation/pages/v2/_pages.dart';
-import '../features/main/presentation/pages/v2/delete_page.dart';
-import '../features/main/presentation/pages/v2/policy_page.dart';
+import '../features/main/presentation/pages/delete_page.dart';
 import '../features/material/menu/presentation/pages/_pages.dart';
 import '../features/material/viewer/presentation/pages/_pages.dart';
 import '../features/onboarding/presentation/pages/_pages.dart';
@@ -67,22 +65,12 @@ GoRouter router = GoRouter(
     GoRoute(
       path: '/main',
       builder: (context, state) {
-        if (dotenv.env['APP_VERSION'] == 'V1') {
-          return const HomePage();
-        } else if (dotenv.env['APP_VERSION'] == 'V2') {
-          return const HomePageV2();
-        }
-        return const HomePage();
+        return const QuizRegistrationPage();
       },
     ),
     GoRoute(
       path: '/setting',
       builder: (context, state) {
-        if (dotenv.env['APP_VERSION'] == 'V1') {
-          return const SettingPage();
-        } else if (dotenv.env['APP_VERSION'] == 'V2') {
-          // return const V2SettingPage();
-        }
         return const SettingPage();
       },
     ),
@@ -154,11 +142,6 @@ GoRouter router = GoRouter(
     GoRoute(
       path: '/quiz_registration',
       builder: (context, state) {
-        if (dotenv.env['APP_VERSION'] == 'V1') {
-          return const QuizRegistrationPage();
-        } else if (dotenv.env['APP_VERSION'] == 'V2') {
-          // return const V2QuizRegistrationPage();
-        }
         return const QuizRegistrationPage();
       },
     ),
@@ -197,26 +180,12 @@ GoRouter router = GoRouter(
     GoRoute(
       path: '/material',
       builder: (context, state) {
-        if (dotenv.env['APP_VERSION'] == 'V1') {
-          return const MaterialMenu();
-        } else if (dotenv.env['APP_VERSION'] == 'V2') {
-          // return const V2MaterialMenu();
-        }
         return const MaterialMenu();
       },
     ),
     GoRoute(
         path: '/material/:id',
         builder: (context, state) {
-          if (dotenv.env['APP_VERSION'] == 'V1') {
-            return PdfViewerPage(
-              pdfUrl: state.queryParameters['pdfUrl'],
-              title: state.queryParameters['title'],
-              id: state.queryParameters['id'],
-            );
-          } else if (dotenv.env['APP_VERSION'] == 'V2') {
-            // return const V2PdfViewerPage();
-          }
           return PdfViewerPage(
             pdfUrl: state.queryParameters['pdfUrl'],
             title: state.queryParameters['title'],
@@ -226,11 +195,6 @@ GoRouter router = GoRouter(
     GoRoute(
       path: '/policy',
       builder: (context, state) {
-        if (dotenv.env['APP_VERSION'] == 'V1') {
-          return const PrivacyPolicyPage();
-        } else if (dotenv.env['APP_VERSION'] == 'V2') {
-          // return const V2SettingPage();
-        }
         return const PrivacyPolicyPage();
       },
     ),

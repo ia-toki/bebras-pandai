@@ -42,10 +42,9 @@ class _MaterialMenuState extends State<MaterialMenu> {
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
           backgroundColor:
-          filterIndex == index ? const Color(0xFF1BB8E1) : Colors.white,
+              filterIndex == index ? const Color(0xFF1BB8E1) : Colors.white,
           side: BorderSide(
-            color:
-            filterIndex == index ? const Color(0xFF1BB8E1) : Colors.grey,
+            color: filterIndex == index ? const Color(0xFF1BB8E1) : Colors.grey,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(18),
@@ -54,8 +53,8 @@ class _MaterialMenuState extends State<MaterialMenu> {
         child: Text(text,
             style: TextStyle(
               fontSize: 14,
-              color: filterIndex == index
-                  ? Colors.white : const Color(0xFF9E9E9E),
+              color:
+                  filterIndex == index ? Colors.white : const Color(0xFF9E9E9E),
             )),
         onPressed: () {
           setState(() {
@@ -66,11 +65,13 @@ class _MaterialMenuState extends State<MaterialMenu> {
     );
   }
 
-  Widget materialItem(String docId,
-      String title,
-      String url,
-      // ignore: avoid_positional_boolean_parameters
-      bool isPrintable,) {
+  Widget materialItem(
+    String docId,
+    String title,
+    String url,
+    // ignore: avoid_positional_boolean_parameters
+    bool isPrintable,
+  ) {
     return InkWell(
       onTap: () {
         context.push(
@@ -142,128 +143,150 @@ class _MaterialMenuState extends State<MaterialMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return BebrasScaffold(
+      body: Container(
+        padding: const EdgeInsets.only(left: 25, right: 25),
+        child: Column(
+          children: [
+            buildMaterialCategory(context),
+            buildMaterialList(),
+          ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.go('/quiz_registration');
+        },
+        child: const FaIcon(FontAwesomeIcons.graduationCap),
+      ),
+      bottomNavigationBar: const BottomNavBar(
+        currentIndex: 0,
+      ),
+    );
+  }
+
+  Column buildMaterialCategory(BuildContext context) {
+    return Column(
       children: [
-        Container(
-          padding: const EdgeInsets.only(
-            left: 25,
+        SizedBox(
+          height: 20,
+        ),
+        const SizedBox(
+          width: double.infinity,
+          child: Text(
+            'Kategori Materi',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 40,
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width - 10,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: <Widget>[
-                    ...bebrasGroupList.map(
-                          (e) => materialTab(e.label, e.index),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.only(
-                  right: 25,
-                ),
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const SizedBox(
-                      width: double.infinity,
-                      child: Text(
-                        'Daftar Materi',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    StreamBuilder<QuerySnapshot>(
-                      stream: materialsStream,
-                      builder: (BuildContext context,
-                          AsyncSnapshot<QuerySnapshot> snapshot,) {
-                        if (snapshot.hasError) {
-                          return const Text('Something went wrong');
-                        }
-
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-
-                        var displayEmpty = true;
-                        final boxHeight =
-                            MediaQuery
-                                .of(context)
-                                .size
-                                .height - 440;
-                        return SingleChildScrollView(
-                          child: SizedBox(
-                            height: boxHeight,
-                            width: double.infinity,
-                            child: ListView(
-                              children: [
-                                ...snapshot.data!.docs.map((d) {
-                                  final materialDoc =
-                                  d.data()! as Map<String, dynamic>;
-                                  if (materialDoc['challenge_group'] ==
-                                      bebrasGroupList[filterIndex].key) {
-                                    displayEmpty = false;
-                                    return materialItem(
-                                      d.id,
-                                      materialDoc['title'] as String,
-                                      materialDoc['url'] as String,
-                                      File('$basePath${d.id}.pdf').existsSync(),
-                                    );
-                                  }
-                                  return Container();
-                                }),
-                                if (displayEmpty)
-                                  Transform.translate(
-                                    offset: const Offset(
-                                      0,
-                                      -10,
-                                    ),
-                                    child: Container(
-                                      height: boxHeight,
-                                      padding: const EdgeInsets.all(10),
-                                      margin: const EdgeInsets.only(
-                                        bottom: 12,
-                                        top: 12,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: Colors.blue[50],
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: const Center(
-                                        child: Text(
-                                          'Materi belum ada',
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        SizedBox(
+          height: 40,
+          width: MediaQuery.of(context).size.width - 10,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: <Widget>[
+              ...bebrasGroupList.map(
+                (e) => materialTab(e.label, e.index),
               ),
             ],
           ),
+        ),
+      ],
+    );
+  }
+
+  Column buildMaterialList() {
+    return Column(
+      children: [
+        const SizedBox(
+          height: 20,
+        ),
+        const SizedBox(
+          width: double.infinity,
+          child: Text(
+            'Daftar Materi',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        StreamBuilder<QuerySnapshot>(
+          stream: materialsStream,
+          builder: (
+            BuildContext context,
+            AsyncSnapshot<QuerySnapshot> snapshot,
+          ) {
+            if (snapshot.hasError) {
+              return const Text('Something went wrong');
+            }
+
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            var displayEmpty = true;
+            final boxHeight = MediaQuery.of(context).size.height - 440;
+            return SingleChildScrollView(
+              child: SizedBox(
+                height: boxHeight,
+                width: double.infinity,
+                child: ListView(
+                  children: [
+                    ...snapshot.data!.docs.map((d) {
+                      final materialDoc = d.data()! as Map<String, dynamic>;
+                      if (materialDoc['challenge_group'] ==
+                          bebrasGroupList[filterIndex].key) {
+                        displayEmpty = false;
+                        return materialItem(
+                          d.id,
+                          materialDoc['title'] as String,
+                          materialDoc['url'] as String,
+                          File('$basePath${d.id}.pdf').existsSync(),
+                        );
+                      }
+                      return Container();
+                    }),
+                    if (displayEmpty)
+                      Transform.translate(
+                        offset: const Offset(
+                          0,
+                          -10,
+                        ),
+                        child: Container(
+                          height: boxHeight,
+                          padding: const EdgeInsets.all(10),
+                          margin: const EdgeInsets.only(
+                            bottom: 12,
+                            top: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.blue[50],
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              'Materi belum ada',
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            );
+          },
         ),
       ],
     );

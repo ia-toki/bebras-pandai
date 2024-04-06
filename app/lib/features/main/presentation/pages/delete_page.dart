@@ -1,10 +1,9 @@
 // part of '_pages.dart';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../../core/bases/widgets/layout/bebras_scaffold.dart';
+import '../../../../core/bases/widgets/layout/bebras_scaffold.dart';
 
 class DeleteAccountPage extends StatefulWidget {
   const DeleteAccountPage({super.key});
