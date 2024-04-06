@@ -50,6 +50,14 @@ class QuizService {
     // }
 
     // check apakah user sudah registered minggu ini
+    // final participation = await db
+    //     .collection('weekly_quiz_participation')
+    //     .where('quiz_title', isEqualTo: snapshot['title'])
+    //     .where('user_uid', isEqualTo: currentUserUID)
+    //     .get();
+    // if (participation.size > 0) {
+    //   return;
+    // }
 
     try {
       await db.collection('weekly_quiz_participation').doc().set({
