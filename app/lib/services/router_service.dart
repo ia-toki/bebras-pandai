@@ -6,6 +6,9 @@ import '../features/authentication/signin/presentation/pages/_pages.dart';
 import '../features/authentication/signin/presentation/pages/v2/_pages.dart';
 import '../features/error/presentation/pages/_pages.dart';
 import '../features/main/presentation/pages/_pages.dart';
+import '../features/main/presentation/pages/v2/_pages.dart';
+import '../features/main/presentation/pages/v2/delete_page.dart';
+import '../features/main/presentation/pages/v2/policy_page.dart';
 import '../features/material/menu/presentation/pages/_pages.dart';
 import '../features/material/viewer/presentation/pages/_pages.dart';
 import '../features/onboarding/presentation/pages/_pages.dart';
@@ -17,7 +20,6 @@ import '../features/quiz_result/presentation/pages/_pages.dart';
 import '../features/quiz_start/presentation/pages/_pages.dart';
 import '../features/task_detail/presentation/pages/_pages.dart';
 import '../features/task_list/presentation/pages/_pages.dart';
-import '../features/main/presentation/pages/v2/_pages.dart';
 
 GoRouter router = GoRouter(
   routes: [
@@ -54,9 +56,9 @@ GoRouter router = GoRouter(
               isUpdateProfile: state.queryParameters['isUpdateProfile'],
             );
           } else if (dotenv.env['APP_VERSION'] == 'V2') {
-            return RegisterPageV2(
-              isUpdateProfile: state.queryParameters['isUpdateProfile'],
-            );
+            // return RegisterPageV2(
+            //   isUpdateProfile: state.queryParameters['isUpdateProfile'],
+            // );
           }
           return RegisterPage(
             isUpdateProfile: state.queryParameters['isUpdateProfile'],
@@ -221,5 +223,27 @@ GoRouter router = GoRouter(
             id: state.queryParameters['id'],
           );
         }),
+    GoRoute(
+      path: '/policy',
+      builder: (context, state) {
+        if (dotenv.env['APP_VERSION'] == 'V1') {
+          return const PrivacyPolicyPage();
+        } else if (dotenv.env['APP_VERSION'] == 'V2') {
+          // return const V2SettingPage();
+        }
+        return const PrivacyPolicyPage();
+      },
+    ),
+    GoRoute(
+      path: '/delete',
+      builder: (context, state) {
+        if (dotenv.env['APP_VERSION'] == 'V1') {
+          return const DeleteAccountPage();
+        } else if (dotenv.env['APP_VERSION'] == 'V2') {
+          // return const V2SettingPage();
+        }
+        return const DeleteAccountPage();
+      },
+    ),
   ],
 );
