@@ -45,9 +45,11 @@ class QuizService {
 
     // background task untuk fetch task untuk sesuai minggu dan level
     // yang akan didaftarkan agar bisa dipakai offline
-    for (final taskId in snapshot['tasks'][level] as List<dynamic>) {
-      await fetchWeeklyQuizTaskSet(taskId.toString());
-    }
+    // for (final taskId in snapshot['tasks'][level] as List<dynamic>) {
+    //   await fetchWeeklyQuizTaskSet(taskId.toString());
+    // }
+
+    // check apakah user sudah registered minggu ini
 
     try {
       await db.collection('weekly_quiz_participation').doc().set({

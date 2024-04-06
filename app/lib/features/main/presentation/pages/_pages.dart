@@ -9,10 +9,8 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/bases/widgets/atoms/button.dart';
 import '../../../../core/bases/widgets/layout/bebras_scaffold.dart';
 import '../../../../core/bases/widgets/layout/bottom_navbar.dart';
-import '../../../../core/constants/assets.dart';
 import '../../../../core/theme/font_theme.dart';
 import '../../../../services/firebase_service.dart';
 
-part 'home_page.dart';
 part 'policy_page.dart';
 part 'setting_page.dart';

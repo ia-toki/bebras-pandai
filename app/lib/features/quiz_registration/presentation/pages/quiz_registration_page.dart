@@ -52,11 +52,11 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
     updateIsNextWeekSelected(newValue: check);
   }
 
-
   Widget quizCard(WeeklyQuizParticipation weeklyQuizParticipant, String date,
       String score, String level, BuildContext context) {
-        
-    final formattedDate =  (date.isNotEmpty && date != '-') ? DateFormat('dd MMMM yyyy HH:mm', 'id_ID').format(DateTime.parse(date)) : '-';
+    final formattedDate = (date.isNotEmpty && date != '-')
+        ? DateFormat('dd MMMM yyyy HH:mm', 'id_ID').format(DateTime.parse(date))
+        : '-';
     return InkWell(
       onTap: () async {
         await context.push(
@@ -414,7 +414,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                         fontSize: 14,
                         innerVerticalPadding: 14,
                         onTap: () async {
-                          // await showModal();
+                          context.push('/quiz_download');
                         },
                         text: 'Riwayat Latihan',
                       ),

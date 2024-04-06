@@ -65,7 +65,7 @@ GoRouter router = GoRouter(
     GoRoute(
       path: '/main',
       builder: (context, state) {
-        return const HomePageV2();
+        return const QuizRegistrationPage();
       },
     ),
     GoRoute(
@@ -142,11 +142,6 @@ GoRouter router = GoRouter(
     GoRoute(
       path: '/quiz_registration',
       builder: (context, state) {
-        if (dotenv.env['APP_VERSION'] == 'V1') {
-          return const QuizRegistrationPage();
-        } else if (dotenv.env['APP_VERSION'] == 'V2') {
-          // return const V2QuizRegistrationPage();
-        }
         return const QuizRegistrationPage();
       },
     ),
