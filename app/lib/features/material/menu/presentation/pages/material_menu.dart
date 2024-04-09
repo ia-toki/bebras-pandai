@@ -7,6 +7,13 @@ class MaterialMenu extends StatefulWidget {
   State<MaterialMenu> createState() => _MaterialMenuState();
 }
 
+final List<String> imgList = [
+  'https://pandai.bebras.or.id/img/carousel5.ad104915.png',
+  'https://pandai.bebras.or.id/img/banner2023.95952847.jpeg',
+  'https://pandai.bebras.or.id/img/bebrasBanner.96a43a30.jpg',
+  'https://pandai.bebras.or.id/img/grow-with-google-bebras-id.8d80a623.jpg',
+];
+
 class _MaterialMenuState extends State<MaterialMenu> {
   String basePath =
       '/storage/emulated/0/Android/data/com.toki.bebras_pandai/files/PDF_Download/';
@@ -18,6 +25,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
 
   @override
   void initState() {
+    context.read<HomeCubit>().fetchUser();
     super.initState();
     _initializeStream();
   }
@@ -103,10 +111,10 @@ class _MaterialMenuState extends State<MaterialMenu> {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 2,
-              blurRadius: 4,
-              offset: const Offset(0, 3), // changes position of shadow
+              color: Colors.grey.withOpacity(0.1),
+              spreadRadius: 1.5,
+              blurRadius: 1,
+              offset: const Offset(1, 3),
             ),
           ],
         ),
@@ -144,14 +152,101 @@ class _MaterialMenuState extends State<MaterialMenu> {
   @override
   Widget build(BuildContext context) {
     return BebrasScaffold(
-      body: Container(
-        padding: const EdgeInsets.only(left: 25, right: 25),
-        child: Column(
-          children: [
-            buildMaterialCategory(context),
-            buildMaterialList(),
-          ],
-        ),
+      body: Stack(
+        children: [
+          ClipPath(
+            clipper: ClipPathClass(),
+            child: Container(
+              height: 250,
+              color: const Color(0xFF1BB8E1),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.only(left: 25, right: 25),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 32),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      BlocBuilder<HomeCubit, HomeState>(
+                          builder: (context, state) {
+                        if (state is HomeSuccess) {
+                          return RichText(
+                            text: TextSpan(
+                              text: 'Selamat Datang\n',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w400,
+                              ),
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: toBeginningOfSentenceCase(
+                                    '${state.user.name}!',
+                                  ),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                        return Container();
+                      }),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      CarouselSlider(
+                        items: imgList
+                            .map(
+                              (item) => InkWell(
+                                onTap: () async {
+                                  final Uri url = Uri.parse(
+                                      'https://bebras.or.id/v3/bebras-indonesia-challenge-2023/');
+                                  if (!await launchUrl(url)) {
+                                    throw Exception('Could not launch $url');
+                                  }
+                                }, // Handle your callback
+                                child: Container(
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.transparent,
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.network(
+                                      item,
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                            .toList(),
+                        options: CarouselOptions(
+                          height: 150,
+                          viewportFraction: 1,
+                          autoPlay: true,
+                          autoPlayInterval: const Duration(seconds: 3),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                buildMaterialCategory(context),
+                buildMaterialList(),
+              ],
+            ),
+          ),
+        ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
@@ -169,20 +264,20 @@ class _MaterialMenuState extends State<MaterialMenu> {
   Column buildMaterialCategory(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         const SizedBox(
           width: double.infinity,
           child: Text(
-            'Kategori Materi',
+            'Daftar Materi',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         SizedBox(
@@ -205,19 +300,6 @@ class _MaterialMenuState extends State<MaterialMenu> {
     return Column(
       children: [
         const SizedBox(
-          height: 20,
-        ),
-        const SizedBox(
-          width: double.infinity,
-          child: Text(
-            'Daftar Materi',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-        const SizedBox(
           height: 10,
         ),
         StreamBuilder<QuerySnapshot>(
@@ -237,7 +319,7 @@ class _MaterialMenuState extends State<MaterialMenu> {
             }
 
             var displayEmpty = true;
-            final boxHeight = MediaQuery.of(context).size.height - 440;
+            final boxHeight = MediaQuery.of(context).size.height - 444;
             return SingleChildScrollView(
               child: SizedBox(
                 height: boxHeight,
