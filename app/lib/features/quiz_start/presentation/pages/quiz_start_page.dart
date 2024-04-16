@@ -21,33 +21,85 @@ class _QuizStartPageState extends State<QuizStartPage> {
   @override
   Widget build(BuildContext context) {
     return BebrasScaffold(
-      body: SingleChildScrollView(
+      body: SizedBox(
+        height: double.infinity,
         child: Stack(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(32),
+            Container(
+              height: 300,
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                color: Color(0xFF1BB8E1),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(60),
+                  bottomRight: Radius.circular(60),
+                ),
+              ),
               child: Column(
                 children: [
-                  Image.asset(
-                    Assets.bebrasPandaiText,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  BlocBuilder<QuizStartCubit, QuizStartState>(
-                    builder: (context, state) {
-                      if (state is QuizStartSuccess) {
-                        return buildSuccessState(state);
-                      }
-                      if (state is QuizStartFailed) {
-                        return Text(state.error);
-                      }
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    },
+                  Container(
+                    margin: const EdgeInsets.only(
+                      top: 15,
+                    ),
+                    child: Row(
+                      children: [
+                        IconButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          icon: const Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          child: const Text(
+                            'Latihan Bebras',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                                color: Colors.white),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ],
+              ),
+            ),
+            Positioned(
+              top: 100,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(42),
+                    topRight: Radius.circular(42),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    BlocBuilder<QuizStartCubit, QuizStartState>(
+                      builder: (context, state) {
+                        if (state is QuizStartSuccess) {
+                          return buildSuccessState(state);
+                        }
+                        if (state is QuizStartFailed) {
+                          return Text(state.error);
+                        }
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -64,7 +116,7 @@ class _QuizStartPageState extends State<QuizStartPage> {
             Expanded(
               child: Container(
                 padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(border: Border.all()),
+                // decoration: BoxDecoration(border: Border.all()),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -80,34 +132,53 @@ class _QuizStartPageState extends State<QuizStartPage> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Text(
+                    Center(
+                      child: Text(
                         'Jumlah soal: ${state.quiz.problems[state.participation.challenge_group]?.length}',
-                        style: const TextStyle(fontSize: 14),
-                    ),
-                    Text(
-                        'Alokasi waktu: ${state.quiz.duration_minute[state.participation.challenge_group]} menit',
-                        style: const TextStyle(fontSize: 14),
-                    ),
-                    Text(
-                        'Sisa coba lagi: ${state.participation.quiz_max_attempts - state.participation.attempts.length} dari ${state.participation.quiz_max_attempts} kesempatan',
-                        style: const TextStyle(fontSize: 14),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Text(
-                      'Peraturan',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    const Text(
-                      'Dengan menekan tombol Mulai di bawah ini, maka saya menyatakan bahwa,',
-                      style: TextStyle(fontSize: 14),
                     ),
                     const SizedBox(
                       height: 5,
+                    ),
+                    Center(
+                      child: Text(
+                        'Alokasi waktu: ${state.quiz.duration_minute[state.participation.challenge_group]} menit',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Center(
+                      child: Text(
+                        'Sisa coba lagi: ${state.participation.quiz_max_attempts - state.participation.attempts.length}/${state.participation.quiz_max_attempts}',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    const Center(
+                      child: Text(
+                        'Peraturan',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                     // const Text('Pra Tantangan'),
                     const Text(
@@ -146,22 +217,31 @@ class _QuizStartPageState extends State<QuizStartPage> {
         Row(
           children: [
             Checkbox(
-                value: state.agreement,
-                onChanged: (value) {
-                  if (value != null) {
-                    context.read<QuizStartCubit>().setAgreement(value: value);
-                  }
-                }),
-            const Flexible(
-                child: Text(
-                    'Saya telah membaca peraturan & akan mengerjakan dengan jujur'))
+              value: state.agreement,
+              onChanged: (value) {
+                if (value != null) {
+                  context.read<QuizStartCubit>().setAgreement(value: value);
+                }
+              },
+              activeColor: const Color(0xFF1BB8E1),
+            ),
+            Flexible(
+              child: GestureDetector(
+                onTap: () {
+                  final newValue = !state.agreement;
+                  context.read<QuizStartCubit>().setAgreement(value: newValue);
+                },
+                child: const Text(
+                  'Saya telah membaca peraturan & akan mengerjakan dengan jujur',
+                ),
+              ),
+            ),
           ],
         ),
         const SizedBox(
           height: 10,
         ),
         Button(
-          buttonType: ButtonType.tertiary,
           isDisabled: !state.agreement ||
               state.participation.attempts.length >=
                   state.participation.quiz_max_attempts,
@@ -176,25 +256,10 @@ class _QuizStartPageState extends State<QuizStartPage> {
               ).toString(),
             );
           },
+          customButtonColor: const Color(0xFF1BB8E1),
+          customTextColor: Colors.white,
           text: 'Mulai',
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Button(
-          buttonType: ButtonType.primary,
-          isDisabled: state.participation.attempts.isEmpty,
-          onTap: () async {
-            await context.push(
-              Uri(
-                path: '/quiz_result',
-                queryParameters: {
-                  'quiz_participant_id': state.participation.id,
-                },
-              ).toString(),
-            );
-          },
-          text: 'Lihat Nilai',
+          borderRadius: 4,
         ),
       ],
     );
