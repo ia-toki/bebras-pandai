@@ -51,7 +51,7 @@ class _QuizDownloadPageState extends State<QuizDownloadPage> {
   @override
   Widget build(BuildContext context) {
     return BebrasScaffold(
-      body: Container(
+      body: SizedBox(
         height: double.infinity,
         child: Stack(
           children: [
@@ -66,10 +66,9 @@ class _QuizDownloadPageState extends State<QuizDownloadPage> {
                 ),
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(
+                    margin: const EdgeInsets.only(
                       top: 15,
                     ),
                     child: Row(
@@ -104,37 +103,40 @@ class _QuizDownloadPageState extends State<QuizDownloadPage> {
               bottom: 0,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(42.0),
-                    topRight: Radius.circular(42.0),
+                    topLeft: Radius.circular(42),
+                    topRight: Radius.circular(42),
                   ),
                 ),
-                child:
-                    BlocConsumer<QuizRegistrationCubit, QuizRegistrationState>(
-                  listener: (context, state) {
-                    if (state is QuizRegistrationSuccess) {
-                      // return PermissionToDownloadQuiz(); // onClickDownload: _downloadQuiz);
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state is QuizRegistrationLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    if (state is QuizRegistrationFailed) {
-                      return buildQuizRegistrationHeader(Text(state.error));
-                    }
-                    if (state is QuizRegistrationSuccess) {
-                      return buildQuizRegistrationHeader(
-                          state.weeklyQuizzes.isEmpty
-                              ? buildQuizRegistrationEmpty()
-                              : buildQuizRegistrationList(state));
-                    }
-                    return Container();
-                  },
+                clipBehavior: Clip.antiAlias,
+                child: SingleChildScrollView(
+                  child: BlocConsumer<QuizRegistrationCubit,
+                      QuizRegistrationState>(
+                    listener: (context, state) {
+                      if (state is QuizRegistrationSuccess) {
+                        // return PermissionToDownloadQuiz(); // onClickDownload: _downloadQuiz);
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is QuizRegistrationLoading) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      if (state is QuizRegistrationFailed) {
+                        return buildQuizRegistrationHeader(Text(state.error));
+                      }
+                      if (state is QuizRegistrationSuccess) {
+                        return buildQuizRegistrationHeader(
+                            state.weeklyQuizzes.isEmpty
+                                ? buildQuizRegistrationEmpty()
+                                : buildQuizRegistrationList(state));
+                      }
+                      return Container();
+                    },
+                  ),
                 ),
               ),
             ),
