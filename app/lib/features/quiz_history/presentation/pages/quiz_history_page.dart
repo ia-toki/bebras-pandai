@@ -122,6 +122,8 @@ class _QuizHistoryPageState extends State<QuizHistoryPage> {
                                                 .toString()
                                             : '??',
                                         quiz.challenge_group,
+                                        quiz.quiz_max_attempts,
+                                        quiz.attempts.length,
                                       ),
                                   ]);
                                 }
