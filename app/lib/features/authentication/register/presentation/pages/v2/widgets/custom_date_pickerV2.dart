@@ -40,11 +40,11 @@ class _CustomDatePickerState extends State<CustomDatePickerV2> {
         child: TextFormField(
           controller: dateinput,
           validator: widget.validator,
-          style: const TextStyle(fontSize: 12, color: Colors.black),
+          style: const TextStyle(fontSize: 15, color: Colors.black),
           decoration: InputDecoration(
             helperText: '',
             helperStyle: const TextStyle(fontSize: 10),
-            labelText: widget.labelText,
+            // labelText: widget.labelText,
             filled: true,
             fillColor: Colors.grey.shade200,
             border: OutlineInputBorder(

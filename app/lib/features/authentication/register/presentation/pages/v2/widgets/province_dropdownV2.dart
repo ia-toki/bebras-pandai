@@ -5,14 +5,14 @@ import '../../../../../../../core/constants/indonesia_province.dart';
 
 class ProvinceDropdownV2 extends StatelessWidget {
   const ProvinceDropdownV2(
-    this.labelText,
+    // this.labelText,
     this.handleTextInput,
     this.validator,
       this.initValue, {
     super.key,
   });
 
-  final String labelText;
+  // final String labelText;
   final void Function(String value)? handleTextInput;
   final String? Function(String?)? validator;
   final String? initValue;
@@ -30,11 +30,11 @@ class ProvinceDropdownV2 extends StatelessWidget {
         items: provinceList,
         dropdownDecoratorProps: DropDownDecoratorProps(
           textAlignVertical: TextAlignVertical.center,
-          baseStyle: const TextStyle(fontSize: 12),
+          baseStyle: const TextStyle(fontSize: 15),
           dropdownSearchDecoration: InputDecoration(
             helperText: '',
             helperStyle: const TextStyle(fontSize: 10),
-            hintText: labelText,
+            // labelText: labelText,
             filled: true,
             fillColor: Colors.grey.shade200,
             border: UnderlineInputBorder(
