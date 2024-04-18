@@ -83,7 +83,7 @@ class _QuizDownloadPageState extends State<QuizDownloadPage> {
                         Container(
                           alignment: Alignment.center,
                           child: const Text(
-                            'Latihan Minggu Depan',
+                            'Latihan Mingguan',
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 18,
