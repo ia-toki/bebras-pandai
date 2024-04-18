@@ -419,7 +419,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                       height: 30,
                     ),
                     SizedBox(
-                      width: 230,
+                      width: 250,
                       child: Button(
                         customTextColor: Colors.white,
                         customButtonColor: const Color(0xFF1BB8E1),
@@ -435,7 +435,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                       height: 10,
                     ),
                     SizedBox(
-                      width: 230,
+                      width: 250,
                       child: Button(
                         customTextColor: const Color(0xFF1BB8E1),
                         customButtonColor: const Color(0x1F1BB8E1),
