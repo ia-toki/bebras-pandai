@@ -9,7 +9,6 @@ import '../../../../../core/constants/assets.dart';
 import '../../../../../core/theme/font_theme.dart';
 import '../../../../../services/di.dart';
 import '../../../../main/presentation/bloc/home_cubit.dart';
-import '../../../../onboarding/presentation/pages/v2/widgets/custom_text_field.dart';
 import '../../bloc/user_register_bloc.dart';
 import '../../model/form_item.dart';
 import '../widgets/biro_bebras_dropdown.dart';

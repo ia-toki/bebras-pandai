@@ -81,35 +81,19 @@ class _RegisterPageState extends State<RegisterPage> {
                               Navigator.pop(context);
                             },
                             child: Container(
-                              child: Icon(
-                                Icons.arrow_back
-                              ),
+                              child: Icon(Icons.arrow_back),
                             ),
                           ),
                           Flexible(
-                            child: GestureDetector(
-                              onTap: () async {
-                                await context.push(
-                                  Uri(
-                                    path: '/register',
-                                    queryParameters: {
-                                      'isUpdateProfile': 'true',
-                                    },
-                                  ).toString(),
-                                );
-                              },
-                              child: Container(
-                                child: Center(
-                                  child: const Text(
-                                    'Edit Profil',
+                            child: Container(
+                              child: Center(
+                                child: const Text('Edit Profil',
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black,
-                                    )
-                                  ),
-                                ),
+                                    )),
                               ),
                             ),
                           )
@@ -118,17 +102,15 @@ class _RegisterPageState extends State<RegisterPage> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Column(
-                        children: [
-                          CircleAvatar(
-                            maxRadius: 50,
-                            backgroundColor: Colors.grey.shade200,
-                            backgroundImage: const AssetImage(
-                              'assets/images/beaver.png',
-                            ),
+                      Column(children: [
+                        CircleAvatar(
+                          maxRadius: 50,
+                          backgroundColor: Colors.grey.shade200,
+                          backgroundImage: const AssetImage(
+                            'assets/images/beaver.png',
                           ),
-                        ]
-                      ),
+                        ),
+                      ]),
                       const SizedBox(
                         height: 10,
                       ),
@@ -233,13 +215,11 @@ class _RegisterPageState extends State<RegisterPage> {
                         },
                         state.school.value,
                       ),
-                      Text(
-                        'Provinsi',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                        )
-                      ),
+                      Text('Provinsi',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          )),
                       const SizedBox(height: 3),
                       ProvinceDropdownV2(
                         // 'Provinsi',

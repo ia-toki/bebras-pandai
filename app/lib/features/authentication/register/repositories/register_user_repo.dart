@@ -24,10 +24,10 @@ class RegisterUserRepository {
         {
           'name': name,
           'email': email,
-          // 'birth_date': birthDate,
+          'birth_date': birthDate,
           'school': school,
           'province': province,
-          // 'bebras_biro': bebrasBiro,
+          'bebras_biro': bebrasBiro,
           'created_at': now,
           'updated_at': now,
         },
