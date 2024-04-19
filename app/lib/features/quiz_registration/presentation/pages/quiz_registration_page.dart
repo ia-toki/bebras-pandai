@@ -419,32 +419,36 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                       height: 30,
                     ),
                     SizedBox(
-                      width: 250,
-                      child: Button(
-                        customTextColor: Colors.white,
-                        customButtonColor: const Color(0xFF1BB8E1),
-                        fontSize: 14,
-                        innerVerticalPadding: 14,
-                        onTap: () async {
-                          await context.push('/quiz_download');
-                        },
-                        text: 'Kerjakan Latihan Minggu Ini',
+                      width: 230,
+                      child: Flexible(
+                        child: Button(
+                          customTextColor: Colors.white,
+                          customButtonColor: const Color(0xFF1BB8E1),
+                          fontSize: 14,
+                          innerVerticalPadding: 14,
+                          onTap: () async {
+                            await context.push('/quiz_download');
+                          },
+                          text: 'Kerjakan Latihan Minggu Ini',
+                        ),
                       ),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
                     SizedBox(
-                      width: 250,
-                      child: Button(
-                        customTextColor: const Color(0xFF1BB8E1),
-                        customButtonColor: const Color(0x1F1BB8E1),
-                        fontSize: 14,
-                        innerVerticalPadding: 14,
-                        onTap: () async {
-                          await showComingSoon();
-                        },
-                        text: 'Latihan Minggu Depan',
+                      width: 230,
+                      child: Flexible(
+                        child: Button(
+                          customTextColor: const Color(0xFF1BB8E1),
+                          customButtonColor: const Color(0x1F1BB8E1),
+                          fontSize: 14,
+                          innerVerticalPadding: 14,
+                          onTap: () async {
+                            await showComingSoon();
+                          },
+                          text: 'Latihan Minggu Depan',
+                        ),
                       ),
                     ),
                   ],
