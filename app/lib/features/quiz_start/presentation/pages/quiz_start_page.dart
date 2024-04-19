@@ -196,22 +196,28 @@ class _QuizStartPageState extends State<QuizStartPage> {
                 children: [
                   Checkbox(
                     value: state.agreement,
-                    onChanged: (value) {
-                      if (value != null) {
-                        context
-                            .read<QuizStartCubit>()
-                            .setAgreement(value: value);
-                      }
-                    },
+                    onChanged: (state.participation.attempts.length <
+                            state.participation.quiz_max_attempts)
+                        ? (value) {
+                            if (value != null) {
+                              context
+                                  .read<QuizStartCubit>()
+                                  .setAgreement(value: value);
+                            }
+                          }
+                        : null,
                     activeColor: const Color(0xFF1BB8E1),
                   ),
                   Flexible(
                     child: GestureDetector(
                       onTap: () {
-                        final newValue = !state.agreement;
-                        context
-                            .read<QuizStartCubit>()
-                            .setAgreement(value: newValue);
+                        if (state.participation.attempts.length <
+                            state.participation.quiz_max_attempts) {
+                          final newValue = !state.agreement;
+                          context
+                              .read<QuizStartCubit>()
+                              .setAgreement(value: newValue);
+                        }
                       },
                       child: const Text(
                         'Saya telah membaca peraturan & akan mengerjakan dengan jujur',
