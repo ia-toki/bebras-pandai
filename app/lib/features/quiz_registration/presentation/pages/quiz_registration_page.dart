@@ -340,6 +340,34 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
     ).whenComplete(() => null);
   }
 
+  Future<void> showComingSoon() async {
+    return showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              height: 100,
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(42),
+                  topRight: Radius.circular(42),
+                ),
+              ),
+              child: const Center(
+                child: Text(
+                  'Coming Soon',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return BebrasScaffold(
@@ -398,9 +426,9 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                         fontSize: 14,
                         innerVerticalPadding: 14,
                         onTap: () async {
-                          await showModal();
+                          await context.push('/quiz_download');
                         },
-                        text: 'Daftar Latihan',
+                        text: 'Kerjakan Latihan Minggu Ini',
                       ),
                     ),
                     const SizedBox(
@@ -414,9 +442,9 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                         fontSize: 14,
                         innerVerticalPadding: 14,
                         onTap: () async {
-                          context.push('/quiz_download');
+                          await showComingSoon();
                         },
-                        text: 'Riwayat Latihan',
+                        text: 'Latihan Minggu Depan',
                       ),
                     ),
                   ],
