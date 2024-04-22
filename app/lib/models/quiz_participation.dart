@@ -33,7 +33,7 @@ class WeeklyQuizParticipation extends Equatable {
     String id,
     Map<String, dynamic> json,
   ) {
-    var attempts = json['attempts'];
+    final attempts = json['attempts'];
     return WeeklyQuizParticipation(
       id: id,
       quiz_start_at: json['quiz_start_at'] as String,
