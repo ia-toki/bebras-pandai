@@ -66,7 +66,7 @@ class _RegisterPageState extends State<RegisterPage> {
               body: Padding(
                 padding: const EdgeInsets.only(
                   left: 16,
-                  top: 30,
+                  top: 20,
                   right: 16,
                 ),
                 child: Form(
@@ -74,24 +74,54 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Image.asset(
-                        Assets.bebrasPandaiText,
-                        height: 40,
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              child: Icon(Icons.arrow_back),
+                            ),
+                          ),
+                          Flexible(
+                            child: Container(
+                              child: Center(
+                                child: const Text('Edit Profil',
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    )),
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                       const SizedBox(
-                        height: 40,
+                        height: 10,
                       ),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        child: Text(
-                          'Data Diri',
-                          style: FontTheme.blackSubtitleBold(),
+                      Column(children: [
+                        CircleAvatar(
+                          maxRadius: 50,
+                          backgroundColor: Colors.grey.shade200,
+                          backgroundImage: const AssetImage(
+                            'assets/images/beaver.png',
+                          ),
+                        ),
+                      ]),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        'Email',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
                         ),
                       ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      CustomTextField(
+                      CustomTextFieldV2(
                         'Email',
                         (value) {
                           BlocProvider.of<UserRegisterBloc>(context).add(
@@ -103,7 +133,14 @@ class _RegisterPageState extends State<RegisterPage> {
                         },
                         state.email.value,
                       ),
-                      CustomTextField(
+                      Text(
+                        'Nama',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 10,
+                        ),
+                      ),
+                      CustomTextFieldV2(
                         'Nama',
                         (value) {
                           BlocProvider.of<UserRegisterBloc>(context)
@@ -114,24 +151,56 @@ class _RegisterPageState extends State<RegisterPage> {
                         },
                         state.name.value,
                       ),
-                      // CustomDatePicker(
-                      //   'Tanggal Lahir',
+                      // Text(
+                      //   'Tempat Lahir',
+                      //   style: TextStyle(
+                      //     fontWeight: FontWeight.bold,
+                      //     fontSize: 12,
+                      //   ),
+                      // ),
+                      // CustomTextFieldV2(
+                      //   'Tempat Lahir',
                       //   (value) {
-                      //     BlocProvider.of<UserRegisterBloc>(context).add(
-                      //       BirthDateEvent(
-                      //         birthDate: BlocFormItem(
-                      //           value: value,
-                      //         ),
-                      //       ),
-                      //     );
+                      //     BlocProvider.of<UserRegisterBloc>(context)
+                      //         .add(NameEvent(name: BlocFormItem(value: value)));
                       //   },
                       //   (val) {
-                      //     return state.birthDate.error;
+                      //     return state.name.error;
                       //   },
-                      //   state.birthDate.value,
+                      //   state.name.value,
                       // ),
-                      CustomTextField(
-                        'Sekolah',
+                      Text(
+                        'Date',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                      ),
+                      CustomDatePickerV2(
+                        'Date',
+                        (value) {
+                          BlocProvider.of<UserRegisterBloc>(context).add(
+                            BirthDateEvent(
+                              birthDate: BlocFormItem(
+                                value: value,
+                              ),
+                            ),
+                          );
+                        },
+                        (val) {
+                          return state.birthDate.error;
+                        },
+                        state.birthDate.value,
+                      ),
+                      Text(
+                        'Asal Sekolah',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                      ),
+                      CustomTextFieldV2(
+                        'Asal Sekolah',
                         (value) {
                           BlocProvider.of<UserRegisterBloc>(context).add(
                             SchoolEvent(
@@ -146,8 +215,14 @@ class _RegisterPageState extends State<RegisterPage> {
                         },
                         state.school.value,
                       ),
-                      ProvinceDropdown(
-                        'Provinsi',
+                      Text('Provinsi',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          )),
+                      const SizedBox(height: 3),
+                      ProvinceDropdownV2(
+                        // 'Provinsi',
                         (value) {
                           BlocProvider.of<UserRegisterBloc>(context).add(
                             ProvinceEvent(
@@ -164,25 +239,32 @@ class _RegisterPageState extends State<RegisterPage> {
                             ? state.province.value
                             : 'Provinsi',
                       ),
-                      // BiroBebrasDropdown(
-                      //   'Bebras Biro',
-                      //   (value) {
-                      //     BlocProvider.of<UserRegisterBloc>(context).add(
-                      //       BebrasBiroEvent(
-                      //         bebrasBiro: BlocFormItem(
-                      //           value: value,
-                      //         ),
-                      //       ),
-                      //     );
-                      //   },
-                      //   (val) {
-                      //     return state.bebrasBiro.error;
-                      //   },
-                      //   state.bebrasBiro.value.isNotEmpty
-                      //       ? state.bebrasBiro.value
-                      //       : 'Bebras Biro',
-                      // ),
-                      const SizedBox(height: 20),
+                      Text(
+                        'Biro Bebras',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                      ),
+                      BiroBebrasDropdownV2(
+                        'Bebras Biro',
+                        (value) {
+                          BlocProvider.of<UserRegisterBloc>(context).add(
+                            BebrasBiroEvent(
+                              bebrasBiro: BlocFormItem(
+                                value: value,
+                              ),
+                            ),
+                          );
+                        },
+                        (val) {
+                          return state.bebrasBiro.error;
+                        },
+                        state.bebrasBiro.value.isNotEmpty
+                            ? state.bebrasBiro.value
+                            : 'Bebras Biro',
+                      ),
+                      const SizedBox(height: 5),
                       BlocConsumer<UserRegisterBloc, RegisterFormState>(
                         bloc: _userRegisterBloc,
                         listener: (context, state) {
@@ -210,10 +292,10 @@ class _RegisterPageState extends State<RegisterPage> {
                           return ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               fixedSize: Size(size.width, 45),
-                              backgroundColor: Colors.black,
+                              backgroundColor: Colors.lightBlue,
                               foregroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(5),
                               ),
                             ),
                             onPressed: () {
@@ -229,7 +311,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             },
                             child: Text(
                               widget.isUpdateProfile == 'true'
-                                  ? 'Perbarui'
+                                  ? 'Simpan'
                                   : 'Daftar',
                               style:
                                   const TextStyle(fontWeight: FontWeight.w600),

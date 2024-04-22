@@ -22,11 +22,11 @@ class CustomTextFieldV2 extends StatelessWidget {
         onChanged: (value) => handleTextInput!(value),
         validator: validator,
         initialValue: initValue,
-        style: const TextStyle(fontSize: 12),
+        style: const TextStyle(fontSize: 15),
         decoration: InputDecoration(
           helperText: '',
           helperStyle: const TextStyle(fontSize: 10),
-          labelText: labelText,
+          // labelText: labelText,
           filled: true,
           fillColor: Colors.grey.shade200,
           border: OutlineInputBorder(

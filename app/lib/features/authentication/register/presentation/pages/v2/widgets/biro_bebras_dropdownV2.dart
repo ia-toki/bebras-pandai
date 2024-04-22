@@ -30,7 +30,7 @@ class BiroBebrasDropdownV2 extends StatelessWidget {
         items: bebrasBiroList,
         dropdownDecoratorProps: DropDownDecoratorProps(
           textAlignVertical: TextAlignVertical.center,
-          baseStyle: const TextStyle(fontSize: 12),
+          baseStyle: const TextStyle(fontSize: 15),
           dropdownSearchDecoration: InputDecoration(
             helperText: '',
             helperStyle: const TextStyle(

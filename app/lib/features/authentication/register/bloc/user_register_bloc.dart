@@ -55,18 +55,18 @@ class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
                 email: BlocFormItem(
                   value: value['email'].toString(),
                 ),
-                // birthDate: BlocFormItem(
-                //   value: value['birth_date'].toString(),
-                // ),
+                birthDate: BlocFormItem(
+                  value: value['birth_date'].toString(),
+                ),
                 school: BlocFormItem(
                   value: value['school'].toString(),
                 ),
                 province: BlocFormItem(
                   value: value['province'].toString(),
                 ),
-                // bebrasBiro: BlocFormItem(
-                //   value: value['bebras_biro'].toString(),
-                // ),
+                bebrasBiro: BlocFormItem(
+                  value: value['bebras_biro'].toString(),
+                ),
               ),
             ),
           },
@@ -199,10 +199,10 @@ class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
     if (state.formKey!.currentState!.validate()) {
       final email = state.email.value;
       final name = state.name.value;
-      // final birthDate = state.birthDate.value;
+      final birthDate = state.birthDate.value;
       final school = state.school.value;
       final province = state.province.value;
-      // final bebrasBiro = state.bebrasBiro.value;
+      final bebrasBiro = state.bebrasBiro.value;
 
       emit(UserRegisterLoadingState());
 
@@ -211,10 +211,10 @@ class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
           userId: userId,
           email: email,
           name: name,
-          // birthDate: birthDate,
+          birthDate: birthDate,
           school: school,
           province: province,
-          // bebrasBiro: bebrasBiro,
+          bebrasBiro: bebrasBiro,
         );
         emit(UserRegisterSuccessState());
       } catch (e) {
@@ -233,10 +233,10 @@ class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
     if (state.formKey!.currentState!.validate()) {
       final email = state.email.value;
       final name = state.name.value;
-      // final birthDate = state.birthDate.value;
+      final birthDate = state.birthDate.value;
       final school = state.school.value;
       final province = state.province.value;
-      // final bebrasBiro = state.bebrasBiro.value;
+      final bebrasBiro = state.bebrasBiro.value;
 
       emit(UserRegisterLoadingState());
 
@@ -245,10 +245,10 @@ class UserRegisterBloc extends Bloc<UserRegisterEvent, RegisterFormState> {
           userId: userId,
           email: email,
           name: name,
-          // birthDate: birthDate,
+          birthDate: birthDate,
           school: school,
           province: province,
-          // bebrasBiro: bebrasBiro,
+          bebrasBiro: bebrasBiro,
         );
         emit(UserRegisterSuccessState());
       } catch (e) {
