@@ -40,9 +40,24 @@ class QuizService {
   Future<void> registerParticipant(String week, String level) async {
     final levelLowerCase = level.toLowerCase();
     final snapshot = await db.collection('configuration').doc(week).get();
+
+    final checkParticipation = await db
+        .collection('weekly_quiz_participation')
+        .where(
+          'quiz_id',
+          isEqualTo: snapshot['id'],
+        )
+        .where(
+          'user_uid',
+          isEqualTo: currentUserUID,
+        )
+        .get();
+    if (checkParticipation.docs.isNotEmpty) {
+      return;
+    }
+
     final registeredUserSnapshot =
         await db.collection('registered_user').doc(currentUserUID).get();
-
     // background task untuk fetch task untuk sesuai minggu dan level
     // yang akan didaftarkan agar bisa dipakai offline
     // for (final taskId in snapshot['tasks'][level] as List<dynamic>) {
