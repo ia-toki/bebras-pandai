@@ -49,18 +49,15 @@ GoRouter router = GoRouter(
     GoRoute(
         path: '/register',
         builder: (context, state) {
-          if (dotenv.env['APP_VERSION'] == 'V1') {
+          if (state.queryParameters['isUpdateProfile'] == 'true') {
             return RegisterPage(
               isUpdateProfile: state.queryParameters['isUpdateProfile'],
             );
-          } else if (dotenv.env['APP_VERSION'] == 'V2') {
-            // return RegisterPageV2(
-            //   isUpdateProfile: state.queryParameters['isUpdateProfile'],
-            // );
+          } else {
+            return RegisterPageV2(
+              isUpdateProfile: state.queryParameters['isUpdateProfile'],
+            );
           }
-          return RegisterPage(
-            isUpdateProfile: state.queryParameters['isUpdateProfile'],
-          );
         }),
     GoRoute(
       path: '/main',
