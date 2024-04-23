@@ -7,7 +7,7 @@ import '../../../../quiz_download/presentation/bloc/quiz_registration_cubit.dart
 import '../../../../quiz_start/presentation/bloc/quiz_start_cubit.dart';
 import '../../bloc/quiz_exercise_cubit.dart';
 
-import '../task_dialog.dart';
+import 'task_dialog.dart';
 import 'task_view.dart';
 
 part 'quiz_exercise_page.dart';

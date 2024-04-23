@@ -180,8 +180,9 @@ class TaskView extends StatelessWidget {
                           innerVerticalPadding: 8,
                           fontSize: 13,
                           text: 'Sebelumnya',
-                          customButtonColor: BaseColors.brightBlue,
-                          customTextColor: Colors.white,
+                          customBorderColor: BaseColors.brightBlue,
+                          customButtonColor: Colors.white,
+                          customTextColor: BaseColors.brightBlue,
                           borderRadius: 4,
                           onTap: () {
                             context.read<QuizExerciseCubit>().toPreviousQuestion();
