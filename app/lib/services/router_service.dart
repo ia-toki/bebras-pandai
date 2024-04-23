@@ -13,6 +13,7 @@ import '../features/onboarding/presentation/pages/_pages.dart';
 import '../features/onboarding/presentation/pages/v2/_pages.dart';
 import '../features/quiz_download/presentation/pages/_pages.dart';
 import '../features/quiz_exercise/presentation/pages/_pages.dart';
+import '../features/quiz_exercise/presentation/pages/v2/_pages.dart';
 import '../features/quiz_registration/presentation/pages/_pages.dart';
 import '../features/quiz_result/presentation/pages/_pages.dart';
 import '../features/quiz_start/presentation/pages/_pages.dart';
@@ -133,7 +134,9 @@ GoRouter router = GoRouter(
               quizParticipantId: state.queryParameters['quiz_participant_id'],
             );
           } else if (dotenv.env['APP_VERSION'] == 'V2') {
-            // return const V2QuizExercisePage();
+            return QuizExercisePageV2(
+              quizParticipantId: state.queryParameters['quiz_participant_id'],
+            );
           }
           return QuizExercisePage(
             quizParticipantId: state.queryParameters['quiz_participant_id'],
