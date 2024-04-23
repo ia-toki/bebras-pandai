@@ -123,103 +123,107 @@ class _QuizStartPageState extends State<QuizStartPage> {
         Row(
           children: [
             Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Center(
-                      child: Text(
-                        'Jumlah soal: ${state.quiz.problems[state.participation.challenge_group]?.length}',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height - 340,
+                child: SingleChildScrollView(
+                  clipBehavior: Clip.antiAlias,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Center(
+                        child: Text(
+                          'Jumlah soal: ${state.quiz.problems[state.participation.challenge_group]?.length}',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Center(
-                      child: Text(
-                        'Alokasi waktu: ${state.quiz.duration_minute[state.participation.challenge_group]} menit',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Center(
+                        child: Text(
+                          'Alokasi waktu: ${state.quiz.duration_minute[state.participation.challenge_group]} menit',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Center(
-                      child: Text(
-                        'Sisa coba lagi: ${state.participation.quiz_max_attempts - state.participation.attempts.length}/${state.participation.quiz_max_attempts}',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Center(
+                        child: Text(
+                          'Sisa coba lagi: ${state.participation.quiz_max_attempts - state.participation.attempts.length}/${state.participation.quiz_max_attempts}',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    const Center(
-                      child: Text(
-                        'Peraturan',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      const Center(
+                        child: Text(
+                          'Peraturan',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    buildTnC(),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Checkbox(
-                          value: state.agreement,
-                          onChanged: (state.participation.attempts.length <
-                                  state.participation.quiz_max_attempts)
-                              ? (value) {
-                                  if (value != null) {
-                                    context
-                                        .read<QuizStartCubit>()
-                                        .setAgreement(value: value);
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      buildTnC(),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: state.agreement,
+                            onChanged: (state.participation.attempts.length <
+                                    state.participation.quiz_max_attempts)
+                                ? (value) {
+                                    if (value != null) {
+                                      context
+                                          .read<QuizStartCubit>()
+                                          .setAgreement(value: value);
+                                    }
                                   }
+                                : null,
+                            activeColor: const Color(0xFF1BB8E1),
+                          ),
+                          Flexible(
+                            child: GestureDetector(
+                              onTap: () {
+                                if (state.participation.attempts.length <
+                                    state.participation.quiz_max_attempts) {
+                                  final newValue = !state.agreement;
+                                  context
+                                      .read<QuizStartCubit>()
+                                      .setAgreement(value: newValue);
                                 }
-                              : null,
-                          activeColor: const Color(0xFF1BB8E1),
-                        ),
-                        Flexible(
-                          child: GestureDetector(
-                            onTap: () {
-                              if (state.participation.attempts.length <
-                                  state.participation.quiz_max_attempts) {
-                                final newValue = !state.agreement;
-                                context
-                                    .read<QuizStartCubit>()
-                                    .setAgreement(value: newValue);
-                              }
-                            },
-                            child: const Text(
-                              'Saya telah membaca peraturan & akan mengerjakan dengan jujur',
-                              style: TextStyle(
-                                fontSize: 13,
+                              },
+                              child: const Text(
+                                'Saya telah membaca peraturan & akan mengerjakan dengan jujur',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
