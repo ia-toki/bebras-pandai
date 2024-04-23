@@ -124,6 +124,7 @@ class _QuizStartPageState extends State<QuizStartPage> {
           children: [
             Expanded(
               child: SizedBox(
+                height: MediaQuery.of(context).size.height - 340,
                 child: SingleChildScrollView(
                   clipBehavior: Clip.antiAlias,
                   child: Column(
@@ -276,55 +277,39 @@ Widget buildTnC(BuildContext context) {
     'Latihan harus diselesaikan tanpa keluar dari halaman latihan. Jika latihan sedang berlangsung dan Anda keluar, latihan akan dinyatakan selesai dan skor dihitung seadanya.'
   ];
 
-  return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      margin: const EdgeInsets.only(bottom: 16),
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            spreadRadius: 1,
-            blurRadius: 2,
-            offset: const Offset(0, 6),
-          ),
-        ],
-        borderRadius: BorderRadius.circular(8),
-      ),
-      height: MediaQuery.of(context).size.height - 600,
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: tnc.length,
-        itemBuilder: (context, index) {
-          final text = tnc[index];
-          final lineNumber = index + 1; //
-          final isWrapped = text.length > 50;
+  return ListView.builder(
+    physics: const NeverScrollableScrollPhysics(),
+    shrinkWrap: true,
+    itemCount: tnc.length,
+    itemBuilder: (context, index) {
+      final text = tnc[index];
+      final lineNumber = index + 1; //
+      final isWrapped = text.length > 50;
 
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '$lineNumber. ',
-                  style: const TextStyle(
-                    fontSize: 13,
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    text,
-                    style: const TextStyle(
-                      fontSize: 13,
-                    ),
-                    softWrap: true,
-                    textAlign: isWrapped ? TextAlign.start : TextAlign.justify,
-                  ),
-                ),
-              ],
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '$lineNumber. ',
+              style: const TextStyle(
+                fontSize: 13,
+              ),
             ),
-          );
-        },
-      ));
+            Expanded(
+              child: Text(
+                text,
+                style: const TextStyle(
+                  fontSize: 13,
+                ),
+                softWrap: true,
+                textAlign: isWrapped ? TextAlign.start : TextAlign.justify,
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }
