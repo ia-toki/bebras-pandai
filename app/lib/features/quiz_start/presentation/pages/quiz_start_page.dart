@@ -93,7 +93,7 @@ class _QuizStartPageState extends State<QuizStartPage> {
                     const SizedBox(
                       height: 20,
                     ),
-                    BlocBuilder<QuizStartCubit, QuizStartState>(
+                    Expanded(child: BlocBuilder<QuizStartCubit, QuizStartState>(
                       builder: (context, state) {
                         if (state is QuizStartSuccess) {
                           return buildSuccessState(state);
@@ -105,7 +105,7 @@ class _QuizStartPageState extends State<QuizStartPage> {
                           child: CircularProgressIndicator(),
                         );
                       },
-                    ),
+                    )),
                   ],
                 ),
               ),
@@ -118,6 +118,7 @@ class _QuizStartPageState extends State<QuizStartPage> {
 
   Widget buildSuccessState(QuizStartSuccess state) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Row(
           children: [
@@ -178,6 +179,46 @@ class _QuizStartPageState extends State<QuizStartPage> {
                       height: 10,
                     ),
                     buildTnC(),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: state.agreement,
+                          onChanged: (state.participation.attempts.length <
+                                  state.participation.quiz_max_attempts)
+                              ? (value) {
+                                  if (value != null) {
+                                    context
+                                        .read<QuizStartCubit>()
+                                        .setAgreement(value: value);
+                                  }
+                                }
+                              : null,
+                          activeColor: const Color(0xFF1BB8E1),
+                        ),
+                        Flexible(
+                          child: GestureDetector(
+                            onTap: () {
+                              if (state.participation.attempts.length <
+                                  state.participation.quiz_max_attempts) {
+                                final newValue = !state.agreement;
+                                context
+                                    .read<QuizStartCubit>()
+                                    .setAgreement(value: newValue);
+                              }
+                            },
+                            child: const Text(
+                              'Saya telah membaca peraturan & akan mengerjakan dengan jujur',
+                              style: TextStyle(
+                                fontSize: 13,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -192,43 +233,6 @@ class _QuizStartPageState extends State<QuizStartPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Row(
-                children: [
-                  Checkbox(
-                    value: state.agreement,
-                    onChanged: (state.participation.attempts.length <
-                            state.participation.quiz_max_attempts)
-                        ? (value) {
-                            if (value != null) {
-                              context
-                                  .read<QuizStartCubit>()
-                                  .setAgreement(value: value);
-                            }
-                          }
-                        : null,
-                    activeColor: const Color(0xFF1BB8E1),
-                  ),
-                  Flexible(
-                    child: GestureDetector(
-                      onTap: () {
-                        if (state.participation.attempts.length <
-                            state.participation.quiz_max_attempts) {
-                          final newValue = !state.agreement;
-                          context
-                              .read<QuizStartCubit>()
-                              .setAgreement(value: newValue);
-                        }
-                      },
-                      child: const Text(
-                        'Saya telah membaca peraturan & akan mengerjakan dengan jujur',
-                        style: TextStyle(
-                          fontSize: 13,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
               Button(
                 isDisabled: !state.agreement ||
                     state.participation.attempts.length >=
@@ -248,8 +252,9 @@ class _QuizStartPageState extends State<QuizStartPage> {
                 customButtonColor: const Color(0xFF1BB8E1),
                 customTextColor: Colors.white,
                 text: 'Mulai',
+                innerVerticalPadding: 12,
                 borderRadius: 4,
-              ),
+              )
             ],
           ),
         ),
