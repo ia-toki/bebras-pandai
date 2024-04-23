@@ -124,7 +124,6 @@ class _QuizStartPageState extends State<QuizStartPage> {
           children: [
             Expanded(
               child: SizedBox(
-                height: MediaQuery.of(context).size.height - 340,
                 child: SingleChildScrollView(
                   clipBehavior: Clip.antiAlias,
                   child: Column(
@@ -181,7 +180,7 @@ class _QuizStartPageState extends State<QuizStartPage> {
                       const SizedBox(
                         height: 10,
                       ),
-                      buildTnC(),
+                      buildTnC(context),
                       const SizedBox(
                         height: 10,
                       ),
@@ -267,7 +266,7 @@ class _QuizStartPageState extends State<QuizStartPage> {
   }
 }
 
-Widget buildTnC() {
+Widget buildTnC(BuildContext context) {
   final tnc = <String>[
     'Saya telah membaca atau meminta orang tua / wali saya membaca informasi dan prosedur untuk mengikuti Tantangan Bebras 2023 ini, sehingga saya telah memahami dan menyetujui partisipasi saya dalam tantangan ini',
     'Saya mengikuti Tantangan Bebras 2023 ini atas kemauan sendiri dan tanpa paksaan dari pihak manapun.',
@@ -277,38 +276,55 @@ Widget buildTnC() {
     'Latihan harus diselesaikan tanpa keluar dari halaman latihan. Jika latihan sedang berlangsung dan Anda keluar, latihan akan dinyatakan selesai dan skor dihitung seadanya.'
   ];
 
-  return ListView.builder(
-    shrinkWrap: true,
-    itemCount: tnc.length,
-    itemBuilder: (context, index) {
-      final text = tnc[index];
-      final lineNumber = index + 1; //
-      final isWrapped = text.length > 50;
+  return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      margin: const EdgeInsets.only(bottom: 16),
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 1,
+            blurRadius: 2,
+            offset: const Offset(0, 6),
+          ),
+        ],
+        borderRadius: BorderRadius.circular(8),
+      ),
+      height: MediaQuery.of(context).size.height - 600,
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: tnc.length,
+        itemBuilder: (context, index) {
+          final text = tnc[index];
+          final lineNumber = index + 1; //
+          final isWrapped = text.length > 50;
 
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '$lineNumber. ',
-              style: const TextStyle(
-                fontSize: 13,
-              ),
-            ),
-            Expanded(
-              child: Text(
-                text,
-                style: const TextStyle(
-                  fontSize: 13,
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '$lineNumber. ',
+                  style: const TextStyle(
+                    fontSize: 13,
+                  ),
                 ),
-                softWrap: true,
-                textAlign: isWrapped ? TextAlign.start : TextAlign.justify,
-              ),
+                Expanded(
+                  child: Text(
+                    text,
+                    style: const TextStyle(
+                      fontSize: 13,
+                    ),
+                    softWrap: true,
+                    textAlign: isWrapped ? TextAlign.start : TextAlign.justify,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      );
-    },
-  );
+          );
+        },
+      ));
 }
