@@ -368,6 +368,7 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return BebrasScaffold(
@@ -425,8 +426,15 @@ class _QuizRegistrationPageState extends State<QuizRegistrationPage> {
                         customButtonColor: const Color(0xFF1BB8E1),
                         fontSize: 14,
                         innerVerticalPadding: 14,
-                        onTap: () async {
-                          await context.push('/quiz_download');
+                        onTap: () {
+                          setState(() => selectedWeek = 'running_weekly_quiz');
+                          context
+                              .read<QuizRegistrationCubit>()
+                              .registerParticipant('siaga', selectedWeek);
+                          checkNextWeeklyQuiz();
+                          checkRunningWeeklyQuiz();
+                          selectWeek('');
+                          context.push('/quiz_download');
                         },
                         text: 'Kerjakan Latihan Minggu Ini',
                       ),
