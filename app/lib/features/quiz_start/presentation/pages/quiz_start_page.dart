@@ -11,6 +11,8 @@ class QuizStartPage extends StatefulWidget {
   State<QuizStartPage> createState() => _QuizStartPageState();
 }
 
+int lineNumber = 1;
+
 class _QuizStartPageState extends State<QuizStartPage> {
   @override
   void initState() {
@@ -21,33 +23,91 @@ class _QuizStartPageState extends State<QuizStartPage> {
   @override
   Widget build(BuildContext context) {
     return BebrasScaffold(
-      body: SingleChildScrollView(
+      body: SizedBox(
+        height: double.infinity,
         child: Stack(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(32),
+            Container(
+              height: 300,
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                color: Color(0xFF1BB8E1),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(60),
+                  bottomRight: Radius.circular(60),
+                ),
+              ),
               child: Column(
                 children: [
-                  Image.asset(
-                    Assets.bebrasPandaiText,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  BlocBuilder<QuizStartCubit, QuizStartState>(
-                    builder: (context, state) {
-                      if (state is QuizStartSuccess) {
-                        return buildSuccessState(state);
-                      }
-                      if (state is QuizStartFailed) {
-                        return Text(state.error);
-                      }
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    },
+                  Container(
+                    margin: const EdgeInsets.only(
+                      top: 15,
+                    ),
+                    child: Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+
+                            context
+                                .read<QuizStartCubit>()
+                                .setAgreement(value: false);
+                          },
+                          icon: const Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          child: const Text(
+                            'Latihan Bebras',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                                color: Colors.white),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ],
+              ),
+            ),
+            Positioned(
+              top: 100,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(42),
+                    topRight: Radius.circular(42),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Expanded(child: BlocBuilder<QuizStartCubit, QuizStartState>(
+                      builder: (context, state) {
+                        if (state is QuizStartSuccess) {
+                          return buildSuccessState(state);
+                        }
+                        if (state is QuizStartFailed) {
+                          return Text(state.error);
+                        }
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      },
+                    )),
+                  ],
+                ),
               ),
             ),
           ],
@@ -58,83 +118,112 @@ class _QuizStartPageState extends State<QuizStartPage> {
 
   Widget buildSuccessState(QuizStartSuccess state) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Row(
           children: [
             Expanded(
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(border: Border.all()),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: Text(
-                        state.quiz.title,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height - 340,
+                child: SingleChildScrollView(
+                  clipBehavior: Clip.antiAlias,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Center(
+                        child: Text(
+                          'Jumlah soal: ${state.quiz.problems[state.participation.challenge_group]?.length}',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                        'Jumlah soal: ${state.quiz.problems[state.participation.challenge_group]?.length}',
-                        style: const TextStyle(fontSize: 14),
-                    ),
-                    Text(
-                        'Alokasi waktu: ${state.quiz.duration_minute[state.participation.challenge_group]} menit',
-                        style: const TextStyle(fontSize: 14),
-                    ),
-                    Text(
-                        'Sisa coba lagi: ${state.participation.quiz_max_attempts - state.participation.attempts.length} dari ${state.participation.quiz_max_attempts} kesempatan',
-                        style: const TextStyle(fontSize: 14),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Text(
-                      'Peraturan',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                      const SizedBox(
+                        height: 5,
                       ),
-                    ),
-                    const Text(
-                      'Dengan menekan tombol Mulai di bawah ini, maka saya menyatakan bahwa,',
-                      style: TextStyle(fontSize: 14),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    // const Text('Pra Tantangan'),
-                    const Text(
-                      '1. Saya telah membaca atau meminta orang tua / wali saya membaca informasi dan prosedur untuk mengikuti Tantangan Bebras 2023 ini, sehingga saya telah memahami dan menyetujui partisipasi saya dalam tantangan ini;',
-                      style: TextStyle(fontSize: 12),
-                    ),
-                    const Text(
-                      '2. Saya mengikuti Tantangan Bebras 2023 ini atas kemauan sendiri dan tanpa paksaan dari pihak manapun.',
-                      style: TextStyle(fontSize: 12),
-                    ),
-                    const Text(
-                      '3. Saya bersedia mengikuti/mengerjakan soal-soal Tantangan Bebras 2023 dengan jujur dan penuh tanggungjawab.',
-                      style: TextStyle(fontSize: 12),
-                    ),
-                    const Text(
-                      '4. Tetap menjaga Kesehatan dan mengikuti protokol kesehatan Covid-19 selama mengikuti tantangan.',
-                      style: TextStyle(fontSize: 12),
-                    ),
-                    const Text(
-                      '5. Tidak akan mendokumentasikan dan atau menyebarkan soal-soal Tantangan Bebras 2023 dalam bentuk apapun, serta untuk keperluan dan dengan cara apapun.',
-                      style: TextStyle(fontSize: 12),
-                    ),
-                    const Text(
-                      '6. Latihan harus diselesaikan tanpa keluar dari halaman latihan. Jika latihan sedang berlangsung dan Anda keluar, latihan akan dinyatakan selesai dan skor dihitung seadanya.',
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ],
+                      Center(
+                        child: Text(
+                          'Alokasi waktu: ${state.quiz.duration_minute[state.participation.challenge_group]} menit',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Center(
+                        child: Text(
+                          'Sisa coba lagi: ${state.participation.quiz_max_attempts - state.participation.attempts.length}/${state.participation.quiz_max_attempts}',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      const Center(
+                        child: Text(
+                          'Peraturan',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      buildTnC(context),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: state.agreement,
+                            onChanged: (state.participation.attempts.length <
+                                    state.participation.quiz_max_attempts)
+                                ? (value) {
+                                    if (value != null) {
+                                      context
+                                          .read<QuizStartCubit>()
+                                          .setAgreement(value: value);
+                                    }
+                                  }
+                                : null,
+                            activeColor: const Color(0xFF1BB8E1),
+                          ),
+                          Flexible(
+                            child: GestureDetector(
+                              onTap: () {
+                                if (state.participation.attempts.length <
+                                    state.participation.quiz_max_attempts) {
+                                  final newValue = !state.agreement;
+                                  context
+                                      .read<QuizStartCubit>()
+                                      .setAgreement(value: newValue);
+                                }
+                              },
+                              child: const Text(
+                                'Saya telah membaca peraturan & akan mengerjakan dengan jujur',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -143,60 +232,84 @@ class _QuizStartPageState extends State<QuizStartPage> {
         const SizedBox(
           height: 10,
         ),
-        Row(
-          children: [
-            Checkbox(
-                value: state.agreement,
-                onChanged: (value) {
-                  if (value != null) {
-                    context.read<QuizStartCubit>().setAgreement(value: value);
-                  }
-                }),
-            const Flexible(
-                child: Text(
-                    'Saya telah membaca peraturan & akan mengerjakan dengan jujur'))
-          ],
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Button(
-          buttonType: ButtonType.tertiary,
-          isDisabled: !state.agreement ||
-              state.participation.attempts.length >=
-                  state.participation.quiz_max_attempts,
-          onTap: () async {
-            Navigator.pop(context);
-            await context.push(
-              Uri(
-                path: '/quiz_exercise',
-                queryParameters: {
-                  'quiz_participant_id': state.participation.id,
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Button(
+                isDisabled: !state.agreement ||
+                    state.participation.attempts.length >=
+                        state.participation.quiz_max_attempts,
+                onTap: () async {
+                  Navigator.pop(context);
+                  context.read<QuizStartCubit>().setAgreement(value: false);
+                  await context.push(
+                    Uri(
+                      path: '/quiz_exercise',
+                      queryParameters: {
+                        'quiz_participant_id': state.participation.id,
+                      },
+                    ).toString(),
+                  );
                 },
-              ).toString(),
-            );
-          },
-          text: 'Mulai',
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Button(
-          buttonType: ButtonType.primary,
-          isDisabled: state.participation.attempts.isEmpty,
-          onTap: () async {
-            await context.push(
-              Uri(
-                path: '/quiz_result',
-                queryParameters: {
-                  'quiz_participant_id': state.participation.id,
-                },
-              ).toString(),
-            );
-          },
-          text: 'Lihat Nilai',
+                customButtonColor: const Color(0xFF1BB8E1),
+                customTextColor: Colors.white,
+                text: 'Mulai',
+                innerVerticalPadding: 12,
+                borderRadius: 4,
+              )
+            ],
+          ),
         ),
       ],
     );
   }
+}
+
+Widget buildTnC(BuildContext context) {
+  final tnc = <String>[
+    'Saya telah membaca atau meminta orang tua / wali saya membaca informasi dan prosedur untuk mengikuti Tantangan Bebras 2023 ini, sehingga saya telah memahami dan menyetujui partisipasi saya dalam tantangan ini',
+    'Saya mengikuti Tantangan Bebras 2023 ini atas kemauan sendiri dan tanpa paksaan dari pihak manapun.',
+    'Saya bersedia mengikuti/mengerjakan soal-soal Tantangan Bebras 2023 dengan jujur dan penuh tanggungjawab.',
+    'Tetap menjaga Kesehatan dan mengikuti protokol kesehatan Covid-19 selama mengikuti tantangan.',
+    'Tidak akan mendokumentasikan dan atau menyebarkan soal-soal Tantangan Bebras 2023 dalam bentuk apapun, serta untuk keperluan dan dengan cara apapun.',
+    'Latihan harus diselesaikan tanpa keluar dari halaman latihan. Jika latihan sedang berlangsung dan Anda keluar, latihan akan dinyatakan selesai dan skor dihitung seadanya.'
+  ];
+
+  return ListView.builder(
+    physics: const NeverScrollableScrollPhysics(),
+    shrinkWrap: true,
+    itemCount: tnc.length,
+    itemBuilder: (context, index) {
+      final text = tnc[index];
+      final lineNumber = index + 1; //
+      final isWrapped = text.length > 50;
+
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '$lineNumber. ',
+              style: const TextStyle(
+                fontSize: 13,
+              ),
+            ),
+            Expanded(
+              child: Text(
+                text,
+                style: const TextStyle(
+                  fontSize: 13,
+                ),
+                softWrap: true,
+                textAlign: isWrapped ? TextAlign.start : TextAlign.justify,
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }
