@@ -197,7 +197,7 @@ class TaskView extends StatelessWidget {
                 Flexible(
                   child: Column(
                     children: [
-                      if (showNextButton)
+                      if (showNextButton && attempt.totalBlank != 0)
                         Button(
                           innerHorizontalPadding: 4,
                           innerVerticalPadding: 8,
@@ -208,6 +208,20 @@ class TaskView extends StatelessWidget {
                           borderRadius: 4,
                           onTap: () {
                             context.read<QuizExerciseCubit>().toNextQuestion();
+                          },
+                        ),
+                      if (attempt.totalBlank == 1)
+                        Button(
+                          innerHorizontalPadding: 4,
+                          innerVerticalPadding: 8,
+                          fontSize: 13,
+                          text: 'Selesai',
+                          customButtonColor: BaseColors.grey,
+                          customTextColor: Colors.white,
+                          borderRadius: 4,
+                          isDisabled: true,
+                          onTap: () {
+                            context.read<QuizExerciseCubit>().finishExercise();
                           },
                         ),
                       if (attempt.totalBlank == 0)
