@@ -155,7 +155,7 @@ class _QuizDownloadPageState extends State<QuizDownloadPage> {
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            'Latihan yang pernah diikuti',
+            'Ayo kerjakan!',
             style: FontTheme.blackSubtitleBold(),
           ),
         ),
@@ -173,12 +173,18 @@ class _QuizDownloadPageState extends State<QuizDownloadPage> {
           .map((quiz) => QuizCard(
                 quiz,
                 quiz.attempts.isNotEmpty
-                    ? quiz.attempts[quiz.attempts.length - 1].startAt.toString()
-                    : '-',
+                    ? DateTime.parse(quiz
+                        .attempts[quiz.attempts.length - 1].startAt
+                        .toString())
+                    : null,
                 quiz.attempts.isNotEmpty
                     ? quiz.attempts[quiz.attempts.length - 1].score.toString()
                     : '??',
                 quiz.challenge_group,
+                quiz.quiz_max_attempts,
+                quiz.attempts.length,
+                DateTime.parse(quiz.quiz_start_at),
+                DateTime.parse(quiz.quiz_end_at),
               ))
           .toList(),
     );
