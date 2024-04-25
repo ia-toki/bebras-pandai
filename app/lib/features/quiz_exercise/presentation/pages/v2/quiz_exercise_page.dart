@@ -131,29 +131,79 @@ class _QuizExercisePageV2State extends State<QuizExercisePageV2> {
     );
   }
 
-  void onAnswerTap() {
-    showDialog(
+  Future<void> onAnswerTap() {
+    return showModalBottomSheet<void>(
       context: context,
-      builder: (context) {
+      builder: (BuildContext context) {
         return BlocBuilder<QuizExerciseCubit, QuizExerciseState>(
-            buildWhen: (context, state) {
+        buildWhen: (context, state) {
           return state is QuizExerciseShow;
         },
         builder: (context, state) {
-          if (state is QuizExerciseShow) {
-            return TaskDialog(
-              task: state.quizExercise,
-              preview: false,
-              answer: state.answer.answer,
-              error: state.modalErrorMessage,
-            );
-          }
+        if (state is QuizExerciseShow) {
+          return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return TaskDialog(
+                task: state.quizExercise,
+                preview: false,
+                answer: state.answer.answer,
+                error: state.modalErrorMessage,
+              );
+              // return Container(
+              //   height: 200,
+              //   width: double.infinity,
+              //   decoration: const BoxDecoration(
+              //     color: Colors.white,
+              //     borderRadius: BorderRadius.only(
+              //       topLeft: Radius.circular(42),
+              //       topRight: Radius.circular(42),
+              //     ),
+              //   ),
+              //   child: TaskDialog(
+              //     task: state.quizExercise,
+              //     preview: false,
+              //     answer: state.answer.answer,
+              //     error: state.modalErrorMessage,
+              //   ),
+              // );
+            }
+          );
+        } else {
           return const SizedBox(
             width: 100,
             height: 100,
           );
-        });
-      }
+        }
+      },
     );
+  },
+);
+
   }
+
+  // void onAnswerTap() {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return BlocBuilder<QuizExerciseCubit, QuizExerciseState>(
+  //           buildWhen: (context, state) {
+  //         return state is QuizExerciseShow;
+  //       },
+  //       builder: (context, state) {
+  //         if (state is QuizExerciseShow) {
+  //           return TaskDialog(
+  //             task: state.quizExercise,
+  //             preview: false,
+  //             answer: state.answer.answer,
+  //             error: state.modalErrorMessage,
+  //           );
+  //         }
+  //         return const SizedBox(
+  //           width: 100,
+  //           height: 100,
+  //         );
+  //       });
+  //     }
+  //   );
+  // }
 }

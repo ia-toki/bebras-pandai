@@ -10,6 +10,7 @@ import '../../../../../core/constants/assets.dart';
 import '../../../../../core/theme/base_colors.dart';
 import '../../bloc/quiz_exercise_cubit.dart';
 import '../../model/quiz_exercise.dart';
+import '../../model/quiz_exercise_answer.dart';
 import '../../model/quiz_exercise_attempt.dart';
 
 class TaskView extends StatelessWidget {
@@ -242,78 +243,6 @@ class TaskView extends StatelessWidget {
                 ),
               ],
             ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     SizedBox(
-            //         width: 50,
-            //         child: Column(
-            //           children: [
-            //             if (showPreviousButton)
-            //               Button(
-            //                 innerHorizontalPadding: 4,
-            //                 innerVerticalPadding: 8,
-            //                 text: '<',
-            //                 buttonType: ButtonType.primary,
-            //                 onTap: () {
-            //                   context
-            //                       .read<QuizExerciseCubit>()
-            //                       .toPreviousQuestion();
-            //                 },
-            //               ),
-            //           ],
-            //         )),
-            //     Column(
-            //       children: [
-            //         SizedBox(
-            //           width: 150,
-            //           child: Button(
-            //             innerHorizontalPadding: 4,
-            //             innerVerticalPadding: 8,
-            //             text: 'JAWAB',
-            //             buttonType: ButtonType.primary,
-            //             onTap: onTaskTap,
-            //           ),
-            //         ),
-            //         if (attempt.totalBlank == 0)
-            //           const SizedBox(
-            //             height: 12,
-            //           ),
-            //         if (attempt.totalBlank == 0)
-            //           SizedBox(
-            //             width: 150,
-            //             child: Button(
-            //               innerHorizontalPadding: 4,
-            //               innerVerticalPadding: 8,
-            //               text: 'FINISH',
-            //               buttonType: ButtonType.tertiary,
-            //               onTap: () {
-            //                 context.read<QuizExerciseCubit>().finishExercise();
-            //               },
-            //             ),
-            //           ),
-            //       ],
-            //     ),
-            //     SizedBox(
-            //         width: 50,
-            //         child: Column(
-            //           children: [
-            //             if (showNextButton)
-            //               Button(
-            //                 innerHorizontalPadding: 4,
-            //                 innerVerticalPadding: 8,
-            //                 text: '>',
-            //                 buttonType: ButtonType.primary,
-            //                 onTap: () {
-            //                   context
-            //                       .read<QuizExerciseCubit>()
-            //                       .toNextQuestion();
-            //                 },
-            //               ),
-            //           ],
-            //         )),
-            //   ],
-            // ),
           ],
         ));
   }
