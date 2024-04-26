@@ -55,6 +55,9 @@ class _QuizExercisePageState extends State<QuizExercisePage> {
                           path: '/quiz_result',
                           queryParameters: {
                             'quiz_participant_id': state.quizParticipantId,
+                            // is_time_up always true if remaining time is zero
+                            'is_time_up':
+                                state.remainingDuration.inSeconds <= 0,
                           },
                         ).toString(),
                       );

@@ -11,4 +11,5 @@ class Assets {
   static const bLogo = 'assets/images/b-logo.webp';
   static const studyBackground = 'assets/images/study-background.jpg';
   static const bebrasMascot = 'assets/images/bebras-mascot.png';
+  static const timeUp = 'assets/images/time-up.png';
 }

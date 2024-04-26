@@ -155,12 +155,14 @@ GoRouter router = GoRouter(
           if (dotenv.env['APP_VERSION'] == 'V1') {
             return QuizResultPage(
               quizParticipantId: state.queryParameters['quiz_participant_id'],
+              isTimeUp: state.queryParameters['is_time_up'],
             );
           } else if (dotenv.env['APP_VERSION'] == 'V2') {
             // return const V2QuizResultPage();
           }
           return QuizResultPage(
             quizParticipantId: state.queryParameters['quiz_participant_id'],
+            isTimeUp: state.queryParameters['is_time_up'],
           );
         }),
     GoRoute(

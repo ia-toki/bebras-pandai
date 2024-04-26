@@ -163,7 +163,10 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
 
   Future<void> finishExerciseTimeUp() async {
     await postQuizExerciseAttempt();
-    emit(QuizExerciseFinished(quizParticipantId!));
+    emit(QuizExerciseFinished(
+      quizParticipantId!,
+      Duration(seconds: remainingDuration),
+    ));
   }
 
   Future<void> submitAnswer() async {
@@ -215,7 +218,10 @@ class QuizExerciseCubit extends Cubit<QuizExerciseState> {
   Future<void> finishExercise() async {
     try {
       await postQuizExerciseAttempt();
-      emit(QuizExerciseFinished(quizParticipantId!));
+      emit(QuizExerciseFinished(
+        quizParticipantId!,
+        Duration(seconds: remainingDuration),
+      ));
     } catch (e) {
       emit(QuizExerciseFailed(e.toString()));
     }
