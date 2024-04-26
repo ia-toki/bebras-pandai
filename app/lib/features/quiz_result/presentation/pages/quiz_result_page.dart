@@ -233,7 +233,7 @@ class _QuizResultPageState extends State<QuizResultPage> {
             ),
           ),
           child: Button(
-            onTap: () => context.go('/main'),
+            onTap: () => context.go('/task_list'),
             text: 'Selesai',
             // buttonType: ButtonType.tertiary,
             customButtonColor: Color(0xFF1BB8E1),
